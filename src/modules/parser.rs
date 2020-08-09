@@ -242,8 +242,10 @@ impl EnterpriseMatrixParser {
         self.details.breakdown_subtechniques.update_count();
         self.details.breakdown_techniques.update_count();
         self.extract_stats_techniques_by_totals();
-        self.extract_stats_techniques_by_platforms();
-        self.extract_stats_subtechniques_by_platforms();
+        self.extract_stats_techniques_by_platforms(false);
+        self.extract_stats_techniques_by_platforms(true);
+        self.extract_stats_techniques_by_killchain(false);
+        self.extract_stats_techniques_by_killchain(true);
         Ok(())
     }
     fn extract_tactics(
@@ -296,22 +298,27 @@ impl EnterpriseMatrixParser {
         self.details.stats.count_active_total_techniques = _total_techniques.len();
         self.details.stats.count_active_total_subtechniques = _total_subtechniques.len();          
     }
-    fn extract_stats_techniques_by_platforms(&mut self)
+    fn extract_stats_techniques_by_platforms(&mut self, _wants_subtechniques: bool)
     {
-        let mut _windows_techniques: HashSet<String> = HashSet::new();
-        let mut _macos_techniques: HashSet<String> = HashSet::new();
-        let mut _linux_techniques: HashSet<String> = HashSet::new();
-        let mut _azure_ad_techniques: HashSet<String> = HashSet::new();
-        let mut _azure_techniques: HashSet<String> = HashSet::new();
-        let mut _aws_techniques: HashSet<String> = HashSet::new();
-        let mut _gcp_techniques: HashSet<String> = HashSet::new();
-        let mut _office365_techniques: HashSet<String> = HashSet::new();
-        let mut _saas_techniques: HashSet<String> = HashSet::new();
-
+        let mut _windows_techniques:    HashSet<String> = HashSet::new();
+        let mut _macos_techniques:      HashSet<String> = HashSet::new();
+        let mut _linux_techniques:      HashSet<String> = HashSet::new();
+        let mut _azure_ad_techniques:   HashSet<String> = HashSet::new();
+        let mut _azure_techniques:      HashSet<String> = HashSet::new();
+        let mut _aws_techniques:        HashSet<String> = HashSet::new();
+        let mut _gcp_techniques:        HashSet<String> = HashSet::new();
+        let mut _office365_techniques:  HashSet<String> = HashSet::new();
+        let mut _saas_techniques:       HashSet<String> = HashSet::new();
+        let mut _iterable: &Vec<EnterpriseTechnique>;
+        if _wants_subtechniques {
+            _iterable = &self.details.breakdown_techniques.platforms;
+        } else {
+            _iterable = &self.details.breakdown_subtechniques.platforms;
+        }
         let mut _stub: String = String::from("");
         for _platform in self.details.platforms.iter() {
             let _os = _platform.as_str();
-            for _technique in self.details.breakdown_techniques.platforms.iter() {
+            for _technique in _iterable.iter() {
                 if _technique.platform.contains(_os) {
                     _stub = format!("{}:{}", _technique.tid, _technique.tactic);
                     if _os == "aws" {
@@ -336,70 +343,116 @@ impl EnterpriseMatrixParser {
                 }
             }
         }
-        self.details.stats.count_techniques_aws = _aws_techniques.len();
-        self.details.stats.count_techniques_azure = _azure_techniques.len();
-        self.details.stats.count_techniques_azure_ad = _azure_ad_techniques.len();
-        self.details.stats.count_techniques_gcp = _gcp_techniques.len();
-        self.details.stats.count_techniques_linux = _linux_techniques.len();
-        self.details.stats.count_techniques_macos = _macos_techniques.len();
-        self.details.stats.count_techniques_office365 = _office365_techniques.len();
-        self.details.stats.count_techniques_saas = _saas_techniques.len();
-        self.details.stats.count_techniques_windows = _windows_techniques.len();
+        if _wants_subtechniques {
+            self.details.stats.count_subtechniques_aws = _aws_techniques.len();
+            self.details.stats.count_subtechniques_azure = _azure_techniques.len();
+            self.details.stats.count_subtechniques_azure_ad = _azure_ad_techniques.len();
+            self.details.stats.count_subtechniques_gcp = _gcp_techniques.len();
+            self.details.stats.count_subtechniques_linux = _linux_techniques.len();
+            self.details.stats.count_subtechniques_macos = _macos_techniques.len();
+            self.details.stats.count_subtechniques_office365 = _office365_techniques.len();
+            self.details.stats.count_subtechniques_saas = _saas_techniques.len();
+            self.details.stats.count_subtechniques_windows = _windows_techniques.len();
+        } else {
+            self.details.stats.count_techniques_aws = _aws_techniques.len();
+            self.details.stats.count_techniques_azure = _azure_techniques.len();
+            self.details.stats.count_techniques_azure_ad = _azure_ad_techniques.len();
+            self.details.stats.count_techniques_gcp = _gcp_techniques.len();
+            self.details.stats.count_techniques_linux = _linux_techniques.len();
+            self.details.stats.count_techniques_macos = _macos_techniques.len();
+            self.details.stats.count_techniques_office365 = _office365_techniques.len();
+            self.details.stats.count_techniques_saas = _saas_techniques.len();
+            self.details.stats.count_techniques_windows = _windows_techniques.len();            
+        }
     }
     ///
     /// 
     /// 
     /// 
-    fn extract_stats_subtechniques_by_platforms(&mut self) {
-        // Refactor this later into one function with the extract_stats_techniques_by_platforms function
-        // For now keep to accurately validate the numbers
-        let mut _windows_techniques: HashSet<String> = HashSet::new();
-        let mut _macos_techniques: HashSet<String> = HashSet::new();
-        let mut _linux_techniques: HashSet<String> = HashSet::new();
-        let mut _azure_ad_techniques: HashSet<String> = HashSet::new();
-        let mut _azure_techniques: HashSet<String> = HashSet::new();
-        let mut _aws_techniques: HashSet<String> = HashSet::new();
-        let mut _gcp_techniques: HashSet<String> = HashSet::new();
-        let mut _office365_techniques: HashSet<String> = HashSet::new();
-        let mut _saas_techniques: HashSet<String> = HashSet::new();
-
+    fn extract_stats_techniques_by_killchain(&mut self, _wants_subtechniques: bool)
+    {
+        let mut _initial_access:        HashSet<String>  = HashSet::new();
+        let mut _execution:             HashSet<String>  = HashSet::new();
+        let mut _persistence:           HashSet<String>  = HashSet::new();
+        let mut _priv_escalation:       HashSet<String>  = HashSet::new();
+        let mut _defense_evasion:       HashSet<String>  = HashSet::new();
+        let mut _credential_access:     HashSet<String>  = HashSet::new();
+        let mut _collection:            HashSet<String>  = HashSet::new();
+        let mut _discovery:             HashSet<String>  = HashSet::new();
+        let mut _lateral_movement:      HashSet<String>  = HashSet::new();
+        let mut _command_and_control:   HashSet<String>  = HashSet::new();
+        let mut _exfiltration:          HashSet<String>  = HashSet::new();
+        let mut _impact:                HashSet<String>  = HashSet::new();
+        let mut _iterable: &Vec<EnterpriseTechnique>;
+        if _wants_subtechniques {
+            _iterable = &self.details.breakdown_techniques.platforms;
+        } else {
+            _iterable = &self.details.breakdown_subtechniques.platforms;
+        }
+        // Setup the stub
         let mut _stub: String = String::from("");
-        for _platform in self.details.platforms.iter() {
-            let _os = _platform.as_str();
-            for _technique in self.details.breakdown_subtechniques.platforms.iter() {
-                if _technique.platform.contains(_os) {
-                    _stub = format!("{}:{}", _technique.tid, _technique.tactic,);
-                    if _os == "aws" {
-                        _aws_techniques.insert(_stub);
-                    } else if _os == "azure-ad" {
-                        _azure_ad_techniques.insert(_stub);
-                    } else if _os == "azure" {
-                        _azure_techniques.insert(_stub);
-                    } else if _os == "gcp" {
-                        _gcp_techniques.insert(_stub);
-                    } else if _os == "linux" {
-                        _linux_techniques.insert(_stub);
-                    } else if _os == "macos" {
-                        _macos_techniques.insert(_stub);
-                    } else if _os == "office-365" {
-                        _office365_techniques.insert(_stub);
-                    } else if _os == "saas" {
-                        _saas_techniques.insert(_stub);
-                    } else if _os == "windows" {
-                        _windows_techniques.insert(_stub);
+        for _tactic in self.details.tactics.iter() {
+            let _kc = _tactic.as_str();
+            for _technique in _iterable.iter() {
+                if _technique.tactic.contains(_kc) {
+                    _stub = format!("{}:{}", _technique.tid, _technique.tactic);
+                    println!("STUB KILLCHAINS: {}", _stub);
+                    if _kc == "initial-access" {
+                        _initial_access.insert(_stub);
+                    } else if _kc == "execution" {
+                        _execution.insert(_stub);
+                    } else if _kc == "persistence" {
+                        _persistence.insert(_stub);
+                    } else if _kc == "privilege-escalation" {
+                        _priv_escalation.insert(_stub);
+                    } else if _kc == "defense-evasion" {
+                        _defense_evasion.insert(_stub);
+                    } else if _kc == "credential-access" {
+                        _credential_access.insert(_stub);
+                    } else if _kc == "collection" {
+                        _collection.insert(_stub);
+                    } else if _kc == "discovery" {
+                        _discovery.insert(_stub);
+                    } else if _kc == "lateral-movement" {
+                        _lateral_movement.insert(_stub);
+                    } else if _kc == "command-and-control" {
+                        _command_and_control.insert(_stub);
+                    } else if _kc == "exfiltration" {
+                        _exfiltration.insert(_stub);
+                    } else if _kc == "impact" {
+                        _impact.insert(_stub);
                     }
                 }
             }
         }
-        // Subtechnique Fields
-        self.details.stats.count_subtechniques_aws = _aws_techniques.len();
-        self.details.stats.count_subtechniques_azure = _azure_techniques.len();
-        self.details.stats.count_subtechniques_azure_ad = _azure_ad_techniques.len();
-        self.details.stats.count_subtechniques_gcp = _gcp_techniques.len();
-        self.details.stats.count_subtechniques_linux = _linux_techniques.len();
-        self.details.stats.count_subtechniques_macos = _macos_techniques.len();
-        self.details.stats.count_subtechniques_office365 = _office365_techniques.len();
-        self.details.stats.count_subtechniques_saas = _saas_techniques.len();
-        self.details.stats.count_subtechniques_windows = _windows_techniques.len();
-    } 
+        if _wants_subtechniques {
+            // Subtechniques
+            self.details.stats.count_subtechniques_initial_access = _initial_access.len();
+            self.details.stats.count_subtechniques_execution = _execution.len();
+            self.details.stats.count_subtechniques_persistence = _persistence.len();
+            self.details.stats.count_subtechniques_privilege_escalation = _priv_escalation.len();
+            self.details.stats.count_subtechniques_defense_evasion = _defense_evasion.len();
+            self.details.stats.count_subtechniques_credential_access = _credential_access.len();
+            self.details.stats.count_subtechniques_collection = _collection.len();
+            self.details.stats.count_subtechniques_discovery = _discovery.len();
+            self.details.stats.count_subtechniques_lateral_movement = _lateral_movement.len();
+            self.details.stats.count_subtechniques_command_and_control = _command_and_control.len();
+            self.details.stats.count_subtechniques_exfiltration = _exfiltration.len();
+            self.details.stats.count_subtechniques_impact = _impact.len();    
+        } else {
+            // Techniques 
+            self.details.stats.count_techniques_initial_access = _initial_access.len();
+            self.details.stats.count_techniques_execution = _execution.len();
+            self.details.stats.count_techniques_persistence = _persistence.len();
+            self.details.stats.count_techniques_privilege_escalation = _priv_escalation.len();
+            self.details.stats.count_techniques_defense_evasion = _defense_evasion.len();
+            self.details.stats.count_techniques_credential_access = _credential_access.len();
+            self.details.stats.count_techniques_collection = _collection.len();
+            self.details.stats.count_techniques_discovery = _discovery.len();
+            self.details.stats.count_techniques_lateral_movement = _lateral_movement.len();
+            self.details.stats.count_techniques_command_and_control = _command_and_control.len();
+            self.details.stats.count_techniques_exfiltration = _exfiltration.len();
+            self.details.stats.count_techniques_impact = _impact.len(); 
+        } 
+    }
 }
