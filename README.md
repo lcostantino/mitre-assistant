@@ -341,7 +341,10 @@ $> mitre-assistant search -m enterprise -t "revoked"
 ```
 <br/>
 
-![image](https://user-images.githubusercontent.com/11415591/89109865-074a5300-d413-11ea-87e9-5fadeb569e84.png)
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/11415591/89109865-074a5300-d413-11ea-87e9-5fadeb569e84.png"></img>
+</div>
+
 
 <br/>
 <br/>
@@ -378,11 +381,35 @@ $> mitre-assistant -m enterprise -t "datasources"
 ```
 
 <br/>
-
-![image](https://user-images.githubusercontent.com/11415591/89129604-8bacdc80-d4cc-11ea-9e12-5dea5824a51a.png)
-
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/11415591/89129604-8bacdc80-d4cc-11ea-9e12-5dea5824a51a.png"></img>
+</div>
 <br/>
 <br/>
+
+
+## *Searching For The Tactics/KillChains*
+Tactics are well, I guess a higher level object where the techniques are organized into.
+
+* the `-t` parameters with the term `tactics`
+
+<br/>
+
+```bash
+# Assumes you want to see the Datasources
+# for the enterprise matrix
+#
+$> mitre-assistant -m enterprise -t "tactics"
+```
+
+<br/>
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/11415591/89738097-02555700-da44-11ea-8308-ff83bd6bdd7c.png"></img>
+</div>
+<br/>
+
+
+
 
 ## *Searching For The Platforms*
 Platforms are the relevant operating systems where a technique is exercised or abused by an adversary. To get the platforms in the enterprise matrix use the keyword `platforms`.
@@ -399,9 +426,9 @@ $> mitre-assistant -m enterprise -t "platforms"
 ```
 
 <br/>
-
-![image](https://user-images.githubusercontent.com/11415591/89129618-9a938f00-d4cc-11ea-80e0-c30a530bf706.png)
-
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/11415591/89129618-9a938f00-d4cc-11ea-80e0-c30a530bf706.png"></img>
+</div>
 <br/>
 
 ## *Searching For Edge Cases:  Techniques Without a Datasource*

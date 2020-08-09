@@ -50,6 +50,7 @@ impl EnterpriseMatrixSearcher {
         let mut _wants_stats: bool = false;             // Returns The Stats Key
         let mut _wants_nosub: bool = false;             // Returns Techniques That Don't Have Subtechniques
         let mut _wants_revoked: bool = false;           // Returns Techniques Revoked By Mitre
+        let mut _wants_tactics: bool = false;           // Returns The Tactics Key
         let mut _wants_platforms: bool = false;         // Returns The Platforms Key
         let mut _wants_datasources: bool = false;       // Returns The Data Sources Key
         // Parse the search term explicitly
@@ -82,7 +83,11 @@ impl EnterpriseMatrixSearcher {
             _wants_platforms = true;
         }
         else if search_term.to_lowercase().as_str() == "nodatasources" {
-            _valid.push((search_term, 10usize));    // TODO
+            _valid.push((search_term, 10usize));
+        }
+        else if search_term.to_lowercase().as_str() == "tactics" {
+            _valid.push((search_term, 11usize));
+            _wants_tactics = true;
         }
         else if !search_term.contains(",") {
             if _scanner.pattern.is_match(search_term) {
@@ -131,7 +136,9 @@ impl EnterpriseMatrixSearcher {
                     _results.push(self.enterprise_all_platforms());
                 } else if _pattern == &10usize {
                     _results.push(self.enterprise_by_no_datasources());
-                }
+                } else if _pattern == &11usize {
+                    _results.push(self.enterprise_all_tactics());
+                }                
             }
             // Render Query Results
             // --------------------
@@ -149,6 +156,8 @@ impl EnterpriseMatrixSearcher {
                 self.render_enterprise_datasources_table(&_results);
             } else if _wants_platforms {
                 self.render_enterprise_platforms_table(&_results);
+            } else if _wants_tactics {
+                self.render_enterprise_tactics_table(&_results);
             } else {
                 self.render_enterprise_table(&_results);
             }
@@ -170,6 +179,16 @@ impl EnterpriseMatrixSearcher {
     /// All of the functions are **private functions** that are not exposed to the end-user.  They are only accessible
     /// from the module itself, and specifically, when invoked by the `self.search()` method.
     ///
+    fn enterprise_all_tactics(&self) -> String
+    {
+        let mut _results = vec![];
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect("(?) Error: Unable to Deserialize All Tactics");
+        for _item in _json.tactics {
+            _results.push(_item)
+        }
+        _results.sort();
+        serde_json::to_string(&_results).expect("(?) Error: Unable To Deserialize All Tactics")
+    }
     fn enterprise_all_techniques(&self) -> String
     {
         //let mut _results = vec![];
@@ -304,6 +323,23 @@ impl EnterpriseMatrixSearcher {
     /// This section of the source code is for functions that render queery results
     /// or render information to the end-user.
     ///
+    fn render_enterprise_tactics_table(&self, results: &Vec<String>) {
+        let mut _table = Table::new();
+        _table.add_row(Row::new(vec![
+            Cell::new("INDEX").style_spec("FW"),
+            Cell::new("TACTICS").style_spec("FW"),
+        ]));
+        let _json: Vec<String> = serde_json::from_str(results[0].as_str()).expect("(?) Error: Unable To Deserialize Search Results By Tactics");
+        for (_idx, _row) in _json.iter().enumerate() {
+            _table.add_row(Row::new(vec![
+                Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                Cell::new(_row.as_str()).style_spec("FW"),
+            ]));
+        }
+        println!("{}", "\n\n");
+        _table.printstd();
+        println!("{}", "\n\n");           
+    }
     fn render_enterprise_platforms_table(&self, results: &Vec<String>)
     {
         let mut _table = Table::new();
@@ -318,7 +354,9 @@ impl EnterpriseMatrixSearcher {
                 Cell::new(_row.as_str()).style_spec("FW"),
             ]));
         }
+        println!("{}", "\n\n");
         _table.printstd();
+        println!("{}", "\n\n");
     } 
     fn render_enterprise_datasources_table(&self, results: &Vec<String>)
     {
@@ -334,7 +372,9 @@ impl EnterpriseMatrixSearcher {
                 Cell::new(_row.as_str()).style_spec("FW"),
             ]));
         }
+        println!("{}", "\n\n");
         _table.printstd();
+        println!("{}", "\n\n");
     } 
     fn render_enterprise_table(&self, results: &Vec<String>)
     {

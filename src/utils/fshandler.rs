@@ -6,7 +6,7 @@ use std::collections::{ HashMap };
 
 // 3rd Party
 use fs2::{ self, FileExt };
-use walkdir::{ DirEntry, WalkDir };
+//use walkdir::{ DirEntry, WalkDir };
 
 
 #[path = "../structs/errors.rs"]
