@@ -89,7 +89,6 @@ impl EnterpriseMatrixParser {
         for _t in _json["objects"].as_array().unwrap().iter() {
             let _s = _t["type"].as_str().unwrap();
             let _x = serde_json::to_string(_t).unwrap();
-
             if _s == "attack-pattern" && _x.contains("revoked") {
                 self.extract_revoked_techniques(_t);
             } else if _s == "attack-pattern" && !_x.contains("revoked") {
@@ -113,18 +112,16 @@ impl EnterpriseMatrixParser {
             }
         }
         /*
-            identity
-            intrusion-set
-            malware
-            marking-definition
-            relationship
-            Revoked Techniques: 0
-            tool
+            identity                // ? NFC
+            intrusion-set           // Adversary
+            malware                 // Malware
+            marking-definition      // ? NFC
+            relationship            // ? NFC
+            Revoked Techniques      // ? NFC
+            tool                    // ? NFC
             x-mitre-matrix
             x-mitre-tactic
         */
-        //self.stats = _ems;
-        //println!("\n{:?}", _ems);
         Ok(())
     }
     fn extract_revoked_techniques(
