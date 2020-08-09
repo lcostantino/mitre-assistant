@@ -397,7 +397,7 @@ Datasources are a non-concrete description by Mitre that seems to suggest the co
 # Assumes you want to see the Datasources
 # for the enterprise matrix
 #
-$> mitre-assistant -m enterprise -t "datasources"
+$> mitre-assistant search -m enterprise -t "datasources"
 ```
 
 <br/>
@@ -419,7 +419,7 @@ Tactics are well, I guess a higher level object where the techniques are organiz
 # Assumes you want to see the Datasources
 # for the enterprise matrix
 #
-$> mitre-assistant -m enterprise -t "tactics"
+$> mitre-assistant search -m enterprise -t "tactics"
 ```
 
 <br/>
@@ -442,7 +442,7 @@ Platforms are the relevant operating systems where a technique is exercised or a
 # Assumes you want to see the Datasources
 # for the enterprise matrix
 #
-$> mitre-assistant -m enterprise -t "platforms"
+$> mitre-assistant search -m enterprise -t "platforms"
 ```
 
 <br/>
@@ -466,7 +466,7 @@ Use the keyword `nodatasources` to obtain a list of active techniques that may n
 # Assumes you want to see the Datasources
 # for the enterprise matrix
 #
-$> mitre-assistant -m enterprise -t "nodatasources"
+$> mitre-assistant search -m enterprise -t "nodatasources"
 ```
 
 <br/>
