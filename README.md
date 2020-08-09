@@ -389,7 +389,7 @@ $> mitre-assistant -m enterprise -t "datasources"
 
 
 ## *Searching For The Tactics/KillChains*
-Tactics are well, I guess a higher level object where the techniques are organized into.
+Tactics are well, I guess a higher level object where the techniques are organized into. Read their website.
 
 * the `-t` parameters with the term `tactics`
 
