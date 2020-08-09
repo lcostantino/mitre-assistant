@@ -19,10 +19,10 @@ use regexes::RegexPatternManager;
 mod enterprise;
 use enterprise::{
     EnterpriseMatrixStatistics,
-    EnterpriseSubtechniquesByPlatform,
-    //EnterpriseTechniquesByTactic
     EnterpriseTechnique,
+    EnterpriseTechniquesByTactic,
     EnterpriseTechniquesByPlatform,
+    EnterpriseSubtechniquesByPlatform,
 };
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -36,6 +36,8 @@ pub struct EnterpriseMatrixBreakdown {
     //pub breakdown_tactics:          Vec<EnterpriseTechniquesByTactic>,
     pub uniques_techniques: Vec<String>,
     pub uniques_subtechniques: Vec<String>,
+    pub rollup_techniques: Vec<EnterpriseTechniquesByTactic>,
+    pub rollup_subtechniques: Vec<EnterpriseTechniquesByTactic>,
     pub stats: EnterpriseMatrixStatistics,
 }
 impl EnterpriseMatrixBreakdown {
@@ -50,6 +52,8 @@ impl EnterpriseMatrixBreakdown {
             //breakdown_tactics:          vec![],
             uniques_techniques: vec![],
             uniques_subtechniques: vec![],
+            rollup_techniques: vec![],
+            rollup_subtechniques: vec![],
             stats: EnterpriseMatrixStatistics::new(),
         }
     }
@@ -300,15 +304,16 @@ impl EnterpriseMatrixParser {
     }
     fn extract_stats_techniques_by_platforms(&mut self, _wants_subtechniques: bool)
     {
-        let mut _windows_techniques:    HashSet<String> = HashSet::new();
-        let mut _macos_techniques:      HashSet<String> = HashSet::new();
-        let mut _linux_techniques:      HashSet<String> = HashSet::new();
-        let mut _azure_ad_techniques:   HashSet<String> = HashSet::new();
-        let mut _azure_techniques:      HashSet<String> = HashSet::new();
-        let mut _aws_techniques:        HashSet<String> = HashSet::new();
-        let mut _gcp_techniques:        HashSet<String> = HashSet::new();
-        let mut _office365_techniques:  HashSet<String> = HashSet::new();
-        let mut _saas_techniques:       HashSet<String> = HashSet::new();
+        let mut _windows:    HashSet<String> = HashSet::new();
+        let mut _macos:      HashSet<String> = HashSet::new();
+        let mut _linux:      HashSet<String> = HashSet::new();
+        let mut _azure_ad:   HashSet<String> = HashSet::new();
+        let mut _azure:      HashSet<String> = HashSet::new();
+        let mut _aws:        HashSet<String> = HashSet::new();
+        let mut _gcp:        HashSet<String> = HashSet::new();
+        let mut _office365:  HashSet<String> = HashSet::new();
+        let mut _saas:       HashSet<String> = HashSet::new();
+        //let mut _stubs:                 HashSet<String> = HashSet::new();
         let mut _iterable: &Vec<EnterpriseTechnique>;
         if _wants_subtechniques {
             _iterable = &self.details.breakdown_subtechniques.platforms;
@@ -322,47 +327,69 @@ impl EnterpriseMatrixParser {
                 if _technique.platform.contains(_os) {
                     _stub = format!("{}:{}", _technique.tid, _technique.tactic);
                     if _os == "aws" {
-                        _aws_techniques.insert(_stub);
+                        _aws.insert(_stub);
                     } else if _os == "azure-ad" {
-                        _azure_ad_techniques.insert(_stub);
+                        _azure_ad.insert(_stub);
                     } else if _os == "azure" {
-                        _azure_techniques.insert(_stub);
+                        _azure.insert(_stub);
                     } else if _os == "gcp" {
-                        _gcp_techniques.insert(_stub);
+                        _gcp.insert(_stub);
                     } else if _os == "linux" {
-                        _linux_techniques.insert(_stub);
+                        _linux.insert(_stub);
                     } else if _os == "macos" {
-                        _macos_techniques.insert(_stub);
+                        _macos.insert(_stub);
                     } else if _os == "office-365" {
-                        _office365_techniques.insert(_stub);
+                        _office365.insert(_stub);
                     } else if _os == "saas" {
-                        _saas_techniques.insert(_stub);
+                        _saas.insert(_stub);
                     } else if _os == "windows" {
-                        _windows_techniques.insert(_stub);
+                        _windows.insert(_stub);
                     }
                 }
             }
         }
         if _wants_subtechniques {
-            self.details.stats.count_subtechniques_aws = _aws_techniques.len();
-            self.details.stats.count_subtechniques_azure = _azure_techniques.len();
-            self.details.stats.count_subtechniques_azure_ad = _azure_ad_techniques.len();
-            self.details.stats.count_subtechniques_gcp = _gcp_techniques.len();
-            self.details.stats.count_subtechniques_linux = _linux_techniques.len();
-            self.details.stats.count_subtechniques_macos = _macos_techniques.len();
-            self.details.stats.count_subtechniques_office365 = _office365_techniques.len();
-            self.details.stats.count_subtechniques_saas = _saas_techniques.len();
-            self.details.stats.count_subtechniques_windows = _windows_techniques.len();
+            let _total = self.details.stats.count_active_total_subtechniques;
+            self.details.stats.count_subtechniques_aws = _aws.len();
+            self.details.stats.count_subtechniques_azure = _azure.len();
+            self.details.stats.count_subtechniques_azure_ad = _azure_ad.len();
+            self.details.stats.count_subtechniques_gcp = _gcp.len();
+            self.details.stats.count_subtechniques_linux = _linux.len();
+            self.details.stats.count_subtechniques_macos = _macos.len();
+            self.details.stats.count_subtechniques_office365 = _office365.len();
+            self.details.stats.count_subtechniques_saas = _saas.len();
+            self.details.stats.count_subtechniques_windows = _windows.len();
+            // Percentages
+            self.details.stats.percent_subtechniques_aws = self.get_percentage(_total, _aws.len());
+            self.details.stats.percent_subtechniques_azure = self.get_percentage(_total, _azure.len());
+            self.details.stats.percent_subtechniques_azure_ad = self.get_percentage(_total, _azure_ad.len());
+            self.details.stats.percent_subtechniques_gcp = self.get_percentage(_total,_gcp.len());
+            self.details.stats.percent_subtechniques_linux = self.get_percentage(_total,_linux.len());
+            self.details.stats.percent_subtechniques_macos = self.get_percentage(_total, _macos.len());
+            self.details.stats.percent_subtechniques_office365 = self.get_percentage(_total, _office365.len());
+            self.details.stats.percent_subtechniques_saas = self.get_percentage(_total, _saas.len());
+            self.details.stats.percent_subtechniques_windows = self.get_percentage(_total, _windows.len());
         } else {
-            self.details.stats.count_techniques_aws = _aws_techniques.len();
-            self.details.stats.count_techniques_azure = _azure_techniques.len();
-            self.details.stats.count_techniques_azure_ad = _azure_ad_techniques.len();
-            self.details.stats.count_techniques_gcp = _gcp_techniques.len();
-            self.details.stats.count_techniques_linux = _linux_techniques.len();
-            self.details.stats.count_techniques_macos = _macos_techniques.len();
-            self.details.stats.count_techniques_office365 = _office365_techniques.len();
-            self.details.stats.count_techniques_saas = _saas_techniques.len();
-            self.details.stats.count_techniques_windows = _windows_techniques.len();            
+            let _total = self.details.stats.count_active_total_techniques;
+            self.details.stats.count_techniques_aws = _aws.len();
+            self.details.stats.count_techniques_azure = _azure.len();
+            self.details.stats.count_techniques_azure_ad = _azure_ad.len();
+            self.details.stats.count_techniques_gcp = _gcp.len();
+            self.details.stats.count_techniques_linux = _linux.len();
+            self.details.stats.count_techniques_macos = _macos.len();
+            self.details.stats.count_techniques_office365 = _office365.len();
+            self.details.stats.count_techniques_saas = _saas.len();
+            self.details.stats.count_techniques_windows = _windows.len();
+            // Percentages
+            self.details.stats.percent_techniques_aws = self.get_percentage(_total, _aws.len());
+            self.details.stats.percent_techniques_azure = self.get_percentage(_total, _azure.len());
+            self.details.stats.percent_techniques_azure_ad = self.get_percentage(_total, _azure_ad.len());
+            self.details.stats.percent_techniques_gcp = self.get_percentage(_total,_gcp.len());
+            self.details.stats.percent_techniques_linux = self.get_percentage(_total,_linux.len());
+            self.details.stats.percent_techniques_macos = self.get_percentage(_total, _macos.len());
+            self.details.stats.percent_techniques_office365 = self.get_percentage(_total, _office365.len());
+            self.details.stats.percent_techniques_saas = self.get_percentage(_total, _saas.len());
+            self.details.stats.percent_techniques_windows = self.get_percentage(_total, _windows.len());                        
         }
     }
     ///
@@ -384,6 +411,7 @@ impl EnterpriseMatrixParser {
         let mut _exfiltration:          HashSet<String>  = HashSet::new();
         let mut _impact:                HashSet<String>  = HashSet::new();
         let mut _iterable: &Vec<EnterpriseTechnique>;
+        let mut _rollup: Vec<EnterpriseTechniquesByTactic> = vec![];
         if _wants_subtechniques {
             _iterable = &self.details.breakdown_subtechniques.platforms;
         } else {
@@ -393,9 +421,11 @@ impl EnterpriseMatrixParser {
         let mut _stub: String = String::from("");
         for _tactic in self.details.tactics.iter() {
             let _kc = _tactic.as_str();
+            let mut _kill_chain = EnterpriseTechniquesByTactic::new(_kc);
             for _technique in _iterable.iter() {
                 if _technique.tactic.contains(_kc) {
                     _stub = format!("{}:{}", _technique.tid, _technique.tactic);
+                    _kill_chain.tactic.items.push(_stub.clone());
                     if _kc == "initial-access" {
                         _initial_access.insert(_stub);
                     } else if _kc == "execution" {
@@ -423,9 +453,15 @@ impl EnterpriseMatrixParser {
                     }
                 }
             }
+            _kill_chain.tactic.items.sort();
+            _kill_chain.tactic.items.dedup();
+            _kill_chain.tactic.items.sort();
+            _kill_chain.count = _kill_chain.tactic.items.len();
+            _rollup.push(_kill_chain)
         }
         if _wants_subtechniques {
             // Subtechniques
+            let _total = self.details.stats.count_active_total_subtechniques;
             self.details.stats.count_subtechniques_initial_access = _initial_access.len();
             self.details.stats.count_subtechniques_execution = _execution.len();
             self.details.stats.count_subtechniques_persistence = _persistence.len();
@@ -437,9 +473,25 @@ impl EnterpriseMatrixParser {
             self.details.stats.count_subtechniques_lateral_movement = _lateral_movement.len();
             self.details.stats.count_subtechniques_command_and_control = _command_and_control.len();
             self.details.stats.count_subtechniques_exfiltration = _exfiltration.len();
-            self.details.stats.count_subtechniques_impact = _impact.len();    
+            self.details.stats.count_subtechniques_impact = _impact.len();
+            // Percentages
+            self.details.stats.percent_subtechniques_initial_access = self.get_percentage(_total, _initial_access.len());
+            self.details.stats.percent_subtechniques_execution = self.get_percentage(_total, _execution.len());
+            self.details.stats.percent_subtechniques_persistence = self.get_percentage(_total, _persistence.len());
+            self.details.stats.percent_subtechniques_privilege_escalation = self.get_percentage(_total, _priv_escalation.len());
+            self.details.stats.percent_subtechniques_defense_evasion = self.get_percentage(_total, _defense_evasion.len());
+            self.details.stats.percent_subtechniques_credential_access = self.get_percentage(_total, _credential_access.len());
+            self.details.stats.percent_subtechniques_collection = self.get_percentage(_total, _collection.len());
+            self.details.stats.percent_subtechniques_discovery = self.get_percentage(_total, _discovery.len());
+            self.details.stats.percent_subtechniques_lateral_movement = self.get_percentage(_total, _lateral_movement.len());
+            self.details.stats.percent_subtechniques_command_and_control = self.get_percentage(_total, _command_and_control.len());
+            self.details.stats.percent_subtechniques_exfiltration = self.get_percentage(_total, _exfiltration.len());
+            self.details.stats.percent_subtechniques_impact = self.get_percentage(_total, _impact.len());            
+            // Rollup
+            self.details.rollup_subtechniques = _rollup; 
         } else {
-            // Techniques 
+            // Techniques
+            let _total = self.details.stats.count_active_total_techniques;
             self.details.stats.count_techniques_initial_access = _initial_access.len();
             self.details.stats.count_techniques_execution = _execution.len();
             self.details.stats.count_techniques_persistence = _persistence.len();
@@ -451,7 +503,23 @@ impl EnterpriseMatrixParser {
             self.details.stats.count_techniques_lateral_movement = _lateral_movement.len();
             self.details.stats.count_techniques_command_and_control = _command_and_control.len();
             self.details.stats.count_techniques_exfiltration = _exfiltration.len();
-            self.details.stats.count_techniques_impact = _impact.len(); 
-        } 
+            self.details.stats.count_techniques_impact = _impact.len();
+            // Percentages
+            self.details.stats.percent_techniques_initial_access = self.get_percentage(_total, _initial_access.len());
+            self.details.stats.percent_techniques_execution = self.get_percentage(_total, _execution.len());
+            self.details.stats.percent_techniques_persistence = self.get_percentage(_total, _persistence.len());
+            self.details.stats.percent_techniques_privilege_escalation = self.get_percentage(_total, _priv_escalation.len());
+            self.details.stats.percent_techniques_defense_evasion = self.get_percentage(_total, _defense_evasion.len());
+            self.details.stats.percent_techniques_credential_access = self.get_percentage(_total, _credential_access.len());
+            self.details.stats.percent_techniques_collection = self.get_percentage(_total, _collection.len());
+            self.details.stats.percent_techniques_discovery = self.get_percentage(_total, _discovery.len());
+            self.details.stats.percent_techniques_lateral_movement = self.get_percentage(_total, _lateral_movement.len());
+            self.details.stats.percent_techniques_command_and_control = self.get_percentage(_total, _command_and_control.len());
+            self.details.stats.percent_techniques_exfiltration = self.get_percentage(_total, _exfiltration.len());
+            self.details.stats.percent_techniques_impact = self.get_percentage(_total, _impact.len());
+            // rollup            
+            self.details.rollup_techniques = _rollup; 
+        }
+
     }
 }

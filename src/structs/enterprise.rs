@@ -1,4 +1,5 @@
 use serde_derive::{Deserialize, Serialize};
+use std::collections::HashSet;
 
 
 #[derive(Debug,Deserialize, Serialize)]
@@ -35,7 +36,89 @@ pub struct EnterpriseMatrixStatistics {
     pub count_subtechniques_macos:          usize,
     pub count_subtechniques_office365:      usize,
     pub count_subtechniques_saas:           usize,
-    pub count_subtechniques_windows:        usize,        
+    pub count_subtechniques_windows:        usize,
+    // Count of Techniques by Tactic - KilChain
+    // Use these with stats functions
+    pub count_techniques_initial_access:    usize,
+    pub count_techniques_execution:         usize,
+    pub count_techniques_persistence:       usize,
+    pub count_techniques_privilege_escalation: usize,
+    pub count_techniques_defense_evasion:   usize,
+    pub count_techniques_credential_access: usize,
+    pub count_techniques_collection:        usize,
+    pub count_techniques_discovery:         usize,
+    pub count_techniques_lateral_movement:  usize,
+    pub count_techniques_command_and_control: usize,
+    pub count_techniques_exfiltration:      usize,
+    pub count_techniques_impact:            usize,
+    // Count of Subechniques by Tactic - KilChain
+    // Use these with stats functions
+    pub count_subtechniques_initial_access:    usize,
+    pub count_subtechniques_execution:         usize,
+    pub count_subtechniques_persistence:       usize,
+    pub count_subtechniques_privilege_escalation: usize,
+    pub count_subtechniques_defense_evasion:   usize,
+    pub count_subtechniques_credential_access: usize,
+    pub count_subtechniques_collection:        usize,
+    pub count_subtechniques_discovery:         usize,
+    pub count_subtechniques_lateral_movement:  usize,
+    pub count_subtechniques_command_and_control: usize,
+    pub count_subtechniques_exfiltration:      usize,
+    pub count_subtechniques_impact:            usize,
+    // Percentages of Specific Items
+    // Use these with stats function
+    // To get the percentage, go to the parser.rs module
+    // and invoke the `get_percentage()` private method.
+    // The total param is by the:
+    //      `count_active_total_techniques`
+    //      `count_active_total_subtechniques`
+    //
+    // Percentage Techniques By Platform
+    pub percent_techniques_aws:         String,
+    pub percent_techniques_azure:       String,
+    pub percent_techniques_azure_ad:    String,
+    pub percent_techniques_gcp:         String,
+    pub percent_techniques_linux:       String,
+    pub percent_techniques_macos:       String,
+    pub percent_techniques_office365:  String,
+    pub percent_techniques_saas:        String,
+    pub percent_techniques_windows:     String,
+    // Percentage Subtechniques By Platform
+    pub percent_subtechniques_aws:      String,
+    pub percent_subtechniques_azure:    String,
+    pub percent_subtechniques_azure_ad: String,
+    pub percent_subtechniques_gcp:      String,
+    pub percent_subtechniques_linux:    String,
+    pub percent_subtechniques_macos:    String,
+    pub percent_subtechniques_office365: String,
+    pub percent_subtechniques_saas:     String,
+    pub percent_subtechniques_windows:  String,
+    // Percentage Techniques By KillChain/Tactic
+    pub percent_techniques_initial_access:          String,
+    pub percent_techniques_execution:               String,
+    pub percent_techniques_persistence:             String,
+    pub percent_techniques_privilege_escalation:    String,
+    pub percent_techniques_defense_evasion:         String,
+    pub percent_techniques_credential_access:       String,
+    pub percent_techniques_discovery:               String,
+    pub percent_techniques_lateral_movement:        String,
+    pub percent_techniques_collection:              String,
+    pub percent_techniques_command_and_control:     String,
+    pub percent_techniques_exfiltration:            String,
+    pub percent_techniques_impact:                  String,    
+    // Percentage Subtechniques By KillChain/Tactic
+    pub percent_subtechniques_initial_access:          String,
+    pub percent_subtechniques_execution:               String,
+    pub percent_subtechniques_persistence:             String,
+    pub percent_subtechniques_privilege_escalation:    String,
+    pub percent_subtechniques_defense_evasion:         String,
+    pub percent_subtechniques_credential_access:       String,
+    pub percent_subtechniques_discovery:               String,
+    pub percent_subtechniques_lateral_movement:        String,
+    pub percent_subtechniques_collection:              String,
+    pub percent_subtechniques_command_and_control:     String,
+    pub percent_subtechniques_exfiltration:            String,
+    pub percent_subtechniques_impact:                  String,     
 }
 impl EnterpriseMatrixStatistics {
     pub fn new() -> Self
@@ -69,7 +152,78 @@ impl EnterpriseMatrixStatistics {
             count_subtechniques_macos:          0,
             count_subtechniques_office365:      0,
             count_subtechniques_saas:           0,
-            count_subtechniques_windows:        0,                        
+            count_subtechniques_windows:        0,
+            count_techniques_initial_access:    0,
+            count_techniques_execution:         0,
+            count_techniques_persistence:       0,
+            count_techniques_privilege_escalation: 0,
+            count_techniques_defense_evasion:   0,
+            count_techniques_credential_access: 0,
+            count_techniques_collection:        0,
+            count_techniques_discovery:         0,
+            count_techniques_lateral_movement:  0,
+            count_techniques_command_and_control: 0,
+            count_techniques_exfiltration:         0,
+            count_techniques_impact:               0,
+            count_subtechniques_initial_access:    0,
+            count_subtechniques_execution:         0,
+            count_subtechniques_persistence:       0,
+            count_subtechniques_privilege_escalation: 0,
+            count_subtechniques_defense_evasion:   0,
+            count_subtechniques_credential_access: 0,
+            count_subtechniques_collection:        0,
+            count_subtechniques_discovery:         0,
+            count_subtechniques_lateral_movement:  0,
+            count_subtechniques_command_and_control: 0,
+            count_subtechniques_exfiltration:      0,
+            count_subtechniques_impact:            0,
+            // Percentages
+            // Percentage Techniques By Platform
+            percent_techniques_aws:          String::from(""),
+            percent_techniques_azure:        String::from(""),
+            percent_techniques_azure_ad:     String::from(""),
+            percent_techniques_gcp:          String::from(""),
+            percent_techniques_linux:        String::from(""),
+            percent_techniques_macos:        String::from(""),
+            percent_techniques_office365:   String::from(""),
+            percent_techniques_saas:         String::from(""),
+            percent_techniques_windows:      String::from(""),
+            // Percentage Subtechniques By Platform            
+            percent_subtechniques_aws:          String::from(""),
+            percent_subtechniques_azure:        String::from(""),
+            percent_subtechniques_azure_ad:     String::from(""),
+            percent_subtechniques_gcp:          String::from(""),
+            percent_subtechniques_linux:        String::from(""),
+            percent_subtechniques_macos:        String::from(""),
+            percent_subtechniques_office365:    String::from(""),
+            percent_subtechniques_saas:         String::from(""),
+            percent_subtechniques_windows:      String::from(""),
+            // Percentage Technique By KillChain
+            percent_techniques_initial_access:          String::from(""),
+            percent_techniques_execution:               String::from(""),
+            percent_techniques_persistence:             String::from(""),
+            percent_techniques_privilege_escalation:    String::from(""),
+            percent_techniques_defense_evasion:         String::from(""),
+            percent_techniques_credential_access:       String::from(""),
+            percent_techniques_discovery:               String::from(""),
+            percent_techniques_lateral_movement:        String::from(""),
+            percent_techniques_collection:              String::from(""),
+            percent_techniques_command_and_control:     String::from(""),
+            percent_techniques_exfiltration:            String::from(""),
+            percent_techniques_impact:                  String::from(""),
+            // Percentage Subtechniques By KillChain/Tactic
+            percent_subtechniques_initial_access:          String::from(""),
+            percent_subtechniques_execution:               String::from(""),
+            percent_subtechniques_persistence:             String::from(""),
+            percent_subtechniques_privilege_escalation:    String::from(""),
+            percent_subtechniques_defense_evasion:         String::from(""),
+            percent_subtechniques_credential_access:       String::from(""),
+            percent_subtechniques_discovery:               String::from(""),
+            percent_subtechniques_lateral_movement:        String::from(""),
+            percent_subtechniques_collection:              String::from(""),
+            percent_subtechniques_command_and_control:     String::from(""),
+            percent_subtechniques_exfiltration:            String::from(""),
+            percent_subtechniques_impact:                  String::from(""),                                      
         }
     }
 }
@@ -149,7 +303,7 @@ impl EnterpriseSubtechniquesByPlatform {
 #[derive(Debug,Deserialize, Serialize)]
 pub struct EnterpriseTechniquesByTactic {
     pub count:  usize,
-    pub tactic: EnterpriseTactic    
+    pub tactic: EnterpriseTactic  
 }
 impl EnterpriseTechniquesByTactic {
     pub fn new(tactic_name: &str) -> Self
@@ -164,17 +318,15 @@ impl EnterpriseTechniquesByTactic {
 
 #[derive(Debug,Deserialize, Serialize)]
 pub struct EnterpriseTactic {
-    pub tactic_name:    String,
-    pub techniques:     Vec<EnterpriseTechnique>,
-    pub subtechniques:  Vec<EnterpriseTechnique>
+    pub name:    String,
+    pub items: Vec<String>
 }
 impl EnterpriseTactic {
     pub fn new(tactic_name: &str) -> Self
     {
         EnterpriseTactic {
-            tactic_name:    tactic_name.to_string(),
-            techniques:     vec![],
-            subtechniques:  vec![]
+            name: tactic_name.to_string(),
+            items: vec![]
         }
     }
 }

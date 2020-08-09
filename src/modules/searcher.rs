@@ -445,7 +445,8 @@ impl EnterpriseMatrixSearcher {
         let mut _table = Table::new();
         _table.add_row(Row::new(vec![
             Cell::new("CATEGORY"),
-            Cell::new("COUNTS")
+            Cell::new("COUNTS"),
+            Cell::new("PERCENT %")
         ]));
         let _item = &results[0];
         let _json: EnterpriseMatrixStatistics = serde_json::from_str(_item.as_str()).expect("(?) Error:  Render Table Deserialization For Stats");
@@ -456,18 +457,21 @@ impl EnterpriseMatrixSearcher {
             Row::new(vec![
                 Cell::new("By Uniques").style_spec("FY"),
                 Cell::new(""),
+                Cell::new(""),
             ])
         );  
         _table.add_row(
             Row::new(vec![
                 Cell::new("Active Techniques"),
                 Cell::new(_json.count_active_uniq_techniques.to_string().as_str()),
+                Cell::new(""),
             ])                                                                                                                                
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("Active Subtechniques"),
-                Cell::new(_json.count_active_uniq_subtechniques.to_string().as_str())
+                Cell::new(_json.count_active_uniq_subtechniques.to_string().as_str()),
+                Cell::new(""),
             ])
         );
         _table.add_row(
@@ -486,6 +490,7 @@ impl EnterpriseMatrixSearcher {
             Row::new(vec![
                 Cell::new("Active Data Sources"),
                 Cell::new(_json.count_datasources.to_string().as_str()),
+                Cell::new(""),
             ])
         );
         // Totals - Overview Section
@@ -496,23 +501,27 @@ impl EnterpriseMatrixSearcher {
             Row::new(vec![
                 Cell::new("By Totals").style_spec("FY"),
                 Cell::new(""),
+                Cell::new(""),
             ])
         );  
         _table.add_row(
             Row::new(vec![
                 Cell::new("Revoked Techniques"),
                 Cell::new(_json.count_revoked_techniques.to_string().as_str()),
+                Cell::new(""),
             ])
         );         
         _table.add_row(
             Row::new(vec![
                 Cell::new("Active Techniques"),
                 Cell::new(_json.count_active_total_techniques.to_string().as_str()),
+                Cell::new(""),
         ]));
         _table.add_row(
             Row::new(vec![
                 Cell::new("Active Subtechniques"),
                 Cell::new(_json.count_active_total_subtechniques.to_string().as_str()),
+                Cell::new(""),
         ]));
         // Totals - Techniques Section
         // Describes the total number of techniques
@@ -522,60 +531,70 @@ impl EnterpriseMatrixSearcher {
             Row::new(vec![
                 Cell::new("Totals - Techniques By Platform").style_spec("FY"),
                 Cell::new(""),
+                Cell::new(""),
             ])
         );        
         _table.add_row(
             Row::new(vec![
                 Cell::new("AWS"),
                 Cell::new(_json.count_techniques_aws.to_string().as_str()),
+                Cell::new(_json.percent_techniques_aws.as_str()),
             ])
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("AZURE"),
                 Cell::new(_json.count_techniques_azure.to_string().as_str()),
+                Cell::new(_json.percent_techniques_azure.as_str()),
             ])
         ); 
         _table.add_row(
             Row::new(vec![
                 Cell::new("AZURE-AD"),
                 Cell::new(_json.count_techniques_azure_ad.to_string().as_str()),
+                Cell::new(_json.percent_techniques_azure_ad.as_str()),
             ])
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("GCP"),
                 Cell::new(_json.count_techniques_gcp.to_string().as_str()),
+                Cell::new(_json.percent_techniques_gcp.as_str()),
             ])
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("LINUX"),
                 Cell::new(_json.count_techniques_linux.to_string().as_str()),
+                Cell::new(_json.percent_techniques_linux.as_str()),
             ])
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("MAC-OS"),
                 Cell::new(_json.count_techniques_macos.to_string().as_str()),
+                Cell::new(_json.percent_techniques_macos.as_str())
             ])
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("OFFICE-365"),
                 Cell::new(_json.count_techniques_office365.to_string().as_str()),
+                Cell::new(_json.percent_techniques_office365.as_str())
             ])
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("SAAS"),
                 Cell::new(_json.count_techniques_saas.to_string().as_str()),
+                Cell::new(_json.percent_techniques_saas.as_str()),
             ])
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("WINDOWS"),
                 Cell::new(_json.count_techniques_windows.to_string().as_str()),
+                Cell::new(_json.percent_techniques_windows.as_str()),
             ])
         );                                                        
         // Totals - Subtechniques Section
@@ -586,62 +605,260 @@ impl EnterpriseMatrixSearcher {
             Row::new(vec![
                 Cell::new("Total - Subtechniques By Platform").style_spec("FY"),
                 Cell::new(""),
+                Cell::new(""),
             ])
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("AWS"),
                 Cell::new(_json.count_subtechniques_aws.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_aws.as_str()),
             ])
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("AZURE"),
                 Cell::new(_json.count_subtechniques_azure.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_azure.as_str()),
             ])
         ); 
         _table.add_row(
             Row::new(vec![
                 Cell::new("AZURE-AD"),
                 Cell::new(_json.count_subtechniques_azure_ad.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_azure_ad.as_str()),
             ])
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("GCP"),
                 Cell::new(_json.count_subtechniques_gcp.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_gcp.as_str()),
             ])
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("LINUX"),
                 Cell::new(_json.count_subtechniques_linux.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_linux.as_str()),
             ])
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("MAC-OS"),
                 Cell::new(_json.count_subtechniques_macos.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_macos.as_str()),
             ])
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("OFFICE-365"),
                 Cell::new(_json.count_subtechniques_office365.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_office365.as_str()),
             ])
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("SAAS"),
                 Cell::new(_json.count_subtechniques_saas.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_saas.as_str()),
             ])
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("WINDOWS"),
                 Cell::new(_json.count_subtechniques_windows.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_windows.as_str()),
             ])
-        );                                                              
+        );
+        // Tactics/KillChain Sections
+        // Techniques By Killchain
+        _table.add_empty_row();
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Totals - Techniques By Tactic/KillChain").style_spec("FY"),
+                Cell::new(""),
+                Cell::new(""),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Initial Access"),
+                Cell::new(_json.count_techniques_initial_access.to_string().as_str()),
+                Cell::new(_json.percent_techniques_initial_access.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Execution"),
+                Cell::new(_json.count_techniques_execution.to_string().as_str()),
+                Cell::new(_json.percent_techniques_execution.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Persistence"),
+                Cell::new(_json.count_techniques_persistence.to_string().as_str()),
+                Cell::new(_json.percent_techniques_persistence.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Privilege Escalation"),
+                Cell::new(_json.count_techniques_privilege_escalation.to_string().as_str()),
+                Cell::new(_json.percent_techniques_privilege_escalation.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Defense Evasion"),
+                Cell::new(_json.count_techniques_defense_evasion.to_string().as_str()),
+                Cell::new(_json.percent_techniques_defense_evasion.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Credential Access"),
+                Cell::new(_json.count_techniques_credential_access.to_string().as_str()),
+                Cell::new(_json.percent_techniques_credential_access.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Discovery"),
+                Cell::new(_json.count_techniques_discovery.to_string().as_str()),
+                Cell::new(_json.percent_techniques_discovery.as_str()),
+            ])
+        );          
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Lateral Movement"),
+                Cell::new(_json.count_techniques_lateral_movement.to_string().as_str()),
+                Cell::new(_json.percent_techniques_lateral_movement.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Collection"),
+                Cell::new(_json.count_techniques_collection.to_string().as_str()),
+                Cell::new(_json.percent_techniques_collection.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Command and Control"),
+                Cell::new(_json.count_techniques_command_and_control.to_string().as_str()),
+                Cell::new(_json.percent_techniques_command_and_control.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Exfiltration"),
+                Cell::new(_json.count_techniques_exfiltration.to_string().as_str()),
+                Cell::new(_json.percent_techniques_exfiltration.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Impact"),
+                Cell::new(_json.count_techniques_impact.to_string().as_str()),
+                Cell::new(_json.percent_techniques_impact.as_str()),
+            ])
+        );
+        //
+        // Subtechniques By Killchain
+        _table.add_empty_row();
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Totals - Subtechniques By Tactic/KillChain").style_spec("FY"),
+                Cell::new(""),
+                Cell::new(""),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Initial Access"),
+                Cell::new(_json.count_subtechniques_initial_access.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_initial_access.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Execution"),
+                Cell::new(_json.count_subtechniques_execution.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_execution.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Persistence"),
+                Cell::new(_json.count_subtechniques_persistence.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_persistence.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Privilege Escalation"),
+                Cell::new(_json.count_subtechniques_privilege_escalation.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_privilege_escalation.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Defense Evasion"),
+                Cell::new(_json.count_subtechniques_defense_evasion.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_defense_evasion.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Credential Access"),
+                Cell::new(_json.count_subtechniques_credential_access.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_credential_access.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Discovery"),
+                Cell::new(_json.count_subtechniques_discovery.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_discovery.as_str()),
+            ])
+        );          
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Lateral Movement"),
+                Cell::new(_json.count_subtechniques_lateral_movement.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_lateral_movement.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Collection"),
+                Cell::new(_json.count_subtechniques_collection.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_collection.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Command and Control"),
+                Cell::new(_json.count_subtechniques_command_and_control.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_command_and_control.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Exfiltration"),
+                Cell::new(_json.count_subtechniques_exfiltration.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_exfiltration.as_str()),
+            ])
+        );
+        _table.add_row(
+            Row::new(vec![
+                Cell::new("Impact"),
+                Cell::new(_json.count_subtechniques_impact.to_string().as_str()),
+                Cell::new(_json.percent_subtechniques_impact.as_str()),
+            ])
+        );                                                                                                                                                                                              
         // General Section
         // Used for placeholders if items (objects) not yet analyzed
         // These are TODOs
@@ -650,24 +867,28 @@ impl EnterpriseMatrixSearcher {
             Row::new(vec![
                 Cell::new("General - Pending Analysis").style_spec("FY"),
                 Cell::new(""),
+                Cell::new(""),
             ])
         );        
         _table.add_row(
             Row::new(vec![
                 Cell::new("Records For Malware"),
                 Cell::new(_json.count_malwares.to_string().as_str()),
+                Cell::new(""),
             ])
         );
         _table.add_row(
             Row::new(vec![
                 Cell::new("Records For Adversaries"),
-                Cell::new(_json.count_adversaries.to_string().as_str())  
+                Cell::new(_json.count_adversaries.to_string().as_str()),
+                Cell::new(""),
             ])
         ); 
         _table.add_row(
             Row::new(vec![
                 Cell::new("Records For Tools"),
                 Cell::new(_json.count_tools.to_string().as_str()),
+                Cell::new(""),
             ])
         );
         println!("\n\n");        
