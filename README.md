@@ -244,9 +244,11 @@ $> mitre-assistant search -m enterprise -t "stats"
 <br/>
 <br/>
 
-|UNIQUES & TOTALS|
-|-----------------|
-|![image](https://user-images.githubusercontent.com/11415591/89135007-ff181380-d4f7-11ea-8b70-97ae6421d3d1.png)|
+## Unique & Total Counts
+
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/11415591/89737350-33328d80-da3e-11ea-9f76-311251cfc851.png"></img>
+</div>
 
 
 
@@ -256,7 +258,16 @@ $> mitre-assistant search -m enterprise -t "stats"
 
 | TECHNIQUES | SUBTECHNIQUES|
 |------------|--------------|
-|![image](https://user-images.githubusercontent.com/11415591/89134982-e3147200-d4f7-11ea-9e31-f985500d2ee3.png)|![image](https://user-images.githubusercontent.com/11415591/89134971-d263fc00-d4f7-11ea-992c-39730ead0421.png)|
+|![image](https://user-images.githubusercontent.com/11415591/89737360-47768a80-da3e-11ea-95da-81f68342624d.png)|![image](https://user-images.githubusercontent.com/11415591/89737366-54937980-da3e-11ea-981d-06518ef06e43.png)|
+
+
+<br/>
+<br/>
+
+
+| TACTICS - TECHNIQUES | TACTICS - SUBTECHNIQUES|
+|------------|--------------|
+|![image](https://user-images.githubusercontent.com/11415591/89737321-0bdbc080-da3e-11ea-9030-849fbd9420b2.png)|![image](https://user-images.githubusercontent.com/11415591/89737328-18f8af80-da3e-11ea-866f-2a09231aeee4.png)|
 
 
 
