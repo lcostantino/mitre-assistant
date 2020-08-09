@@ -396,7 +396,6 @@ impl EnterpriseMatrixParser {
             for _technique in _iterable.iter() {
                 if _technique.tactic.contains(_kc) {
                     _stub = format!("{}:{}", _technique.tid, _technique.tactic);
-                    println!("STUB KILLCHAINS: {}", _stub);
                     if _kc == "initial-access" {
                         _initial_access.insert(_stub);
                     } else if _kc == "execution" {
