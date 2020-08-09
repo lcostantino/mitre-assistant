@@ -112,6 +112,24 @@ I have seen them, used them, and appreciate those that are writing their own. In
 <br/>
 <br/>
 
+# How to **Update** with new releases?
+
+```text
+Note:   Because this tool is being actively developed,
+        it is recommended to always use the `baseline` subcommand
+        to ensure the dev changes made to the custom JSON database
+        are in effect.
+```
+
+Most of the changes being made until I reach **v.1.0** will affect the
+JSON file produced by this tool.  This is because I am exploring how to arrange
+the data for the outcomes I am pursuing.
+
+So always ensure you run the `baseline` subcommand after you install or download a new version of the tool, for now.
+
+<hr/>
+
+
 # **Usage**
 
 This is a modular tool. The main concept of using this tool is:
@@ -229,6 +247,7 @@ You have to tell the `search subcommand` which matrix it is going to work with b
 |`stats`|*enterprise*|Returns an overview of `uniq` counts and `total` counts of key data elements|
 |`subtechniques`|*enterprise*|Returns all subtechniques from the matrix|
 |`techniques`|*enterprise*|Returns all techniques from the matrix|
+|`tactics`|*enterprise*|Returns all tactics from the matrix|
 
 <br/>
 <br/>
