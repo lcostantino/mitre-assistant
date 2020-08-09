@@ -101,17 +101,6 @@ $> sudo mv /target/release/mitre-assistant /usr/bin
 <br/>
 <br/>
 
-## Why are you doing this?
-I work in the Security industry for a provider, my work hinges a lot on this resource from The Mitre Corporation.  At some point, if you are like me, you will observe the poor and ridiculous amount of time that is needed to create custom datasets from that resource and collaborate across teams to get into serious work.  This helps me not waste time on silly things - i.e., clicking on some website, or asking important questions so I can incorporate the matrix into some form of tactical plans to defend my network, or support new strategies while working with others.
-
-<br/>
-
-## Why not use other existing community tools for this?
-I have seen them, used them, and appreciate those that are writing their own. In the end, I am not gonna wait for anyone to do things the way I need them.
-
-<br/>
-<br/>
-
 # How to **Update** with new releases?
 
 ```text
@@ -128,7 +117,19 @@ the data for the outcomes I am pursuing.
 So always ensure you run the `baseline` subcommand after you install or download a new version of the tool, for now.
 
 <hr/>
+<br/>
+<br/>
 
+## Why are you doing this?
+I work in the Security industry for a provider, my work hinges a lot on this resource from The Mitre Corporation.  At some point, if you are like me, you will observe the poor and ridiculous amount of time that is needed to create custom datasets from that resource and collaborate across teams to get into serious work.  This helps me not waste time on silly things - i.e., clicking on some website, or asking important questions so I can incorporate the matrix into some form of tactical plans to defend my network, or support new strategies while working with others.
+
+<br/>
+
+## Why not use other existing community tools for this?
+I have seen them, used them, and appreciate those that are writing their own. In the end, I am not gonna wait for anyone to do things the way I need them.
+
+<br/>
+<br/>
 
 # **Usage**
 
