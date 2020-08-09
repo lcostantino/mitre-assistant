@@ -244,7 +244,7 @@ $> mitre-assistant search -m enterprise -t "stats"
 <br/>
 <br/>
 
-## Unique & Total Counts
+<div align="center"><h2>Unique & Total Counts</h2></div>
 
 <hr/>
 <div align="center">
@@ -254,7 +254,7 @@ $> mitre-assistant search -m enterprise -t "stats"
 <br/>
 <br/>
 
-## **By Platform**
+<div align="center"><h2>By Platform</h2></div>
 
 | TECHNIQUES | SUBTECHNIQUES|
 |------------|--------------|
@@ -263,9 +263,8 @@ $> mitre-assistant search -m enterprise -t "stats"
 <hr/>
 <br/>
 <br/>
-<hr/>
 
-## **By Tactic/KillChain**
+<div align="center"><h2>By Tactic/KillChain</h2></div>
 
 | TACTICS - TECHNIQUES | TACTICS - SUBTECHNIQUES|
 |------------|--------------|
