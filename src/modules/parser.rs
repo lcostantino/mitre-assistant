@@ -311,9 +311,9 @@ impl EnterpriseMatrixParser {
         let mut _saas_techniques:       HashSet<String> = HashSet::new();
         let mut _iterable: &Vec<EnterpriseTechnique>;
         if _wants_subtechniques {
-            _iterable = &self.details.breakdown_techniques.platforms;
-        } else {
             _iterable = &self.details.breakdown_subtechniques.platforms;
+        } else {
+            _iterable = &self.details.breakdown_techniques.platforms;
         }
         let mut _stub: String = String::from("");
         for _platform in self.details.platforms.iter() {
@@ -385,9 +385,9 @@ impl EnterpriseMatrixParser {
         let mut _impact:                HashSet<String>  = HashSet::new();
         let mut _iterable: &Vec<EnterpriseTechnique>;
         if _wants_subtechniques {
-            _iterable = &self.details.breakdown_techniques.platforms;
-        } else {
             _iterable = &self.details.breakdown_subtechniques.platforms;
+        } else {
+            _iterable = &self.details.breakdown_techniques.platforms;
         }
         // Setup the stub
         let mut _stub: String = String::from("");
