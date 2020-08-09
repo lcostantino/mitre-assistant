@@ -68,17 +68,17 @@ impl EnterpriseMatrixSearcher {
             _wants_nosub = true;
         }
         else if search_term.to_lowercase().as_str() == "techniques" {
-            _valid.push((search_term, 6usize)); //TODO
+            _valid.push((search_term, 6usize)); 
         }
         else if search_term.to_lowercase().as_str() == "subtechniques" {
-            _valid.push((search_term, 7usize));     //TODO
+            _valid.push((search_term, 7usize));     
         }
         else if search_term.to_lowercase().as_str() == "datasources" {
-            _valid.push((search_term, 8usize));     //TODO
+            _valid.push((search_term, 8usize));     
             _wants_datasources = true;
         }
         else if search_term.to_lowercase().as_str() == "platforms" {
-            _valid.push((search_term, 9usize));     //TODO
+            _valid.push((search_term, 9usize));     
             _wants_platforms = true;
         }
         else if search_term.to_lowercase().as_str() == "nodatasources" {
