@@ -423,7 +423,7 @@ impl EnterpriseMatrixSearcher {
                         Cell::new("Revoked").style_spec("FR"),
                         Cell::new(_row.platform.replace("|", "\n").as_str()),
                         Cell::new(_row.tactic.as_str()),
-                        Cell::new(_row.tid.as_str()).style_spec("FG"),
+                        Cell::new(_row.tid.as_str()).style_spec("FR"),
                         Cell::new(_row.technique.as_str()).style_spec("FW"),
                         Cell::new(_st.replace("|", "\n").as_str()).style_spec("FW"),
                         Cell::new(_row.datasources.replace("|", "\n").as_str())
