@@ -246,31 +246,33 @@ $> mitre-assistant search -m enterprise -t "stats"
 
 ## Unique & Total Counts
 
+<hr/>
 <div align="center">
     <img src="https://user-images.githubusercontent.com/11415591/89737350-33328d80-da3e-11ea-9f76-311251cfc851.png"></img>
 </div>
-
-
-
+<hr/>
 <br/>
 <br/>
 
+## **By Platform**
 
 | TECHNIQUES | SUBTECHNIQUES|
 |------------|--------------|
 |![image](https://user-images.githubusercontent.com/11415591/89737360-47768a80-da3e-11ea-95da-81f68342624d.png)|![image](https://user-images.githubusercontent.com/11415591/89737366-54937980-da3e-11ea-981d-06518ef06e43.png)|
 
-
+<hr/>
 <br/>
 <br/>
+<hr/>
 
+## **By Tactic/KillChain**
 
 | TACTICS - TECHNIQUES | TACTICS - SUBTECHNIQUES|
 |------------|--------------|
 |![image](https://user-images.githubusercontent.com/11415591/89737321-0bdbc080-da3e-11ea-9030-849fbd9420b2.png)|![image](https://user-images.githubusercontent.com/11415591/89737328-18f8af80-da3e-11ea-866f-2a09231aeee4.png)|
 
 
-
+<hr/>
 <br/>
 <br/>
 
