@@ -214,12 +214,12 @@ impl EnterpriseMatrixSearcher {
         let mut _results = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect("(?) Error: Unable to Deserialize By No Datasources");
         for _item in _json.breakdown_techniques.platforms.iter() {
-            if _item.datasources.as_str() == "None" {
+            if _item.datasources.as_str() == "none" {
                 _results.push(_item);
             }
         }
         for _item in _json.breakdown_subtechniques.platforms.iter() {
-            if _item.datasources.as_str() == "None" {
+            if _item.datasources.as_str() == "none" {
                 _results.push(_item);
             }
         }
