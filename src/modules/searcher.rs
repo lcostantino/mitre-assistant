@@ -268,7 +268,7 @@ impl EnterpriseMatrixSearcher {
                     }
                 }
             }
-            // Get Revoked Techniques
+            // Get From Revoked Techniques
             let mut _results = vec![];
             for _revoked in _json.revoked_techniques.iter() {
                 if _revoked.0.to_lowercase().as_str() == technique_id.to_lowercase().as_str() {

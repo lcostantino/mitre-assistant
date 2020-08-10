@@ -215,6 +215,20 @@ impl EnterpriseMatrixParser {
                     self.details.breakdown_techniques.platforms.push(_et);
                     self.details.uniques_techniques.push(_tid.to_string());
                 }
+            } else {
+                // When The Enterpise JSON Does not have a Datasources Key, add the technique
+                // Reference:  https://github.com/mitre/cti/issues/101#issuecomment-671639284
+                if is_subtechnique {
+                    _et.datasources = "none".to_string();
+                    self.subtechniques.insert(_tid.to_string());
+                    self.details.breakdown_subtechniques.platforms.push(_et);
+                    self.details.uniques_subtechniques.push(_tid.to_string());
+                } else {
+                    _et.datasources = "none".to_string();
+                    self.techniques.insert(_tid.to_string());
+                    self.details.breakdown_techniques.platforms.push(_et);
+                    self.details.uniques_techniques.push(_tid.to_string());
+                }
             }
         }
         // now Correlate Subtechniques
@@ -456,7 +470,7 @@ impl EnterpriseMatrixParser {
             _kill_chain.tactic.items.dedup();
             _kill_chain.tactic.items.sort();
             _kill_chain.count = _kill_chain.tactic.items.len();
-            _rollup.push(_kill_chain)
+            _rollup.push(_kill_chain);
         }
         if _wants_subtechniques {
             // Subtechniques
