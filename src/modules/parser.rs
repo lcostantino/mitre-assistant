@@ -299,6 +299,7 @@ impl EnterpriseMatrixParser {
     }
     fn extract_stats_techniques_by_platforms(&mut self, _wants_subtechniques: bool)
     {
+        // Tactics or KillChains
         let mut _windows:    HashSet<String> = HashSet::new();
         let mut _macos:      HashSet<String> = HashSet::new();
         let mut _linux:      HashSet<String> = HashSet::new();
@@ -308,15 +309,19 @@ impl EnterpriseMatrixParser {
         let mut _gcp:        HashSet<String> = HashSet::new();
         let mut _office365:  HashSet<String> = HashSet::new();
         let mut _saas:       HashSet<String> = HashSet::new();
+        // Setup the Iterables that has techniques by Type
         let mut _iterable: &Vec<EnterpriseTechnique>;
         if _wants_subtechniques {
             _iterable = &self.details.breakdown_subtechniques.platforms;
         } else {
             _iterable = &self.details.breakdown_techniques.platforms;
         }
+        // Setup The Stub
         let mut _stub: String = String::from("");
+        // Iterate through platforms first
         for _platform in self.details.platforms.iter() {
             let _os = _platform.as_str();
+            // Now for each platform find the techniques
             for _technique in _iterable.iter() {
                 if _technique.platform.contains(_os) {
                     _stub = format!("{}:{}", _technique.tid, _technique.tactic);
