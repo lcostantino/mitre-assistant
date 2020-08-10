@@ -33,7 +33,6 @@ pub struct EnterpriseMatrixBreakdown {
     pub revoked_techniques: HashSet<(String, String)>,
     pub breakdown_techniques: EnterpriseTechniquesByPlatform,
     pub breakdown_subtechniques: EnterpriseSubtechniquesByPlatform,
-    //pub breakdown_tactics:          Vec<EnterpriseTechniquesByTactic>,
     pub uniques_techniques: Vec<String>,
     pub uniques_subtechniques: Vec<String>,
     pub rollup_techniques: Vec<EnterpriseTechniquesByTactic>,
@@ -49,7 +48,6 @@ impl EnterpriseMatrixBreakdown {
             revoked_techniques: HashSet::new(),
             breakdown_techniques: EnterpriseTechniquesByPlatform::new(),
             breakdown_subtechniques: EnterpriseSubtechniquesByPlatform::new(),
-            //breakdown_tactics:          vec![],
             uniques_techniques: vec![],
             uniques_subtechniques: vec![],
             rollup_techniques: vec![],
@@ -310,7 +308,6 @@ impl EnterpriseMatrixParser {
         let mut _gcp:        HashSet<String> = HashSet::new();
         let mut _office365:  HashSet<String> = HashSet::new();
         let mut _saas:       HashSet<String> = HashSet::new();
-        //let mut _stubs:                 HashSet<String> = HashSet::new();
         let mut _iterable: &Vec<EnterpriseTechnique>;
         if _wants_subtechniques {
             _iterable = &self.details.breakdown_subtechniques.platforms;

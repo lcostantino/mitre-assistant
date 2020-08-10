@@ -191,7 +191,6 @@ impl EnterpriseMatrixSearcher {
     }
     fn enterprise_all_techniques(&self) -> String
     {
-        //let mut _results = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         serde_json::to_string(&_json.breakdown_techniques.platforms).expect("(?) Error: Unable To Deserialize All Techniques")
     }
@@ -392,7 +391,6 @@ impl EnterpriseMatrixSearcher {
         // When we get to CSV Exports, put an if statement to build
         // the table cells without the `\n` terminators
         // because that will likely break CSV output
-        //let mut _dataset = vec![];
         let mut _sorted_index: Vec<(String, usize, usize)> = vec![];
         for (_ridx, _item) in results.iter().enumerate() {
             let _json: Vec<EnterpriseTechnique> = serde_json::from_str(results[_ridx].as_str()).expect("(?) Error: Render Table Deserialization");
@@ -401,7 +399,6 @@ impl EnterpriseMatrixSearcher {
             }
         }
         _sorted_index.sort();
-        //println!("{:#?}", _sorted_index);
         let mut _st = String::from("");
         let mut _idx: usize = 0;
 
