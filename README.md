@@ -474,6 +474,9 @@ $> mitre-assistant search -m enterprise -t "nodatasources"
 ## TODO: ADD Screenshot here
 
 <br/>
+
+![image](https://user-images.githubusercontent.com/11415591/89842172-dd93d900-db42-11ea-81c9-89d5a5c85961.png)
+
 <br/>
 
 # **Statistical Stuff**
