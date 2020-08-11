@@ -242,7 +242,7 @@ You have to tell the `search subcommand` which matrix it is going to work with b
 |----|------|-------|
 |`datasources`|*enterprise*|Returns all datasources from the matrix|
 |`platforms`|*enterprise*|Returns all the platforms (operating systems) from the matrix|
-|`nodatasources`|*enterprise*|Returns all techniques **without** datasources|
+|`nodatasources`|*enterprise*|Returns all techniques or subtechniques **without** datasources|
 |`nosub`|*enterprise*|Returns all the active techniques which do not have/use subtechniques|
 |`revoked`|*enterprise*|Returns all of the technique id & name references revoked by Mitre|
 |`stats`|*enterprise*|Returns an overview of `uniq` counts and `total` counts of key data elements|
@@ -470,9 +470,6 @@ $> mitre-assistant search -m enterprise -t "nodatasources"
 ```
 
 <br/>
-
-## TODO: ADD Screenshot here
-
 <br/>
 
 ![image](https://user-images.githubusercontent.com/11415591/89842172-dd93d900-db42-11ea-81c9-89d5a5c85961.png)
