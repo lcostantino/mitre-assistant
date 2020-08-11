@@ -52,6 +52,7 @@ impl EnterpriseMatrixSearcher {
         let mut _wants_revoked: bool = false;           // Returns Techniques Revoked By Mitre
         let mut _wants_tactics: bool = false;           // Returns The Tactics Key
         let mut _wants_platforms: bool = false;         // Returns The Platforms Key
+        let mut _wants_deprecated: bool = false;        // Returns The Deprecated Techniques
         let mut _wants_datasources: bool = false;       // Returns The Data Sources Key
         // Parse the search term explicitly
         //      We are not using partial matches on search term keywords
@@ -88,6 +89,9 @@ impl EnterpriseMatrixSearcher {
         else if search_term.to_lowercase().as_str() == "tactics" {
             _valid.push((search_term, 11usize));
             _wants_tactics = true;
+        } else if search_term.to_lowercase().as_str() == "deprecated" {
+            _valid.push((search_term, 12usize));
+            _wants_deprecated = true;
         }
         else if !search_term.contains(",") {
             if _scanner.pattern.is_match(search_term) {
@@ -138,7 +142,9 @@ impl EnterpriseMatrixSearcher {
                     _results.push(self.enterprise_by_no_datasources());
                 } else if _pattern == &11usize {
                     _results.push(self.enterprise_all_tactics());
-                }                
+                } else if _pattern == &12usize {
+                    _results.push(self.enterprise_by_deprecated());
+                }           
             }
             // Render Query Results
             // --------------------
@@ -158,6 +164,8 @@ impl EnterpriseMatrixSearcher {
                 self.render_enterprise_platforms_table(&_results);
             } else if _wants_tactics {
                 self.render_enterprise_tactics_table(&_results);
+            } else if _wants_deprecated {
+                self.render_enterprise_deprecated_table(&_results);
             } else {
                 self.render_enterprise_table(&_results);
             }
@@ -179,6 +187,16 @@ impl EnterpriseMatrixSearcher {
     /// All of the functions are **private functions** that are not exposed to the end-user.  They are only accessible
     /// from the module itself, and specifically, when invoked by the `self.search()` method.
     ///
+    fn enterprise_by_deprecated(&self) -> String
+    {
+        let mut _results = vec![];
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect("(?) Error: Unable to Deserialize All Deprecated Techniques");
+        for _item in _json.deprecated_techniques {
+            _results.push(_item)
+        }
+        _results.sort();
+        serde_json::to_string(&_results).expect("(?) Error: Unable To Deserialize String Of All Deprecated Techniques")        
+    }
     fn enterprise_all_tactics(&self) -> String
     {
         let mut _results = vec![];
@@ -277,6 +295,16 @@ impl EnterpriseMatrixSearcher {
                     _modified.technique = _revoked.1.clone();
                     _results.push(_modified);
                 }
+            }
+            // Get From Deprecated Techniques
+            for _deprecated in _json.deprecated_techniques.iter() {
+                if _deprecated.0.to_lowercase().as_str() == technique_id.to_lowercase().as_str() {
+                    let mut _modified = EnterpriseTechnique::new();
+                    _modified.tid = _deprecated.0.clone();
+                    _modified.technique = _deprecated.1.clone();
+                    _modified.is_deprecated = true;
+                    _results.push(_modified);
+                }                
             }
             serde_json::to_string_pretty(&_results).expect("(?) Error:  Unable To Deserialize Search Results By Revoked Technique ID")
         } else {
@@ -411,9 +439,25 @@ impl EnterpriseMatrixSearcher {
             } else {
                 _st.push_str("n_a");
             }
+            // When a deprecated Technique is part of the result
+            // then create a row for the deprecated technique
+            if _row.is_deprecated {
+                _table.add_row(
+                    Row::new(vec![
+                        Cell::new((_idx + 1).to_string().as_str()),
+                        Cell::new("Deprecated").style_spec("FY"),
+                        Cell::new(_row.platform.replace("|", "\n").as_str()),
+                        Cell::new(_row.tactic.as_str()),
+                        Cell::new(_row.tid.as_str()).style_spec("FY"),
+                        Cell::new(_row.technique.as_str()).style_spec("FW"),
+                        Cell::new(_st.replace("|", "\n").as_str()).style_spec("FW"),
+                        Cell::new(_row.datasources.replace("|", "\n").as_str())
+                    ])
+                ); 
+            }
             // When a revoked Technique is part of the result
             // then create a row for the revoked technique
-            if _row.datasources.as_str() == "n_a" {
+            else if _row.datasources.as_str() == "n_a" {
                 _table.add_row(
                     Row::new(vec![
                         Cell::new((_idx + 1).to_string().as_str()),
@@ -477,6 +521,36 @@ impl EnterpriseMatrixSearcher {
         _table.printstd();
         println!("{}", "\n\n");
     }
+    fn render_enterprise_deprecated_table(&self, results: &Vec<String>)
+    {
+        let mut _table = Table::new();
+        _table.add_row(Row::new(vec![
+            Cell::new("INDEX").style_spec("FW"),
+            Cell::new("STATUS").style_spec("FY"),
+            Cell::new("TID").style_spec("FY"),
+            Cell::new("TECHNIQUE"),
+        ]));
+        let mut _idx: usize = 0;
+        for _item in results.iter() {
+            let mut _json: Vec<(&str, &str)> = serde_json::from_str(_item.as_str()).expect("(?) Error:  Render Table Deserialization For Revoked");
+            _json.sort();
+            for (_tid, _technique) in _json.iter() {
+
+                _table.add_row(
+                    Row::new(vec![
+                        Cell::new((_idx + 1).to_string().as_str()),
+                        Cell::new("Deprecated"),
+                        Cell::new(_tid).style_spec("FY"),
+                        Cell::new(_technique).style_spec("FW")
+                    ])
+                );
+                _idx += 1;
+            }
+        }
+        println!("{}", "\n\n");
+        _table.printstd();
+        println!("{}", "\n\n");
+    }    
     fn render_enterprise_stats(&self, results: &Vec<String>)
     {
         let mut _table = Table::new();

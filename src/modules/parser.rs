@@ -31,6 +31,7 @@ pub struct EnterpriseMatrixBreakdown {
     pub platforms: HashSet<String>,
     pub datasources: Vec<String>,
     pub revoked_techniques: HashSet<(String, String)>,
+    pub deprecated_techniques: HashSet<(String, String)>,
     pub breakdown_techniques: EnterpriseTechniquesByPlatform,
     pub breakdown_subtechniques: EnterpriseSubtechniquesByPlatform,
     pub uniques_techniques: Vec<String>,
@@ -46,6 +47,7 @@ impl EnterpriseMatrixBreakdown {
             platforms: HashSet::new(),
             datasources: Vec::new(),
             revoked_techniques: HashSet::new(),
+            deprecated_techniques: HashSet::new(),
             breakdown_techniques: EnterpriseTechniquesByPlatform::new(),
             breakdown_subtechniques: EnterpriseSubtechniquesByPlatform::new(),
             uniques_techniques: vec![],
@@ -96,7 +98,10 @@ impl EnterpriseMatrixParser {
         for _t in _json["objects"].as_array().unwrap().iter() {
             let _s = _t["type"].as_str().unwrap();
             let _x = serde_json::to_string(_t).unwrap();
-            if _s == "attack-pattern" && _x.contains("revoked") {
+            if _s == "attack-pattern" && _x.contains("x_mitre_deprecated") {
+                self.extract_deprecated_techniques(_t);
+            }
+            else if _s == "attack-pattern" && _x.contains("revoked") {
                 self.extract_revoked_techniques(_t);
             } else if _s == "attack-pattern" && !_x.contains("revoked") {
                 if _scanner.pattern.is_match(&_x) {
@@ -157,6 +162,28 @@ impl EnterpriseMatrixParser {
 
         Ok(())
     }
+    fn extract_deprecated_techniques(
+        &mut self,
+        items: &serde_json::Value,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        if items["x_mitre_deprecated"].as_bool().unwrap() {
+            let _tid = items["external_references"]
+                .as_array()
+                .expect("Problem With External References");
+            let _tid = _tid[0]["external_id"]
+                .as_str()
+                .expect("Problem With External ID");
+            let _tname = items["name"].as_str().expect("Problem With Technique Name");
+            self.details
+                .deprecated_techniques
+                .insert((_tid.to_string(), _tname.to_string()));
+            self.details.stats.count_deprecated_techniques = self.details.deprecated_techniques.len();
+        } else {
+            self.extract_techniques_and_tactics(items, false);
+        }
+
+        Ok(())
+    }    
     /// # Extract Datasources
     /// Private method.
     /// Once the baseline starts, this function is dedicated to inspecting

@@ -5,6 +5,7 @@ use std::collections::HashSet;
 #[derive(Debug,Deserialize, Serialize)]
 pub struct EnterpriseMatrixStatistics {
     pub count_revoked_techniques:           usize,
+    pub count_deprecated_techniques:        usize,
     pub count_active_total_techniques:      usize,
     pub count_active_total_subtechniques:   usize,
     pub count_active_uniq_techniques:       usize,
@@ -125,6 +126,7 @@ impl EnterpriseMatrixStatistics {
     {
         EnterpriseMatrixStatistics {
             count_revoked_techniques:           0,
+            count_deprecated_techniques:        0,
             count_active_total_techniques:      0,
             count_active_total_subtechniques:   0,
             count_active_uniq_techniques:       0,
@@ -257,6 +259,7 @@ pub struct EnterpriseTechnique {
     pub tactic:         String,
     pub datasources:    String,
     pub has_subtechniques: bool,
+    pub is_deprecated:  bool,
     pub subtechniques:  Vec<String>,
     pub count_subtechniques: usize
 }
@@ -264,13 +267,14 @@ impl EnterpriseTechnique {
     pub fn new() -> Self
     {
         EnterpriseTechnique {
-            platform:       String::from("n_a"),
-            tid:            String::from(""),
-            technique:      String::from(""),
-            tactic:         String::from("n_a"),
-            datasources:    String::from("n_a"),
-            has_subtechniques: false,
-            subtechniques:  vec![],
+            platform:           String::from("n_a"),
+            tid:                String::from(""),
+            technique:          String::from(""),
+            tactic:             String::from("n_a"),
+            datasources:        String::from("n_a"),
+            has_subtechniques:  false,
+            is_deprecated:      false,
+            subtechniques:      vec![],
             count_subtechniques: 0usize
         }
     }
