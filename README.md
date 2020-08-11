@@ -489,6 +489,13 @@ These experiments were very useful to me a couple of years ago as I started lear
 <br/>
 <br/>
 <br/>
+# References
+|SOURCE|URL|
+|------|---|
+|Mitre CTI Github|[LINK](https://github.com/mitre/cti/blob/master/USAGE.md#working-with-deprecated-and-revoked-objects)|
+
+<br/>
+<br/>
 
 # Kudos - RUSTACEANS
 Many super kudos, to the amazing RUST Community, for their warm embrace of everyone that wants the journey.  Seemingly, to all of the super creators of loved tools from python being ported into rust.
