@@ -79,6 +79,15 @@ impl EnterpriseMatrixParser {
         }
         Ok(())
     }
+    /// # Baseline
+    /// Private method used to read, parse the CTI matrix of choice
+    /// and create the custom `json` database used by this program.
+    /// ```rust
+    /// // Assumes you already downloaded the enterprise matrix
+    /// // Gets invoked by the `baseline()` method.
+    ///
+    /// self.baseline_enterprise()?
+    /// ```
     fn baseline_enterprise(&mut self) -> Result<(), Box<dyn std::error::Error>> {
         let _bufr = FileHandler::load_resource("matrixes", "enterprise.json");
         let _json: serde_json::Value = serde_json::from_reader(_bufr).unwrap();
@@ -122,6 +131,10 @@ impl EnterpriseMatrixParser {
         */
         Ok(())
     }
+    /// # Extract Revoked Techniques
+    /// Private method.
+    /// Once the baseline starts, techniques are checked for the
+    /// `revoked key` provided by Mitre in their CTI JSON.
     fn extract_revoked_techniques(
         &mut self,
         items: &serde_json::Value,
@@ -139,6 +152,12 @@ impl EnterpriseMatrixParser {
         self.details.stats.count_revoked_techniques = self.details.revoked_techniques.len();
         Ok(())
     }
+    /// # Extract Datasources
+    /// Private method.
+    /// Once the baseline starts, this function is dedicated to inspecting
+    /// the techniques for the presence of the key called `x_mitre_datasources`.
+    ///
+    /// After it finds it, it creates a Vector of unique datasource strings.
     fn extract_datasources(
         &mut self,
         items: &serde_json::Value,
