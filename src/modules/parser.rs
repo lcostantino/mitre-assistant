@@ -139,17 +139,22 @@ impl EnterpriseMatrixParser {
         &mut self,
         items: &serde_json::Value,
     ) -> Result<(), Box<dyn std::error::Error>> {
-        let _tid = items["external_references"]
-            .as_array()
-            .expect("Problem With External References");
-        let _tid = _tid[0]["external_id"]
-            .as_str()
-            .expect("Problem With External ID");
-        let _tname = items["name"].as_str().expect("Problem With Technique Name");
-        self.details
-            .revoked_techniques
-            .insert((_tid.to_string(), _tname.to_string()));
-        self.details.stats.count_revoked_techniques = self.details.revoked_techniques.len();
+        if items["revoked"].as_bool().unwrap() {
+            let _tid = items["external_references"]
+                .as_array()
+                .expect("Problem With External References");
+            let _tid = _tid[0]["external_id"]
+                .as_str()
+                .expect("Problem With External ID");
+            let _tname = items["name"].as_str().expect("Problem With Technique Name");
+            self.details
+                .revoked_techniques
+                .insert((_tid.to_string(), _tname.to_string()));
+            self.details.stats.count_revoked_techniques = self.details.revoked_techniques.len();
+        } else {
+            self.extract_techniques_and_tactics(items, false);
+        }
+
         Ok(())
     }
     /// # Extract Datasources
