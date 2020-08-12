@@ -617,6 +617,13 @@ impl EnterpriseMatrixSearcher {
         );  
         _table.add_row(
             Row::new(vec![
+                Cell::new("Deprecated Techniques"),
+                Cell::new(_json.count_deprecated_techniques.to_string().as_str()),
+                Cell::new(""),
+            ])
+        );  
+        _table.add_row(
+            Row::new(vec![
                 Cell::new("Revoked Techniques"),
                 Cell::new(_json.count_revoked_techniques.to_string().as_str()),
                 Cell::new(""),
