@@ -89,7 +89,8 @@ impl EnterpriseMatrixSearcher {
         else if search_term.to_lowercase().as_str() == "tactics" {
             _valid.push((search_term, 11usize));
             _wants_tactics = true;
-        } else if search_term.to_lowercase().as_str() == "deprecated" {
+        }
+        else if search_term.to_lowercase().as_str() == "deprecated" {
             _valid.push((search_term, 12usize));
             _wants_deprecated = true;
         }
@@ -120,29 +121,41 @@ impl EnterpriseMatrixSearcher {
             for (_term, _pattern) in _valid.iter() {
                 if _pattern == &0usize {
                     _results.push(self.enterprise_by_id(_term, _wants_subtechniques));
-                } else if _pattern == &1usize {
+                }
+                else if _pattern == &1usize {
                     _results.push(self.enterprise_by_subtechnique_id(_term));
-                } else if _pattern == &2usize {
+                }
+                else if _pattern == &2usize {
                     _results.push(self.enterprise_by_name(_term));
-                } else if _pattern == &3usize {
+                }
+                else if _pattern == &3usize {
                     _results.push(self.enterprise_revoked());
-                } else if _pattern == &4usize {
+                }
+                else if _pattern == &4usize {
                     _results.push(self.enterprise_stats());
-                } else if _pattern == &5usize {
+                }
+                else if _pattern == &5usize {
                     _results.push(self.enterprise_by_nosubtechniques());
-                } else if _pattern == &6usize {
+                }
+                else if _pattern == &6usize {
                     _results.push(self.enterprise_all_techniques());
-                } else if _pattern == &7usize {
+                }
+                else if _pattern == &7usize {
                     _results.push(self.enterprise_all_subtechniques());
-                } else if _pattern == &8usize {
+                }
+                else if _pattern == &8usize {
                     _results.push(self.enterprise_all_datasources());
-                } else if _pattern == &9usize {
+                }
+                else if _pattern == &9usize {
                     _results.push(self.enterprise_all_platforms());
-                } else if _pattern == &10usize {
+                }
+                else if _pattern == &10usize {
                     _results.push(self.enterprise_by_no_datasources());
-                } else if _pattern == &11usize {
+                }
+                else if _pattern == &11usize {
                     _results.push(self.enterprise_all_tactics());
-                } else if _pattern == &12usize {
+                }
+                else if _pattern == &12usize {
                     _results.push(self.enterprise_by_deprecated());
                 }           
             }
@@ -156,17 +169,23 @@ impl EnterpriseMatrixSearcher {
             //    
             if _wants_revoked {
                 self.render_enterprise_revoked_table(&_results);
-            } else if _wants_stats {
+            }
+            else if _wants_stats {
                 self.render_enterprise_stats(&_results);
-            } else if _wants_datasources {
+            }
+            else if _wants_datasources {
                 self.render_enterprise_datasources_table(&_results);
-            } else if _wants_platforms {
+            }
+            else if _wants_platforms {
                 self.render_enterprise_platforms_table(&_results);
-            } else if _wants_tactics {
+            }
+            else if _wants_tactics {
                 self.render_enterprise_tactics_table(&_results);
-            } else if _wants_deprecated {
+            }
+            else if _wants_deprecated {
                 self.render_enterprise_deprecated_table(&_results);
-            } else {
+            }
+            else {
                 self.render_enterprise_table(&_results);
             }
         } else {
