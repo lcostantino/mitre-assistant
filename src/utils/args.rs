@@ -90,7 +90,7 @@ impl ArgumentsParser<'_> {
                              .arg(
                                 Arg::with_name("term_search")
                                 .short("t")
-                                .long("technique-name")
+                                .long("term")
                                 .value_name("term_search")
                                 .takes_value(true)
                                 .help("Search By Technique Name - e.g., Data Staged | Must use with `-m`")                                 
