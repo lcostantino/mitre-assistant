@@ -279,6 +279,7 @@ impl EnterpriseMatrixSearcher {
             //      1. When the user wants subtechniques, then get them
             //      2. Or, when there are revoked techniques, let's add these
             //          to save time for users writing more queries
+            //      3. Or, when there are deprecated techniques,get them too
             if _wants_subtechniques {
                 for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
                     if _subtechnique.tid.contains(technique_id.to_uppercase().as_str()) {
@@ -286,7 +287,7 @@ impl EnterpriseMatrixSearcher {
                     }
                 }
             }
-            // Get From Revoked Techniques
+            // Check & Get From Revoked Techniques
             let mut _results = vec![];
             for _revoked in _json.revoked_techniques.iter() {
                 if _revoked.0.to_lowercase().as_str() == technique_id.to_lowercase().as_str() {
@@ -296,7 +297,7 @@ impl EnterpriseMatrixSearcher {
                     _results.push(_modified);
                 }
             }
-            // Get From Deprecated Techniques
+            // Check & Get From Deprecated Techniques
             for _deprecated in _json.deprecated_techniques.iter() {
                 if _deprecated.0.to_lowercase().as_str() == technique_id.to_lowercase().as_str() {
                     let mut _modified = EnterpriseTechnique::new();
@@ -429,7 +430,10 @@ impl EnterpriseMatrixSearcher {
         _sorted_index.sort();
         let mut _st = String::from("");
         let mut _idx: usize = 0;
-
+        // Iterate through the sorted index
+        // Pay attention to:
+        //      `_jidx` => JSON index
+        //      `_ridx` => Root index
         for (_technique, _jidx, _ridx) in _sorted_index {
             let _json: Vec<EnterpriseTechnique> = serde_json::from_str(results[_ridx].as_str()).expect("(?) Error: Render Table Deserialization");
             let _row = &_json[_jidx];
@@ -505,7 +509,6 @@ impl EnterpriseMatrixSearcher {
             let mut _json: Vec<(&str, &str)> = serde_json::from_str(_item.as_str()).expect("(?) Error:  Render Table Deserialization For Revoked");
             _json.sort();
             for (_tid, _technique) in _json.iter() {
-
                 _table.add_row(
                     Row::new(vec![
                         Cell::new((_idx + 1).to_string().as_str()),
@@ -535,7 +538,6 @@ impl EnterpriseMatrixSearcher {
             let mut _json: Vec<(&str, &str)> = serde_json::from_str(_item.as_str()).expect("(?) Error:  Render Table Deserialization For Revoked");
             _json.sort();
             for (_tid, _technique) in _json.iter() {
-
                 _table.add_row(
                     Row::new(vec![
                         Cell::new((_idx + 1).to_string().as_str()),
