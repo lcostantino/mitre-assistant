@@ -43,6 +43,7 @@ impl EnterpriseMatrixSearcher {
     {
         let mut _results: Vec<String> = vec![];
         let mut _valid: Vec<(&str, usize)> = vec![];
+        let _st: &str = search_term.to_lowercase().as_str();
         let _scanner = RegexPatternManager::load_search_term_patterns();
         // Special Flags
         //      Easier to search this way without flooding the user with parameters
@@ -57,50 +58,50 @@ impl EnterpriseMatrixSearcher {
         // Parse the search term explicitly
         //      We are not using partial matches on search term keywords
         //      We keep a simple incrementing usize by search term
-        if search_term.to_lowercase().as_str() == "revoked" {
+        if _st == "revoked" {
             _valid.push((search_term, 3usize));
             _wants_revoked = true;
         }
-        else if search_term.to_lowercase().as_str() == "stats" {
+        else if _st == "stats" {
             _valid.push((search_term, 4usize));
             _wants_stats = true;
         }
-        else if search_term.to_lowercase().as_str() == "nosub" {
+        else if _st == "nosub" {
             _valid.push((search_term, 5usize));
             _wants_nosub = true;
         }
-        else if search_term.to_lowercase().as_str() == "techniques" {
+        else if _st == "techniques" {
             _valid.push((search_term, 6usize)); 
         }
-        else if search_term.to_lowercase().as_str() == "subtechniques" {
+        else if _st == "subtechniques" {
             _valid.push((search_term, 7usize));     
         }
-        else if search_term.to_lowercase().as_str() == "datasources" {
+        else if _st == "datasources" {
             _valid.push((search_term, 8usize));     
             _wants_datasources = true;
         }
-        else if search_term.to_lowercase().as_str() == "platforms" {
+        else if _st == "platforms" {
             _valid.push((search_term, 9usize));     
             _wants_platforms = true;
         }
-        else if search_term.to_lowercase().as_str() == "nodatasources" {
+        else if _st == "nodatasources" {
             _valid.push((search_term, 10usize));
         }
-        else if search_term.to_lowercase().as_str() == "tactics" {
+        else if _st == "tactics" {
             _valid.push((search_term, 11usize));
             _wants_tactics = true;
         }
-        else if search_term.to_lowercase().as_str() == "deprecated" {
+        else if _st == "deprecated" {
             _valid.push((search_term, 12usize));
             _wants_deprecated = true;
         }
-        else if !search_term.contains(",") {
+        else if !_st.contains(",") {
             if _scanner.pattern.is_match(search_term) {
                 let _idx: Vec<usize> = _scanner.pattern.matches(search_term).into_iter().collect();
                 _valid.push((search_term, _idx[0]));  // Search Term 0usize
             }
         }
-        else if search_term.contains(",") {
+        else if _st.contains(",") {
             let _terms: Vec<&str> = search_term.split(',').collect();
             _valid = _terms.iter()
                         .filter(|_x| _scanner.pattern.is_match(_x))
