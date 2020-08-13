@@ -260,6 +260,7 @@ pub struct EnterpriseTechnique {
     pub datasources:    String,
     pub has_subtechniques: bool,
     pub is_deprecated:  bool,
+    pub is_revoked:     bool,
     pub subtechniques:  Vec<String>,
     pub count_subtechniques: usize
 }
@@ -274,6 +275,7 @@ impl EnterpriseTechnique {
             datasources:        String::from("n_a"),
             has_subtechniques:  false,
             is_deprecated:      false,
+            is_revoked:         false,
             subtechniques:      vec![],
             count_subtechniques: 0usize
         }
@@ -322,8 +324,8 @@ impl EnterpriseTechniquesByTactic {
 
 #[derive(Debug,Deserialize, Serialize)]
 pub struct EnterpriseTactic {
-    pub name:    String,
-    pub items: Vec<String>
+    pub name:   String,
+    pub items:  Vec<String>
 }
 impl EnterpriseTactic {
     pub fn new(tactic_name: &str) -> Self
