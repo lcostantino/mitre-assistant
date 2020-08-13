@@ -501,10 +501,9 @@ $> mitre-assistant search -m enterprise -t "nodatasources"
 
 
 ## *Searching For Edge Cases:  Techniques Without a Subtechniques*
-This is the edge-case that drove to create this tool for myself.  I found someone's tool incorrectly parsed the matrix and I needed to report to my management the plan of action based on data sources.  This is very important for practitioners who leverage the matrix for real world tactical operations.
+Some techniques, do not have subtechniques assigned, or as I like to thunk of it, have not been fully updated by Mitre.
 
-
-Use the keyword `nodatasources` to obtain a list of active techniques that may not have an assigned datasource by Mitre.
+Use the keyword `nosub` to obtain a list of active techniques that may not have an assigned subtechnique by Mitre.
 
 * the `-t` parameter with the term `nosub`
 
