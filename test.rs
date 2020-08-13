@@ -1,9 +1,0 @@
-self.details.stats.percent_subtechniques_aws = self.get_percentage(_total, _aws.len());
-self.details.stats.percent_subtechniques_azure = self.get_percentage(_total, _azure.len());
-self.details.stats.percent_subtechniques_azure_ad = self.get_percentage(_total, _azure_ad.len());
-self.details.stats.percent_subtechniques_gcp = self.get_percentage(_total,_gcp.len());
-self.details.stats.percent_subtechniques_linux = self.get_percentage(_total,_linux.len());
-self.details.stats.percent_subtechniques_macos = self.get_percentage(_total, _macos.len());
-self.details.stats.percent_subtechniques_office365 = self.get_percentage(_total, _office365.len());
-self.details.stats.percent_subtechniques_saas = self.get_percentage(_total, _saas.len());
-self.details.stats.percent_subtechniques_windows = self.get_percentage(_total, _windows.len());
