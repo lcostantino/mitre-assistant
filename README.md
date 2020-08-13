@@ -373,7 +373,7 @@ $> mitre-assistant search -m enterprise -t "revoked"
 ## *Searching For The Deprecated Techniques*
 Deprecated techniques seem to be those that are no longer valid and used in a mtrix.  You can search for the ones `deprecated` in the matrix by using a keyword in your search term:
 
-* the `-t` parameters with the term `revoked`
+* the `-t` parameters with the term `deprecated`
 
 <br/>
 
@@ -385,7 +385,7 @@ $> mitre-assistant search -m enterprise -t "deprecated"
 <br/>
 
 <div align="center">
-    <img src="![image](https://user-images.githubusercontent.com/11415591/90009017-4c6c5180-dc6b-11ea-83ef-8c8b8b8e75a6.png)"></img>
+    <img src="https://user-images.githubusercontent.com/11415591/90009017-4c6c5180-dc6b-11ea-83ef-8c8b8b8e75a6.png"></img>
 </div>
 
 
