@@ -356,7 +356,7 @@ Revoked techniques seem to be those that are discontinued and re-arranged now in
 <br/>
 
 ```bash
-# Assumes you want to see the revoked techniques
+# Assumes you want to see the Revoked Techniques
 #
 $> mitre-assistant search -m enterprise -t "revoked"
 ```
@@ -373,12 +373,12 @@ $> mitre-assistant search -m enterprise -t "revoked"
 ## *Searching For The Deprecated Techniques*
 Deprecated techniques seem to be those that are no longer valid and used in a mtrix.  You can search for the ones `deprecated` in the matrix by using a keyword in your search term:
 
-* the `-t` parameters with the term `deprecated`
+* the `-t` parameter with the term `deprecated`
 
 <br/>
 
 ```bash
-# Assumes you want to see the revoked techniques
+# Assumes you want to see the Deprecated Techniques
 #
 $> mitre-assistant search -m enterprise -t "deprecated"
 ```
@@ -417,7 +417,7 @@ Datasources are a non-concrete description by Mitre that seems to suggest the co
 <br/>
 
 ```bash
-# Assumes you want to see the Datasources
+# Assumes you want to see the All Datasources
 # for the enterprise matrix
 #
 $> mitre-assistant search -m enterprise -t "datasources"
@@ -434,12 +434,12 @@ $> mitre-assistant search -m enterprise -t "datasources"
 ## *Searching For The Tactics/KillChains*
 Tactics are well, I guess a higher level object where the techniques are organized into. Read their website.
 
-* the `-t` parameters with the term `tactics`
+* the `-t` parameter with the term `tactics`
 
 <br/>
 
 ```bash
-# Assumes you want to see the Datasources
+# Assumes you want to see the All Tactics/KillChains
 # for the enterprise matrix
 #
 $> mitre-assistant search -m enterprise -t "tactics"
@@ -457,12 +457,12 @@ $> mitre-assistant search -m enterprise -t "tactics"
 ## *Searching For The Platforms*
 Platforms are the relevant operating systems where a technique is exercised or abused by an adversary. To get the platforms in the enterprise matrix use the keyword `platforms`.
 
-* the `-t` parameters with the term `platforms`
+* the `-t` parameter with the term `platforms`
 
 <br/>
 
 ```bash
-# Assumes you want to see the Datasources
+# Assumes you want to see the All Platforms
 # for the enterprise matrix
 #
 $> mitre-assistant search -m enterprise -t "platforms"
@@ -481,12 +481,12 @@ Reference this example:  [NO_DATA_SOURCE_SAMPLE](https://user-images.githubuserc
 
 Use the keyword `nodatasources` to obtain a list of active techniques that may not have an assigned datasource by Mitre.
 
-* the `-t` parameters with the term `nodatasources`
+* the `-t` parameter with the term `nodatasources`
 
 <br/>
 
 ```bash
-# Assumes you want to see the Datasources
+# Assumes you want to see the Techniques that do not have Datasources
 # for the enterprise matrix
 #
 $> mitre-assistant search -m enterprise -t "nodatasources"
@@ -506,12 +506,12 @@ This is the edge-case that drove to create this tool for myself.  I found someon
 
 Use the keyword `nodatasources` to obtain a list of active techniques that may not have an assigned datasource by Mitre.
 
-* the `-t` parameters with the term `nosub`
+* the `-t` parameter with the term `nosub`
 
 <br/>
 
 ```bash
-# Assumes you want to see the Datasources
+# Assumes you want to see the Techniques that do not have Subtechniques
 # for the enterprise matrix
 #
 $> mitre-assistant search -m enterprise -t "nosub"
