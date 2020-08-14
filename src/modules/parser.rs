@@ -396,21 +396,29 @@ impl EnterpriseMatrixParser {
                     _stub = format!("{}:{}", _technique.tid, _technique.tactic);
                     if _os == "aws" {
                         _aws.insert(_stub);
-                    } else if _os == "azure-ad" {
+                    }
+                    else if _os == "azure-ad" {
                         _azure_ad.insert(_stub);
-                    } else if _os == "azure" {
+                    }
+                    else if _os == "azure" {
                         _azure.insert(_stub);
-                    } else if _os == "gcp" {
+                    }
+                    else if _os == "gcp" {
                         _gcp.insert(_stub);
-                    } else if _os == "linux" {
+                    }
+                    else if _os == "linux" {
                         _linux.insert(_stub);
-                    } else if _os == "macos" {
+                    }
+                    else if _os == "macos" {
                         _macos.insert(_stub);
-                    } else if _os == "office-365" {
+                    }
+                    else if _os == "office-365" {
                         _office365.insert(_stub);
-                    } else if _os == "saas" {
+                    }
+                    else if _os == "saas" {
                         _saas.insert(_stub);
-                    } else if _os == "windows" {
+                    }
+                    else if _os == "windows" {
                         _windows.insert(_stub);
                     }
                 }
