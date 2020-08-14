@@ -43,7 +43,8 @@ impl EnterpriseMatrixSearcher {
     {
         let mut _results: Vec<String> = vec![];
         let mut _valid: Vec<(&str, usize)> = vec![];
-        let _st: &str = search_term.to_lowercase().as_str();
+        let _st = search_term.to_lowercase();
+        let _st = _st.as_str();
         let _scanner = RegexPatternManager::load_search_term_patterns();
         // Special Flags
         //      Easier to search this way without flooding the user with parameters
@@ -59,50 +60,50 @@ impl EnterpriseMatrixSearcher {
         //      We are not using partial matches on search term keywords
         //      We keep a simple incrementing usize by search term
         if _st == "revoked" {
-            _valid.push((search_term, 3usize));
+            _valid.push((_st, 3usize));
             _wants_revoked = true;
         }
         else if _st == "stats" {
-            _valid.push((search_term, 4usize));
+            _valid.push((_st, 4usize));
             _wants_stats = true;
         }
         else if _st == "nosub" {
-            _valid.push((search_term, 5usize));
+            _valid.push((_st, 5usize));
             _wants_nosub = true;
         }
         else if _st == "techniques" {
-            _valid.push((search_term, 6usize)); 
+            _valid.push((_st, 6usize)); 
         }
         else if _st == "subtechniques" {
-            _valid.push((search_term, 7usize));     
+            _valid.push((_st, 7usize));     
         }
         else if _st == "datasources" {
-            _valid.push((search_term, 8usize));     
+            _valid.push((_st, 8usize));     
             _wants_datasources = true;
         }
         else if _st == "platforms" {
-            _valid.push((search_term, 9usize));     
+            _valid.push((_st, 9usize));     
             _wants_platforms = true;
         }
         else if _st == "nodatasources" {
-            _valid.push((search_term, 10usize));
+            _valid.push((_st, 10usize));
         }
         else if _st == "tactics" {
-            _valid.push((search_term, 11usize));
+            _valid.push((_st, 11usize));
             _wants_tactics = true;
         }
         else if _st == "deprecated" {
-            _valid.push((search_term, 12usize));
+            _valid.push((_st, 12usize));
             _wants_deprecated = true;
         }
         else if !_st.contains(",") {
-            if _scanner.pattern.is_match(search_term) {
-                let _idx: Vec<usize> = _scanner.pattern.matches(search_term).into_iter().collect();
+            if _scanner.pattern.is_match(_st) {
+                let _idx: Vec<usize> = _scanner.pattern.matches(_st).into_iter().collect();
                 _valid.push((search_term, _idx[0]));  // Search Term 0usize
             }
         }
         else if _st.contains(",") {
-            let _terms: Vec<&str> = search_term.split(',').collect();
+            let _terms: Vec<&str> = _st.split(',').collect();
             _valid = _terms.iter()
                         .filter(|_x| _scanner.pattern.is_match(_x))
                         .map(|_x| {
