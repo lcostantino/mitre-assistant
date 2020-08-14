@@ -103,7 +103,8 @@ impl EnterpriseMatrixParser {
             }
             else if _s == "attack-pattern" && _x.contains("revoked") {
                 self.extract_revoked_techniques(_t);
-            } else if _s == "attack-pattern" && !_x.contains("revoked") {
+            }
+            else if _s == "attack-pattern" && !_x.contains("revoked") {
                 if _scanner.pattern.is_match(&_x) {
                     _is_subtechnique = true;
                     self.extract_techniques_and_tactics(_t, _is_subtechnique);
@@ -115,11 +116,14 @@ impl EnterpriseMatrixParser {
                 if _x.contains("x_mitre_data_sources") {
                     self.extract_datasources(_t);
                 }
-            } else if _s == "malware" {
+            }
+            else if _s == "malware" {
                 self.details.stats.count_malwares += 1;
-            } else if _s == "intrusion-set" {
+            }
+            else if _s == "intrusion-set" {
                 self.details.stats.count_adversaries += 1;
-            } else if _s == "tool" {
+            }
+            else if _s == "tool" {
                 self.details.stats.count_tools += 1;
             }
         }
@@ -462,6 +466,8 @@ impl EnterpriseMatrixParser {
     /// 
     fn extract_stats_techniques_by_killchain(&mut self, _wants_subtechniques: bool)
     {
+        // Setup Tactics Hashsets for UNIQ
+        // items. then take length of each.
         let mut _initial_access:        HashSet<String>  = HashSet::new();
         let mut _execution:             HashSet<String>  = HashSet::new();
         let mut _persistence:           HashSet<String>  = HashSet::new();
@@ -476,6 +482,8 @@ impl EnterpriseMatrixParser {
         let mut _impact:                HashSet<String>  = HashSet::new();
         let mut _iterable: &Vec<EnterpriseTechnique>;
         let mut _rollup: Vec<EnterpriseTechniquesByTactic> = vec![];
+        // Validate if user wants Subtechniques
+        // Then, load the list of subtechniques
         if _wants_subtechniques {
             _iterable = &self.details.breakdown_subtechniques.platforms;
         } else {
@@ -490,29 +498,42 @@ impl EnterpriseMatrixParser {
                 if _technique.tactic.contains(_kc) {
                     _stub = format!("{}:{}", _technique.tid, _technique.tactic);
                     _kill_chain.tactic.items.push(_stub.clone());
+                    // Validate which Tactic
+                    // Insert Technique into Tactic Hashset
                     if _kc == "initial-access" {
                         _initial_access.insert(_stub);
-                    } else if _kc == "execution" {
+                    }
+                    else if _kc == "execution" {
                         _execution.insert(_stub);
-                    } else if _kc == "persistence" {
+                    }
+                    else if _kc == "persistence" {
                         _persistence.insert(_stub);
-                    } else if _kc == "privilege-escalation" {
+                    }
+                    else if _kc == "privilege-escalation" {
                         _priv_escalation.insert(_stub);
-                    } else if _kc == "defense-evasion" {
+                    }
+                    else if _kc == "defense-evasion" {
                         _defense_evasion.insert(_stub);
-                    } else if _kc == "credential-access" {
+                    }
+                    else if _kc == "credential-access" {
                         _credential_access.insert(_stub);
-                    } else if _kc == "collection" {
+                    }
+                    else if _kc == "collection" {
                         _collection.insert(_stub);
-                    } else if _kc == "discovery" {
+                    }
+                    else if _kc == "discovery" {
                         _discovery.insert(_stub);
-                    } else if _kc == "lateral-movement" {
+                    }
+                    else if _kc == "lateral-movement" {
                         _lateral_movement.insert(_stub);
-                    } else if _kc == "command-and-control" {
+                    }
+                    else if _kc == "command-and-control" {
                         _command_and_control.insert(_stub);
-                    } else if _kc == "exfiltration" {
+                    }
+                    else if _kc == "exfiltration" {
                         _exfiltration.insert(_stub);
-                    } else if _kc == "impact" {
+                    }
+                    else if _kc == "impact" {
                         _impact.insert(_stub);
                     }
                 }
