@@ -1,3 +1,6 @@
+[![Github Downloads](https://img.shields.io/github/downloads/dfirence/mitre-assistant/total)]()
+[![Github Stars](https://img.shields.io/github/stars/dfirence/mitre-assistant)]()
+
 # mitre-assistant
 
 A custom, more useful, and much cooler MITRE-CTI-CLIENT.
