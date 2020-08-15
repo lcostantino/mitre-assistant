@@ -251,18 +251,18 @@ You have to tell the `search subcommand` which matrix it is going to work with b
 |`techniques`|*enterprise*|Returns all techniques from the matrix|
 |`tactics`|*enterprise*|Returns all tactics from the matrix|
 |||
-|`initial-access`|*enterprise*|Returns all techniques in the**Initial Access** Tactic|
-|`execution`|*enterprise*|Returns all techniques in the**Execution** Tactic|
-|`persistence`|*enterprise*|Returns all techniques in the**Persistence** Tactic|
-|`privilege-escalation`|*enterprise*|Returns all techniques in the**Privilege Escalation** Tactic|
-|`defense-evasion`|*enterprise*|Returns all techniques in the**Defense Evasion** Tactic|
-|`credential-access`|*enterprise*|Returns all techniques in the**Credential Access** Tactic|
-|`discovery`|*enterprise*|Returns all techniques in the**Discovery** Tactic|
+|`initial-access`|*enterprise*|Returns all techniques in the **Initial Access** Tactic|
+|`execution`|*enterprise*|Returns all techniques in the **Execution** Tactic|
+|`persistence`|*enterprise*|Returns all techniques in the **Persistence** Tactic|
+|`privilege-escalation`|*enterprise*|Returns all techniques in the **Privilege Escalation** Tactic|
+|`defense-evasion`|*enterprise*|Returns all techniques in the **Defense Evasion** Tactic|
+|`credential-access`|*enterprise*|Returns all techniques in the **Credential Access** Tactic|
+|`discovery`|*enterprise*|Returns all techniques in the **Discovery** Tactic|
 |`lateral-movement`|*enterprise*|Returns all tecniques in **Lateral Movement** Tactic|
-|`collection`|*enterprise*|Returns all techniques in the**Collection** Tactic|
-|`command-and-control`|*enterprise*|Returns all techniques in the**Command And Control** Tactic|
-|`exfiltration`|*enterprise*|Returns all techniques in the**Exfiltration** Tactic|
-|`impact`|*enterprise*|Returns all techniques in the**Impact** Tactic|
+|`collection`|*enterprise*|Returns all techniques in the **Collection** Tactic|
+|`command-and-control`|*enterprise*|Returns all techniques in the **Command And Control** Tactic|
+|`exfiltration`|*enterprise*|Returns all techniques in the **Exfiltration** Tactic|
+|`impact`|*enterprise*|Returns all techniques in the **Impact** Tactic|
 
 <br/>
 <br/>
