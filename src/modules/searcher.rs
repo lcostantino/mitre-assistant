@@ -159,7 +159,7 @@ impl EnterpriseMatrixSearcher {
         else if _st == "windows" {
             _valid.push((_st, 33usize));
         }
-        else if _st == "overlapped" {
+        else if _st == "overlap" {
             _valid.push((_st, 34usize));
         }                                                                                    
         else if !_st.contains(",") {
