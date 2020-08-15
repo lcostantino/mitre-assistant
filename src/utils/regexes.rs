@@ -32,7 +32,7 @@ impl RegexPatternManager {
             pattern:  RegexSetBuilder::new(&[
                 r#"^T\d{4}$"#,                  // Technique ID
                 r#"^T\d{4}\.\d{3}$"#,           // Subtechnique ID
-                r#"(\W|^)[A-z]{4,}(\W|$)"#,     // Technique Name
+                r#"(\W|^)[A-z]{3,}(\W|$)"#,     // Technique Name, controls input length in search
             ]).case_insensitive(true)
               .unicode(true)
               .build()

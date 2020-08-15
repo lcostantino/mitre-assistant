@@ -96,10 +96,46 @@ impl EnterpriseMatrixSearcher {
             _valid.push((_st, 12usize));
             _wants_deprecated = true;
         }
+        else if _st == "initial-access" {
+            _valid.push((_st, 13usize));
+        }
+        else if _st == "execution" {
+            _valid.push((_st, 14usize));
+        }
+        else if _st == "persistence" {
+            _valid.push((_st, 15usize));
+        }
+        else if _st == "privilege-escalation" {
+            _valid.push((_st, 16usize));
+        }
+        else if _st == "defense-evasion" {
+            _valid.push((_st, 17usize));
+        }
+        else if _st == "credential-access" {
+            _valid.push((_st, 18usize));
+        }   
+        else if _st == "discovery" {
+            _valid.push((_st, 19usize));
+        }
+        else if _st == "lateral-movement" {
+            _valid.push((_st, 20usize));
+        }
+        else if _st == "collection" {
+            _valid.push((_st, 21usize));
+        }
+        else if _st == "command-and-control" {
+            _valid.push((_st, 22usize));
+        }
+        else if _st == "exfiltration" {
+            _valid.push((_st, 23usize));
+        }
+        else if _st == "impact" {
+            _valid.push((_st, 24usize));
+        }                       
         else if !_st.contains(",") {
             if _scanner.pattern.is_match(_st) {
                 let _idx: Vec<usize> = _scanner.pattern.matches(_st).into_iter().collect();
-                _valid.push((search_term, _idx[0]));  // Search Term 0usize
+                _valid.push((_st, _idx[0]));  // Search Term 0usize
             }
         }
         else if _st.contains(",") {
@@ -159,7 +195,43 @@ impl EnterpriseMatrixSearcher {
                 }
                 else if _pattern == &12usize {
                     _results.push(self.enterprise_by_deprecated());
-                }           
+                }
+                else if _pattern == &13usize {
+                    _results.push(self.enterprise_by_tactic("initial-access", _wants_subtechniques));
+                }
+                else if _pattern == &14usize {
+                    _results.push(self.enterprise_by_tactic("execution", _wants_subtechniques));
+                }
+                else if _pattern == &15usize {
+                    _results.push(self.enterprise_by_tactic("persistence", _wants_subtechniques));
+                } 
+                else if _pattern == &16usize {
+                    _results.push(self.enterprise_by_tactic("privilege-escalation", _wants_subtechniques));
+                }
+                else if _pattern == &17usize {
+                    _results.push(self.enterprise_by_tactic("defense-evasion", _wants_subtechniques));
+                }
+                else if _pattern == &18usize {
+                    _results.push(self.enterprise_by_tactic("credential-access", _wants_subtechniques));
+                }
+                else if _pattern == &19usize {
+                    _results.push(self.enterprise_by_tactic("discovery", _wants_subtechniques));
+                }
+                else if _pattern == &20usize {
+                    _results.push(self.enterprise_by_tactic("lateral-movement", _wants_subtechniques));
+                }
+                else if _pattern == &21usize {
+                    _results.push(self.enterprise_by_tactic("collection", _wants_subtechniques));
+                }
+                else if _pattern == &22usize {
+                    _results.push(self.enterprise_by_tactic("command-and-control", _wants_subtechniques));
+                }
+                else if _pattern == &23usize {
+                    _results.push(self.enterprise_by_tactic("exfiltration", _wants_subtechniques));
+                }
+                else if _pattern == &24usize {
+                    _results.push(self.enterprise_by_tactic("impact", _wants_subtechniques));
+                }                                                                                                                                                                                                               
             }
             // Render Query Results
             // --------------------
@@ -208,6 +280,26 @@ impl EnterpriseMatrixSearcher {
     /// All of the functions are **private functions** that are not exposed to the end-user.  They are only accessible
     /// from the module itself, and specifically, when invoked by the `self.search()` method.
     ///
+    fn enterprise_by_tactic(&self, tactic: &str, _wants_subtechniques: bool) -> String
+    {
+        let mut _results = vec![];
+        let _msg = format!("(?) Error: Unable To Deserialize String of All Techniques by Tactic: {}", tactic);
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect(_msg.as_str());
+        for _item in _json.breakdown_techniques.platforms.iter() {
+            if _item.tactic.contains(tactic) {
+                _results.push(_item);
+            }
+        }
+        if _wants_subtechniques {
+            for _item in _json.breakdown_subtechniques.platforms.iter() {
+                if _item.tactic.contains(tactic) {
+                    _results.push(_item);
+                }
+            }
+        }
+        let _msg = format!("(?) Error: Unable To Convert String of All Techniques by Tactic: {}", tactic);
+        serde_json::to_string(&_results).expect(_msg.as_str())
+    }
     fn enterprise_by_deprecated(&self) -> String
     {
         let mut _results = vec![];
@@ -271,8 +363,18 @@ impl EnterpriseMatrixSearcher {
         for _item in _json.breakdown_techniques.platforms.iter() {
             if _item.technique.to_lowercase().as_str() == technique_name.to_lowercase().as_str() {
                 _results.push(_item);
+            } else if _item.technique.to_lowercase().as_str().contains(technique_name.to_lowercase().as_str()) {
+               _results.push(_item);
             }
         }
+        // Now Search Subtechniques
+        for _item in _json.breakdown_subtechniques.platforms.iter() {
+            if _item.technique.to_lowercase().as_str() == technique_name.to_lowercase().as_str() {
+                _results.push(_item);
+            } else if _item.technique.to_lowercase().as_str().contains(technique_name.to_lowercase().as_str()) {
+               _results.push(_item);
+            }
+        }        
         serde_json::to_string_pretty(&_results).expect("(?) Error:  Unable To Deserialize Search Results By Technique Name")
     }
     fn enterprise_by_id(&self, technique_id: &str, _wants_subtechniques: bool) -> String
@@ -315,6 +417,7 @@ impl EnterpriseMatrixSearcher {
                     let mut _modified = EnterpriseTechnique::new();
                     _modified.tid = _revoked.0.clone();
                     _modified.technique = _revoked.1.clone();
+                    _modified.is_revoked = true;
                     _results.push(_modified);
                 }
             }
@@ -482,7 +585,7 @@ impl EnterpriseMatrixSearcher {
             }
             // When a revoked Technique is part of the result
             // then create a row for the revoked technique
-            else if _row.datasources.as_str() == "n_a" {
+            else if _row.is_revoked {
                 _table.add_row(
                     Row::new(vec![
                         Cell::new((_idx + 1).to_string().as_str()),
