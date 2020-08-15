@@ -290,7 +290,7 @@ impl EnterpriseMatrixSearcher {
                     _results.push(self.enterprise_by_platform("windows", _wants_subtechniques));
                 }
                 else if _pattern == &34usize {
-                    _results.push(self.enterprise_all_overlapped(_wants_subtechniques));
+                    _results.push(self.enterprise_all_overlapped());
                 }                                                                                                                                                                                                                                                                                                                                                                                   
             }
             // Render Query Results
@@ -416,7 +416,7 @@ impl EnterpriseMatrixSearcher {
         _results.sort();
         serde_json::to_string(&_results).expect("(?) Error: Unable To Deserialize All Tactics")
     }
-    fn enterprise_all_overlapped(&self, _wants_subtechniques: bool) -> String
+    fn enterprise_all_overlapped(&self) -> String
     {
         use std::collections::HashSet;
         
