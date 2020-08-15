@@ -131,7 +131,34 @@ impl EnterpriseMatrixSearcher {
         }
         else if _st == "impact" {
             _valid.push((_st, 24usize));
-        }                       
+        }
+        else if _st == "aws" {
+            _valid.push((_st, 25usize));
+        }
+        else if _st == "azure" {
+            _valid.push((_st, 26usize));
+        }
+        else if _st == "azure-ad" {
+            _valid.push((_st, 27usize));
+        }
+        else if _st == "gcp" {
+            _valid.push((_st, 28usize));
+        }
+        else if _st == "linux" {
+            _valid.push((_st, 29usize));
+        }
+        else if _st == "macos" {
+            _valid.push((_st, 30usize));
+        }
+        else if _st == "office-365" {
+            _valid.push((_st, 31usize));
+        }
+        else if _st == "saas" {
+            _valid.push((_st, 32usize));
+        }
+        else if _st == "windows" {
+            _valid.push((_st, 33usize));
+        }                                                                            
         else if !_st.contains(",") {
             if _scanner.pattern.is_match(_st) {
                 let _idx: Vec<usize> = _scanner.pattern.matches(_st).into_iter().collect();
@@ -231,7 +258,34 @@ impl EnterpriseMatrixSearcher {
                 }
                 else if _pattern == &24usize {
                     _results.push(self.enterprise_by_tactic("impact", _wants_subtechniques));
-                }                                                                                                                                                                                                               
+                }
+                else if _pattern == &25usize {
+                    _results.push(self.enterprise_by_platform("aws", _wants_subtechniques));
+                }
+                else if _pattern == &26usize {
+                    _results.push(self.enterprise_by_platform("azure", _wants_subtechniques));
+                }
+                else if _pattern == &27usize {
+                    _results.push(self.enterprise_by_platform("azure-ad", _wants_subtechniques));
+                }
+                else if _pattern == &28usize {
+                    _results.push(self.enterprise_by_platform("gcp", _wants_subtechniques));
+                }
+                else if _pattern == &29usize {
+                    _results.push(self.enterprise_by_platform("linux", _wants_subtechniques));
+                }
+                else if _pattern == &30usize {
+                    _results.push(self.enterprise_by_platform("macos", _wants_subtechniques));
+                }
+                else if _pattern == &31usize {
+                    _results.push(self.enterprise_by_platform("office-365", _wants_subtechniques));
+                }
+                else if _pattern == &32usize {
+                    _results.push(self.enterprise_by_platform("saas", _wants_subtechniques));
+                }
+                else if _pattern == &33usize {
+                    _results.push(self.enterprise_by_platform("windows", _wants_subtechniques));
+                }                                                                                                                                                                                                                                                                                                                                                                   
             }
             // Render Query Results
             // --------------------
@@ -280,6 +334,42 @@ impl EnterpriseMatrixSearcher {
     /// All of the functions are **private functions** that are not exposed to the end-user.  They are only accessible
     /// from the module itself, and specifically, when invoked by the `self.search()` method.
     ///
+    fn enterprise_by_platform(&self, platform: &str, _wants_subtechniques: bool) -> String
+    {
+        let mut _results = vec![];
+        let _msg = format!("(?) Error: Unable To Deserialize String of All Techniques by Platform: {}", platform);
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect(_msg.as_str());
+        for _item in _json.breakdown_techniques.platforms.iter() {
+            if _item.platform.contains(platform) {
+                let mut _modified = EnterpriseTechnique::new();
+                _modified.tid = _item.tid.clone();
+                _modified.technique = _item.technique.clone();
+                _modified.tactic = _item.tactic.clone();
+                _modified.datasources = _item.datasources.clone();
+                _modified.has_subtechniques = _item.has_subtechniques.clone();
+                _modified.subtechniques = _item.subtechniques.clone();
+                _modified.platform = platform.to_string();
+                _results.push(_modified);
+            }
+        }
+        if _wants_subtechniques {
+            for _item in _json.breakdown_subtechniques.platforms.iter() {
+                if _item.platform.contains(platform) {
+                    let mut _modified = EnterpriseTechnique::new();
+                    _modified.tid = _item.tid.clone();
+                    _modified.technique = _item.technique.clone();
+                    _modified.tactic = _item.tactic.clone();
+                    _modified.datasources = _item.datasources.clone();
+                    _modified.has_subtechniques = _item.has_subtechniques.clone();
+                    _modified.subtechniques = _item.subtechniques.clone();
+                    _modified.platform = platform.to_string();
+                    _results.push(_modified);
+                }
+            }
+        }
+        let _msg = format!("(?) Error: Unable To Convert String of All Techniques by Platform: {}", platform);
+        serde_json::to_string(&_results).expect(_msg.as_str())    
+    }
     fn enterprise_by_tactic(&self, tactic: &str, _wants_subtechniques: bool) -> String
     {
         let mut _results = vec![];
