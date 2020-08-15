@@ -263,6 +263,16 @@ You have to tell the `search subcommand` which matrix it is going to work with b
 |`command-and-control`|*enterprise*|Returns all techniques in the **Command And Control** Tactic|
 |`exfiltration`|*enterprise*|Returns all techniques in the **Exfiltration** Tactic|
 |`impact`|*enterprise*|Returns all techniques in the **Impact** Tactic|
+|||
+|`aws`|*enterprise*|Returns all techniques in the **AWS** Platform|
+|`azure`|*enterprise*|Returns all techniques in the **AZURE** Platform|
+|`azure-ad`|*enterprise*|Returns all techniques in the **AZURE-AD** Platform|
+|`gcp`|*enterprise*|Returns all techniques in the **GCP** Platform|
+|`linux`|*enterprise*|Returns all techniques in the **LINUX** Platform|
+|`macos`|*enterprise*|Returns all techniques in the **MACOS** Platform|
+|`office-365`|*enterprise*|Returns all techniques in the **OFFICE-365** Platform|
+|`saas`|*enterprise*|Returns all techniques in the **SAAS** Platform|
+|`windows`|*enterprise*|Returns all techniques in the **WINDOWS** Platform|
 
 <br/>
 <br/>
