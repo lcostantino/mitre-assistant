@@ -158,7 +158,10 @@ impl EnterpriseMatrixSearcher {
         }
         else if _st == "windows" {
             _valid.push((_st, 33usize));
-        }                                                                            
+        }
+        else if _st == "overlapped" {
+            _valid.push((_st, 34usize));
+        }                                                                                    
         else if !_st.contains(",") {
             if _scanner.pattern.is_match(_st) {
                 let _idx: Vec<usize> = _scanner.pattern.matches(_st).into_iter().collect();
@@ -285,7 +288,10 @@ impl EnterpriseMatrixSearcher {
                 }
                 else if _pattern == &33usize {
                     _results.push(self.enterprise_by_platform("windows", _wants_subtechniques));
-                }                                                                                                                                                                                                                                                                                                                                                                   
+                }
+                else if _pattern == &34usize {
+                    _results.push(self.enterprise_all_overlapped(_wants_subtechniques));
+                }                                                                                                                                                                                                                                                                                                                                                                                   
             }
             // Render Query Results
             // --------------------
@@ -410,6 +416,40 @@ impl EnterpriseMatrixSearcher {
         _results.sort();
         serde_json::to_string(&_results).expect("(?) Error: Unable To Deserialize All Tactics")
     }
+    fn enterprise_all_overlapped(&self, _wants_subtechniques: bool) -> String
+    {
+        use std::collections::HashSet;
+        
+        let mut _results = vec![];
+        let mut _targets = HashSet::new();
+        let _msg = "(?) Error: Unable to Deserialize All Overlapped Techniques";
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect(_msg);
+        // Iterate the Unique Techniques Key
+        // Find the Techniques with Overlap by Tactic
+        for _technique in _json.uniques_techniques.iter() {
+            let mut _overlap: usize = 0;
+            for _item in _json.breakdown_techniques.platforms.iter() {
+                if _item.tid.as_str() == _technique.as_str() {
+                    _overlap += 1;
+                    if _overlap > 1usize {
+                        _targets.insert(_technique);
+                        //_results.push(_technique);
+                    }
+                }
+            }
+        }
+        // Now get all the overlapped techniques
+        for _target in _targets {
+            let mut _modified = EnterpriseTechnique::new();
+            for _technique in _json.breakdown_techniques.platforms.iter() {
+                if _technique.tid.as_str() == _target.as_str() {
+                    _results.push(_technique);
+                }
+            }
+        }
+        let _msg = "(?) Error: Unable to Convert All Overlapped Techniques";
+        serde_json::to_string(&_results).expect(_msg)
+    }    
     fn enterprise_all_techniques(&self) -> String
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
