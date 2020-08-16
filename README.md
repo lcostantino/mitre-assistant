@@ -254,6 +254,7 @@ You have to tell the `search subcommand` which matrix it is going to work with b
 |`techniques`|*enterprise*|Returns all techniques from the matrix|
 |`tactics`|*enterprise*|Returns all tactics from the matrix|
 |||
+|||
 |`initial-access`|*enterprise*|Returns all techniques in the **Initial Access** Tactic|
 |`execution`|*enterprise*|Returns all techniques in the **Execution** Tactic|
 |`persistence`|*enterprise*|Returns all techniques in the **Persistence** Tactic|
@@ -266,6 +267,7 @@ You have to tell the `search subcommand` which matrix it is going to work with b
 |`command-and-control`|*enterprise*|Returns all techniques in the **Command And Control** Tactic|
 |`exfiltration`|*enterprise*|Returns all techniques in the **Exfiltration** Tactic|
 |`impact`|*enterprise*|Returns all techniques in the **Impact** Tactic|
+|||
 |||
 |`aws`|*enterprise*|Returns all techniques in the **AWS** Platform|
 |`azure`|*enterprise*|Returns all techniques in the **AZURE** Platform|
