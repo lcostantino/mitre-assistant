@@ -327,7 +327,7 @@ $> mitre-assistant search -m enterprise -t "stats"
 <br/>
 <br/>
 
-## *Searching The Enterprise Matrix For A Single Technique By Name*
+## *Searching The Enterprise Matrix For Techniques By Name*
 
 By default, searching by the **name** of a technique is offered with a **partial match**.  Whereas, searching by technique id is a **full match**.
 
