@@ -515,6 +515,74 @@ $> mitre-assistant search -m enterprise -t "deprecated"
 <br/>
 <br/>
 
+
+## *Searching For The Tactics/KillChains*
+Tactics are well, I guess a higher level object where the techniques are organized into. Read their website.
+
+* the `-t` parameter with the term `tactics`
+
+<br/>
+
+```bash
+# Assumes you want to see the All Tactics/KillChains
+# for the enterprise matrix
+#
+$> mitre-assistant search -m enterprise -t "tactics"
+```
+
+<br/>
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/11415591/89738097-02555700-da44-11ea-8308-ff83bd6bdd7c.png"></img>
+</div>
+<br/>
+
+
+## *Searching For The Platforms*
+Platforms are the relevant operating systems where a technique is exercised or abused by an adversary. To get the platforms in the enterprise matrix use the keyword `platforms`.
+
+* the `-t` parameter with the term `platforms`
+
+<br/>
+
+```bash
+# Assumes you want to see the All Platforms
+# for the enterprise matrix
+#
+$> mitre-assistant search -m enterprise -t "platforms"
+```
+
+<br/>
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/11415591/89129618-9a938f00-d4cc-11ea-80e0-c30a530bf706.png"></img>
+</div>
+<br/>
+<br/>
+
+## *Searching The Enterprise Matrix For All Techniques By Platform*
+
+You can ask the tool to give you all the **active techniques** based on a specific platform, like this.
+
+* the `-t` parameter with the term `{{ platform_name }}`
+
+<br/>
+
+```bash
+# Assumes you want to see the All Techniques By The Linux Platform
+#
+$> mitre-assistant search -m enterprise -t "linux"
+```
+
+<br/>
+
+The query above produces the image below, notice how the `PLATFORMS` column denotes the platform you wanted.
+
+<br/>
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/11415591/90335096-3084ea80-dfa0-11ea-8a5c-6e16b4c34561.png"></img>
+</div>
+<br/>
+<br/>
+
 ## *Searching For The Datasources*
 
 ```text
@@ -553,77 +621,80 @@ $> mitre-assistant search -m enterprise -t "datasources"
 <br/>
 <br/>
 
+## *Searching Datasources With Cross References: **Experimental***
+At this moment, v.0.0.10 and above allow for experimental cross-references of datasources and `platforms`, as well as, `tactics`.
 
-## *Searching For The Tactics/KillChains*
-Tactics are well, I guess a higher level object where the techniques are organized into. Read their website.
+This experiment is to understand, based on the suggested datasources by Mitre, where do they fit according to the platforms or tactics.
 
-* the `-t` parameter with the term `tactics`
+**SPECIAL NOTE**:  The queries for cross-references **only compute** counts against the `Active Techniques` total. No Subtechniques are taken into account, yet.
+
+<br/>
+
+To launch a cross-reference query you use a prefix in your term - `xref:`, let's look at an example
+
+* the `-t` parameters with the term `xref:datasources:{{ reference_type }}`
+  
+<br/>
+
+```bash
+# Assumes you want to cross-reference datasources to platforms
+#
+$> mitre-assistant search -m enterprise -t "xref:datasources:platforms"
+```
+
+<br/>
+
+Notice the above command uses a colon "`:`" character to tell the search engne this is a cross-reference query.
+The above command results in the image below.
+
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/90342001-91c5b180-dfd2-11ea-994f-ba259b06e947.png)
+
+<br/>
+<br/>
+
+In contrast, let's launch a cross-reference query against the tactics, like this:
+
+```bash
+# Assumes you want to cross-reference datasources to tactics
+#
+$> mitre-assistant search -m enterprise -t "xref:datasources:tactics"
+```
+
+<br/>
+
+And that now produces this image below.
+
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/90341975-53c88d80-dfd2-11ea-9106-2db9843e7b8a.png)
+
+<br/>
+<br/>
+
+## *Searching For Edge Cases:  Techniques Without a Subtechniques*
+Some techniques, do not have subtechniques assigned, or as I like to thunk of it, have not been fully updated by Mitre.
+
+Use the keyword `nosub` to obtain a list of active techniques that may not have an assigned subtechnique by Mitre.
+
+* the `-t` parameter with the term `nosub`
 
 <br/>
 
 ```bash
-# Assumes you want to see the All Tactics/KillChains
+# Assumes you want to see the Techniques that do not have Subtechniques
 # for the enterprise matrix
 #
-$> mitre-assistant search -m enterprise -t "tactics"
+$> mitre-assistant search -m enterprise -t "nosub"
 ```
 
 <br/>
-<div align="center">
-    <img src="https://user-images.githubusercontent.com/11415591/89738097-02555700-da44-11ea-8308-ff83bd6bdd7c.png"></img>
-</div>
 <br/>
 
-
-
-
-## *Searching For The Platforms*
-Platforms are the relevant operating systems where a technique is exercised or abused by an adversary. To get the platforms in the enterprise matrix use the keyword `platforms`.
-
-* the `-t` parameter with the term `platforms`
+![image](https://user-images.githubusercontent.com/11415591/90009417-0663bd80-dc6c-11ea-87d0-ad91d71ecc51.png)
 
 <br/>
-
-```bash
-# Assumes you want to see the All Platforms
-# for the enterprise matrix
-#
-$> mitre-assistant search -m enterprise -t "platforms"
-```
-
-<br/>
-<div align="center">
-    <img src="https://user-images.githubusercontent.com/11415591/89129618-9a938f00-d4cc-11ea-80e0-c30a530bf706.png"></img>
-</div>
-<br/>
-<br/>
-
-
-## *Searching The Enterprise Matrix For All Techniques By Platform*
-
-You can ask the tool to give you all the **active techniques** based on a specific platform, like this.
-
-* the `-t` parameter with the term `{{ platform_name }}`
-
-<br/>
-
-```bash
-# Assumes you want to see the All Techniques By The Linux Platform
-#
-$> mitre-assistant search -m enterprise -t "linux"
-```
-
-<br/>
-
-The query above produces the image below, notice how the `PLATFORMS` column denotes the platform you wanted.
-
-<br/>
-<div align="center">
-    <img src="https://user-images.githubusercontent.com/11415591/90335096-3084ea80-dfa0-11ea-8a5c-6e16b4c34561.png"></img>
-</div>
-<br/>
-<br/>
-
 
 ## *Searching For Edge Cases:  Techniques Without a Datasource*
 This is the edge-case that drove to create this tool for myself.  I found someone's tool incorrectly parsed the matrix and I needed to report to my management the plan of action based on data sources.  This is very important for practitioners who leverage the matrix for real world tactical operations.
@@ -651,28 +722,6 @@ $> mitre-assistant search -m enterprise -t "nodatasources"
 <br/>
 
 
-## *Searching For Edge Cases:  Techniques Without a Subtechniques*
-Some techniques, do not have subtechniques assigned, or as I like to thunk of it, have not been fully updated by Mitre.
-
-Use the keyword `nosub` to obtain a list of active techniques that may not have an assigned subtechnique by Mitre.
-
-* the `-t` parameter with the term `nosub`
-
-<br/>
-
-```bash
-# Assumes you want to see the Techniques that do not have Subtechniques
-# for the enterprise matrix
-#
-$> mitre-assistant search -m enterprise -t "nosub"
-```
-
-<br/>
-<br/>
-
-![image](https://user-images.githubusercontent.com/11415591/90009417-0663bd80-dc6c-11ea-87d0-ad91d71ecc51.png)
-
-<br/>
 
 # **Statistical Stuff**
 As I mentioned, my work with this matrix is at the provider level, I have to devise coverage plans, or brainstorming workshops with my fellow blue-teamers to understand what an emulation plan means in terms of effort, engineering for new content and consequently sizing our systems to increase our visibility and detection needs.
