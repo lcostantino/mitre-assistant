@@ -322,6 +322,36 @@ $> mitre-assistant search -m enterprise -t "stats"
 <br/>
 <br/>
 
+
+<hr/>
+<br/>
+<br/>
+
+## *Searching The Enterprise Matrix For A Single Technique By Name*
+
+By default, searching by the **name** of a technique is offered with a **partial match**.  Whereas, searching by technique id is a **full match**.
+
+This means, you can search for techniques by name entering strings that may be incomplete, and the tool finds all references to your input.
+
+Let's take a look at this example, where we search for any technique that has the word **boot**
+
+```bash
+# Assumes you want to search for techniques
+# that have the word `boot`
+#
+$> mitre-assistant search -m enterprise -t "boot"
+```
+<br/>
+
+The command above results in the image below, notice how the word `boot` matches across different techniques.
+
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/90316166-50f46c80-deee-11ea-8254-4630516086f2.png)
+
+<br/>
+<br/>
+
 ## *Searching The Enterprise Matrix For A Single Technique By ID*
 
 
@@ -372,6 +402,73 @@ $> mitre-assistant search -m enterprise -t "t1021" -s
 
 ![image](https://user-images.githubusercontent.com/11415591/89109790-69568880-d412-11ea-9869-325a35d7de13.png)
 
+<br/>
+
+## *Searching The Enterprise Matrix By Tactic**
+You can ask the tool to give you all the techniques for a specific `Mitre Tactic`. You need to follow the convention used in the tool to get the right tactic.
+
+This section describes how you can quickly ramp up on using tactic queries.
+
+### **Step 1:  List of the Tactics in the Matrix**
+
+* the `-t` parameter with the term `tactics`
+
+```bash
+# Assumes you want to know the Tactics
+#
+$> mitre-assistant search -m enterprise -t "tactics"
+
+# Output 
+                +-------+----------------------+
+                | INDEX | TACTICS              |
+                +-------+----------------------+
+                | 1     | collection           |
+                +-------+----------------------+
+                | 2     | command-and-control  |
+                +-------+----------------------+
+                | 3     | credential-access    |
+                +-------+----------------------+
+                | 4     | defense-evasion      |
+                +-------+----------------------+
+                | 5     | discovery            |
+                +-------+----------------------+
+                | 6     | execution            |
+                +-------+----------------------+
+                | 7     | exfiltration         |
+                +-------+----------------------+
+                | 8     | impact               |
+                +-------+----------------------+
+                | 9     | initial-access       |
+                +-------+----------------------+
+                | 10    | lateral-movement     |
+                +-------+----------------------+
+                | 11    | persistence          |
+                +-------+----------------------+
+                | 12    | privilege-escalation |
+                +-------+----------------------+
+```
+<br/>
+<br/>
+
+### **Step 2: Search By Tactic**
+
+Now you can use any of the tactics above in your search query, like this:
+
+* the `-t` parameter with the term `{{ tactic_name }}`
+  
+<br/>
+
+```bash
+# Assumes you want to search by the `initial-access` tactic
+#
+$> mitre-assistant search -m enterprse -t "initial-access"
+
+```
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/90316089-1094ee80-deee-11ea-8c38-f75ed7a3b6e5.png)
+
+<br/>
 <br/>
 
 ## *Searching For The Revoked Techniques*
