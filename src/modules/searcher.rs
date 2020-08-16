@@ -631,7 +631,7 @@ impl EnterpriseMatrixSearcher {
         let mut _results: Vec<HashMap<String, HashMap<String, usize>>> = vec![];
         for _datasource in _json.datasources.iter() {
             let mut _os: HashMap<String, usize> = HashMap::new();
-            //_ds.insert(_datasource.clone(), _os);
+            
             for _platform in _json.platforms.iter() {
                 _os.insert(_platform.clone(), 0usize);
                 for _technique in _json.breakdown_techniques.platforms.iter() {
@@ -645,7 +645,6 @@ impl EnterpriseMatrixSearcher {
             _ds.insert(_datasource.clone(), _os);
         }
         _results.push(_ds);
-        //println!("{:#?}", _results);
         serde_json::to_string_pretty(&_results).expect("(?) Error: Unable To Deserialize STATS For Datasources & Platforms")
     }
     fn enterprise_stats_datasources_and_tactics(&self) -> String
@@ -656,7 +655,7 @@ impl EnterpriseMatrixSearcher {
         let mut _results: Vec<HashMap<String, HashMap<String, usize>>> = vec![];
         for _datasource in _json.datasources.iter() {
             let mut _tactics: HashMap<String, usize> = HashMap::new();
-            //_ds.insert(_datasource.clone(), _os);
+        
             for _tactic in _json.tactics.iter() {
                 _tactics.insert(_tactic.clone(), 0usize);
                 for _technique in _json.breakdown_techniques.platforms.iter() {
@@ -670,7 +669,6 @@ impl EnterpriseMatrixSearcher {
             _ds.insert(_datasource.clone(), _tactics);
         }
         _results.push(_ds);
-        //println!("{:#?}", _results);
         serde_json::to_string_pretty(&_results).expect("(?) Error: Unable To Deserialize STATS For Datasources & Tactics")
     }    
     /// # **Rendering Functions**
