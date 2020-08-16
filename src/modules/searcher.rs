@@ -237,40 +237,40 @@ impl EnterpriseMatrixSearcher {
                     _results.push(self.enterprise_by_deprecated());
                 }
                 else if _pattern == &13usize {
-                    _results.push(self.enterprise_by_tactic("initial-access", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &14usize {
-                    _results.push(self.enterprise_by_tactic("execution", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &15usize {
-                    _results.push(self.enterprise_by_tactic("persistence", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 } 
                 else if _pattern == &16usize {
-                    _results.push(self.enterprise_by_tactic("privilege-escalation", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &17usize {
-                    _results.push(self.enterprise_by_tactic("defense-evasion", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &18usize {
-                    _results.push(self.enterprise_by_tactic("credential-access", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &19usize {
-                    _results.push(self.enterprise_by_tactic("discovery", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &20usize {
-                    _results.push(self.enterprise_by_tactic("lateral-movement", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &21usize {
-                    _results.push(self.enterprise_by_tactic("collection", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term , _wants_subtechniques));
                 }
                 else if _pattern == &22usize {
-                    _results.push(self.enterprise_by_tactic("command-and-control", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &23usize {
-                    _results.push(self.enterprise_by_tactic("exfiltration", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &24usize {
-                    _results.push(self.enterprise_by_tactic("impact", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &25usize {
                     _results.push(self.enterprise_by_platform("aws", _wants_subtechniques));
