@@ -596,6 +596,34 @@ $> mitre-assistant search -m enterprise -t "platforms"
     <img src="https://user-images.githubusercontent.com/11415591/89129618-9a938f00-d4cc-11ea-80e0-c30a530bf706.png"></img>
 </div>
 <br/>
+<br/>
+
+
+## *Searching The Enterprise Matrix For All Techniques By Platform*
+
+You can ask the tool to give you all the **active techniques** based on a specific platform, like this.
+
+* the `-t` parameter with the term `{{ platform_name }}`
+
+<br/>
+
+```bash
+# Assumes you want to see the All Techniques By The Linux Platform
+#
+$> mitre-assistant search -m enterprise -t "linux"
+```
+
+<br/>
+
+The query above produces the image below, notice how the `PLATFORMS` column denotes the platform you wanted.
+
+<br/>
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/11415591/90335096-3084ea80-dfa0-11ea-8a5c-6e16b4c34561.png"></img>
+</div>
+<br/>
+<br/>
+
 
 ## *Searching For Edge Cases:  Techniques Without a Datasource*
 This is the edge-case that drove to create this tool for myself.  I found someone's tool incorrectly parsed the matrix and I needed to report to my management the plan of action based on data sources.  This is very important for practitioners who leverage the matrix for real world tactical operations.
