@@ -276,6 +276,10 @@ You have to tell the `search subcommand` which matrix it is going to work with b
 |`office-365`|*enterprise*|Returns all techniques in the **OFFICE-365** Platform|
 |`saas`|*enterprise*|Returns all techniques in the **SAAS** Platform|
 |`windows`|*enterprise*|Returns all techniques in the **WINDOWS** Platform|
+|||
+|||
+|`xref:datasources:platforms`|*enterprise*|Returns a 2d matrix of active techniques by datasource mapped to platform|
+|`xref:datasources:tactics`|*enterprise*|Returns a 2d matrix of active techniques by datasource mapped to tactics|
 
 <br/>
 <br/>
