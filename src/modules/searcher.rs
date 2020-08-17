@@ -349,6 +349,7 @@ impl EnterpriseMatrixSearcher {
         }
     }
     /// # **Query Functions**
+    ///
     /// All of the functions from this source code section are for the queries provided by
     /// the end-user.
     ///
@@ -359,6 +360,7 @@ impl EnterpriseMatrixSearcher {
     ///
     ///
     /// ## **Query Functions Are Private**
+    ///
     /// All of the functions are **private functions** that are not exposed to the end-user.  They are only accessible
     /// from the module itself, and specifically, when invoked by the `self.search()` method.
     ///
@@ -398,6 +400,13 @@ impl EnterpriseMatrixSearcher {
         let _msg = format!("(?) Error: Unable To Convert String of All Techniques by Platform: {}", platform);
         serde_json::to_string(&_results).expect(_msg.as_str())    
     }
+    /// # Query By Tactics
+    ///
+    /// Allows the user to get all techniques by specifying a tactic.
+    ///
+    /// ```ignore
+    /// self.enterprise_by_tactic("initial-access", false)
+    /// ```
     fn enterprise_by_tactic(&self, tactic: &str, _wants_subtechniques: bool) -> String
     {
         let mut _results = vec![];
@@ -418,6 +427,13 @@ impl EnterpriseMatrixSearcher {
         let _msg = format!("(?) Error: Unable To Convert String of All Techniques by Tactic: {}", tactic);
         serde_json::to_string(&_results).expect(_msg.as_str())
     }
+    /// # Query By Deprecated Techniques
+    ///
+    /// Allows the user to get all deprecated techniques.
+    ///
+    /// ```ignore
+    /// self.deprecated();
+    /// ```
     fn enterprise_by_deprecated(&self) -> String
     {
         let mut _results = vec![];
@@ -428,6 +444,13 @@ impl EnterpriseMatrixSearcher {
         _results.sort();
         serde_json::to_string(&_results).expect("(?) Error: Unable To Deserialize String Of All Deprecated Techniques")        
     }
+    /// # Query To Get All Active Tactics
+    ///
+    /// Allows the user to get all of the Active Tactics.
+    ///
+    /// ```ignore
+    /// self.enterprise_all_tactics();
+    /// ```
     fn enterprise_all_tactics(&self) -> String
     {
         let mut _results = vec![];
@@ -438,6 +461,14 @@ impl EnterpriseMatrixSearcher {
         _results.sort();
         serde_json::to_string(&_results).expect("(?) Error: Unable To Deserialize All Tactics")
     }
+    /// # Query To Get All Overlapped Techniques
+    ///
+    /// Allows the user to get all of the techniques considered to have an overlap.
+    /// Overlap occurs when a technique is spread across more than one tactic/killchain.
+    ///
+    /// ```ignore
+    /// self.enterprise_all_overlapped();
+    /// ```
     fn enterprise_all_overlapped(&self) -> String
     {
         use std::collections::HashSet;
@@ -455,7 +486,6 @@ impl EnterpriseMatrixSearcher {
                     _overlap += 1;
                     if _overlap > 1usize {
                         _targets.insert(_technique);
-                        //_results.push(_technique);
                     }
                 }
             }
@@ -471,17 +501,38 @@ impl EnterpriseMatrixSearcher {
         }
         let _msg = "(?) Error: Unable to Convert All Overlapped Techniques";
         serde_json::to_string(&_results).expect(_msg)
-    }    
+    }
+    /// # Query All Active Techniques
+    ///
+    /// Allows the user to get all of the Active Techniques.
+    ///
+    /// ```ignore
+    /// self.enterprise_all_techniques();
+    /// ```
     fn enterprise_all_techniques(&self) -> String
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         serde_json::to_string(&_json.breakdown_techniques.platforms).expect("(?) Error: Unable To Deserialize All Techniques")
     }
+    /// # Query All Active Subtechniques
+    ///
+    /// Allows the user to get all of the Active Subtechniques.
+    ///
+    /// ```ignore
+    /// self.enterprise_all_subtechniques();
+    /// ```
     fn enterprise_all_subtechniques(&self) -> String
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         serde_json::to_string(&_json.breakdown_subtechniques.platforms).expect("(?) Error: Unable To Deserialize All Techniques")
     }
+    /// # Query All Platforms
+    ///
+    /// Allows the user to get all the platforms.
+    ///
+    /// ```ignore
+    /// self.enterprise_all_platforms();
+    /// ```
     fn enterprise_all_platforms(&self) -> String
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
