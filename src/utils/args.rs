@@ -18,7 +18,7 @@ use searcher::EnterpriseMatrixSearcher;
 
 /// # Globals
 /// Represent global variables used throughout this source file.
-static _VERSION: &str = "v.0.0.9"; 
+static _VERSION: &str = "v.0.0.10"; 
 static _AUTHOR: &str = "carlos diaz | @dfirence\n\n";
 static _ABOUT: &str = "Mitre Attack Assistant\n\n\tA more useful utility for the ATT&CK Matrix";
 

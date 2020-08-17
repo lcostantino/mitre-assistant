@@ -29,6 +29,9 @@ $> cargo install mitre-assistant
 - [x] Mitre Enterprise Matrix
 - [ ] Mitre Mobile Matrix
 - [ ] Mitre Pre-Attack Matrix
+- [ ] Mitre Navigator JSON
+    - [ ] Legacy Version
+    - [ ] Modern Version with Subtechniques
 - [x] Linux - 64bit
 - [x] MacOS - 64bit
 - [x] Windows - 64bit
@@ -254,6 +257,7 @@ You have to tell the `search subcommand` which matrix it is going to work with b
 |`techniques`|*enterprise*|Returns all techniques from the matrix|
 |`tactics`|*enterprise*|Returns all tactics from the matrix|
 |||
+|||
 |`initial-access`|*enterprise*|Returns all techniques in the **Initial Access** Tactic|
 |`execution`|*enterprise*|Returns all techniques in the **Execution** Tactic|
 |`persistence`|*enterprise*|Returns all techniques in the **Persistence** Tactic|
@@ -266,6 +270,7 @@ You have to tell the `search subcommand` which matrix it is going to work with b
 |`command-and-control`|*enterprise*|Returns all techniques in the **Command And Control** Tactic|
 |`exfiltration`|*enterprise*|Returns all techniques in the **Exfiltration** Tactic|
 |`impact`|*enterprise*|Returns all techniques in the **Impact** Tactic|
+|||
 |||
 |`aws`|*enterprise*|Returns all techniques in the **AWS** Platform|
 |`azure`|*enterprise*|Returns all techniques in the **AZURE** Platform|
@@ -326,6 +331,36 @@ $> mitre-assistant search -m enterprise -t "stats"
 <br/>
 <br/>
 
+
+<hr/>
+<br/>
+<br/>
+
+## *Searching The Enterprise Matrix For Techniques By Name*
+
+By default, searching by the **name** of a technique is offered with a **partial match**.  Whereas, searching by technique id is a **full match**.
+
+This means, you can search for techniques by name entering strings that may be incomplete, and the tool finds all references to your input.
+
+Let's take a look at this example, where we search for any technique that has the word **boot**
+
+```bash
+# Assumes you want to search for techniques
+# that have the word `boot`
+#
+$> mitre-assistant search -m enterprise -t "boot"
+```
+<br/>
+
+The command above results in the image below, notice how the word `boot` matches across different techniques.
+
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/90316166-50f46c80-deee-11ea-8254-4630516086f2.png)
+
+<br/>
+<br/>
+
 ## *Searching The Enterprise Matrix For A Single Technique By ID*
 
 
@@ -378,6 +413,73 @@ $> mitre-assistant search -m enterprise -t "t1021" -s
 
 <br/>
 
+## *Searching The Enterprise Matrix By Tactic**
+You can ask the tool to give you all the techniques for a specific `Mitre Tactic`. You need to follow the convention used in the tool to get the right tactic.
+
+This section describes how you can quickly ramp up on using tactic queries.
+
+### **Step 1:  List of the Tactics in the Matrix**
+
+* the `-t` parameter with the term `tactics`
+
+```bash
+# Assumes you want to know the Tactics
+#
+$> mitre-assistant search -m enterprise -t "tactics"
+
+# Output 
+                +-------+----------------------+
+                | INDEX | TACTICS              |
+                +-------+----------------------+
+                | 1     | collection           |
+                +-------+----------------------+
+                | 2     | command-and-control  |
+                +-------+----------------------+
+                | 3     | credential-access    |
+                +-------+----------------------+
+                | 4     | defense-evasion      |
+                +-------+----------------------+
+                | 5     | discovery            |
+                +-------+----------------------+
+                | 6     | execution            |
+                +-------+----------------------+
+                | 7     | exfiltration         |
+                +-------+----------------------+
+                | 8     | impact               |
+                +-------+----------------------+
+                | 9     | initial-access       |
+                +-------+----------------------+
+                | 10    | lateral-movement     |
+                +-------+----------------------+
+                | 11    | persistence          |
+                +-------+----------------------+
+                | 12    | privilege-escalation |
+                +-------+----------------------+
+```
+<br/>
+<br/>
+
+### **Step 2: Search By Tactic**
+
+Now you can use any of the tactics above in your search query, like this:
+
+* the `-t` parameter with the term `{{ tactic_name }}`
+  
+<br/>
+
+```bash
+# Assumes you want to search by the `initial-access` tactic
+#
+$> mitre-assistant search -m enterprse -t "initial-access"
+
+```
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/90316089-1094ee80-deee-11ea-8c38-f75ed7a3b6e5.png)
+
+<br/>
+<br/>
+
 ## *Searching For The Revoked Techniques*
 Revoked techniques seem to be those that are discontinued and re-arranged now into subtechniques.  You can search for the ones `revoked` in the matrix by using a keyword in your search term:
 
@@ -422,6 +524,122 @@ $> mitre-assistant search -m enterprise -t "deprecated"
 <br/>
 <br/>
 
+
+## *Searching For The Tactics/KillChains*
+Tactics are well, I guess a higher level object where the techniques are organized into. Read their website.
+
+* the `-t` parameter with the term `tactics`
+
+<br/>
+
+```bash
+# Assumes you want to see the All Tactics/KillChains
+# for the enterprise matrix
+#
+$> mitre-assistant search -m enterprise -t "tactics"
+
+# Output
+
+
+                +-------+----------------------+
+                | INDEX | TACTICS              |
+                +-------+----------------------+
+                | 1     | collection           |
+                +-------+----------------------+
+                | 2     | command-and-control  |
+                +-------+----------------------+
+                | 3     | credential-access    |
+                +-------+----------------------+
+                | 4     | defense-evasion      |
+                +-------+----------------------+
+                | 5     | discovery            |
+                +-------+----------------------+
+                | 6     | execution            |
+                +-------+----------------------+
+                | 7     | exfiltration         |
+                +-------+----------------------+
+                | 8     | impact               |
+                +-------+----------------------+
+                | 9     | initial-access       |
+                +-------+----------------------+
+                | 10    | lateral-movement     |
+                +-------+----------------------+
+                | 11    | persistence          |
+                +-------+----------------------+
+                | 12    | privilege-escalation |
+                +-------+----------------------+
+```
+
+<br/>
+<br/>
+
+
+## *Searching For The Platforms*
+Platforms are the relevant operating systems where a technique is exercised or abused by an adversary. To get the platforms in the enterprise matrix use the keyword `platforms`.
+
+* the `-t` parameter with the term `platforms`
+
+<br/>
+
+```bash
+# Assumes you want to see the All Platforms
+# for the enterprise matrix
+#
+$> mitre-assistant search -m enterprise -t "platforms"
+
+# Output
+
+                    +-------+------------+
+                    | INDEX | PLATFORMS  |
+                    +-------+------------+
+                    | 1     | macos      |
+                    +-------+------------+
+                    | 2     | azure      |
+                    +-------+------------+
+                    | 3     | aws        |
+                    +-------+------------+
+                    | 4     | office-365 |
+                    +-------+------------+
+                    | 5     | azure-ad   |
+                    +-------+------------+
+                    | 6     | windows    |
+                    +-------+------------+
+                    | 7     | saas       |
+                    +-------+------------+
+                    | 8     | linux      |
+                    +-------+------------+
+                    | 9     | gcp        |
+                    +-------+------------+
+```
+
+<br/>
+<br/>
+
+## *Searching The Enterprise Matrix For All Techniques By Platform*
+
+You can ask the tool to give you all the **active techniques** based on a specific platform, like this.
+
+* the `-t` parameter with the term `{{ platform_name }}`
+
+<br/>
+
+```bash
+# Assumes you want to see the All Techniques By The Linux Platform
+#
+$> mitre-assistant search -m enterprise -t "linux"
+```
+
+<br/>
+
+The query above produces the image below, notice how the `PLATFORMS` column denotes the platform you wanted.
+
+<br/>
+<div align="center">
+    <img src="https://user-images.githubusercontent.com/11415591/90335096-3084ea80-dfa0-11ea-8a5c-6e16b4c34561.png"></img>
+</div>
+<br/>
+<br/>
+
 ## *Searching For The Datasources*
 
 ```text
@@ -451,57 +669,206 @@ Datasources are a non-concrete description by Mitre that seems to suggest the co
 # for the enterprise matrix
 #
 $> mitre-assistant search -m enterprise -t "datasources"
+
+# Output
+
+                +-------+------------------------------------+
+                | INDEX | DATASOURCE                         |
+                +-------+------------------------------------+
+                | 1     | access-tokens                      |
+                +-------+------------------------------------+
+                | 2     | anti-virus                         |
+                +-------+------------------------------------+
+                | 3     | api-monitoring                     |
+                +-------+------------------------------------+
+                | 4     | application-logs                   |
+                +-------+------------------------------------+
+                | 5     | asset-management                   |
+                +-------+------------------------------------+
+                | 6     | authentication-logs                |
+                +-------+------------------------------------+
+                | 7     | aws-cloudtrail-logs                |
+                +-------+------------------------------------+
+                | 8     | azure-activity-logs                |
+                +-------+------------------------------------+
+                | 9     | binary-file-metadata               |
+                +-------+------------------------------------+
+                | 10    | bios                               |
+                +-------+------------------------------------+
+                | 11    | browser-extensions                 |
+                +-------+------------------------------------+
+                | 12    | component-firmware                 |
+                +-------+------------------------------------+
+                | 13    | data-loss-prevention               |
+                +-------+------------------------------------+
+                | 14    | detonation-chamber                 |
+                +-------+------------------------------------+
+                | 15    | digital-certificate-logs           |
+                +-------+------------------------------------+
+                | 16    | disk-forensics                     |
+                +-------+------------------------------------+
+                | 17    | dll-monitoring                     |
+                +-------+------------------------------------+
+                | 18    | dns-records                        |
+                +-------+------------------------------------+
+                | 19    | efi                                |
+                +-------+------------------------------------+
+                | 20    | email-gateway                      |
+                +-------+------------------------------------+
+                | 21    | environment-variable               |
+                +-------+------------------------------------+
+                | 22    | file-monitoring                    |
+                +-------+------------------------------------+
+                | 23    | gcp-audit-logs                     |
+                +-------+------------------------------------+
+                | 24    | host-network-interface             |
+                +-------+------------------------------------+
+                | 25    | kernel-drivers                     |
+                +-------+------------------------------------+
+                | 26    | loaded-dlls                        |
+                +-------+------------------------------------+
+                | 27    | mail-server                        |
+                +-------+------------------------------------+
+                | 28    | malware-reverse-engineering        |
+                +-------+------------------------------------+
+                | 29    | mbr                                |
+                +-------+------------------------------------+
+                | 30    | named-pipes                        |
+                +-------+------------------------------------+
+                | 31    | netflow/enclave-netflow            |
+                +-------+------------------------------------+
+                | 32    | network-device-logs                |
+                +-------+------------------------------------+
+                | 33    | network-intrusion-detection-system |
+                +-------+------------------------------------+
+                | 34    | network-protocol-analysis          |
+                +-------+------------------------------------+
+                | 35    | oauth-audit-logs                   |
+                +-------+------------------------------------+
+                | 36    | office-365-account-logs            |
+                +-------+------------------------------------+
+                | 37    | office-365-audit-logs              |
+                +-------+------------------------------------+
+                | 38    | office-365-trace-logs              |
+                +-------+------------------------------------+
+                | 39    | packet-capture                     |
+                +-------+------------------------------------+
+                | 40    | powershell-logs                    |
+                +-------+------------------------------------+
+                | 41    | process-command-line-parameters    |
+                +-------+------------------------------------+
+                | 42    | process-monitoring                 |
+                +-------+------------------------------------+
+                | 43    | process-use-of-network             |
+                +-------+------------------------------------+
+                | 44    | sensor-health-and-status           |
+                +-------+------------------------------------+
+                | 45    | services                           |
+                +-------+------------------------------------+
+                | 46    | ssl/tls-inspection                 |
+                +-------+------------------------------------+
+                | 47    | stackdriver-logs                   |
+                +-------+------------------------------------+
+                | 48    | system-calls                       |
+                +-------+------------------------------------+
+                | 49    | third-party-application-logs       |
+                +-------+------------------------------------+
+                | 50    | user-interface                     |
+                +-------+------------------------------------+
+                | 51    | vbr                                |
+                +-------+------------------------------------+
+                | 52    | web-application-firewall-logs      |
+                +-------+------------------------------------+
+                | 53    | web-logs                           |
+                +-------+------------------------------------+
+                | 54    | web-proxy                          |
+                +-------+------------------------------------+
+                | 55    | windows-error-reporting            |
+                +-------+------------------------------------+
+                | 56    | windows-event-logs                 |
+                +-------+------------------------------------+
+                | 57    | windows-registry                   |
+                +-------+------------------------------------+
+                | 58    | wmi-objects                        |
+                +-------+------------------------------------+
 ```
 
 <br/>
-<div align="center">
-    <img src="https://user-images.githubusercontent.com/11415591/89129604-8bacdc80-d4cc-11ea-9e12-5dea5824a51a.png"></img>
-</div>
+<br/>
+
+## *Searching Datasources With Cross References: **Experimental***
+At this moment, v.0.0.10 and above allow for experimental cross-references of datasources and `platforms`, as well as, `tactics`.
+
+This experiment is to understand, based on the suggested datasources by Mitre, where do they fit according to the platforms or tactics.
+
+**SPECIAL NOTE**:  The queries for cross-references **only compute** counts against the `Active Techniques` total. No Subtechniques are taken into account, yet.
+
+<br/>
+
+To launch a cross-reference query you use a prefix in your term - `xref:`, let's look at an example
+
+* the `-t` parameters with the term `xref:datasources:{{ reference_type }}`
+  
+<br/>
+
+```bash
+# Assumes you want to cross-reference datasources to platforms
+#
+$> mitre-assistant search -m enterprise -t "xref:datasources:platforms"
+```
+
+<br/>
+
+Notice the above command uses a colon "`:`" character to tell the search engne this is a cross-reference query.
+The above command results in the image below.
+
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/90342001-91c5b180-dfd2-11ea-994f-ba259b06e947.png)
+
 <br/>
 <br/>
 
+In contrast, let's launch a cross-reference query against the tactics, like this:
 
-## *Searching For The Tactics/KillChains*
-Tactics are well, I guess a higher level object where the techniques are organized into. Read their website.
+```bash
+# Assumes you want to cross-reference datasources to tactics
+#
+$> mitre-assistant search -m enterprise -t "xref:datasources:tactics"
+```
 
-* the `-t` parameter with the term `tactics`
+<br/>
+
+And that now produces this image below.
+
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/90341975-53c88d80-dfd2-11ea-9106-2db9843e7b8a.png)
+
+<br/>
+<br/>
+
+## *Searching For Edge Cases:  Techniques Without a Subtechniques*
+Some techniques, do not have subtechniques assigned, or as I like to thunk of it, have not been fully updated by Mitre.
+
+Use the keyword `nosub` to obtain a list of active techniques that may not have an assigned subtechnique by Mitre.
+
+* the `-t` parameter with the term `nosub`
 
 <br/>
 
 ```bash
-# Assumes you want to see the All Tactics/KillChains
+# Assumes you want to see the Techniques that do not have Subtechniques
 # for the enterprise matrix
 #
-$> mitre-assistant search -m enterprise -t "tactics"
+$> mitre-assistant search -m enterprise -t "nosub"
 ```
 
 <br/>
-<div align="center">
-    <img src="https://user-images.githubusercontent.com/11415591/89738097-02555700-da44-11ea-8308-ff83bd6bdd7c.png"></img>
-</div>
 <br/>
 
+![image](https://user-images.githubusercontent.com/11415591/90009417-0663bd80-dc6c-11ea-87d0-ad91d71ecc51.png)
 
-
-
-## *Searching For The Platforms*
-Platforms are the relevant operating systems where a technique is exercised or abused by an adversary. To get the platforms in the enterprise matrix use the keyword `platforms`.
-
-* the `-t` parameter with the term `platforms`
-
-<br/>
-
-```bash
-# Assumes you want to see the All Platforms
-# for the enterprise matrix
-#
-$> mitre-assistant search -m enterprise -t "platforms"
-```
-
-<br/>
-<div align="center">
-    <img src="https://user-images.githubusercontent.com/11415591/89129618-9a938f00-d4cc-11ea-80e0-c30a530bf706.png"></img>
-</div>
 <br/>
 
 ## *Searching For Edge Cases:  Techniques Without a Datasource*
@@ -530,28 +897,6 @@ $> mitre-assistant search -m enterprise -t "nodatasources"
 <br/>
 
 
-## *Searching For Edge Cases:  Techniques Without a Subtechniques*
-Some techniques, do not have subtechniques assigned, or as I like to thunk of it, have not been fully updated by Mitre.
-
-Use the keyword `nosub` to obtain a list of active techniques that may not have an assigned subtechnique by Mitre.
-
-* the `-t` parameter with the term `nosub`
-
-<br/>
-
-```bash
-# Assumes you want to see the Techniques that do not have Subtechniques
-# for the enterprise matrix
-#
-$> mitre-assistant search -m enterprise -t "nosub"
-```
-
-<br/>
-<br/>
-
-![image](https://user-images.githubusercontent.com/11415591/90009417-0663bd80-dc6c-11ea-87d0-ad91d71ecc51.png)
-
-<br/>
 
 # **Statistical Stuff**
 As I mentioned, my work with this matrix is at the provider level, I have to devise coverage plans, or brainstorming workshops with my fellow blue-teamers to understand what an emulation plan means in terms of effort, engineering for new content and consequently sizing our systems to increase our visibility and detection needs.

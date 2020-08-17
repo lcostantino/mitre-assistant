@@ -49,13 +49,15 @@ impl EnterpriseMatrixSearcher {
         // Special Flags
         //      Easier to search this way without flooding the user with parameters
         //      These flags are commonly placed in both the query and render functions 
-        let mut _wants_stats: bool = false;             // Returns The Stats Key
-        let mut _wants_nosub: bool = false;             // Returns Techniques That Don't Have Subtechniques
-        let mut _wants_revoked: bool = false;           // Returns Techniques Revoked By Mitre
-        let mut _wants_tactics: bool = false;           // Returns The Tactics Key
-        let mut _wants_platforms: bool = false;         // Returns The Platforms Key
-        let mut _wants_deprecated: bool = false;        // Returns The Deprecated Techniques
-        let mut _wants_datasources: bool = false;       // Returns The Data Sources Key
+        let mut _wants_stats: bool = false;                         // Returns The Stats Key
+        let mut _wants_nosub: bool = false;                         // Returns Techniques That Don't Have Subtechniques
+        let mut _wants_revoked: bool = false;                       // Returns Techniques Revoked By Mitre
+        let mut _wants_tactics: bool = false;                       // Returns The Tactics Key
+        let mut _wants_platforms: bool = false;                     // Returns The Platforms Key
+        let mut _wants_deprecated: bool = false;                    // Returns The Deprecated Techniques
+        let mut _wants_datasources: bool = false;                   // Returns The Data Sources Key
+        let mut _wants_xref_datasources_tactics: bool = false;      // Returns The Stats Count XREF of Datasoources By Tactic
+        let mut _wants_xref_datasources_platforms: bool = false;    // Return The Stats Count XREF of Datasources By Platform
         // Parse the search term explicitly
         //      We are not using partial matches on search term keywords
         //      We keep a simple incrementing usize by search term
@@ -158,7 +160,18 @@ impl EnterpriseMatrixSearcher {
         }
         else if _st == "windows" {
             _valid.push((_st, 33usize));
-        }                                                                            
+        }
+        else if _st == "overlap" {
+            _valid.push((_st, 34usize));
+        }
+        else if _st == "xref:datasources:platforms" {
+            _valid.push((_st, 35usize));
+            _wants_xref_datasources_platforms = true;
+        }
+        else if _st == "xref:datasources:tactics" {
+            _valid.push((_st, 36usize));
+            _wants_xref_datasources_tactics = true;
+        }                                                                                          
         else if !_st.contains(",") {
             if _scanner.pattern.is_match(_st) {
                 let _idx: Vec<usize> = _scanner.pattern.matches(_st).into_iter().collect();
@@ -224,40 +237,40 @@ impl EnterpriseMatrixSearcher {
                     _results.push(self.enterprise_by_deprecated());
                 }
                 else if _pattern == &13usize {
-                    _results.push(self.enterprise_by_tactic("initial-access", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &14usize {
-                    _results.push(self.enterprise_by_tactic("execution", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &15usize {
-                    _results.push(self.enterprise_by_tactic("persistence", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 } 
                 else if _pattern == &16usize {
-                    _results.push(self.enterprise_by_tactic("privilege-escalation", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &17usize {
-                    _results.push(self.enterprise_by_tactic("defense-evasion", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &18usize {
-                    _results.push(self.enterprise_by_tactic("credential-access", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &19usize {
-                    _results.push(self.enterprise_by_tactic("discovery", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &20usize {
-                    _results.push(self.enterprise_by_tactic("lateral-movement", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &21usize {
-                    _results.push(self.enterprise_by_tactic("collection", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term , _wants_subtechniques));
                 }
                 else if _pattern == &22usize {
-                    _results.push(self.enterprise_by_tactic("command-and-control", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &23usize {
-                    _results.push(self.enterprise_by_tactic("exfiltration", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &24usize {
-                    _results.push(self.enterprise_by_tactic("impact", _wants_subtechniques));
+                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &25usize {
                     _results.push(self.enterprise_by_platform("aws", _wants_subtechniques));
@@ -285,7 +298,16 @@ impl EnterpriseMatrixSearcher {
                 }
                 else if _pattern == &33usize {
                     _results.push(self.enterprise_by_platform("windows", _wants_subtechniques));
-                }                                                                                                                                                                                                                                                                                                                                                                   
+                }
+                else if _pattern == &34usize {
+                    _results.push(self.enterprise_all_overlapped());
+                }
+                else if _pattern == &35usize {
+                    _results.push(self.enterprise_stats_datasources_and_platforms());
+                }
+                else if _pattern == &36usize {
+                    _results.push(self.enterprise_stats_datasources_and_tactics());
+                }                                                                                                                                                                                                                                                                                                                                                                                                  
             }
             // Render Query Results
             // --------------------
@@ -313,6 +335,12 @@ impl EnterpriseMatrixSearcher {
             else if _wants_deprecated {
                 self.render_enterprise_deprecated_table(&_results);
             }
+            else if _wants_xref_datasources_platforms {
+                self.render_enterprise_stats_xref_datasource_platforms(&_results);
+            }
+            else if _wants_xref_datasources_tactics {
+                self.render_enterprise_stats_xref_datasource_tactics(&_results);
+            }
             else {
                 self.render_enterprise_table(&_results);
             }
@@ -321,6 +349,7 @@ impl EnterpriseMatrixSearcher {
         }
     }
     /// # **Query Functions**
+    ///
     /// All of the functions from this source code section are for the queries provided by
     /// the end-user.
     ///
@@ -331,6 +360,7 @@ impl EnterpriseMatrixSearcher {
     ///
     ///
     /// ## **Query Functions Are Private**
+    ///
     /// All of the functions are **private functions** that are not exposed to the end-user.  They are only accessible
     /// from the module itself, and specifically, when invoked by the `self.search()` method.
     ///
@@ -370,6 +400,13 @@ impl EnterpriseMatrixSearcher {
         let _msg = format!("(?) Error: Unable To Convert String of All Techniques by Platform: {}", platform);
         serde_json::to_string(&_results).expect(_msg.as_str())    
     }
+    /// # Query By Tactics
+    ///
+    /// Allows the user to get all techniques by specifying a tactic.
+    ///
+    /// ```ignore
+    /// self.enterprise_by_tactic("initial-access", false)
+    /// ```
     fn enterprise_by_tactic(&self, tactic: &str, _wants_subtechniques: bool) -> String
     {
         let mut _results = vec![];
@@ -390,6 +427,13 @@ impl EnterpriseMatrixSearcher {
         let _msg = format!("(?) Error: Unable To Convert String of All Techniques by Tactic: {}", tactic);
         serde_json::to_string(&_results).expect(_msg.as_str())
     }
+    /// # Query By Deprecated Techniques
+    ///
+    /// Allows the user to get all deprecated techniques.
+    ///
+    /// ```ignore
+    /// self.deprecated();
+    /// ```
     fn enterprise_by_deprecated(&self) -> String
     {
         let mut _results = vec![];
@@ -400,6 +444,13 @@ impl EnterpriseMatrixSearcher {
         _results.sort();
         serde_json::to_string(&_results).expect("(?) Error: Unable To Deserialize String Of All Deprecated Techniques")        
     }
+    /// # Query To Get All Active Tactics
+    ///
+    /// Allows the user to get all of the Active Tactics.
+    ///
+    /// ```ignore
+    /// self.enterprise_all_tactics();
+    /// ```
     fn enterprise_all_tactics(&self) -> String
     {
         let mut _results = vec![];
@@ -410,16 +461,78 @@ impl EnterpriseMatrixSearcher {
         _results.sort();
         serde_json::to_string(&_results).expect("(?) Error: Unable To Deserialize All Tactics")
     }
+    /// # Query To Get All Overlapped Techniques
+    ///
+    /// Allows the user to get all of the techniques considered to have an overlap.
+    /// Overlap occurs when a technique is spread across more than one tactic/killchain.
+    ///
+    /// ```ignore
+    /// self.enterprise_all_overlapped();
+    /// ```
+    fn enterprise_all_overlapped(&self) -> String
+    {
+        use std::collections::HashSet;
+        
+        let mut _results = vec![];
+        let mut _targets = HashSet::new();
+        let _msg = "(?) Error: Unable to Deserialize All Overlapped Techniques";
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect(_msg);
+        // Iterate the Unique Techniques Key
+        // Find the Techniques with Overlap by Tactic
+        for _technique in _json.uniques_techniques.iter() {
+            let mut _overlap: usize = 0;
+            for _item in _json.breakdown_techniques.platforms.iter() {
+                if _item.tid.as_str() == _technique.as_str() {
+                    _overlap += 1;
+                    if _overlap > 1usize {
+                        _targets.insert(_technique);
+                    }
+                }
+            }
+        }
+        // Now get all the overlapped techniques
+        for _target in _targets {
+            let mut _modified = EnterpriseTechnique::new();
+            for _technique in _json.breakdown_techniques.platforms.iter() {
+                if _technique.tid.as_str() == _target.as_str() {
+                    _results.push(_technique);
+                }
+            }
+        }
+        let _msg = "(?) Error: Unable to Convert All Overlapped Techniques";
+        serde_json::to_string(&_results).expect(_msg)
+    }
+    /// # Query All Active Techniques
+    ///
+    /// Allows the user to get all of the Active Techniques.
+    ///
+    /// ```ignore
+    /// self.enterprise_all_techniques();
+    /// ```
     fn enterprise_all_techniques(&self) -> String
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         serde_json::to_string(&_json.breakdown_techniques.platforms).expect("(?) Error: Unable To Deserialize All Techniques")
     }
+    /// # Query All Active Subtechniques
+    ///
+    /// Allows the user to get all of the Active Subtechniques.
+    ///
+    /// ```ignore
+    /// self.enterprise_all_subtechniques();
+    /// ```
     fn enterprise_all_subtechniques(&self) -> String
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         serde_json::to_string(&_json.breakdown_subtechniques.platforms).expect("(?) Error: Unable To Deserialize All Techniques")
     }
+    /// # Query All Platforms
+    ///
+    /// Allows the user to get all the platforms.
+    ///
+    /// ```ignore
+    /// self.enterprise_all_platforms();
+    /// ```
     fn enterprise_all_platforms(&self) -> String
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
@@ -561,6 +674,54 @@ impl EnterpriseMatrixSearcher {
         }
         serde_json::to_string_pretty(&_results).expect("(?) Error: Unable To Deserialize Search Results By HAS_NO_SUBTECHNIQUES")
     }
+    fn enterprise_stats_datasources_and_platforms(&self) -> String
+    {
+        use std::collections::HashMap;
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
+        let mut _ds: HashMap<String, HashMap<String, usize>> = HashMap::new();
+        let mut _results: Vec<HashMap<String, HashMap<String, usize>>> = vec![];
+        for _datasource in _json.datasources.iter() {
+            let mut _os: HashMap<String, usize> = HashMap::new();
+            
+            for _platform in _json.platforms.iter() {
+                _os.insert(_platform.clone(), 0usize);
+                for _technique in _json.breakdown_techniques.platforms.iter() {
+                    if _technique.datasources.contains(_datasource)
+                        && _technique.platform.contains(_platform) {
+                            let _value = _os.get_mut(_platform.as_str()).unwrap();
+                            *_value += 1usize;
+                        }
+                }   
+            }
+            _ds.insert(_datasource.clone(), _os);
+        }
+        _results.push(_ds);
+        serde_json::to_string_pretty(&_results).expect("(?) Error: Unable To Deserialize STATS For Datasources & Platforms")
+    }
+    fn enterprise_stats_datasources_and_tactics(&self) -> String
+    {
+        use std::collections::HashMap;
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
+        let mut _ds: HashMap<String, HashMap<String, usize>> = HashMap::new();
+        let mut _results: Vec<HashMap<String, HashMap<String, usize>>> = vec![];
+        for _datasource in _json.datasources.iter() {
+            let mut _tactics: HashMap<String, usize> = HashMap::new();
+        
+            for _tactic in _json.tactics.iter() {
+                _tactics.insert(_tactic.clone(), 0usize);
+                for _technique in _json.breakdown_techniques.platforms.iter() {
+                    if _technique.datasources.contains(_datasource)
+                        && _technique.tactic.contains(_tactic) {
+                            let _value = _tactics.get_mut(_tactic.as_str()).unwrap();
+                            *_value += 1usize;
+                        }
+                }   
+            }
+            _ds.insert(_datasource.clone(), _tactics);
+        }
+        _results.push(_ds);
+        serde_json::to_string_pretty(&_results).expect("(?) Error: Unable To Deserialize STATS For Datasources & Tactics")
+    }    
     /// # **Rendering Functions**
     /// This section of the source code is for functions that render queery results
     /// or render information to the end-user.
@@ -762,6 +923,89 @@ impl EnterpriseMatrixSearcher {
                 );
                 _idx += 1;
             }
+        }
+        println!("{}", "\n\n");
+        _table.printstd();
+        println!("{}", "\n\n");
+    }
+    fn render_enterprise_stats_xref_datasource_platforms(&self, results: &Vec<String>)
+    {
+        let mut _table = Table::new();
+        _table.add_row(Row::new(vec![
+            Cell::new("DATASOURCE").style_spec("FY"),
+            Cell::new("AWS").style_spec("FW"),
+            Cell::new("AZURE").style_spec("FW"),
+            Cell::new("AZURE-AD").style_spec("FW"),
+            Cell::new("GCP").style_spec("FW"),
+            Cell::new("LINUX").style_spec("FW"),
+            Cell::new("MACOS").style_spec("FW"),
+            Cell::new("OFFICE-365").style_spec("FW"),
+            Cell::new("SAAS").style_spec("FW"),
+            Cell::new("WINDOWS").style_spec("FW"),
+        ]));
+        let _data: serde_json::Value = serde_json::from_str(results[0].as_str()).unwrap();
+        let _data = _data.as_array().unwrap();
+        let _data = _data[0].as_object().unwrap();
+
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
+        for _datasource in _json.datasources.iter() {
+            _table.add_row(Row::new(vec![
+                Cell::new(_datasource.as_str()).style_spec("FW"),
+                Cell::new(&_data[_datasource]["aws"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["azure"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["azure-ad"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["gcp"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["linux"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["macos"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["office-365"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["saas"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["windows"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+            ])); 
+        }
+        println!("{}", "\n\n");
+        _table.printstd();
+        println!("{}", "\n\n");
+    }   
+    fn render_enterprise_stats_xref_datasource_tactics(&self, results: &Vec<String>)
+    {
+        let mut _table = Table::new();
+        _table.add_row(Row::new(vec![
+            Cell::new("DATASOURCE").style_spec("FY"),
+            Cell::new("INITIAL ACCESS").style_spec("FW"),
+            Cell::new("EXECUTION").style_spec("FW"),
+            Cell::new("PERSISTENCE").style_spec("FW"),
+            Cell::new("PRIVILEGE ESCALATION").style_spec("FW"),
+            Cell::new("DEFENSE EVASION").style_spec("FW"),
+            Cell::new("CREDENTIAL ACCESS").style_spec("FW"),
+            Cell::new("DISCOVERY").style_spec("FW"),
+            Cell::new("LATERAL MOVEMENT").style_spec("FW"),
+            Cell::new("COLLECTION").style_spec("FW"),
+            Cell::new("COMMAND AND CONTROL").style_spec("FW"),
+            Cell::new("EXFILTRATION").style_spec("FW"),
+            Cell::new("IMPACT").style_spec("FW"),
+
+        ]));
+        let _data: serde_json::Value = serde_json::from_str(results[0].as_str()).unwrap();
+        let _data = _data.as_array().unwrap();
+        let _data = _data[0].as_object().unwrap();
+
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
+        for _datasource in _json.datasources.iter() {
+            _table.add_row(Row::new(vec![
+                Cell::new(_datasource.as_str()).style_spec("FW"),
+                Cell::new(&_data[_datasource]["initial-access"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["execution"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["persistence"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["privilege-escalation"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["defense-evasion"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["credential-access"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["discovery"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["lateral-movement"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["collection"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["command-and-control"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["exfiltration"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+                Cell::new(&_data[_datasource]["impact"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
+            ])); 
         }
         println!("{}", "\n\n");
         _table.printstd();
