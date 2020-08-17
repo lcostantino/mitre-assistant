@@ -273,31 +273,31 @@ impl EnterpriseMatrixSearcher {
                     _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &25usize {
-                    _results.push(self.enterprise_by_platform("aws", _wants_subtechniques));
+                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &26usize {
-                    _results.push(self.enterprise_by_platform("azure", _wants_subtechniques));
+                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &27usize {
-                    _results.push(self.enterprise_by_platform("azure-ad", _wants_subtechniques));
+                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &28usize {
-                    _results.push(self.enterprise_by_platform("gcp", _wants_subtechniques));
+                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &29usize {
-                    _results.push(self.enterprise_by_platform("linux", _wants_subtechniques));
+                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &30usize {
-                    _results.push(self.enterprise_by_platform("macos", _wants_subtechniques));
+                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &31usize {
-                    _results.push(self.enterprise_by_platform("office-365", _wants_subtechniques));
+                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &32usize {
-                    _results.push(self.enterprise_by_platform("saas", _wants_subtechniques));
+                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &33usize {
-                    _results.push(self.enterprise_by_platform("windows", _wants_subtechniques));
+                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &34usize {
                     _results.push(self.enterprise_all_overlapped());

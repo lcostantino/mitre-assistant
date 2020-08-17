@@ -201,7 +201,7 @@ impl EnterpriseMatrixParser {
         for _item in items["x_mitre_data_sources"].as_array().unwrap().iter() {
             self.details
                 .datasources
-                .push(_item.as_str().unwrap().to_lowercase().replace(" ", "-"));
+                .push(_item.as_str().unwrap().to_lowercase().replace(" ", "-").replace("/", "-"));
         }
         self.details.datasources.sort();
         self.details.datasources.dedup();
