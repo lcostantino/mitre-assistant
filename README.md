@@ -288,6 +288,7 @@ You have to tell the `search subcommand` which matrix it is going to work with b
 
 <br/>
 <br/>
+<br/>
 
 ## *Searching The Enterprise Matrix For An Overview Stats Summary*
 You use the keyword `stats` in your search term, like this
