@@ -29,6 +29,9 @@ $> cargo install mitre-assistant
 - [x] Mitre Enterprise Matrix
 - [ ] Mitre Mobile Matrix
 - [ ] Mitre Pre-Attack Matrix
+- [ ] Mitre Navigator JSON
+    - [ ] Legacy Version
+    - [ ] Modern Version with Subtechniques
 - [x] Linux - 64bit
 - [x] MacOS - 64bit
 - [x] Windows - 64bit
