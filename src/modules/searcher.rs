@@ -198,115 +198,115 @@ impl EnterpriseMatrixSearcher {
         if _valid.len() >= 1 {
             for (_term, _pattern) in _valid.iter() {
                 if _pattern == &0usize {
-                    _results.push(self.enterprise_by_id(_term, _wants_subtechniques));
+                    _results.push(self.search_by_id(_term, _wants_subtechniques));
                 }
                 else if _pattern == &1usize {
-                    _results.push(self.enterprise_by_subtechnique_id(_term));
+                    _results.push(self.search_by_subtechnique_id(_term));
                 }
                 else if _pattern == &2usize {
-                    _results.push(self.enterprise_by_name(_term));
+                    _results.push(self.search_by_name(_term));
                 }
                 else if _pattern == &3usize {
-                    _results.push(self.enterprise_revoked());
+                    _results.push(self.search_revoked());
                 }
                 else if _pattern == &4usize {
-                    _results.push(self.enterprise_stats());
+                    _results.push(self.search_stats());
                 }
                 else if _pattern == &5usize {
-                    _results.push(self.enterprise_by_nosubtechniques());
+                    _results.push(self.search_by_no_subtechniques());
                 }
                 else if _pattern == &6usize {
-                    _results.push(self.enterprise_all_techniques());
+                    _results.push(self.search_all_techniques());
                 }
                 else if _pattern == &7usize {
-                    _results.push(self.enterprise_all_subtechniques());
+                    _results.push(self.search_all_subtechniques());
                 }
                 else if _pattern == &8usize {
-                    _results.push(self.enterprise_all_datasources());
+                    _results.push(self.search_all_datasources());
                 }
                 else if _pattern == &9usize {
-                    _results.push(self.enterprise_all_platforms());
+                    _results.push(self.search_all_platforms());
                 }
                 else if _pattern == &10usize {
-                    _results.push(self.enterprise_by_no_datasources());
+                    _results.push(self.search_by_no_datasources());
                 }
                 else if _pattern == &11usize {
-                    _results.push(self.enterprise_all_tactics());
+                    _results.push(self.search_all_tactics());
                 }
                 else if _pattern == &12usize {
-                    _results.push(self.enterprise_by_deprecated());
+                    _results.push(self.search_by_deprecated());
                 }
                 else if _pattern == &13usize {
-                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
+                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &14usize {
-                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
+                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &15usize {
-                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
+                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
                 } 
                 else if _pattern == &16usize {
-                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
+                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &17usize {
-                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
+                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &18usize {
-                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
+                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &19usize {
-                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
+                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &20usize {
-                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
+                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &21usize {
-                    _results.push(self.enterprise_by_tactic(_term , _wants_subtechniques));
+                    _results.push(self.search_by_tactic(_term , _wants_subtechniques));
                 }
                 else if _pattern == &22usize {
-                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
+                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &23usize {
-                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
+                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &24usize {
-                    _results.push(self.enterprise_by_tactic(_term, _wants_subtechniques));
+                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
                 }
                 else if _pattern == &25usize {
-                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
+                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &26usize {
-                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
+                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &27usize {
-                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
+                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &28usize {
-                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
+                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &29usize {
-                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
+                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &30usize {
-                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
+                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &31usize {
-                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
+                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &32usize {
-                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
+                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &33usize {
-                    _results.push(self.enterprise_by_platform(_term, _wants_subtechniques));
+                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
                 }
                 else if _pattern == &34usize {
-                    _results.push(self.enterprise_all_overlapped());
+                    _results.push(self.search_all_overlapped());
                 }
                 else if _pattern == &35usize {
-                    _results.push(self.enterprise_stats_datasources_and_platforms());
+                    _results.push(self.search_stats_datasources_and_platforms());
                 }
                 else if _pattern == &36usize {
-                    _results.push(self.enterprise_stats_datasources_and_tactics());
+                    _results.push(self.search_stats_datasources_and_tactics());
                 }                                                                                                                                                                                                                                                                                                                                                                                                  
             }
             // Render Query Results
@@ -364,7 +364,7 @@ impl EnterpriseMatrixSearcher {
     /// All of the functions are **private functions** that are not exposed to the end-user.  They are only accessible
     /// from the module itself, and specifically, when invoked by the `self.search()` method.
     ///
-    fn enterprise_by_platform(&self, platform: &str, _wants_subtechniques: bool) -> String
+    fn search_by_platform(&self, platform: &str, _wants_subtechniques: bool) -> String
     {
         let mut _results = vec![];
         let _msg = format!("(?) Error: Unable To Deserialize String of All Techniques by Platform: {}", platform);
@@ -405,9 +405,9 @@ impl EnterpriseMatrixSearcher {
     /// Allows the user to get all techniques by specifying a tactic.
     ///
     /// ```ignore
-    /// self.enterprise_by_tactic("initial-access", false)
+    /// self.search_by_tactic("initial-access", false)
     /// ```
-    fn enterprise_by_tactic(&self, tactic: &str, _wants_subtechniques: bool) -> String
+    fn search_by_tactic(&self, tactic: &str, _wants_subtechniques: bool) -> String
     {
         let mut _results = vec![];
         let _msg = format!("(?) Error: Unable To Deserialize String of All Techniques by Tactic: {}", tactic);
@@ -434,7 +434,7 @@ impl EnterpriseMatrixSearcher {
     /// ```ignore
     /// self.deprecated();
     /// ```
-    fn enterprise_by_deprecated(&self) -> String
+    fn search_by_deprecated(&self) -> String
     {
         let mut _results = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect("(?) Error: Unable to Deserialize All Deprecated Techniques");
@@ -449,9 +449,9 @@ impl EnterpriseMatrixSearcher {
     /// Allows the user to get all of the Active Tactics.
     ///
     /// ```ignore
-    /// self.enterprise_all_tactics();
+    /// self.search_all_tactics();
     /// ```
-    fn enterprise_all_tactics(&self) -> String
+    fn search_all_tactics(&self) -> String
     {
         let mut _results = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect("(?) Error: Unable to Deserialize All Tactics");
@@ -467,9 +467,9 @@ impl EnterpriseMatrixSearcher {
     /// Overlap occurs when a technique is spread across more than one tactic/killchain.
     ///
     /// ```ignore
-    /// self.enterprise_all_overlapped();
+    /// self.search_all_overlapped();
     /// ```
-    fn enterprise_all_overlapped(&self) -> String
+    fn search_all_overlapped(&self) -> String
     {
         use std::collections::HashSet;
         
@@ -507,9 +507,9 @@ impl EnterpriseMatrixSearcher {
     /// Allows the user to get all of the Active Techniques.
     ///
     /// ```ignore
-    /// self.enterprise_all_techniques();
+    /// self.search_all_techniques();
     /// ```
-    fn enterprise_all_techniques(&self) -> String
+    fn search_all_techniques(&self) -> String
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         serde_json::to_string(&_json.breakdown_techniques.platforms).expect("(?) Error: Unable To Deserialize All Techniques")
@@ -519,9 +519,9 @@ impl EnterpriseMatrixSearcher {
     /// Allows the user to get all of the Active Subtechniques.
     ///
     /// ```ignore
-    /// self.enterprise_all_subtechniques();
+    /// self.search_all_subtechniques();
     /// ```
-    fn enterprise_all_subtechniques(&self) -> String
+    fn search_all_subtechniques(&self) -> String
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         serde_json::to_string(&_json.breakdown_subtechniques.platforms).expect("(?) Error: Unable To Deserialize All Techniques")
@@ -531,19 +531,34 @@ impl EnterpriseMatrixSearcher {
     /// Allows the user to get all the platforms.
     ///
     /// ```ignore
-    /// self.enterprise_all_platforms();
+    /// self.search_all_platforms();
     /// ```
-    fn enterprise_all_platforms(&self) -> String
+    fn search_all_platforms(&self) -> String
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         serde_json::to_string(&_json.platforms).expect("(?) Error: Unable To Deserialize All Platforms")
     }
-    fn enterprise_all_datasources(&self) -> String
+    /// # Query All Datasources
+    ///
+    /// Allows the user to get alll the datasources.
+    /// 
+    /// ```ignore
+    /// self.search_all_datasources();
+    /// ```
+    fn search_all_datasources(&self) -> String
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         serde_json::to_string(&_json.datasources).expect("(?) Error: Unable To Deserialize All Datasources")
     }
-    fn enterprise_by_no_datasources(&self) -> String
+    /// # Query All Techniques That Do Not have Datasources
+    /// 
+    /// Allows the user to get all the techniques and subtechniques
+    /// that do not have assigned datasources.
+    /// 
+    /// ```ignore
+    /// self.search_by_no_datasources();
+    /// ```
+    fn search_by_no_datasources(&self) -> String
     {
         let mut _results = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect("(?) Error: Unable to Deserialize By No Datasources");
@@ -559,7 +574,14 @@ impl EnterpriseMatrixSearcher {
         }
         serde_json::to_string(&_results).expect("(?) Error: Unable To Serialize By No Datasources")
     }
-    fn enterprise_by_name(&self, technique_name: &str) -> String
+    /// # Query Techniques By Name
+    /// 
+    /// Allows the user to query techniques by their name, works as `partial match`
+    /// 
+    /// ```ignore
+    /// self.search_by_name();
+    /// ```
+    fn search_by_name(&self, technique_name: &str) -> String
     {
         let mut _results = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
@@ -580,7 +602,17 @@ impl EnterpriseMatrixSearcher {
         }        
         serde_json::to_string_pretty(&_results).expect("(?) Error:  Unable To Deserialize Search Results By Technique Name")
     }
-    fn enterprise_by_id(&self, technique_id: &str, _wants_subtechniques: bool) -> String
+    /// # Query By Technique ID
+    /// 
+    /// Allows a user to query techniques by their ID - e.g., T1234.
+    /// 
+    /// When the user passes a boolean set to `true` as the second parameter
+    /// the query will also look for subtechniques that match the ID provided.
+    /// 
+    /// ```ignore
+    /// self.search_by_id("t1021", false);
+    /// ```
+    fn search_by_id(&self, technique_id: &str, _wants_subtechniques: bool) -> String
     {
         let mut _results = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect("HERE");
@@ -639,7 +671,14 @@ impl EnterpriseMatrixSearcher {
             serde_json::to_string_pretty(&_results).expect("(?) Error:  Unable To Deserialize Search Results By Technique ID")
         }
     }
-    fn enterprise_by_subtechnique_id(&self, technique_id: &str) -> String
+    /// # Query By Subtechnique ID
+    /// 
+    /// Allows a user to query by the ID of a subtechnique - e.g., T1021.001.
+    /// 
+    /// ```ignore
+    /// self.search_by_subtechnique_id("t1021.001");
+    /// ```
+    fn search_by_subtechnique_id(&self, technique_id: &str) -> String
     {
         let mut _results = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
@@ -650,7 +689,14 @@ impl EnterpriseMatrixSearcher {
         }
         serde_json::to_string_pretty(&_results).expect("(?) Error:  Unable To Deserialize Search Results By Subtechnique ID")
     }
-    fn enterprise_revoked(&self) -> String
+    /// # Query By Revoked Techniques
+    /// 
+    /// Allows a user to query for the techniques in a `revoked` status.
+    /// 
+    /// ```ignore
+    /// self.search_revoked();
+    /// ```
+    fn search_revoked(&self) -> String
     {
         let mut _results = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
@@ -659,12 +705,27 @@ impl EnterpriseMatrixSearcher {
         }
         serde_json::to_string_pretty(&_results).expect("(?) Error:  Unable To Deserialize Search Results By Revoked Techniques")
     }
-    fn enterprise_stats(&self) -> String
+    /// # Query To Get A Stats Overview
+    /// 
+    /// Allows a user to get a summary of the matrix with `total` and `unique` counts
+    /// of specific data elements.
+    /// 
+    /// ```ignore
+    /// self.search_stats();
+    /// ```
+    fn search_stats(&self) -> String
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         serde_json::to_string_pretty(&_json.stats).expect("(?) Error:  Unable To Deserialize Search Results By Enterprise Stats")
     }
-    fn enterprise_by_nosubtechniques(&self) -> String {
+    /// # Query For All Subtechniques
+    /// 
+    /// Allows the userto obtain a complete list of active subtechniques.
+    /// 
+    /// ```ignore
+    /// self.search_by_no_subtechniques();
+    /// ```
+    fn search_by_no_subtechniques(&self) -> String {
         let mut _results = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         for _item in _json.breakdown_techniques.platforms.iter() {
@@ -674,7 +735,16 @@ impl EnterpriseMatrixSearcher {
         }
         serde_json::to_string_pretty(&_results).expect("(?) Error: Unable To Deserialize Search Results By HAS_NO_SUBTECHNIQUES")
     }
-    fn enterprise_stats_datasources_and_platforms(&self) -> String
+    /// # Query Via XREF Dataources to Platforms
+    /// 
+    /// Allows a user to obtain a 2d array of `counts` by active techniques.
+    /// The array is aligned to the datasources in the "`Y`" axis, and the
+    /// the platforms on the "`X`" axis.
+    /// 
+    /// ```ignore
+    /// self.search_stats_datatsources_and_platforms();
+    /// ```
+    fn search_stats_datasources_and_platforms(&self) -> String
     {
         use std::collections::HashMap;
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
@@ -698,7 +768,16 @@ impl EnterpriseMatrixSearcher {
         _results.push(_ds);
         serde_json::to_string_pretty(&_results).expect("(?) Error: Unable To Deserialize STATS For Datasources & Platforms")
     }
-    fn enterprise_stats_datasources_and_tactics(&self) -> String
+    /// # Query Via XREF Dataources to Tactics
+    /// 
+    /// Allows a user to obtain a 2d array of `counts` by active techniques.
+    /// The array is aligned to the datasources in the "`Y`" axis, and the
+    /// the tactics on the "`X`" axis.
+    /// 
+    /// ```ignore
+    /// self.search_stats_datatsources_and_platforms();
+    /// ```    
+    fn search_stats_datasources_and_tactics(&self) -> String
     {
         use std::collections::HashMap;
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
@@ -829,7 +908,7 @@ impl EnterpriseMatrixSearcher {
                         Cell::new(_row.tactic.as_str()),
                         Cell::new(_row.tid.as_str()).style_spec("FY"),
                         Cell::new(_row.technique.as_str()).style_spec("FW"),
-                        Cell::new(_st.replace("|", "\n").as_str()).style_spec("FW"),
+                        Cell::new(_st.replace("|", "\n").as_str()).style_spec("cFW"),
                         Cell::new(_row.datasources.replace("|", "\n").as_str())
                     ])
                 ); 
@@ -845,7 +924,7 @@ impl EnterpriseMatrixSearcher {
                         Cell::new(_row.tactic.as_str()),
                         Cell::new(_row.tid.as_str()).style_spec("FR"),
                         Cell::new(_row.technique.as_str()).style_spec("FW"),
-                        Cell::new(_st.replace("|", "\n").as_str()).style_spec("FW"),
+                        Cell::new(_st.replace("|", "\n").as_str()).style_spec("cFW"),
                         Cell::new(_row.datasources.replace("|", "\n").as_str())
                     ])
                 ); 
@@ -858,7 +937,7 @@ impl EnterpriseMatrixSearcher {
                         Cell::new(_row.tactic.as_str()),
                         Cell::new(_row.tid.as_str()).style_spec("FG"),
                         Cell::new(_row.technique.as_str()).style_spec("FW"),
-                        Cell::new(_st.replace("|", "\n").as_str()).style_spec("FW"),
+                        Cell::new(_st.replace("|", "\n").as_str()).style_spec("cFW"),
                         Cell::new(_row.datasources.replace("|", "\n").as_str())
                     ])
                 ); 
