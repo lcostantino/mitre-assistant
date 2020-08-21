@@ -45,7 +45,10 @@ impl EnterpriseMatrixSearcher {
         let mut _valid: Vec<(&str, usize)> = vec![];
         let _st = search_term.to_lowercase();
         let _st = _st.as_str();
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         let _scanner = RegexPatternManager::load_search_term_patterns();
+        let _scanner_ds = RegexPatternManager::load_search_datasources(&_json.datasources);
+        //println!("{:#?}", _scanner_ds);
         // Special Flags
         //      Easier to search this way without flooding the user with parameters
         //      These flags are commonly placed in both the query and render functions 
@@ -56,6 +59,7 @@ impl EnterpriseMatrixSearcher {
         let mut _wants_platforms: bool = false;                     // Returns The Platforms Key
         let mut _wants_deprecated: bool = false;                    // Returns The Deprecated Techniques
         let mut _wants_datasources: bool = false;                   // Returns The Data Sources Key
+        //let mut _wants_by_datasource: bool = false;                 // Returns Techniques Based on specific datasource
         let mut _wants_xref_datasources_tactics: bool = false;      // Returns The Stats Count XREF of Datasoources By Tactic
         let mut _wants_xref_datasources_platforms: bool = false;    // Return The Stats Count XREF of Datasources By Platform
         // Parse the search term explicitly
@@ -171,6 +175,12 @@ impl EnterpriseMatrixSearcher {
         else if _st == "xref:datasources:tactics" {
             _valid.push((_st, 36usize));
             _wants_xref_datasources_tactics = true;
+        }
+        else if _scanner_ds.pattern.is_match(_st) {
+            let _idx: Vec<usize> = _scanner_ds.pattern.matches(_st).into_iter().collect();
+            _valid.push((_st, 37usize));
+            //_wants_by_datasource = true;
+            //println!("Matches:\n{:#?}", _idx);
         }                                                                                          
         else if !_st.contains(",") {
             if _scanner.pattern.is_match(_st) {
@@ -307,7 +317,10 @@ impl EnterpriseMatrixSearcher {
                 }
                 else if _pattern == &36usize {
                     _results.push(self.search_stats_datasources_and_tactics());
-                }                                                                                                                                                                                                                                                                                                                                                                                                  
+                }
+                else if _pattern == &37usize {
+                    _results.push(self.search_by_datasource(_term, _wants_subtechniques));
+                }                                                                                                                                                                                                                                                                                                                                                                                               
             }
             // Render Query Results
             // --------------------
@@ -364,6 +377,42 @@ impl EnterpriseMatrixSearcher {
     /// All of the functions are **private functions** that are not exposed to the end-user.  They are only accessible
     /// from the module itself, and specifically, when invoked by the `self.search()` method.
     ///
+    fn search_by_datasource(&self, datasource: &str, _wants_subtechniques: bool) -> String
+    {
+        let mut _results = vec![];
+        let _msg = format!("(?) Error: Unable To Deserialize String of All Techniques by Datasource: {}", datasource);
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect(_msg.as_str());
+        for _item in _json.breakdown_techniques.platforms.iter() {
+            if _item.datasources.contains(datasource) {
+                let mut _modified = EnterpriseTechnique::new();
+                _modified.tid = _item.tid.clone();
+                _modified.technique = _item.technique.clone();
+                _modified.tactic = _item.tactic.clone();
+                _modified.datasources = datasource.to_string();
+                _modified.has_subtechniques = _item.has_subtechniques.clone();
+                _modified.subtechniques = _item.subtechniques.clone();
+                _modified.platform = _item.platform.clone();
+                _results.push(_modified);
+            }
+        }
+        if _wants_subtechniques {
+            for _item in _json.breakdown_subtechniques.platforms.iter() {
+                if _item.datasources.contains(datasource) {
+                    let mut _modified = EnterpriseTechnique::new();
+                    _modified.tid = _item.tid.clone();
+                    _modified.technique = _item.technique.clone();
+                    _modified.tactic = _item.tactic.clone();
+                    _modified.datasources = datasource.to_string();
+                    _modified.has_subtechniques = _item.has_subtechniques.clone();
+                    _modified.subtechniques = _item.subtechniques.clone();
+                    _modified.platform = _item.platform.clone();
+                    _results.push(_modified);
+                }
+            }
+        }
+        let _msg = format!("(?) Error: Unable To Convert String of All Techniques by Daatasource: {}", datasource);
+        serde_json::to_string(&_results).expect(_msg.as_str())           
+    }
     fn search_by_platform(&self, platform: &str, _wants_subtechniques: bool) -> String
     {
         let mut _results = vec![];
@@ -932,7 +981,7 @@ impl EnterpriseMatrixSearcher {
                 _table.add_row(
                     Row::new(vec![
                         Cell::new((_idx + 1).to_string().as_str()),
-                        Cell::new("Active"),
+                        Cell::new("Active").style_spec("FG"),
                         Cell::new(_row.platform.replace("|", "\n").as_str()),
                         Cell::new(_row.tactic.as_str()),
                         Cell::new(_row.tid.as_str()).style_spec("FG"),
