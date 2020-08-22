@@ -253,6 +253,7 @@ impl EnterpriseTechniquesByPlatform {
 
 #[derive(Debug,Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
 pub struct EnterpriseTechnique {
+    pub id:             String,
     pub platform:       String,
     pub tid:            String,
     pub technique:      String,
@@ -268,6 +269,7 @@ impl EnterpriseTechnique {
     pub fn new() -> Self
     {
         EnterpriseTechnique {
+            id:                 String::from(""),
             platform:           String::from("n_a"),
             tid:                String::from(""),
             technique:          String::from(""),

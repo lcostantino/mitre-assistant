@@ -1,4 +1,5 @@
 use regex::{Regex, RegexSet, RegexSetBuilder};
+use std::collections::HashSet;
 
 #[derive(Debug)]
 pub struct RegexPatternManager {
@@ -40,13 +41,23 @@ impl RegexPatternManager {
               .expect("(?) Error: RegexPatternManager | Cannot Build Search Terms Patterns")
         }
     }
-    pub fn load_search_datasources(ds: &Vec<String>) -> Self
+    pub fn load_search_datasources(ds: &Vec<String>, platforms: &HashSet<String>) -> Self
     {
         let mut _patterns: Vec<String> = vec![];
+        // First Create The Patterns of just datasources
         for _item in ds.iter() {
             let _p = format!(r"{}", _item);
             _patterns.push(_p);
         }
+        // Now Create the Patterns of Platforms with Datasource
+        // example - `windows:process-monitoring`
+        for _os in platforms.iter() {
+            for _item in ds.iter() {
+                let _p = format!(r"{}:{}", _os, _item);
+                _patterns.push(_p);
+            }
+        }
+        //println!("{:#?}", _patterns);
         RegexPatternManager {
             pattern: RegexSetBuilder::new(&_patterns[..])
                         .case_insensitive(true)

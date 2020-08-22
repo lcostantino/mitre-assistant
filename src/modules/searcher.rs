@@ -60,7 +60,7 @@ impl EnterpriseMatrixSearcher {
         let _st = _st.as_str();
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         let _scanner = RegexPatternManager::load_search_term_patterns();
-        let _scanner_ds = RegexPatternManager::load_search_datasources(&_json.datasources);
+        let _scanner_ds = RegexPatternManager::load_search_datasources(&_json.datasources, &_json.platforms);
         // Special Flags
         //      Easier to search this way without flooding the user with parameters
         //      These flags are commonly placed in both the query and render functions 
@@ -393,31 +393,137 @@ impl EnterpriseMatrixSearcher {
         let mut _results = vec![];
         let _msg = format!("(?) Error: Unable To Deserialize String of All Techniques by Datasource: {}", datasource);
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect(_msg.as_str());
-        for _item in _json.breakdown_techniques.platforms.iter() {
-            if _item.datasources.contains(datasource) {
-                let mut _modified = EnterpriseTechnique::new();
-                _modified.tid = _item.tid.clone();
-                _modified.technique = _item.technique.clone();
-                _modified.tactic = _item.tactic.clone();
-                _modified.datasources = datasource.to_string();
-                _modified.has_subtechniques = _item.has_subtechniques.clone();
-                _modified.subtechniques = _item.subtechniques.clone();
-                _modified.platform = _item.platform.clone();
-                _results.push(_modified);
-            }
+        let mut _os: &str = "";
+        let mut _terms: Vec<&str>;
+        let mut _weird: usize = 0;
+        if datasource.contains(":") {
+            _terms = datasource.split(':').collect();
+            _os = _terms[0];
+        } else {
+            _os = "None";
+            _terms = vec![_os, datasource];
         }
-        if _wants_subtechniques {
-            for _item in _json.breakdown_subtechniques.platforms.iter() {
-                if _item.datasources.contains(datasource) {
-                    let mut _modified = EnterpriseTechnique::new();
+        for _item in _json.breakdown_techniques.platforms.iter() {
+            //if _item.datasources.contains(datasource) {
+            if _item.datasources.contains(_terms[1]) {
+                let mut _modified = EnterpriseTechnique::new();
+                if _os != "None" && _item.platform.contains(_os) {
+                    // Do Final Check of confusing datasource issues here
+                    // When datasources do not make sense, filter them here.
+                    // Example - aws:windows-event-logs or windows:stackdriver-logs"
+                    if (_terms[1].starts_with("win") && !_os.starts_with("windows"))
+                            || (_terms[1].starts_with("wmi") && !_os.starts_with("windows"))
+                            || (_terms[1].starts_with("gcp") && !_os.starts_with("gcp"))
+                            || (_terms[1].starts_with("anti-virus") && !_os.starts_with("windows"))
+                            || (_terms[1].starts_with("anti-virus") && !_os.starts_with("linux"))
+                            || (_terms[1].starts_with("anti-virus") && !_os.starts_with("macos"))
+                            || (_terms[1].starts_with("bios") && !_os.starts_with("windows"))
+                            || (_terms[1].starts_with("bios") && !_os.starts_with("linux"))
+                            || (_terms[1].starts_with("bios") && !_os.starts_with("macos"))
+                            || (_terms[1].starts_with("mbr") && !_os.starts_with("windows"))
+                            || (_terms[1].starts_with("mbr") && !_os.starts_with("linux"))
+                            || (_terms[1].starts_with("mbr") && !_os.starts_with("macos"))
+                            || (_terms[1].starts_with("vbr") && !_os.starts_with("windows"))
+                            || (_terms[1].starts_with("vbr") && !_os.starts_with("linux"))
+                            || (_terms[1].starts_with("vbr") && !_os.starts_with("macos"))
+                            || (_terms[1].starts_with("disk-forensics") && !_os.starts_with("windows"))
+                            || (_terms[1].starts_with("disk-forensics") && !_os.starts_with("linux"))
+                            || (_terms[1].starts_with("disk-forensics") && !_os.starts_with("macos"))
+                            || (_terms[1].starts_with("browser-extensions") && !_os.starts_with("windows"))
+                            || (_terms[1].starts_with("browser-extensions") && !_os.starts_with("linux"))
+                            || (_terms[1].starts_with("browser-extensions") && !_os.starts_with("macos"))
+                            || (_terms[1].starts_with("named-pipes") && !_os.starts_with("windows"))
+                            || (_terms[1].starts_with("named-pipes") && !_os.starts_with("linux"))
+                            || (_terms[1].starts_with("named-pipes") && !_os.starts_with("macos"))
+                            || (_terms[1].starts_with("office-365") && !_os.starts_with("office-365"))
+                            || (_terms[1].starts_with("stack-driver-logs") && !_os.starts_with("aws"))
+                            || (_terms[1].starts_with("stack-driver-logs") && !_os.starts_with("azure"))
+                            || (_terms[1].starts_with("stack-driver-logs") && !_os.starts_with("gcp"))
+                            || (_terms[1].starts_with("stack-driver-logs") && !_os.starts_with("saas"))
+                    {
+                            _weird += 1;
+                    } else {                    
+                        _modified.platform = _os.to_string();
+                        _modified.tid = _item.tid.clone();
+                        _modified.technique = _item.technique.clone();
+                        _modified.tactic = _item.tactic.clone();
+                        _modified.datasources = _terms[1].to_string();
+                        _modified.has_subtechniques = _item.has_subtechniques.clone();
+                        _modified.subtechniques = _item.subtechniques.clone();
+                        _results.push(_modified);
+                    }
+                } else if _os == "None" {
+                    _modified.platform = _item.platform.clone();
                     _modified.tid = _item.tid.clone();
                     _modified.technique = _item.technique.clone();
                     _modified.tactic = _item.tactic.clone();
-                    _modified.datasources = datasource.to_string();
+                    _modified.datasources = _terms[1].to_string();
                     _modified.has_subtechniques = _item.has_subtechniques.clone();
                     _modified.subtechniques = _item.subtechniques.clone();
-                    _modified.platform = _item.platform.clone();
                     _results.push(_modified);
+                }
+            } 
+        }
+        // TODO: Refactor this function now that the filters work
+        if _wants_subtechniques {
+            for _item in _json.breakdown_subtechniques.platforms.iter() {
+                if _item.datasources.contains(_terms[1]) {
+                    let mut _modified = EnterpriseTechnique::new();
+                    if _os != "None" && _item.platform.contains(_os) {
+                        // Do Final Check of confusing datasource issues here
+                        // When datasources do not make sense, filter them here.
+                        // Example - aws:windows-event-logs
+                        if (_terms[1].starts_with("win") && !_os.starts_with("windows"))
+                        || (_terms[1].starts_with("wmi") && !_os.starts_with("windows"))
+                        || (_terms[1].starts_with("gcp") && !_os.starts_with("gcp"))
+                        || (_terms[1].starts_with("anti-virus") && !_os.starts_with("windows"))
+                        || (_terms[1].starts_with("anti-virus") && !_os.starts_with("linux"))
+                        || (_terms[1].starts_with("anti-virus") && !_os.starts_with("macos"))
+                        || (_terms[1].starts_with("bios") && !_os.starts_with("windows"))
+                        || (_terms[1].starts_with("bios") && !_os.starts_with("linux"))
+                        || (_terms[1].starts_with("bios") && !_os.starts_with("macos"))
+                        || (_terms[1].starts_with("mbr") && !_os.starts_with("windows"))
+                        || (_terms[1].starts_with("mbr") && !_os.starts_with("linux"))
+                        || (_terms[1].starts_with("mbr") && !_os.starts_with("macos"))
+                        || (_terms[1].starts_with("vbr") && !_os.starts_with("windows"))
+                        || (_terms[1].starts_with("vbr") && !_os.starts_with("linux"))
+                        || (_terms[1].starts_with("vbr") && !_os.starts_with("macos"))
+                        || (_terms[1].starts_with("disk-forensics") && !_os.starts_with("windows"))
+                        || (_terms[1].starts_with("disk-forensics") && !_os.starts_with("linux"))
+                        || (_terms[1].starts_with("disk-forensics") && !_os.starts_with("macos"))
+                        || (_terms[1].starts_with("browser-extensions") && !_os.starts_with("windows"))
+                        || (_terms[1].starts_with("browser-extensions") && !_os.starts_with("linux"))
+                        || (_terms[1].starts_with("browser-extensions") && !_os.starts_with("macos"))
+                        || (_terms[1].starts_with("named-pipes") && !_os.starts_with("windows"))
+                        || (_terms[1].starts_with("named-pipes") && !_os.starts_with("linux"))
+                        || (_terms[1].starts_with("named-pipes") && !_os.starts_with("macos"))
+                        || (_terms[1].starts_with("office-365") && !_os.starts_with("office-365"))
+                        || (_terms[1].starts_with("stack-driver-logs") && !_os.starts_with("aws"))
+                        || (_terms[1].starts_with("stack-driver-logs") && !_os.starts_with("azure"))
+                        || (_terms[1].starts_with("stack-driver-logs") && !_os.starts_with("gcp"))
+                        || (_terms[1].starts_with("stack-driver-logs") && !_os.starts_with("saas"))
+                        {
+                            _weird += 1;
+                        } else {
+                            _modified.platform = _os.to_string();
+                            _modified.tid = _item.tid.clone();
+                            _modified.technique = _item.technique.clone();
+                            _modified.tactic = _item.tactic.clone();
+                            _modified.datasources = _terms[1].to_string();
+                            _modified.has_subtechniques = _item.has_subtechniques.clone();
+                            _modified.subtechniques = _item.subtechniques.clone();
+                            _results.push(_modified);
+                        }
+                    } else if _os == "None" {
+                        _modified.platform = _item.platform.clone();
+                        _modified.tid = _item.tid.clone();
+                        _modified.technique = _item.technique.clone();
+                        _modified.tactic = _item.tactic.clone();
+                        _modified.datasources = _terms[1].to_string();
+                        _modified.has_subtechniques = _item.has_subtechniques.clone();
+                        _modified.subtechniques = _item.subtechniques.clone();
+                        _results.push(_modified);
+                    }
                 }
             }
         }
