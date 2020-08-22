@@ -340,11 +340,24 @@ impl EnterpriseTactic {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-pub struct EnterpriseAdvsersary {
+pub struct EnterpriseAdversary {
     pub id:         String,
     pub name:       String,
     pub aliases:    String,
     pub group_id:   String,
+    pub is_revoked: bool,
+}
+impl EnterpriseAdversary {
+    pub fn new() -> Self
+    {
+        EnterpriseAdversary {
+            id:         "none".to_string(),
+            name:       "none".to_string(),
+            aliases:    "none".to_string(),
+            group_id:   "none".to_string(),
+            is_revoked: false,
+        }
+    }
 }
 
 
@@ -356,6 +369,18 @@ pub struct EnterpriseTool {
     pub platforms:  String,
     pub tool_id:    String,
 }
+impl EnterpriseTool {
+    pub fn new() -> Self
+    {
+        EnterpriseTool {
+            id:         "none".to_string(),
+            name:       "none".to_string(),
+            aliases:    "none".to_string(),
+            platforms:  "none".to_string(),
+            tool_id:    "none".to_string()
+        }
+    }
+}
 
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -365,4 +390,16 @@ pub struct EnterpriseMalware {
     pub aliases:    String,
     pub platforms:  String,
     pub malware_id: String,
+}
+impl EnterpriseMalware {
+    pub fn new() -> Self
+    {
+        EnterpriseMalware {
+            id:         "none".to_string(),
+            name:       "none".to_string(),
+            aliases:    "none".to_string(),
+            platforms:  "none".to_string(),
+            malware_id: "none".to_string()
+        }
+    }
 }

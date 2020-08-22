@@ -22,6 +22,9 @@ use regexes::RegexPatternManager;
 mod enterprise;
 use enterprise::{
     EnterpriseMatrixStatistics,
+    EnterpriseAdversary,
+    EnterpriseMalware,
+    EnterpriseTool,
     EnterpriseTechnique,
     EnterpriseTechniquesByPlatform,
     EnterpriseSubtechniquesByPlatform,
@@ -31,11 +34,13 @@ use enterprise::{
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct EnterpriseMatrixBreakdown {
+    pub adversaries: Vec<String>,
     pub tactics: HashSet<String>,
     pub platforms: HashSet<String>,
     pub datasources: Vec<String>,
     pub revoked_techniques: HashSet<(String, String)>,
     pub deprecated_techniques: HashSet<(String, String)>,
+    pub breakdown_adversaries: Vec<EnterpriseAdversary>,
     pub breakdown_techniques: EnterpriseTechniquesByPlatform,
     pub breakdown_subtechniques: EnterpriseSubtechniquesByPlatform,
     pub uniques_techniques: Vec<String>,
@@ -47,11 +52,13 @@ pub struct EnterpriseMatrixBreakdown {
 impl EnterpriseMatrixBreakdown {
     pub fn new() -> Self {
         EnterpriseMatrixBreakdown {
+            adversaries: vec![],
             tactics: HashSet::new(),
             platforms: HashSet::new(),
             datasources: Vec::new(),
             revoked_techniques: HashSet::new(),
             deprecated_techniques: HashSet::new(),
+            breakdown_adversaries: vec![],
             breakdown_techniques: EnterpriseTechniquesByPlatform::new(),
             breakdown_subtechniques: EnterpriseSubtechniquesByPlatform::new(),
             uniques_techniques: vec![],
@@ -114,6 +121,7 @@ impl EnterpriseMatrixParser {
             } else if _s == "malware" {
                 self.details.stats.count_malwares += 1;
             } else if _s == "intrusion-set" {
+                self.extract_adversaries(_t);
                 self.details.stats.count_adversaries += 1;
             } else if _s == "tool" {
                 self.details.stats.count_tools += 1;
@@ -158,7 +166,55 @@ impl EnterpriseMatrixParser {
         self.details.stats.count_datasources = self.details.datasources.len();
         Ok(())
     }
-    fn extract_techniques_and_tactics(&mut self, items: &serde_json::Value, is_subtechnique: bool) -> Result<(), Box<dyn std::error::Error>>
+    fn extract_adversaries(&mut self,
+        items: &serde_json::Value   
+    ) -> Result<(), Box<dyn std::error::Error>>
+    {
+        let mut _is_revoked: bool = false;
+        let _adversary = items.as_object().expect("Adversary: Proble Convert Into Oject");
+        if _adversary.contains_key("revoked") {
+            if _adversary["revoked"].as_bool().expect("Adversary: Problem Is Revoked Check") {
+                _is_revoked = true;
+            }
+        }
+        let _gid = items["external_references"].as_array().expect("Adversary: Problem With External References");
+        let _gid = _gid[0]["external_id"].as_str().expect("Adversary: Problem With External ID");
+        let _gid = _gid.to_string();
+        let _id = items["id"].as_str().expect("Adversary: Problem With UID");
+        let _id = _id.to_string();
+        let _gname = items["name"].as_str().expect("Adversary: Problem With Technique Name");
+        let _gname = _gname.to_string();
+        let mut _aliases = String::from("");
+        let mut _revoked_adversaries: usize = 0;
+        if _is_revoked {
+            _revoked_adversaries += 1;
+        } else {
+            for _alias in items["aliases"].as_array().unwrap().iter() {
+                let _x = _alias.as_str().unwrap().to_lowercase().replace(" ", "-");
+                &_aliases.push_str(_x.as_str());
+                &_aliases.push_str("|");
+                self.details.adversaries.push(_x.to_string());
+            }
+            _aliases.pop();
+        }
+        let _aliases = _aliases.to_string();
+        let _ea = EnterpriseAdversary {
+            id:         _id,
+            name:       _gname,
+            aliases:    _aliases,
+            group_id:   _gid,
+            is_revoked: _is_revoked
+        };
+        self.details.breakdown_adversaries.push(_ea);
+        self.details.adversaries.sort();
+        self.details.adversaries.dedup();
+        self.details.adversaries.sort();
+        Ok(())
+    }
+    fn extract_techniques_and_tactics(&mut self,
+        items: &serde_json::Value,
+        is_subtechnique: bool
+    ) -> Result<(), Box<dyn std::error::Error>>
     {
         let _tid = items["external_references"].as_array().expect("Problem With External References");
         let _tid = _tid[0]["external_id"].as_str().expect("Problem With External ID");
