@@ -338,3 +338,31 @@ impl EnterpriseTactic {
         }
     }
 }
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct EnterpriseAdvsersary {
+    pub id:         String,
+    pub name:       String,
+    pub aliases:    String,
+    pub group_id:   String,
+}
+
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct EnterpriseTool {
+    pub id:         String,
+    pub name:       String,
+    pub aliases:    String,
+    pub platforms:  String,
+    pub tool_id:    String,
+}
+
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct EnterpriseMalware {
+    pub id:         String,
+    pub name:       String,
+    pub aliases:    String,
+    pub platforms:  String,
+    pub malware_id: String,
+}
