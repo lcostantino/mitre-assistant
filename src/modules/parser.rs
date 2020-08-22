@@ -290,6 +290,7 @@ impl EnterpriseMatrixParser {
                 // When The Enterpise JSON Does not have a Datasources Key, add the technique
                 // Reference:  https://github.com/mitre/cti/issues/101#issuecomment-671639284
                 if is_subtechnique {
+                    _et.id = _id.clone();
                     _et.datasources = "none".to_string();
                     self.subtechniques.insert(_tid.to_string());
                     self.details.breakdown_subtechniques.platforms.push(_et);
