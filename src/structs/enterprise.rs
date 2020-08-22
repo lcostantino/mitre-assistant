@@ -368,6 +368,7 @@ pub struct EnterpriseTool {
     pub aliases:    String,
     pub platforms:  String,
     pub tool_id:    String,
+    pub is_revoked: bool
 }
 impl EnterpriseTool {
     pub fn new() -> Self
@@ -377,7 +378,8 @@ impl EnterpriseTool {
             name:       "none".to_string(),
             aliases:    "none".to_string(),
             platforms:  "none".to_string(),
-            tool_id:    "none".to_string()
+            tool_id:    "none".to_string(),
+            is_revoked: false,
         }
     }
 }
@@ -390,6 +392,7 @@ pub struct EnterpriseMalware {
     pub aliases:    String,
     pub platforms:  String,
     pub malware_id: String,
+    pub is_revoked: bool,
 }
 impl EnterpriseMalware {
     pub fn new() -> Self
@@ -399,7 +402,8 @@ impl EnterpriseMalware {
             name:       "none".to_string(),
             aliases:    "none".to_string(),
             platforms:  "none".to_string(),
-            malware_id: "none".to_string()
+            malware_id: "none".to_string(),
+            is_revoked: false
         }
     }
 }
