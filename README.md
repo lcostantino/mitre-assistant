@@ -1252,6 +1252,14 @@ $> mitre-assistant search -m enterprise -t "nodatasources"
 
 ## *Exporting Output: CSV*
 
+```text
+NOTE:
+          CSV Exports are available for v.0.0.11 and above
+
+```
+<br/>
+<br/>
+
 CSV exports are first class citizens, you can export the results of your queries  by using:
 
 * The `-e` parameter to signal a request for an export, followed by an export type - e.g., "`csv`"
@@ -1271,7 +1279,7 @@ $> mitre-assistant search -m enterprise -t "t1234" -e csv -f t1234.csv
 
 # Example 2:    Assumes you want a csv export of the xref query
 #               and you want to save the results as datasources_and_tactics.csv
-$> mitre-assistant search -m enterprise -t "xref:datasources:tactics" -e csv -m datasources_and_tactics.csv
+$> mitre-assistant search -m enterprise -t "xref:datasources:tactics" -e csv -f datasources_and_tactics.csv
 ```
 
 <br/>
