@@ -251,7 +251,7 @@ impl EnterpriseTechniquesByPlatform {
 }
 
 
-#[derive(Debug,Deserialize, Serialize)]
+#[derive(Debug,Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
 pub struct EnterpriseTechnique {
     pub platform:       String,
     pub tid:            String,

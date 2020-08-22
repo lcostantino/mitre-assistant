@@ -1,6 +1,8 @@
 use serde_json;
 use prettytable::{Table, Row, Cell};
 
+use std::collections::HashSet;
+
 
 #[path = "./parser.rs"]
 mod parser;
@@ -528,9 +530,7 @@ impl EnterpriseMatrixSearcher {
     /// self.search_all_overlapped();
     /// ```
     fn search_all_overlapped(&self) -> String
-    {
-        use std::collections::HashSet;
-        
+    {   
         let mut _results = vec![];
         let mut _targets = HashSet::new();
         let _msg = "(?) Error: Unable to Deserialize All Overlapped Techniques";
@@ -673,15 +673,18 @@ impl EnterpriseMatrixSearcher {
     fn search_by_id(&self, technique_id: &str, _wants_subtechniques: bool) -> String
     {
         let mut _results = vec![];
+        //let mut _temp = HashSet::new();
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect("HERE");
         for _item in _json.breakdown_techniques.platforms.iter() {
             if _item.tid.to_lowercase().as_str() == technique_id.to_lowercase().as_str() {
                 if _wants_subtechniques {
                     if _item.has_subtechniques {
                         _results.push(_item);
+                        //_temp.insert(_item);
                         for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
                             if _subtechnique.tid.contains(&_item.tid) {
                                 _results.push(_subtechnique);
+                                //_temp.insert(_subtechnique);
                             }
                         }
                     }
@@ -724,8 +727,12 @@ impl EnterpriseMatrixSearcher {
                     _results.push(_modified);
                 }                
             }
+            _results.sort();
+            _results.dedup();
             serde_json::to_string_pretty(&_results).expect("(?) Error:  Unable To Deserialize Search Results By Revoked Technique ID")
         } else {
+            _results.sort();
+            _results.dedup();
             serde_json::to_string_pretty(&_results).expect("(?) Error:  Unable To Deserialize Search Results By Technique ID")
         }
     }
