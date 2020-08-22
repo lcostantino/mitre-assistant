@@ -29,4 +29,5 @@ clap = "2.33.1"
 #walkdir = "2.3.1"
 fs2 = "0.4.3"
 #sha2 = "0.8.1"
-prettytable-rs = "^0.8"
+prettytable-rs = { version = "^0.8", features = ["csv"] }
+dirs = "3.0.1"

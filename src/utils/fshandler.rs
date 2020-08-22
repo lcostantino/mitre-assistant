@@ -2,7 +2,6 @@ use std::path::{ self, Path };
 use std::fs::{ self, File, Metadata };
 use std::io::prelude::*;
 use std::io::{ self, BufRead, BufReader, BufWriter, Read, Write };
-use std::collections::{ HashMap };
 
 // 3rd Party
 use fs2::{ self, FileExt };
@@ -155,45 +154,6 @@ impl FileHandler {
             size: _size,
         }
     }
-    /// # FileHandler - Recurse
-    /// Walk the angular project directory and indexes its contents for further processing.
-    /// This creates an initial data structure that summarizes the profile of the project
-    /// and is used by analysis methods to provide the details of each category.
-    /// 
-    /// ```ignore
-    /// let _dir_listing = FileHandler::recurse("angular/foo"); // at the root of the project
-    /// ```
-    /*
-    pub fn recurse(dp: &str) -> Result<RepoFileListing, Box<dyn std::error::Error>>
-    {
-        let _path_string = FileHandler::strip_input(dp);
-        let _dirpath = Path::new(&_path_string);
-        if _dirpath.is_file() {
-            exit_process("Info", "User Error:  Requires a Project Folder Path, not a file");
-        }
-        if !_dirpath.exists() {
-            exit_process("Info", "User Error:  Desired Path Does Not Exist");
-        }
-        
-        let mut _repo: HashMap<String, Vec<DirEntry>> = HashMap::new();
-        let _mimes: [&str; 3] = [ ".ps1", ".psd1", ".psm1"];
-
-        for _mime in _mimes.iter() {
-            let mut _entries = Vec::new();
-            for _entry in WalkDir::new(&_path_string).max_depth(50).into_iter().filter_map(|e| e.ok()) {
-                let _e = _entry.path().to_str().unwrap();
-                if _e.contains("node_modules") || _e.contains("spec.ts") {
-                    continue
-                } else {
-                    if _e.ends_with(_mime) { _entries.push(_entry); }
-                }
-            }
-            _repo.insert(_mime.to_string(), _entries);
-        }
-        let _repo_listing = RepoFileListing { files: _repo };
-        Ok(_repo_listing)
-    }
-    */
     /// # FileHandler - Strip Input (Private Method)
     /// This method performs simple char replacement of input strings that have "\r", "\r\n", or "\n"
     /// characters when provided to the program.  For file_paths, this is very important to protect against
@@ -266,7 +226,7 @@ impl FileHandler {
      }
      pub fn check_for_config_folder() -> Result<bool, Box<dyn std::error::Error>>
      {
-         let _home = std::env::home_dir().unwrap();
+         let _home = dirs::home_dir().unwrap();
          let _home = format!("{}/{}", _home.display().to_string(), ".mitre-assistant");
          let _home = Path::new(_home.as_str());
          match _home.exists() {
@@ -276,7 +236,7 @@ impl FileHandler {
      }
      pub fn write_download(filename: &str, content: &String) -> Result<(), Box<dyn std::error::Error>>
      {
-        let _home = std::env::home_dir().unwrap().display().to_string();
+        let _home = dirs::home_dir().unwrap().display().to_string();
         let _home = format!("{}/{}/{}", _home, ".mitre-assistant", "matrixes");
         let _path = Path::new(_home.as_str());
         let _check = match _path.exists()  {
@@ -290,7 +250,7 @@ impl FileHandler {
      }
      pub fn write_baseline(filename: &str, content: &String) -> Result<(), Box<dyn std::error::Error>>
      {
-        let _home = std::env::home_dir().unwrap().display().to_string();
+        let _home = dirs::home_dir().unwrap().display().to_string();
         let _home = format!("{}/{}/{}", _home, ".mitre-assistant", "baselines");
         let _path = Path::new(&_home);
         let _check = match _path.exists() {
@@ -313,7 +273,7 @@ impl FileHandler {
      pub fn load_resource(subfolder: &str, resource: &str)
         -> BufReader<File>
      {
-         let _home = std::env::home_dir().unwrap().display().to_string();
+         let _home = dirs::home_dir().unwrap().display().to_string();
          let _home = format!("{}/{}/{}/{}", _home, ".mitre-assistant", subfolder, resource);
          println!("{}", _home);
          //let _path = Path::new(&_home);
@@ -323,7 +283,7 @@ impl FileHandler {
      pub fn load_baseline(subfolder: &str, resource: &str)
         -> Vec<u8>
      {
-         let _home = std::env::home_dir().unwrap().display().to_string();
+         let _home = dirs::home_dir().unwrap().display().to_string();
          let _home = format!("{}/{}/{}/{}", _home, ".mitre-assistant", subfolder, resource);
          //println!("{}", _home);
          //let _path = Path::new(&_home);

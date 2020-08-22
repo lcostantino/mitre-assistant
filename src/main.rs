@@ -8,7 +8,7 @@ extern crate reqwest;
 extern crate regex;
 extern crate serde_json;
 extern crate serde_derive;
-
+extern crate dirs;
 
 #[path = "./utils/args.rs"]
 mod args;

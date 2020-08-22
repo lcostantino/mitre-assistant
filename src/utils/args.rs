@@ -102,7 +102,17 @@ impl ArgumentsParser<'_> {
                                 .value_name("subtechniques")
                                 .takes_value(false)
                                 .help("Search & Render Subtechniques | Must use with `-m` and `-t`")                                 
-                             )                             
+                             )
+                             /*
+                             .arg(
+                                Arg::with_name("export")
+                                .short("e")
+                                .long("export-to")
+                                .value_name("export")
+                                .takes_value(true)
+                                .help("Expor Table Results: (csv) | Must use with `-m` and `-t`")                                 
+                             )
+                             */                                                           
                         )                        
                         .get_matches()
         }
@@ -177,7 +187,13 @@ impl ArgumentsParser<'_> {
         let _wants_subtechniques = match _subcommand.is_present("subtechniques") {
             true => true,
             false => false
-        };        
+        };
+        /*
+        let _wants_export = match _subcommand.is_present("export") {
+            true => _subcommand.value_of("export").unwrap(),
+            false => "None"
+        };
+        */
         if _matrix != "None" && _search_term != "None" {
             let mut _searcher = EnterpriseMatrixSearcher::new(_matrix);
             _searcher.search(_search_term, _wants_subtechniques);

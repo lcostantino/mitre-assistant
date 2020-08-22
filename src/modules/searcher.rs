@@ -41,6 +41,7 @@ impl EnterpriseMatrixSearcher {
     }
     pub fn search(&self, search_term: &str, _wants_subtechniques: bool)
     {
+        let search_term = search_term.trim_end();
         let mut _results: Vec<String> = vec![];
         let mut _valid: Vec<(&str, usize)> = vec![];
         let _st = search_term.to_lowercase();
@@ -59,7 +60,6 @@ impl EnterpriseMatrixSearcher {
         let mut _wants_platforms: bool = false;                     // Returns The Platforms Key
         let mut _wants_deprecated: bool = false;                    // Returns The Deprecated Techniques
         let mut _wants_datasources: bool = false;                   // Returns The Data Sources Key
-        //let mut _wants_by_datasource: bool = false;                 // Returns Techniques Based on specific datasource
         let mut _wants_xref_datasources_tactics: bool = false;      // Returns The Stats Count XREF of Datasoources By Tactic
         let mut _wants_xref_datasources_platforms: bool = false;    // Return The Stats Count XREF of Datasources By Platform
         // Parse the search term explicitly
@@ -1137,7 +1137,7 @@ impl EnterpriseMatrixSearcher {
         }
         println!("{}", "\n\n");
         _table.printstd();
-        println!("{}", "\n\n");
+        println!("{}", "\n\n");        
     }    
     fn render_enterprise_stats(&self, results: &Vec<String>)
     {
