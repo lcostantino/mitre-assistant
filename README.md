@@ -36,10 +36,10 @@ $> cargo install mitre-assistant
 - [x] MacOS - 64bit
 - [x] Windows - 64bit
 - [ ] Data Interchange Format
-   - [ ] CSV
+   - [x] CSV
    - [ ] JSON
 - [ ] Exports
-   - [ ] CSV
+   - [x] CSV
    - [ ] JSON
    - [ ] Rich Web
 
@@ -1248,8 +1248,34 @@ $> mitre-assistant search -m enterprise -t "nodatasources"
 ![image](https://user-images.githubusercontent.com/11415591/89842172-dd93d900-db42-11ea-81c9-89d5a5c85961.png)
 
 <br/>
+<br/>
+
+## *Exporting Output: CSV*
+
+CSV exports are first class citizens, you can export the results of your queries  by using:
+
+* The `-e` parameter to signal a request for an export, followed by an export type - e.g., "`csv`"
+* The `-f` parameter to provide the name of the desired output file - e.g., "`foo.csv`"
+
+<br/>
+
+Let's see it in action with a few examples:
+
+<br/>
+
+```bash
+# Example 1:    Assumes you want a csv export of a query for T1234
+#               and you want to save the results as t1234.csv
+$> mitre-assistant search -m enterprise -t "t1234" -e csv -f t1234.csv
 
 
+# Example 2:    Assumes you want a csv export of the xref query
+#               and you want to save the results as datasources_and_tactics.csv
+$> mitre-assistant search -m enterprise -t "xref:datasources:tactics" -e csv -m datasources_and_tactics.csv
+```
+
+<br/>
+<br/>
 
 # **Statistical Stuff**
 As I mentioned, my work with this matrix is at the provider level, I have to devise coverage plans, or brainstorming workshops with my fellow blue-teamers to understand what an emulation plan means in terms of effort, engineering for new content and consequently sizing our systems to increase our visibility and detection needs.

@@ -103,16 +103,22 @@ impl ArgumentsParser<'_> {
                                 .takes_value(false)
                                 .help("Search & Render Subtechniques | Must use with `-m` and `-t`")                                 
                              )
-                             /*
                              .arg(
                                 Arg::with_name("export")
                                 .short("e")
                                 .long("export-to")
-                                .value_name("export")
+                                .value_name("export_type")
                                 .takes_value(true)
-                                .help("Expor Table Results: (csv) | Must use with `-m` and `-t`")                                 
+                                .help("Export Table Results: (csv) | Must use with `-m`, `-t`, and `-f`")                                 
                              )
-                             */                                                           
+                             .arg(
+                                Arg::with_name("file")
+                                .short("f")
+                                .long("file")
+                                .value_name("file")
+                                .takes_value(true)
+                                .help("Output File | Must use with `-m`, `-t`, and `-e`")                                 
+                             )                                                                                      
                         )                        
                         .get_matches()
         }
@@ -169,7 +175,6 @@ impl ArgumentsParser<'_> {
             let mut _emp = EnterpriseMatrixParser::new();
             _emp.baseline(_matrix)?;
             _emp.save_baseline();
-            //println!("{}", _emp.to_string());
         }
         Ok(())
     }
@@ -188,15 +193,20 @@ impl ArgumentsParser<'_> {
             true => true,
             false => false
         };
-        /*
         let _wants_export = match _subcommand.is_present("export") {
             true => _subcommand.value_of("export").unwrap(),
             false => "None"
         };
-        */
+        let _wants_outfile = match _subcommand.is_present("file") {
+            true => _subcommand.value_of("file").unwrap(),
+            false => "None"
+        };        
         if _matrix != "None" && _search_term != "None" {
             let mut _searcher = EnterpriseMatrixSearcher::new(_matrix);
-            _searcher.search(_search_term, _wants_subtechniques);
+            _searcher.search(_search_term,
+                             _wants_subtechniques,
+                             _wants_export,
+                             _wants_outfile);
         }        
         Ok(())
     }

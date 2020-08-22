@@ -97,7 +97,7 @@ impl FileHandler {
                 }
             }
             "crw" => {
-                println!("\t|__(+) New File To Be Created: {}", fp);
+                println!("\n\t[ INFO ] New File Created: {}\n\n", fp);
             }
             _ => exit_process("info", "Desired File Mode Not Suppported, Process Exiting..."),
         }
@@ -275,8 +275,7 @@ impl FileHandler {
      {
          let _home = dirs::home_dir().unwrap().display().to_string();
          let _home = format!("{}/{}/{}/{}", _home, ".mitre-assistant", subfolder, resource);
-         println!("{}", _home);
-         //let _path = Path::new(&_home);
+
          let _file = FileHandler::open(_home.as_str(), "r");
          BufReader::new(_file.handle)
      }
@@ -285,10 +284,8 @@ impl FileHandler {
      {
          let _home = dirs::home_dir().unwrap().display().to_string();
          let _home = format!("{}/{}/{}/{}", _home, ".mitre-assistant", subfolder, resource);
-         //println!("{}", _home);
-         //let _path = Path::new(&_home);
+
          let _file = FileHandler::open(_home.as_str(), "r");
-         //BufReader::new(_file.handle)
 
          let mut _bytes: Vec<u8> = Vec::with_capacity(_file.size as usize);
          let mut _bufr = BufReader::new(_file.handle);

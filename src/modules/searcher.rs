@@ -39,7 +39,17 @@ impl EnterpriseMatrixSearcher {
             content: _content
         } 
     }
-    pub fn search(&self, search_term: &str, _wants_subtechniques: bool)
+    pub fn save_csv_export(&self, _wants_outfile: &str, _table: &Table)
+    {
+        let _fp = FileHandler::open(_wants_outfile, "crw");
+        _table.to_csv(_fp.handle).expect("(?) Error: Unable to Save CSV Output File");
+    }
+    pub fn search(&self,
+        search_term: &str,
+        _wants_subtechniques: bool,
+        _wants_export: &str,
+        _wants_outfile: &str
+    )
     {
         let search_term = search_term.trim_end();
         let mut _results: Vec<String> = vec![];
@@ -49,7 +59,6 @@ impl EnterpriseMatrixSearcher {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         let _scanner = RegexPatternManager::load_search_term_patterns();
         let _scanner_ds = RegexPatternManager::load_search_datasources(&_json.datasources);
-        //println!("{:#?}", _scanner_ds);
         // Special Flags
         //      Easier to search this way without flooding the user with parameters
         //      These flags are commonly placed in both the query and render functions 
@@ -331,31 +340,31 @@ impl EnterpriseMatrixSearcher {
             //              the renderer functions.
             //    
             if _wants_revoked {
-                self.render_enterprise_revoked_table(&_results);
+                self.render_enterprise_revoked_table(&_results, _wants_export, _wants_outfile);
             }
             else if _wants_stats {
-                self.render_enterprise_stats(&_results);
+                self.render_enterprise_stats(&_results, _wants_export, _wants_outfile);
             }
             else if _wants_datasources {
-                self.render_enterprise_datasources_table(&_results);
+                self.render_enterprise_datasources_table(&_results, _wants_export, _wants_outfile);
             }
             else if _wants_platforms {
-                self.render_enterprise_platforms_table(&_results);
+                self.render_enterprise_platforms_table(&_results, _wants_export, _wants_outfile);
             }
             else if _wants_tactics {
-                self.render_enterprise_tactics_table(&_results);
+                self.render_enterprise_tactics_table(&_results, _wants_export, _wants_outfile);
             }
             else if _wants_deprecated {
-                self.render_enterprise_deprecated_table(&_results);
+                self.render_enterprise_deprecated_table(&_results, _wants_export, _wants_outfile);
             }
             else if _wants_xref_datasources_platforms {
-                self.render_enterprise_stats_xref_datasource_platforms(&_results);
+                self.render_enterprise_stats_xref_datasource_platforms(&_results, _wants_export, _wants_outfile);
             }
             else if _wants_xref_datasources_tactics {
-                self.render_enterprise_stats_xref_datasource_tactics(&_results);
+                self.render_enterprise_stats_xref_datasource_tactics(&_results, _wants_export, _wants_outfile);
             }
             else {
-                self.render_enterprise_table(&_results);
+                self.render_enterprise_table(&_results, _wants_export, _wants_outfile);
             }
         } else {
             println!(r#"[ "Results": {}, "SearchTerm": {} ]"#, "None Found", search_term);
@@ -854,7 +863,12 @@ impl EnterpriseMatrixSearcher {
     /// This section of the source code is for functions that render queery results
     /// or render information to the end-user.
     ///
-    fn render_enterprise_tactics_table(&self, results: &Vec<String>) {
+    fn render_enterprise_tactics_table(&self,
+        results: &Vec<String>,
+        _wants_export: &str,
+        _wants_outfile: &str
+    )
+    {
         let mut _table = Table::new();
         _table.add_row(Row::new(vec![
             Cell::new("INDEX").style_spec("FW"),
@@ -869,9 +883,16 @@ impl EnterpriseMatrixSearcher {
         }
         println!("{}", "\n\n");
         _table.printstd();
-        println!("{}", "\n\n");           
+        println!("{}", "\n\n");
+        if _wants_export == "csv" {
+            self.save_csv_export(_wants_outfile, &_table);
+        }          
     }
-    fn render_enterprise_platforms_table(&self, results: &Vec<String>)
+    fn render_enterprise_platforms_table(&self,
+        results: &Vec<String>,
+        _wants_export: &str,
+        _wants_outfile: &str
+    )
     {
         let mut _table = Table::new();
         _table.add_row(Row::new(vec![
@@ -888,8 +909,15 @@ impl EnterpriseMatrixSearcher {
         println!("{}", "\n\n");
         _table.printstd();
         println!("{}", "\n\n");
+        if _wants_export == "csv" {
+            self.save_csv_export(_wants_outfile, &_table);
+        }
     } 
-    fn render_enterprise_datasources_table(&self, results: &Vec<String>)
+    fn render_enterprise_datasources_table(&self,
+        results: &Vec<String>,
+        _wants_export: &str,
+        _wants_outfile: &str
+    )
     {
         let mut _table = Table::new();
         _table.add_row(Row::new(vec![
@@ -906,8 +934,15 @@ impl EnterpriseMatrixSearcher {
         println!("{}", "\n\n");
         _table.printstd();
         println!("{}", "\n\n");
+        if _wants_export == "csv" {
+            self.save_csv_export(_wants_outfile, &_table);
+        }        
     } 
-    fn render_enterprise_table(&self, results: &Vec<String>)
+    fn render_enterprise_table(&self,
+        results: &Vec<String>,
+        _wants_export: &str,
+        _wants_outfile: &str
+    )
     {
         let mut _table = Table::new();
         _table.add_row(Row::new(vec![
@@ -997,8 +1032,15 @@ impl EnterpriseMatrixSearcher {
         println!("{}", "\n\n");
         _table.printstd();
         println!("{}", "\n\n");
+        if _wants_export == "csv" {
+            self.save_csv_export(_wants_outfile, &_table);
+        }
     }
-    fn render_enterprise_revoked_table(&self, results: &Vec<String>)
+    fn render_enterprise_revoked_table(&self,
+        results: &Vec<String>,
+        _wants_export: &str,
+        _wants_outfile: &str
+    )
     {
         let mut _table = Table::new();
         _table.add_row(Row::new(vec![
@@ -1026,8 +1068,15 @@ impl EnterpriseMatrixSearcher {
         println!("{}", "\n\n");
         _table.printstd();
         println!("{}", "\n\n");
+        if _wants_export == "csv" {
+            self.save_csv_export(_wants_outfile, &_table);
+        }  
     }
-    fn render_enterprise_deprecated_table(&self, results: &Vec<String>)
+    fn render_enterprise_deprecated_table(&self,
+        results: &Vec<String>,
+        _wants_export: &str,
+        _wants_outfile: &str
+    )
     {
         let mut _table = Table::new();
         _table.add_row(Row::new(vec![
@@ -1055,8 +1104,15 @@ impl EnterpriseMatrixSearcher {
         println!("{}", "\n\n");
         _table.printstd();
         println!("{}", "\n\n");
+        if _wants_export == "csv" {
+            self.save_csv_export(_wants_outfile, &_table);
+        }          
     }
-    fn render_enterprise_stats_xref_datasource_platforms(&self, results: &Vec<String>)
+    fn render_enterprise_stats_xref_datasource_platforms(&self,
+        results: &Vec<String>,
+        _wants_export: &str,
+        _wants_outfile: &str
+    )
     {
         let mut _table = Table::new();
         _table.add_row(Row::new(vec![
@@ -1093,8 +1149,15 @@ impl EnterpriseMatrixSearcher {
         println!("{}", "\n\n");
         _table.printstd();
         println!("{}", "\n\n");
+        if _wants_export == "csv" {
+            self.save_csv_export(_wants_outfile, &_table);
+        }
     }   
-    fn render_enterprise_stats_xref_datasource_tactics(&self, results: &Vec<String>)
+    fn render_enterprise_stats_xref_datasource_tactics(&self,
+        results: &Vec<String>,
+        _wants_export: &str,
+        _wants_outfile: &str
+    )
     {
         let mut _table = Table::new();
         _table.add_row(Row::new(vec![
@@ -1137,9 +1200,16 @@ impl EnterpriseMatrixSearcher {
         }
         println!("{}", "\n\n");
         _table.printstd();
-        println!("{}", "\n\n");        
+        println!("{}", "\n\n");
+        if _wants_export == "csv" {
+            self.save_csv_export(_wants_outfile, &_table);
+        }              
     }    
-    fn render_enterprise_stats(&self, results: &Vec<String>)
+    fn render_enterprise_stats(&self,
+        results: &Vec<String>,
+        _wants_export: &str,
+        _wants_outfile: &str
+    )
     {
         let mut _table = Table::new();
         _table.add_row(Row::new(vec![
@@ -1599,6 +1669,13 @@ impl EnterpriseMatrixSearcher {
         );
         println!("\n\n");        
         _table.printstd();
-        println!("\n\n");    
+        println!("\n\n");
+        /*
+        TO DO:
+        if _wants_export == "csv" {
+            _table.remove_row(index: usize)
+            self.save_csv_export(_wants_outfile, &_table);
+        }
+        */          
     }
 }
