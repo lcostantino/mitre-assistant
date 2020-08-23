@@ -21,6 +21,8 @@ use enterprise::{
     EnterpriseMatrixStatistics,
     EnterpriseAdversary,
     EnterpriseMalware,
+    EnterpriseRelationship,
+    EnterpriseRelationships,
     EnterpriseTool,
     EnterpriseTechnique,
     EnterpriseTechniquesByTactic,
@@ -47,6 +49,7 @@ pub struct EnterpriseMatrixBreakdown {
     pub uniques_subtechniques: Vec<String>,
     pub rollup_techniques: Vec<EnterpriseTechniquesByTactic>,
     pub rollup_subtechniques: Vec<EnterpriseTechniquesByTactic>,
+    pub relationships: EnterpriseRelationships,
     pub stats: EnterpriseMatrixStatistics,
 }
 impl EnterpriseMatrixBreakdown {
@@ -69,6 +72,7 @@ impl EnterpriseMatrixBreakdown {
             uniques_subtechniques: vec![],
             rollup_techniques: vec![],
             rollup_subtechniques: vec![],
+            relationships: EnterpriseRelationships::new(),
             stats: EnterpriseMatrixStatistics::new(),
         }
     }
@@ -143,6 +147,9 @@ impl EnterpriseMatrixParser {
             else if _s == "tool" {
                 self.details.stats.count_tools += 1;
                 self.extract_tools(_t);
+            }
+            else if _s == "relationship" {
+                self.extract_relationshsip(_t);
             }
         }
         /*
@@ -797,6 +804,45 @@ impl EnterpriseMatrixParser {
         self.details.adversaries.sort();
         self.details.adversaries.dedup();
         self.details.adversaries.sort();
+        Ok(())
+    }
+    fn extract_relationshsip(&mut self,
+        items: &serde_json::Value   
+    ) -> Result<(), Box<dyn std::error::Error>>
+    {
+        let _relationship = items.as_object().expect("Relationship Problem, Convert To Object");
+        let mut _er = EnterpriseRelationship::new();
+        _er.id = _relationship["id"].as_str().unwrap().to_string();
+        let _sr: &str = _relationship["source_ref"].as_str().expect("Relationship Problem, Convert Source Ref");
+        let _sr = _sr.to_string();
+        let _tr: &str = _relationship["target_ref"].as_str().expect("Relationship Problem, Convert Target Ref");
+        let _tr = _tr.to_string();
+        _er.source = _sr;
+        _er.target = _tr;
+        if _relationship["relationship_type"] == "uses" {
+            _er.relation_type = "uses".to_string();
+            // Map relationships to an adversary
+            // adversary <---> technique
+            if _er.source.starts_with("intrusion-set") && _er.target.starts_with("attack-pattern") {
+                self.details.relationships.adversary_to_techniques.insert(_er);
+            }
+            // adversary <---> weapon/malware
+            else if _er.source.starts_with("intrusion-set") && _er.target.starts_with("malware") {
+                self.details.relationships.adversary_to_malware.insert(_er);
+            }
+            // adversary <---> weapon/non-malware
+            else if _er.source.starts_with("intrusion-set") && _er.target.starts_with("tool") {
+                self.details.relationships.adversary_to_tools.insert(_er);
+            }
+            // weapon/malware <---> technique
+            else if _er.source.starts_with("malware") && _er.target.starts_with("attack-pattern") {
+                self.details.relationships.malware_to_techniques.insert(_er);
+            }
+            // weapon/non-malware <---> technique
+            else if _er.source.starts_with("tool") && _er.target.starts_with("attack-pattern") {
+                self.details.relationships.tool_to_techniques.insert(_er);
+            }            
+        }
         Ok(())
     }
 }

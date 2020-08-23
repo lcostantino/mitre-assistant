@@ -407,3 +407,45 @@ impl EnterpriseMalware {
         }
     }
 }
+
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct EnterpriseRelationships {
+    pub adversary_to_malware:       HashSet<EnterpriseRelationship>,
+    pub adversary_to_techniques:    HashSet<EnterpriseRelationship>,
+    pub adversary_to_tools:         HashSet<EnterpriseRelationship>,
+    pub malware_to_techniques:      HashSet<EnterpriseRelationship>,
+    pub tool_to_techniques:         HashSet<EnterpriseRelationship>
+}
+impl EnterpriseRelationships {
+    pub fn new() -> Self
+    {
+        EnterpriseRelationships {
+            adversary_to_malware:       HashSet::new(),
+            adversary_to_techniques:    HashSet::new(),
+            adversary_to_tools:         HashSet::new(),
+            malware_to_techniques:      HashSet::new(),
+            tool_to_techniques:         HashSet::new()
+        }
+    }
+}
+
+
+#[derive(Debug, Deserialize, Serialize, Hash, Eq, PartialEq, PartialOrd, Ord)]
+pub struct EnterpriseRelationship {
+    pub id:             String,
+    pub relation_type:  String,
+    pub source:         String,
+    pub target:         String,
+}
+impl EnterpriseRelationship {
+    pub fn new() -> Self
+    {
+        EnterpriseRelationship {
+            id:             "none".to_string(),
+            relation_type:  "none".to_string(),
+            source:         "none".to_string(),
+            target:         "none".to_string()
+        }
+    }
+}
