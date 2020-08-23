@@ -163,6 +163,9 @@ impl EnterpriseMatrixParser {
             x-mitre-matrix
             x-mitre-tactic
         */
+        // Now Correlate Relationships
+        println!("{}", "COrrelating");
+        self.correlate_relationships();
         Ok(())
     }
     /// # Extract Revoked Techniques
@@ -798,7 +801,11 @@ impl EnterpriseMatrixParser {
             name:       _gname,
             aliases:    _aliases,
             group_id:   _gid,
-            is_revoked: _is_revoked
+            is_revoked: _is_revoked,
+            malware:    vec![],
+            tools:      vec![],
+            techniques: vec![],
+            subtechniques: vec![]
         };
         self.details.breakdown_adversaries.push(_ea);
         self.details.adversaries.sort();
@@ -844,5 +851,62 @@ impl EnterpriseMatrixParser {
             }            
         }
         Ok(())
+    }
+    fn correlate_relationships(&mut self)
+    {
+        // Adversaries to Malware
+        let mut _relations = EnterpriseRelationship::new();
+        for _adversary in self.details.breakdown_adversaries.iter_mut() {
+            // Correlate Adversary to Malware
+            for _weapon in self.details.relationships.adversary_to_malware.iter() {
+                if _adversary.id.as_str() == _weapon.source.as_str() {
+                    // Now correlate the name of the weapon
+                    // and update the adversary
+                    for _malware in self.details.breakdown_malware.iter() {
+                        if _weapon.target.as_str() == _malware.id.as_str() {
+                            _adversary.malware.push(_malware.name.clone());
+                            /*
+                            println!("Actor: {:<20} -[ uses ]- {:<20}",
+                                _adversary.name, _malware.name
+                            );
+                            */
+                        }
+                    }
+                }
+            }
+            _adversary.malware.sort();
+            // Correlate Adversary to Tools
+            for _weapon in self.details.relationships.adversary_to_tools.iter() {
+                if _adversary.id.as_str() == _weapon.source.as_str() {
+                    for _tool in self.details.breakdown_tools.iter() {
+                        if _weapon.target.as_str() == _tool.id.as_str() {
+                            _adversary.tools.push(_tool.name.clone());
+                        }
+                    }
+                }
+            }
+            _adversary.tools.sort();
+            // Correlate Adversary to Techniques & Subtechniques
+            for _behavior in self.details.relationships.adversary_to_techniques.iter() {
+                if _adversary.id.as_str() == _behavior.source.as_str() {
+                    for _technique in self.details.breakdown_techniques.platforms.iter() {
+                        if _behavior.target.as_str() == _technique.id.as_str() {
+                            _adversary.techniques.push(_technique.tid.clone())
+                        }
+                    }
+                    for _subtechnique in self.details.breakdown_subtechniques.platforms.iter() {
+                        if _behavior.target.as_str() == _subtechnique.id.as_str() {
+                            _adversary.subtechniques.push(_subtechnique.tid.clone())
+                        }
+                    }
+                }
+            }
+            _adversary.techniques.sort();
+            _adversary.techniques.dedup();
+            _adversary.techniques.sort();
+            _adversary.subtechniques.sort();
+            _adversary.subtechniques.dedup();
+            _adversary.subtechniques.sort();
+        }
     }
 }

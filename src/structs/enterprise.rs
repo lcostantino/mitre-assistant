@@ -346,6 +346,10 @@ pub struct EnterpriseAdversary {
     pub aliases:    String,
     pub group_id:   String,
     pub is_revoked: bool,
+    pub malware:    Vec<String>,
+    pub tools:      Vec<String>,
+    pub techniques: Vec<String>,
+    pub subtechniques: Vec<String>
 }
 impl EnterpriseAdversary {
     pub fn new() -> Self
@@ -356,6 +360,10 @@ impl EnterpriseAdversary {
             aliases:    "none".to_string(),
             group_id:   "none".to_string(),
             is_revoked: false,
+            malware:    vec![],
+            tools:      vec![],
+            techniques: vec![],
+            subtechniques: vec![],
         }
     }
 }
