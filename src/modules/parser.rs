@@ -49,7 +49,7 @@ pub struct EnterpriseMatrixBreakdown {
     pub uniques_subtechniques: Vec<String>,
     pub rollup_techniques: Vec<EnterpriseTechniquesByTactic>,
     pub rollup_subtechniques: Vec<EnterpriseTechniquesByTactic>,
-    pub relationships: EnterpriseRelationships,
+    //pub relationships: EnterpriseRelationships,
     pub stats: EnterpriseMatrixStatistics,
 }
 impl EnterpriseMatrixBreakdown {
@@ -72,7 +72,7 @@ impl EnterpriseMatrixBreakdown {
             uniques_subtechniques: vec![],
             rollup_techniques: vec![],
             rollup_subtechniques: vec![],
-            relationships: EnterpriseRelationships::new(),
+            //relationships: EnterpriseRelationships::new(),
             stats: EnterpriseMatrixStatistics::new(),
         }
     }
@@ -81,6 +81,7 @@ impl EnterpriseMatrixBreakdown {
 pub struct EnterpriseMatrixParser {
     pub techniques: HashSet<String>,
     pub subtechniques: HashSet<String>,
+    pub relationships: EnterpriseRelationships,
     pub details: EnterpriseMatrixBreakdown,
 }
 impl EnterpriseMatrixParser {
@@ -88,6 +89,7 @@ impl EnterpriseMatrixParser {
         EnterpriseMatrixParser {
             techniques: HashSet::new(),
             subtechniques: HashSet::new(),
+            relationships: EnterpriseRelationships::new(),
             details: EnterpriseMatrixBreakdown::new(),
         }
     }
@@ -697,7 +699,9 @@ impl EnterpriseMatrixParser {
             aliases:    _aliases,
             platforms:  _platforms,
             malware_id: _malware_id,
-            is_revoked: _is_revoked
+            is_revoked: _is_revoked,
+            techniques: vec![],
+            subtechniques: vec![]
         };
         self.details.breakdown_malware.push(_em);
         self.details.malware.sort();
@@ -756,7 +760,9 @@ impl EnterpriseMatrixParser {
             aliases:    _aliases,
             platforms:  _platforms,
             tool_id:    _tool_id,
-            is_revoked: _is_revoked
+            is_revoked: _is_revoked,
+            techniques: vec![],
+            subtechniques: vec![]
         };
         self.details.breakdown_tools.push(_et);
         self.details.tools.sort();
@@ -831,23 +837,23 @@ impl EnterpriseMatrixParser {
             // Map relationships to an adversary
             // adversary <---> technique
             if _er.source.starts_with("intrusion-set") && _er.target.starts_with("attack-pattern") {
-                self.details.relationships.adversary_to_techniques.insert(_er);
+                self.relationships.adversary_to_techniques.insert(_er);
             }
             // adversary <---> weapon/malware
             else if _er.source.starts_with("intrusion-set") && _er.target.starts_with("malware") {
-                self.details.relationships.adversary_to_malware.insert(_er);
+                self.relationships.adversary_to_malware.insert(_er);
             }
             // adversary <---> weapon/non-malware
             else if _er.source.starts_with("intrusion-set") && _er.target.starts_with("tool") {
-                self.details.relationships.adversary_to_tools.insert(_er);
+                self.relationships.adversary_to_tools.insert(_er);
             }
             // weapon/malware <---> technique
             else if _er.source.starts_with("malware") && _er.target.starts_with("attack-pattern") {
-                self.details.relationships.malware_to_techniques.insert(_er);
+                self.relationships.malware_to_techniques.insert(_er);
             }
             // weapon/non-malware <---> technique
             else if _er.source.starts_with("tool") && _er.target.starts_with("attack-pattern") {
-                self.details.relationships.tool_to_techniques.insert(_er);
+                self.relationships.tool_to_techniques.insert(_er);
             }            
         }
         Ok(())
@@ -858,7 +864,7 @@ impl EnterpriseMatrixParser {
         let mut _relations = EnterpriseRelationship::new();
         for _adversary in self.details.breakdown_adversaries.iter_mut() {
             // Correlate Adversary to Malware
-            for _weapon in self.details.relationships.adversary_to_malware.iter() {
+            for _weapon in self.relationships.adversary_to_malware.iter() {
                 if _adversary.id.as_str() == _weapon.source.as_str() {
                     // Now correlate the name of the weapon
                     // and update the adversary
@@ -876,7 +882,7 @@ impl EnterpriseMatrixParser {
             }
             _adversary.malware.sort();
             // Correlate Adversary to Tools
-            for _weapon in self.details.relationships.adversary_to_tools.iter() {
+            for _weapon in self.relationships.adversary_to_tools.iter() {
                 if _adversary.id.as_str() == _weapon.source.as_str() {
                     for _tool in self.details.breakdown_tools.iter() {
                         if _weapon.target.as_str() == _tool.id.as_str() {
@@ -887,7 +893,7 @@ impl EnterpriseMatrixParser {
             }
             _adversary.tools.sort();
             // Correlate Adversary to Techniques & Subtechniques
-            for _behavior in self.details.relationships.adversary_to_techniques.iter() {
+            for _behavior in self.relationships.adversary_to_techniques.iter() {
                 if _adversary.id.as_str() == _behavior.source.as_str() {
                     for _technique in self.details.breakdown_techniques.platforms.iter() {
                         if _behavior.target.as_str() == _technique.id.as_str() {
@@ -907,6 +913,52 @@ impl EnterpriseMatrixParser {
             _adversary.subtechniques.sort();
             _adversary.subtechniques.dedup();
             _adversary.subtechniques.sort();
+        }
+        // Malware to Techniques & Subtechniques
+        for _malware in self.details.breakdown_malware.iter_mut() {
+            for _weapon in self.relationships.malware_to_techniques.iter() {
+                if _malware.id.as_str() == _weapon.source.as_str() {
+                    for _technique in self.details.breakdown_techniques.platforms.iter() {
+                        if _weapon.target.as_str() == _technique.id.as_str() {
+                            _malware.techniques.push(_technique.tid.clone())
+                        }
+                    }
+                    for _subtechnique in self.details.breakdown_subtechniques.platforms.iter() {
+                        if _weapon.target.as_str() == _subtechnique.id.as_str() {
+                            _malware.subtechniques.push(_subtechnique.tid.clone())
+                        }
+                    }
+                }
+            }
+            _malware.techniques.sort();
+            _malware.techniques.dedup();
+            _malware.techniques.sort();
+            _malware.subtechniques.sort();
+            _malware.subtechniques.dedup();
+            _malware.subtechniques.sort();
+        }
+        // Tools to Techniques and Subtechniques
+        for _tool in self.details.breakdown_tools.iter_mut() {
+            for _weapon in self.relationships.tool_to_techniques.iter() {
+                if _tool.id.as_str() == _weapon.source.as_str() {
+                    for _technique in self.details.breakdown_techniques.platforms.iter() {
+                        if _weapon.target.as_str() == _technique.id.as_str() {
+                            _tool.techniques.push(_technique.tid.clone())
+                        }
+                    }
+                    for _subtechnique in self.details.breakdown_subtechniques.platforms.iter() {
+                        if _weapon.target.as_str() == _subtechnique.id.as_str() {
+                            _tool.subtechniques.push(_subtechnique.tid.clone())
+                        }
+                    }
+                }
+            }
+            _tool.techniques.sort();
+            _tool.techniques.dedup();
+            _tool.techniques.sort();
+            _tool.subtechniques.sort();
+            _tool.subtechniques.dedup();
+            _tool.subtechniques.sort();
         }
     }
 }

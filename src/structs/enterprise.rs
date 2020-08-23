@@ -376,7 +376,9 @@ pub struct EnterpriseTool {
     pub aliases:    String,
     pub platforms:  String,
     pub tool_id:    String,
-    pub is_revoked: bool
+    pub is_revoked: bool,
+    pub techniques: Vec<String>,
+    pub subtechniques: Vec<String>
 }
 impl EnterpriseTool {
     pub fn new() -> Self
@@ -388,6 +390,8 @@ impl EnterpriseTool {
             platforms:  "none".to_string(),
             tool_id:    "none".to_string(),
             is_revoked: false,
+            techniques: vec![],
+            subtechniques: vec![]
         }
     }
 }
@@ -401,6 +405,8 @@ pub struct EnterpriseMalware {
     pub platforms:  String,
     pub malware_id: String,
     pub is_revoked: bool,
+    pub techniques: Vec<String>,
+    pub subtechniques: Vec<String>
 }
 impl EnterpriseMalware {
     pub fn new() -> Self
@@ -411,7 +417,9 @@ impl EnterpriseMalware {
             aliases:    "none".to_string(),
             platforms:  "none".to_string(),
             malware_id: "none".to_string(),
-            is_revoked: false
+            is_revoked: false,
+            techniques: vec![],
+            subtechniques: vec![],
         }
     }
 }
