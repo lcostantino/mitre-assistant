@@ -32,6 +32,7 @@ use enterprise::{
 pub struct EnterpriseMatrixBreakdown {
     pub adversaries: Vec<String>,
     pub malware: Vec<String>,
+    pub tools: Vec<String>,
     pub tactics: HashSet<String>,
     pub platforms: HashSet<String>,
     pub datasources: Vec<String>,
@@ -39,6 +40,7 @@ pub struct EnterpriseMatrixBreakdown {
     pub deprecated_techniques: HashSet<(String, String)>,
     pub breakdown_adversaries: Vec<EnterpriseAdversary>,
     pub breakdown_malware: Vec<EnterpriseMalware>,
+    pub breakdown_tools: Vec<EnterpriseTool>,
     pub breakdown_techniques: EnterpriseTechniquesByPlatform,
     pub breakdown_subtechniques: EnterpriseSubtechniquesByPlatform,
     pub uniques_techniques: Vec<String>,
@@ -52,6 +54,7 @@ impl EnterpriseMatrixBreakdown {
         EnterpriseMatrixBreakdown {
             adversaries: vec![],
             malware: vec![],
+            tools: vec![],
             tactics: HashSet::new(),
             platforms: HashSet::new(),
             datasources: Vec::new(),
@@ -59,6 +62,7 @@ impl EnterpriseMatrixBreakdown {
             deprecated_techniques: HashSet::new(),
             breakdown_adversaries: vec![],
             breakdown_malware: vec![],
+            breakdown_tools: vec![],
             breakdown_techniques: EnterpriseTechniquesByPlatform::new(),
             breakdown_subtechniques: EnterpriseSubtechniquesByPlatform::new(),
             uniques_techniques: vec![],
@@ -138,6 +142,7 @@ impl EnterpriseMatrixParser {
             }
             else if _s == "tool" {
                 self.details.stats.count_tools += 1;
+                self.extract_tools(_t);
             }
         }
         /*
@@ -690,6 +695,65 @@ impl EnterpriseMatrixParser {
         self.details.malware.sort();                        
         Ok(())
     }
+    fn extract_tools(&mut self,
+        items: &serde_json::Value   
+    ) -> Result<(), Box<dyn std::error::Error>>
+    {
+        let mut _is_revoked: bool = false;
+        let _tools = items.as_object().expect("Tools: Proble Convert Into Oject");
+        if _tools.contains_key("revoked") {
+            if _tools["revoked"].as_bool().expect("Tools: Problem Is Revoked Check") {
+                _is_revoked = true;
+            }
+        }
+        let _tool_id = items["external_references"].as_array().expect("Tools: Problem With External References");
+        let _tool_id = _tool_id[0]["external_id"].as_str().expect("Tools: Problem With External ID");
+        let _tool_id = _tool_id.to_string();
+        let _id = items["id"].as_str().expect("Tools: Problem With UID");
+        let _id = _id.to_string();
+        let _name = items["name"].as_str().expect("Tools: Problem With Malware Name");
+        let _name = _name.to_string();
+        let mut _platforms = String::from("");
+        let mut _revoked_tools: usize = 0;
+        if _is_revoked {
+            _revoked_tools += 1;
+        }
+        if _tools.contains_key("x_mitre_platforms") {
+            for _os in items["x_mitre_platforms"].as_array().unwrap().iter() {
+                let _x = _os.as_str().unwrap().to_lowercase().replace(" ", "-");
+                &_platforms.push_str(_x.as_str());
+                &_platforms.push_str("|");
+            }
+            _platforms.pop();
+        } else {
+            &_platforms.push_str("none");
+        }
+        let mut _aliases = String::from("");
+        if _tools.contains_key("aliases") {
+            for _alias in items["aliases"].as_array().unwrap().iter() {
+                let _x = _alias.as_str().unwrap().to_lowercase().replace(" ", "-");
+                &_aliases.push_str(_x.as_str());
+                &_aliases.push_str("|");
+            }
+            _aliases.pop();
+        } else {
+            _aliases.push_str("none");
+        }
+        self.details.tools.push(_name.clone());
+        let _et = EnterpriseTool {
+            id:         _id,
+            name:       _name,
+            aliases:    _aliases,
+            platforms:  _platforms,
+            tool_id:    _tool_id,
+            is_revoked: _is_revoked
+        };
+        self.details.breakdown_tools.push(_et);
+        self.details.tools.sort();
+        self.details.tools.dedup();
+        self.details.tools.sort();                        
+        Ok(())
+    }    
     fn extract_adversaries(&mut self,
         items: &serde_json::Value   
     ) -> Result<(), Box<dyn std::error::Error>>
