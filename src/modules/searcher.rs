@@ -1014,9 +1014,7 @@ impl EnterpriseMatrixSearcher {
             Cell::new("SUBTECHNIQUES"),
             Cell::new("DATA SOURCES")
         ]));
-        // When we get to CSV Exports, put an if statement to build
-        // the table cells without the `\n` terminators
-        // because that will likely break CSV output
+ 
         let mut _sorted_index: Vec<(String, usize, usize)> = vec![];
         for (_ridx, _item) in results.iter().enumerate() {
             let _json: Vec<EnterpriseTechnique> = serde_json::from_str(results[_ridx].as_str()).expect("(?) Error: Render Table Deserialization");
