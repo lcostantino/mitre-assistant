@@ -20,10 +20,14 @@ mod enterprise;
 use enterprise::{
     EnterpriseMatrixStatistics,
     EnterpriseAdversary,
+    EnterpriseAdversaryProfile,
+    EnterpriseProfileEntry,
     EnterpriseMalware,
+    EnterpriseMalwareProfile,
     EnterpriseRelationship,
     EnterpriseRelationships,
     EnterpriseTool,
+    EnterpriseToolProfile,
     EnterpriseTechnique,
     EnterpriseTechniquesByTactic,
     EnterpriseTechniquesByPlatform,
@@ -700,8 +704,7 @@ impl EnterpriseMatrixParser {
             platforms:  _platforms,
             malware_id: _malware_id,
             is_revoked: _is_revoked,
-            techniques: vec![],
-            subtechniques: vec![]
+            profile:    EnterpriseMalwareProfile::new()
         };
         self.details.breakdown_malware.push(_em);
         self.details.malware.sort();
@@ -761,8 +764,7 @@ impl EnterpriseMatrixParser {
             platforms:  _platforms,
             tool_id:    _tool_id,
             is_revoked: _is_revoked,
-            techniques: vec![],
-            subtechniques: vec![]
+            profile:    EnterpriseToolProfile::new()
         };
         self.details.breakdown_tools.push(_et);
         self.details.tools.sort();
@@ -808,10 +810,12 @@ impl EnterpriseMatrixParser {
             aliases:    _aliases,
             group_id:   _gid,
             is_revoked: _is_revoked,
-            malware:    vec![],
+            profile:    EnterpriseAdversaryProfile::new()
+            /*malware:    vec![],
             tools:      vec![],
             techniques: vec![],
             subtechniques: vec![]
+            */
         };
         self.details.breakdown_adversaries.push(_ea);
         self.details.adversaries.sort();
@@ -870,7 +874,7 @@ impl EnterpriseMatrixParser {
                     // and update the adversary
                     for _malware in self.details.breakdown_malware.iter() {
                         if _weapon.target.as_str() == _malware.id.as_str() {
-                            _adversary.malware.push(_malware.name.clone());
+                            _adversary.profile.malware.items.push(_malware.name.clone());
                             /*
                             println!("Actor: {:<20} -[ uses ]- {:<20}",
                                 _adversary.name, _malware.name
@@ -880,39 +884,34 @@ impl EnterpriseMatrixParser {
                     }
                 }
             }
-            _adversary.malware.sort();
+            _adversary.profile.malware.items.sort();
             // Correlate Adversary to Tools
             for _weapon in self.relationships.adversary_to_tools.iter() {
                 if _adversary.id.as_str() == _weapon.source.as_str() {
                     for _tool in self.details.breakdown_tools.iter() {
                         if _weapon.target.as_str() == _tool.id.as_str() {
-                            _adversary.tools.push(_tool.name.clone());
+                            _adversary.profile.tools.items.push(_tool.name.clone());
                         }
                     }
                 }
             }
-            _adversary.tools.sort();
+            _adversary.profile.tools.items.sort();
             // Correlate Adversary to Techniques & Subtechniques
             for _behavior in self.relationships.adversary_to_techniques.iter() {
                 if _adversary.id.as_str() == _behavior.source.as_str() {
                     for _technique in self.details.breakdown_techniques.platforms.iter() {
                         if _behavior.target.as_str() == _technique.id.as_str() {
-                            _adversary.techniques.push(_technique.tid.clone())
+                            _adversary.profile.techniques.items.push(_technique.tid.clone())
                         }
                     }
                     for _subtechnique in self.details.breakdown_subtechniques.platforms.iter() {
                         if _behavior.target.as_str() == _subtechnique.id.as_str() {
-                            _adversary.subtechniques.push(_subtechnique.tid.clone())
+                            _adversary.profile.subtechniques.items.push(_subtechnique.tid.clone())
                         }
                     }
                 }
             }
-            _adversary.techniques.sort();
-            _adversary.techniques.dedup();
-            _adversary.techniques.sort();
-            _adversary.subtechniques.sort();
-            _adversary.subtechniques.dedup();
-            _adversary.subtechniques.sort();
+            _adversary.profile.update();
         }
         // Malware to Techniques & Subtechniques
         for _malware in self.details.breakdown_malware.iter_mut() {
@@ -920,22 +919,17 @@ impl EnterpriseMatrixParser {
                 if _malware.id.as_str() == _weapon.source.as_str() {
                     for _technique in self.details.breakdown_techniques.platforms.iter() {
                         if _weapon.target.as_str() == _technique.id.as_str() {
-                            _malware.techniques.push(_technique.tid.clone())
+                            _malware.profile.techniques.items.push(_technique.tid.clone())
                         }
                     }
                     for _subtechnique in self.details.breakdown_subtechniques.platforms.iter() {
                         if _weapon.target.as_str() == _subtechnique.id.as_str() {
-                            _malware.subtechniques.push(_subtechnique.tid.clone())
+                            _malware.profile.subtechniques.items.push(_subtechnique.tid.clone())
                         }
                     }
                 }
             }
-            _malware.techniques.sort();
-            _malware.techniques.dedup();
-            _malware.techniques.sort();
-            _malware.subtechniques.sort();
-            _malware.subtechniques.dedup();
-            _malware.subtechniques.sort();
+            _malware.profile.update();
         }
         // Tools to Techniques and Subtechniques
         for _tool in self.details.breakdown_tools.iter_mut() {
@@ -943,22 +937,17 @@ impl EnterpriseMatrixParser {
                 if _tool.id.as_str() == _weapon.source.as_str() {
                     for _technique in self.details.breakdown_techniques.platforms.iter() {
                         if _weapon.target.as_str() == _technique.id.as_str() {
-                            _tool.techniques.push(_technique.tid.clone())
+                            _tool.profile.techniques.items.push(_technique.tid.clone())
                         }
                     }
                     for _subtechnique in self.details.breakdown_subtechniques.platforms.iter() {
                         if _weapon.target.as_str() == _subtechnique.id.as_str() {
-                            _tool.subtechniques.push(_subtechnique.tid.clone())
+                            _tool.profile.subtechniques.items.push(_subtechnique.tid.clone())
                         }
                     }
                 }
             }
-            _tool.techniques.sort();
-            _tool.techniques.dedup();
-            _tool.techniques.sort();
-            _tool.subtechniques.sort();
-            _tool.subtechniques.dedup();
-            _tool.subtechniques.sort();
+            _tool.profile.update();
         }
     }
 }

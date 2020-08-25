@@ -346,10 +346,7 @@ pub struct EnterpriseAdversary {
     pub aliases:    String,
     pub group_id:   String,
     pub is_revoked: bool,
-    pub malware:    Vec<String>,
-    pub tools:      Vec<String>,
-    pub techniques: Vec<String>,
-    pub subtechniques: Vec<String>
+    pub profile:    EnterpriseAdversaryProfile,
 }
 impl EnterpriseAdversary {
     pub fn new() -> Self
@@ -360,16 +357,67 @@ impl EnterpriseAdversary {
             aliases:    "none".to_string(),
             group_id:   "none".to_string(),
             is_revoked: false,
-            malware:    vec![],
-            tools:      vec![],
-            techniques: vec![],
-            subtechniques: vec![],
+            profile:    EnterpriseAdversaryProfile::new()
         }
+    }
+    pub fn update(&mut self)
+    {
+        self.profile.update();
     }
 }
 
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
+pub struct EnterpriseAdversaryProfile {
+    pub malware:        EnterpriseProfileEntry,
+    pub tools:          EnterpriseProfileEntry,
+    pub techniques:     EnterpriseProfileEntry,
+    pub subtechniques:  EnterpriseProfileEntry
+}
+impl EnterpriseAdversaryProfile {
+    pub fn new() -> Self
+    {
+        EnterpriseAdversaryProfile {
+            malware:        EnterpriseProfileEntry::new(),
+            tools:          EnterpriseProfileEntry::new(),
+            techniques:     EnterpriseProfileEntry::new(),
+            subtechniques:  EnterpriseProfileEntry::new()
+        }
+    }
+    pub fn update(&mut self)
+    {
+        self.malware.update();
+        self.tools.update();
+        self.techniques.update();
+        self.subtechniques.update();
+    }
+}
+
+
+#[derive(Debug, Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
+pub struct EnterpriseProfileEntry {
+    pub count: usize,
+    pub items: Vec<String>
+}
+impl EnterpriseProfileEntry {
+    pub fn new() -> Self
+    {
+        EnterpriseProfileEntry {
+            count: 0,
+            items: vec![]
+        }
+    }
+    pub fn update(&mut self)
+    {
+        self.items.sort();
+        self.items.dedup();
+        self.items.sort();
+        self.count = self.items.len();
+    }
+}
+
+
+#[derive(Debug, Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
 pub struct EnterpriseTool {
     pub id:         String,
     pub name:       String,
@@ -377,8 +425,8 @@ pub struct EnterpriseTool {
     pub platforms:  String,
     pub tool_id:    String,
     pub is_revoked: bool,
-    pub techniques: Vec<String>,
-    pub subtechniques: Vec<String>
+    pub profile:    EnterpriseToolProfile,
+
 }
 impl EnterpriseTool {
     pub fn new() -> Self
@@ -390,14 +438,38 @@ impl EnterpriseTool {
             platforms:  "none".to_string(),
             tool_id:    "none".to_string(),
             is_revoked: false,
-            techniques: vec![],
-            subtechniques: vec![]
+            profile:    EnterpriseToolProfile::new()
         }
+    }
+    pub fn update(&mut self)
+    {
+        self.profile.update();
     }
 }
 
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
+pub struct EnterpriseToolProfile {
+    pub techniques:     EnterpriseProfileEntry,
+    pub subtechniques:  EnterpriseProfileEntry
+}
+impl EnterpriseToolProfile {
+    pub fn new() -> Self
+    {
+        EnterpriseToolProfile {
+            techniques:     EnterpriseProfileEntry::new(),
+            subtechniques:  EnterpriseProfileEntry::new()
+        }
+    }
+    pub fn update(&mut self)
+    {
+        self.techniques.update();
+        self.subtechniques.update();
+    }
+}
+
+
+#[derive(Debug, Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
 pub struct EnterpriseMalware {
     pub id:         String,
     pub name:       String,
@@ -405,8 +477,7 @@ pub struct EnterpriseMalware {
     pub platforms:  String,
     pub malware_id: String,
     pub is_revoked: bool,
-    pub techniques: Vec<String>,
-    pub subtechniques: Vec<String>
+    pub profile:    EnterpriseMalwareProfile
 }
 impl EnterpriseMalware {
     pub fn new() -> Self
@@ -418,9 +489,29 @@ impl EnterpriseMalware {
             platforms:  "none".to_string(),
             malware_id: "none".to_string(),
             is_revoked: false,
-            techniques: vec![],
-            subtechniques: vec![],
+            profile:    EnterpriseMalwareProfile::new()
         }
+    }
+}
+
+
+#[derive(Debug, Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
+pub struct EnterpriseMalwareProfile {
+    pub techniques:     EnterpriseProfileEntry,
+    pub subtechniques:  EnterpriseProfileEntry
+}
+impl EnterpriseMalwareProfile {
+    pub fn new() -> Self
+    {
+        EnterpriseMalwareProfile {
+            techniques:     EnterpriseProfileEntry::new(),
+            subtechniques:  EnterpriseProfileEntry::new()
+        }
+    }
+    pub fn update(&mut self)
+    {
+        self.techniques.update();
+        self.subtechniques.update();
     }
 }
 
