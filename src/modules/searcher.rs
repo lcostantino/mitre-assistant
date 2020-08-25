@@ -60,6 +60,9 @@ impl EnterpriseMatrixSearcher {
         let _st = _st.as_str();
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         let _scanner = RegexPatternManager::load_search_term_patterns();
+        let _scanner_ad = RegexPatternManager::load_search_adversaries(&_json.adversaries);
+        let _scanner_mw = RegexPatternManager::load_search_malware(&_json.malware);
+        let _scanner_to = RegexPatternManager::load_search_tools(&_json.tools);
         let _scanner_ds = RegexPatternManager::load_search_datasources(&_json.datasources, &_json.platforms);
         // Special Flags
         //      Easier to search this way without flooding the user with parameters
@@ -71,6 +74,9 @@ impl EnterpriseMatrixSearcher {
         let mut _wants_platforms: bool = false;                     // Returns The Platforms Key
         let mut _wants_deprecated: bool = false;                    // Returns The Deprecated Techniques
         let mut _wants_datasources: bool = false;                   // Returns The Data Sources Key
+        let mut _wants_adversary: bool = false;
+        let mut _wants_malware: bool = false;
+        let mut _wants_tool: bool = false;
         let mut _wants_xref_datasources_tactics: bool = false;      // Returns The Stats Count XREF of Datasoources By Tactic
         let mut _wants_xref_datasources_platforms: bool = false;    // Return The Stats Count XREF of Datasources By Platform
         // Parse the search term explicitly
@@ -192,7 +198,31 @@ impl EnterpriseMatrixSearcher {
             _valid.push((_st, 37usize));
             //_wants_by_datasource = true;
             //println!("Matches:\n{:#?}", _idx);
-        }                                                                                          
+        }
+        // Adversaries
+        else if _scanner_ad.pattern.is_match(_st) {
+            let _idx: Vec<usize> = _scanner_ad.pattern.matches(_st).into_iter().collect();
+            _valid.push((_st, 38usize));
+            _wants_adversary = true;
+            //_wants_by_datasource = true;
+            //println!("Matches:\n{:#?}", _idx);
+        }          
+        // Malware
+        else if _scanner_mw.pattern.is_match(_st) {
+            let _idx: Vec<usize> = _scanner_mw.pattern.matches(_st).into_iter().collect();
+            _valid.push((_st, 39usize));
+            _wants_malware = true;
+            //_wants_by_datasource = true;
+            //println!("Matches:\n{:#?}", _idx);
+        }          
+        // Tools  
+        else if _scanner_to.pattern.is_match(_st) {
+            let _idx: Vec<usize> = _scanner_to.pattern.matches(_st).into_iter().collect();
+            _valid.push((_st, 40usize));
+            _wants_tool  = true;
+            //_wants_by_datasource = true;
+            //println!("Matches:\n{:#?}", _idx);
+        }                                                                                   
         else if !_st.contains(",") {
             if _scanner.pattern.is_match(_st) {
                 let _idx: Vec<usize> = _scanner.pattern.matches(_st).into_iter().collect();
@@ -331,7 +361,16 @@ impl EnterpriseMatrixSearcher {
                 }
                 else if _pattern == &37usize {
                     _results.push(self.search_by_datasource(_term, _wants_subtechniques));
-                }                                                                                                                                                                                                                                                                                                                                                                                               
+                }
+                else if _pattern == &38usize {
+                    _results.push(self.search_by_adversary(_term));
+                }
+                else if _pattern == &39usize {
+                    _results.push(self.search_by_malware(_term));
+                }
+                else if _pattern == &40usize {
+                    _results.push(self.search_by_tool(_term));
+                }                                                                                                                                                                                                                                                                                                                                                                                              
             }
             // Render Query Results
             // --------------------
@@ -340,8 +379,17 @@ impl EnterpriseMatrixSearcher {
             //
             //      Note:   Transforming results into CSV, JSON should be done within
             //              the renderer functions.
-            //    
-            if _wants_revoked {
+            //   
+            if _wants_adversary {
+                 1 + 1;
+            }
+            else if _wants_malware {
+                1 + 1;
+            }
+            else if _wants_tool {
+                1 + 1;
+            }
+            else if _wants_revoked {
                 self.render_enterprise_revoked_table(&_results, _wants_export, _wants_outfile);
             }
             else if _wants_stats {
@@ -388,6 +436,67 @@ impl EnterpriseMatrixSearcher {
     /// All of the functions are **private functions** that are not exposed to the end-user.  They are only accessible
     /// from the module itself, and specifically, when invoked by the `self.search()` method.
     ///
+    fn search_by_adversary(&self, adversary: &str) -> String
+    {
+        let mut _results = vec![];
+        let adversary = adversary.to_lowercase();
+        let adversary = adversary.as_str();
+        let _msg = format!("(?) Error: Unable To Deserialize String of All Techniques by Adversary: {}", adversary);
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect(_msg.as_str());
+        let _msg = format!("(?) Error: Unable To Convert String of All Techniques by Adversary: {}", adversary);
+        for _actor in _json.breakdown_adversaries.iter() {
+            if _actor.name.to_lowercase().as_str() == adversary {
+                _results.push(_actor);
+            }
+        }
+        println!("{}", serde_json::to_string_pretty(&_results).unwrap());
+        serde_json::to_string(&_results).expect(_msg.as_str())  
+    }
+    ///
+    /// 
+    /// 
+    /// 
+    fn search_by_malware(&self, malware: &str) -> String
+    {
+        let mut _results = vec![];
+        let malware = malware.to_lowercase();
+        let malware = malware.as_str();
+        let _msg = format!("(?) Error: Unable To Deserialize String of All Techniques by malware: {}", malware);
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect(_msg.as_str());
+        let _msg = format!("(?) Error: Unable To Convert String of All Techniques by malware: {}", malware);
+        for _weapon in _json.breakdown_malware.iter() {
+            if _weapon.name.to_lowercase().as_str() == malware {
+                _results.push(_weapon);
+            }
+        }
+        println!("{}", serde_json::to_string_pretty(&_results).unwrap());
+        serde_json::to_string(&_results).expect(_msg.as_str())  
+    }
+    ///
+    /// 
+    /// 
+    /// 
+    /// 
+    fn search_by_tool(&self, tool: &str) -> String
+    {
+        let mut _results = vec![];
+        let tool = tool.to_lowercase();
+        let tool = tool.as_str();
+        let _msg = format!("(?) Error: Unable To Deserialize String of All Techniques by tool: {}", tool);
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect(_msg.as_str());
+        let _msg = format!("(?) Error: Unable To Convert String of All Techniques by tool: {}", tool);
+        for _weapon in _json.breakdown_tools.iter() {
+            if _weapon.name.to_lowercase().as_str() == tool {
+                _results.push(_weapon);
+            }
+        }
+        println!("{}", serde_json::to_string_pretty(&_results).unwrap());
+        serde_json::to_string(&_results).expect(_msg.as_str())  
+    }    
+    ///
+    /// 
+    /// 
+    /// 
     fn search_by_datasource(&self, datasource: &str, _wants_subtechniques: bool) -> String
     {
         let mut _results = vec![];
@@ -473,7 +582,7 @@ impl EnterpriseMatrixSearcher {
                 }
             }
         }
-        let _msg = format!("(?) Error: Unable To Convert String of All Techniques by Daatasource: {}", datasource);
+        let _msg = format!("(?) Error: Unable To Convert String of All Techniques by Datasource: {}", datasource);
         serde_json::to_string(&_results).expect(_msg.as_str())           
     }
     fn search_by_platform(&self, platform: &str, _wants_subtechniques: bool) -> String

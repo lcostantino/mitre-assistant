@@ -18,12 +18,12 @@ use regexes::RegexPatternManager;
 #[path = "../structs/enterprise.rs"]
 mod enterprise;
 use enterprise::{
-    EnterpriseMatrixStatistics,
     EnterpriseAdversary,
     EnterpriseAdversaryProfile,
     EnterpriseProfileEntry,
     EnterpriseMalware,
     EnterpriseMalwareProfile,
+    EnterpriseMatrixStatistics,
     EnterpriseRelationship,
     EnterpriseRelationships,
     EnterpriseTool,

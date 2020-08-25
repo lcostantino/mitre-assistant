@@ -63,7 +63,58 @@ impl RegexPatternManager {
                         .case_insensitive(true)
                         .unicode(true)
                         .build()
-                        .expect("(?) Error: RegexPatternManager | Cannot Build Searc Terms For Datasources")
+                        .expect("(?) Error: RegexPatternManager | Cannot Build SearcH Terms For Datasources")
         }
     }
+    pub fn load_search_adversaries(adversaries: &Vec<String>) -> Self
+    {
+        let mut _patterns: Vec<String> = vec![];
+        // First Create The Patterns of just datasources
+        for _item in adversaries.iter() {
+            let _p = format!(r"{}", _item);
+            _patterns.push(_p);
+        }
+        //println!("{:#?}", _patterns);
+        RegexPatternManager {
+            pattern: RegexSetBuilder::new(&_patterns[..])
+                        .case_insensitive(true)
+                        .unicode(true)
+                        .build()
+                        .expect("(?) Error: RegexPatternManager | Cannot Build Searc Terms For Adversaries")
+        }
+    }
+    pub fn load_search_malware(malware: &Vec<String>) -> Self
+    {
+        let mut _patterns: Vec<String> = vec![];
+        // First Create The Patterns of just datasources
+        for _item in malware.iter() {
+            let _p = format!(r"{}", _item);
+            _patterns.push(_p);
+        }
+        //println!("{:#?}", _patterns);
+        RegexPatternManager {
+            pattern: RegexSetBuilder::new(&_patterns[..])
+                        .case_insensitive(true)
+                        .unicode(true)
+                        .build()
+                        .expect("(?) Error: RegexPatternManager | Cannot Build Search Terms For Malware")
+        }
+    }
+    pub fn load_search_tools(tools: &Vec<String>) -> Self
+    {
+        let mut _patterns: Vec<String> = vec![];
+        // First Create The Patterns of just datasources
+        for _item in tools.iter() {
+            let _p = format!(r"{}", _item);
+            _patterns.push(_p);
+        }
+        //println!("{:#?}", _patterns);
+        RegexPatternManager {
+            pattern: RegexSetBuilder::new(&_patterns[..])
+                        .case_insensitive(true)
+                        .unicode(true)
+                        .build()
+                        .expect("(?) Error: RegexPatternManager | Cannot Build Search Terms For Tools")
+        }
+    }            
 }
