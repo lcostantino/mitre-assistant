@@ -77,6 +77,7 @@ impl EnterpriseMatrixSearcher {
         let mut _wants_adversary: bool = false;
         let mut _wants_malware: bool = false;
         let mut _wants_tool: bool = false;
+        let mut _wants_all_adversaries: bool = true;
         let mut _wants_xref_datasources_tactics: bool = false;      // Returns The Stats Count XREF of Datasoources By Tactic
         let mut _wants_xref_datasources_platforms: bool = false;    // Return The Stats Count XREF of Datasources By Platform
         // Parse the search term explicitly
@@ -222,7 +223,11 @@ impl EnterpriseMatrixSearcher {
             _wants_tool  = true;
             //_wants_by_datasource = true;
             //println!("Matches:\n{:#?}", _idx);
-        }                                                                                   
+        }
+        else if _st == "adversaries" {
+            _valid.push((_st, 41usize));
+            _wants_all_adversaries = true;
+        }                                                                                 
         else if !_st.contains(",") {
             if _scanner.pattern.is_match(_st) {
                 let _idx: Vec<usize> = _scanner.pattern.matches(_st).into_iter().collect();
@@ -370,6 +375,9 @@ impl EnterpriseMatrixSearcher {
                 }
                 else if _pattern == &40usize {
                     _results.push(self.search_by_tool(_term));
+                }
+                else if _pattern == &41usize {
+                    _results.push(self.search_all_adversaries());
                 }                                                                                                                                                                                                                                                                                                                                                                                              
             }
             // Render Query Results
@@ -388,6 +396,9 @@ impl EnterpriseMatrixSearcher {
             }
             else if _wants_tool {
                 1 + 1;
+            }
+            else if _wants_all_adversaries {
+                self.render_enterprise_adversaries_table(&_results, _wants_export, _wants_outfile);
             }
             else if _wants_revoked {
                 self.render_enterprise_revoked_table(&_results, _wants_export, _wants_outfile);
@@ -665,6 +676,16 @@ impl EnterpriseMatrixSearcher {
         _results.sort();
         serde_json::to_string(&_results).expect("(?) Error: Unable To Deserialize String Of All Deprecated Techniques")        
     }
+    fn search_all_adversaries(&self) -> String
+    {
+        let mut _results = vec![];
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect("(?) Error: Unable to Deserialize All Adversaries");
+        for _item in _json.adversaries {
+            _results.push(_item)
+        }
+        _results.sort();
+        serde_json::to_string(&_results).expect("(?) Error: Unable To Deserialize All Adversaries")
+    }    
     /// # Query To Get All Active Tactics
     ///
     /// Allows the user to get all of the Active Tactics.
@@ -1056,6 +1077,31 @@ impl EnterpriseMatrixSearcher {
             self.save_csv_export(_wants_outfile, &_table);
         }          
     }
+    fn render_enterprise_adversaries_table(&self,
+        results: &Vec<String>,
+        _wants_export: &str,
+        _wants_outfile: &str
+    )
+    {
+        let mut _table = Table::new();
+        _table.add_row(Row::new(vec![
+            Cell::new("INDEX").style_spec("FW"),
+            Cell::new("ADVERSARIES").style_spec("FW"),
+        ]));
+        let _json: Vec<String> = serde_json::from_str(results[0].as_str()).expect("(?) Error: Unable To Deserialize Search Results By Adversaries");
+        for (_idx, _row) in _json.iter().enumerate() {
+            _table.add_row(Row::new(vec![
+                Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                Cell::new(_row.as_str()).style_spec("FW"),
+            ]));
+        }
+        println!("{}", "\n\n");
+        _table.printstd();
+        println!("{}", "\n\n");
+        if _wants_export == "csv" {
+            self.save_csv_export(_wants_outfile, &_table);
+        }
+    }     
     fn render_enterprise_platforms_table(&self,
         results: &Vec<String>,
         _wants_export: &str,
