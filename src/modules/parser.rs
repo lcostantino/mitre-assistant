@@ -803,7 +803,6 @@ impl EnterpriseMatrixParser {
             }
             _aliases.pop();
         }
-        //let _aliases = _aliases.to_string();
         let _ea = EnterpriseAdversary {
             id:         _id,
             name:       _gname,
@@ -811,11 +810,6 @@ impl EnterpriseMatrixParser {
             group_id:   _gid,
             is_revoked: _is_revoked,
             profile:    EnterpriseAdversaryProfile::new()
-            /*malware:    vec![],
-            tools:      vec![],
-            techniques: vec![],
-            subtechniques: vec![]
-            */
         };
         self.details.breakdown_adversaries.push(_ea);
         self.details.adversaries.sort();
@@ -838,7 +832,7 @@ impl EnterpriseMatrixParser {
         _er.target = _tr;
         if _relationship["relationship_type"] == "uses" {
             _er.relation_type = "uses".to_string();
-            // Map relationships to an adversary
+            // Map relationships
             // adversary <---> technique
             if _er.source.starts_with("intrusion-set") && _er.target.starts_with("attack-pattern") {
                 self.relationships.adversary_to_techniques.insert(_er);
@@ -865,7 +859,6 @@ impl EnterpriseMatrixParser {
     fn correlate_relationships(&mut self)
     {
         // Adversaries to Malware
-        let mut _relations = EnterpriseRelationship::new();
         for _adversary in self.details.breakdown_adversaries.iter_mut() {
             // Correlate Adversary to Malware
             for _weapon in self.relationships.adversary_to_malware.iter() {
@@ -875,16 +868,10 @@ impl EnterpriseMatrixParser {
                     for _malware in self.details.breakdown_malware.iter() {
                         if _weapon.target.as_str() == _malware.id.as_str() {
                             _adversary.profile.malware.items.push(_malware.name.clone());
-                            /*
-                            println!("Actor: {:<20} -[ uses ]- {:<20}",
-                                _adversary.name, _malware.name
-                            );
-                            */
                         }
                     }
                 }
             }
-            _adversary.profile.malware.items.sort();
             // Correlate Adversary to Tools
             for _weapon in self.relationships.adversary_to_tools.iter() {
                 if _adversary.id.as_str() == _weapon.source.as_str() {
@@ -895,7 +882,6 @@ impl EnterpriseMatrixParser {
                     }
                 }
             }
-            _adversary.profile.tools.items.sort();
             // Correlate Adversary to Techniques & Subtechniques
             for _behavior in self.relationships.adversary_to_techniques.iter() {
                 if _adversary.id.as_str() == _behavior.source.as_str() {
@@ -911,7 +897,6 @@ impl EnterpriseMatrixParser {
                     }
                 }
             }
-            _adversary.profile.update();
         }
         // Malware to Techniques & Subtechniques
         for _malware in self.details.breakdown_malware.iter_mut() {
@@ -929,7 +914,6 @@ impl EnterpriseMatrixParser {
                     }
                 }
             }
-            _malware.profile.update();
         }
         // Tools to Techniques and Subtechniques
         for _tool in self.details.breakdown_tools.iter_mut() {
@@ -947,7 +931,9 @@ impl EnterpriseMatrixParser {
                     }
                 }
             }
-            _tool.profile.update();
         }
+        _adversary.profile.update();
+        _malware.profile.update();
+        _tool.profile.update();
     }
 }
