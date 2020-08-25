@@ -36,25 +36,24 @@ use enterprise::{
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct EnterpriseMatrixBreakdown {
-    pub adversaries: Vec<String>,
-    pub malware: Vec<String>,
-    pub tools: Vec<String>,
-    pub tactics: HashSet<String>,
-    pub platforms: HashSet<String>,
-    pub datasources: Vec<String>,
-    pub revoked_techniques: HashSet<(String, String)>,
-    pub deprecated_techniques: HashSet<(String, String)>,
-    pub breakdown_adversaries: Vec<EnterpriseAdversary>,
-    pub breakdown_malware: Vec<EnterpriseMalware>,
-    pub breakdown_tools: Vec<EnterpriseTool>,
-    pub breakdown_techniques: EnterpriseTechniquesByPlatform,
-    pub breakdown_subtechniques: EnterpriseSubtechniquesByPlatform,
-    pub uniques_techniques: Vec<String>,
-    pub uniques_subtechniques: Vec<String>,
-    pub rollup_techniques: Vec<EnterpriseTechniquesByTactic>,
-    pub rollup_subtechniques: Vec<EnterpriseTechniquesByTactic>,
-    //pub relationships: EnterpriseRelationships,
-    pub stats: EnterpriseMatrixStatistics,
+    pub adversaries:                Vec<String>,
+    pub malware:                    Vec<String>,
+    pub tools:                      Vec<String>,
+    pub tactics:                    HashSet<String>,
+    pub platforms:                  HashSet<String>,
+    pub datasources:                Vec<String>,
+    pub revoked_techniques:         HashSet<(String, String)>,
+    pub deprecated_techniques:      HashSet<(String, String)>,
+    pub breakdown_adversaries:      Vec<EnterpriseAdversary>,
+    pub breakdown_malware:          Vec<EnterpriseMalware>,
+    pub breakdown_tools:            Vec<EnterpriseTool>,
+    pub breakdown_techniques:       EnterpriseTechniquesByPlatform,
+    pub breakdown_subtechniques:    EnterpriseSubtechniquesByPlatform,
+    pub uniques_techniques:         Vec<String>,
+    pub uniques_subtechniques:      Vec<String>,
+    pub rollup_techniques:          Vec<EnterpriseTechniquesByTactic>,
+    pub rollup_subtechniques:       Vec<EnterpriseTechniquesByTactic>,
+    pub stats:                      EnterpriseMatrixStatistics,
 }
 impl EnterpriseMatrixBreakdown {
     pub fn new() -> Self {
@@ -76,7 +75,6 @@ impl EnterpriseMatrixBreakdown {
             uniques_subtechniques: vec![],
             rollup_techniques: vec![],
             rollup_subtechniques: vec![],
-            //relationships: EnterpriseRelationships::new(),
             stats: EnterpriseMatrixStatistics::new(),
         }
     }
@@ -170,7 +168,6 @@ impl EnterpriseMatrixParser {
             x-mitre-tactic
         */
         // Now Correlate Relationships
-        println!("{}", "COrrelating");
         self.correlate_relationships();
         Ok(())
     }
