@@ -869,6 +869,7 @@ impl EnterpriseMatrixParser {
                     }
                 }
             }
+            _adversary.profile.update();
             // Correlate Adversary to Tools
             for _weapon in self.relationships.adversary_to_tools.iter() {
                 if _adversary.id.as_str() == _weapon.source.as_str() {
@@ -911,6 +912,7 @@ impl EnterpriseMatrixParser {
                     }
                 }
             }
+            _malware.profile.update();
         }
         // Tools to Techniques and Subtechniques
         for _tool in self.details.breakdown_tools.iter_mut() {
@@ -928,9 +930,7 @@ impl EnterpriseMatrixParser {
                     }
                 }
             }
+            _tool.profile.update();
         }
-        _adversary.profile.update();
-        _malware.profile.update();
-        _tool.profile.update();
     }
 }
