@@ -681,8 +681,16 @@ impl EnterpriseMatrixSearcher {
         let mut _results = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect("(?) Error: Unable to Deserialize All Adversaries");
         for _item in _json.adversaries {
-            _results.push(_item)
+            for _adversary in _json.breakdown_adversaries.iter() {
+                if _adversary.aliases.contains(&_item) {
+                    _results.push((_adversary.name.clone(), _adversary.aliases.clone()));
+                } else {
+                    _results.push((_adversary.name.clone(), _adversary.aliases.clone()));
+                }
+            }
         }
+        _results.sort();
+        _results.dedup();
         _results.sort();
         serde_json::to_string(&_results).expect("(?) Error: Unable To Deserialize All Adversaries")
     }    
@@ -1087,12 +1095,14 @@ impl EnterpriseMatrixSearcher {
         _table.add_row(Row::new(vec![
             Cell::new("INDEX").style_spec("FW"),
             Cell::new("ADVERSARIES").style_spec("FW"),
+            Cell::new("ALIASES")
         ]));
-        let _json: Vec<String> = serde_json::from_str(results[0].as_str()).expect("(?) Error: Unable To Deserialize Search Results By Adversaries");
+        let _json: Vec<(String, String)> = serde_json::from_str(results[0].as_str()).expect("(?) Error: Unable To Deserialize Search Results By Adversaries");
         for (_idx, _row) in _json.iter().enumerate() {
             _table.add_row(Row::new(vec![
                 Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
-                Cell::new(_row.as_str()).style_spec("FW"),
+                Cell::new(_row.0.as_str()).style_spec("FW"),
+                Cell::new(&_row.1.as_str().replace("|", "\n")).style_spec("FW"),
             ]));
         }
         println!("{}", "\n\n");
