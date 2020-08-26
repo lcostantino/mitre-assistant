@@ -738,10 +738,58 @@ impl EnterpriseMatrixSearcher {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect("(?) Error: Unable to Deserialize All Adversaries");
         for _item in _json.adversaries {
             for _adversary in _json.breakdown_adversaries.iter() {
-                if _adversary.aliases.contains(&_item) {
-                    _results.push((_adversary.name.clone(), _adversary.aliases.clone()));
+                let mut _techniques = "".to_string();
+                if _adversary.profile.techniques.items.len() > 0 {
+                    _adversary.profile.techniques.items.iter()
+                    .map(|x| { _techniques.push_str(x.as_str()); _techniques.push_str("|") })
+                    .collect::<Vec<_>>();
                 } else {
-                    _results.push((_adversary.name.clone(), _adversary.aliases.clone()));
+                    _techniques.push_str("none");
+                }
+                //
+                let mut _subtechniques = "".to_string();
+                if _adversary.profile.subtechniques.items.len() > 0 {
+                    _adversary.profile.subtechniques.items.iter()
+                        .map(|x| { _subtechniques.push_str(x.as_str()); _subtechniques.push_str("|") })
+                        .collect::<Vec<_>>();
+                } else {
+                    _subtechniques.push_str("none");
+                }
+                //
+                let mut _malware = "".to_string();
+                if _adversary.profile.malware.items.len() > 0 {
+                    _adversary.profile.malware.items.iter()
+                    .map(|x| { _malware.push_str(x.as_str()); _malware.push_str("|") })
+                    .collect::<Vec<_>>();
+                } else {
+                    _malware.push_str("none");
+                }
+                //
+                let mut _tools = "".to_string();
+                if _adversary.profile.tools.items.len() > 0 {
+                    _adversary.profile.tools.items.iter()
+                    .map(|x| { _tools.push_str(x.as_str()); _tools.push_str("|") })
+                    .collect::<Vec<_>>();
+                } else {
+                    _tools.push_str("none");
+                }
+                //
+                if _adversary.aliases.contains(&_item) {
+                    _results.push((_adversary.group_id.clone(),
+                                   _adversary.name.clone(),
+                                   _adversary.aliases.clone(),
+                                   _techniques,
+                                   _subtechniques,
+                                   _malware,
+                                   _tools));
+                } else {
+                    _results.push((_adversary.group_id.clone(),
+                                   _adversary.name.clone(),
+                                   _adversary.aliases.clone(),
+                                   _techniques,
+                                   _subtechniques,
+                                   _malware,
+                                   _tools));
                 }
             }
         }
@@ -1203,10 +1251,31 @@ impl EnterpriseMatrixSearcher {
     {
         let mut _table = Table::new();
         _table.add_row(Row::new(vec![
-            Cell::new("INDEX").style_spec("FW"),
-            Cell::new("ADVERSARIES").style_spec("FW"),
-            Cell::new("ALIASES")
+            Cell::new("INDEX").style_spec("cFW"),
+            Cell::new("GID").style_spec("cFG"),
+            Cell::new("ADVERSARIES").style_spec("cFW"),
+            Cell::new("ALIASES").style_spec("cFW"),
+            Cell::new("TECHNIQUES").style_spec("cFG"),
+            Cell::new("SUBTECHNIQUES").style_spec("cFW"),
+            Cell::new("MALWARE").style_spec("cFW"),
+            Cell::new("TOOLS").style_spec("cFW"),
         ]));
+        let _msg = "(?) Error: Unable To Deserialize Search Results By Adversaries";
+        let mut _json: Vec<(String, String, String, String, String, String, String)>;
+        _json = serde_json::from_str(results[0].as_str()).expect(_msg);
+        for (_idx, _row) in _json.iter().enumerate() {
+            _table.add_row(Row::new(vec![
+                Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                Cell::new(&_row.0.as_str()).style_spec("cFG"),
+                Cell::new(&_row.1.as_str().replace("|", "\n")).style_spec("FW"),
+                Cell::new(&_row.2.as_str().replace("|", "\n")),
+                Cell::new(&_row.3.as_str().replace("|", "\n")).style_spec("cFG"),
+                Cell::new(&_row.4.as_str().replace("|", "\n")).style_spec("cFW"),
+                Cell::new(&_row.5.as_str().replace("|", "\n")),
+                Cell::new(&_row.6.as_str().replace("|", "\n")),
+            ]));
+        }
+        /*
         let _json: Vec<(String, String)> = serde_json::from_str(results[0].as_str()).expect("(?) Error: Unable To Deserialize Search Results By Adversaries");
         for (_idx, _row) in _json.iter().enumerate() {
             _table.add_row(Row::new(vec![
@@ -1215,6 +1284,7 @@ impl EnterpriseMatrixSearcher {
                 Cell::new(&_row.1.as_str().replace("|", "\n")).style_spec("FW"),
             ]));
         }
+        */
         println!("{}", "\n\n");
         _table.printstd();
         println!("{}", "\n\n");
