@@ -339,7 +339,7 @@ impl EnterpriseTactic {
     }
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Eq, PartialEq, Ord, PartialOrd)]
 pub struct EnterpriseAdversary {
     pub id:         String,
     pub name:       String,

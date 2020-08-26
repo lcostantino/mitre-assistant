@@ -11,7 +11,11 @@ use parser::EnterpriseMatrixBreakdown;
 
 #[path = "../structs/enterprise.rs"]
 mod enterprise;
-use enterprise::{EnterpriseTechnique, EnterpriseMatrixStatistics};
+use enterprise::{
+    EnterpriseAdversary,
+    EnterpriseMalware,
+    EnterpriseTechnique,
+    EnterpriseMatrixStatistics};
 
 
 #[path = "../utils/fshandler.rs"]
@@ -703,11 +707,18 @@ impl EnterpriseMatrixSearcher {
         for _item in _json.malware {
             for _malware in _json.breakdown_malware.iter() {
                 if _malware.aliases.contains(&_item) {
+                    _results.push(_malware);
+                } else {
+                    _results.push(_malware);
+                }
+            }
+            /*for _malware in _json.breakdown_malware.iter() {
+                if _malware.aliases.contains(&_item) {
                     _results.push((_malware.name.clone(), _malware.aliases.clone()));
                 } else {
                     _results.push((_malware.name.clone(), _malware.aliases.clone()));
                 }
-            }
+            }*/
         }
         _results.sort();
         _results.dedup();
@@ -773,9 +784,16 @@ impl EnterpriseMatrixSearcher {
                 } else {
                     _tools.push_str("none");
                 }
+                if _adversary.aliases.contains(&_item) {
+                    _results.push(_adversary);
+                } else {
+                    _results.push(_adversary);
+                }
                 //
+                /*
                 if _adversary.aliases.contains(&_item) {
                     _results.push((_adversary.group_id.clone(),
+                                   _adversary.is_revoked,
                                    _adversary.name.clone(),
                                    _adversary.aliases.clone(),
                                    _techniques,
@@ -784,6 +802,7 @@ impl EnterpriseMatrixSearcher {
                                    _tools));
                 } else {
                     _results.push((_adversary.group_id.clone(),
+                                   _adversary.is_revoked,
                                    _adversary.name.clone(),
                                    _adversary.aliases.clone(),
                                    _techniques,
@@ -791,6 +810,7 @@ impl EnterpriseMatrixSearcher {
                                    _malware,
                                    _tools));
                 }
+                */
             }
         }
         _results.sort();
@@ -1228,14 +1248,22 @@ impl EnterpriseMatrixSearcher {
             Cell::new("MALWARE").style_spec("FW"),
             Cell::new("ALIASES")
         ]));
-        let _json: Vec<(String, String)> = serde_json::from_str(results[0].as_str()).expect("(?) Error: Unable To Deserialize Search Results By Malware");
+        let _msg = "(?) Error: Unable To Deserialize Search Results By Malware";
+        let _json: Vec<EnterpriseMalware> = serde_json::from_str(results[0].as_str()).expect(_msg);
         for (_idx, _row) in _json.iter().enumerate() {
+            _table.add_row(Row::new(vec![
+                Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                Cell::new(_row.name.as_str()).style_spec("FW"),
+                Cell::new(&_row.aliases.replace("|", "\n")).style_spec("FW"),
+            ]));
+        }
+        /*for (_idx, _row) in _json.iter().enumerate() {
             _table.add_row(Row::new(vec![
                 Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
                 Cell::new(_row.0.as_str()).style_spec("FW"),
                 Cell::new(&_row.1.as_str().replace("|", "\n")).style_spec("FW"),
             ]));
-        }
+        }*/
         println!("{}", "\n\n");
         _table.printstd();
         println!("{}", "\n\n");
@@ -1251,7 +1279,8 @@ impl EnterpriseMatrixSearcher {
     {
         let mut _table = Table::new();
         _table.add_row(Row::new(vec![
-            Cell::new("INDEX").style_spec("cFW"),
+            Cell::new("INDEX").style_spec("c"),
+            Cell::new("STATUS").style_spec("c"),
             Cell::new("GID").style_spec("cFG"),
             Cell::new("ADVERSARIES").style_spec("cFW"),
             Cell::new("ALIASES").style_spec("cFW"),
@@ -1261,18 +1290,72 @@ impl EnterpriseMatrixSearcher {
             Cell::new("TOOLS").style_spec("cFW"),
         ]));
         let _msg = "(?) Error: Unable To Deserialize Search Results By Adversaries";
-        let mut _json: Vec<(String, String, String, String, String, String, String)>;
+        let mut _json: Vec<EnterpriseAdversary>;
         _json = serde_json::from_str(results[0].as_str()).expect(_msg);
         for (_idx, _row) in _json.iter().enumerate() {
+            let mut _aliases = "".to_string();
+            if _row.aliases.len() == 0 {
+                _aliases.push_str("none");
+            } else {
+                _aliases = _row.aliases.clone();
+            }
+            //
+            let mut _techniques = "".to_string();
+            if _row.profile.techniques.items.len() > 0 {
+                _row.profile.techniques.items.iter()
+                    .map(|x| { _techniques.push_str(x.as_str()); _techniques.push_str("|") })
+                    .collect::<Vec<_>>();
+            } else {
+                _techniques.push_str("none");
+            }
+            //
+            let mut _subtechniques = "".to_string();
+            if _row.profile.subtechniques.items.len() > 0 {
+                _row.profile.subtechniques.items.iter()
+                    .map(|x| { _subtechniques.push_str(x.as_str()); _subtechniques.push_str("|") })
+                    .collect::<Vec<_>>();
+            } else {
+                _subtechniques.push_str("none");
+            }
+            //
+            let mut _malware = "".to_string();
+            if _row.profile.malware.items.len() > 0 {
+                _row.profile.malware.items.iter()
+                    .map(|x| { _malware.push_str(x.as_str()); _malware.push_str("|") })
+                    .collect::<Vec<_>>();
+            } else {
+                _malware.push_str("none");
+            }
+            //
+            let mut _tools = "".to_string();
+            if _row.profile.tools.items.len() > 0 {
+                _row.profile.tools.items.iter()
+                    .map(|x| { _tools.push_str(x.as_str()); _tools.push_str("|") })
+                    .collect::<Vec<_>>();
+            } else {
+                _tools.push_str("none");
+            }
+            //
+            let mut _revoked_cell: Cell;
+            let mut _group_id_cell: Cell;
+            if _row.is_revoked {
+                _revoked_cell = Cell::new("Revoked").style_spec("cFR");
+                _group_id_cell = Cell::new(&_row.group_id.as_str()).style_spec("cFR");
+
+            } else {
+                _revoked_cell = Cell::new("Active").style_spec("cFG");
+                _group_id_cell = Cell::new(&_row.group_id.as_str()).style_spec("cFG");
+            }
             _table.add_row(Row::new(vec![
-                Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
-                Cell::new(&_row.0.as_str()).style_spec("cFG"),
-                Cell::new(&_row.1.as_str().replace("|", "\n")).style_spec("FW"),
-                Cell::new(&_row.2.as_str().replace("|", "\n")),
-                Cell::new(&_row.3.as_str().replace("|", "\n")).style_spec("cFG"),
-                Cell::new(&_row.4.as_str().replace("|", "\n")).style_spec("cFW"),
-                Cell::new(&_row.5.as_str().replace("|", "\n")),
-                Cell::new(&_row.6.as_str().replace("|", "\n")),
+                Cell::new((_idx + 1).to_string().as_str()).style_spec("c"),
+                _revoked_cell,
+                _group_id_cell,
+                Cell::new(&_row.name.as_str()),
+                Cell::new(&_aliases.replace("|", "\n")),
+                Cell::new(&_techniques.as_str().replace("|", "\n")),
+                Cell::new(&_subtechniques.as_str().replace("|", "\n")).style_spec("cFG"),
+                Cell::new(&_malware.replace("|", "\n")).style_spec("FW"),
+                Cell::new(&_tools.as_str().replace("|", "\n")),
             ]));
         }
         /*
@@ -1285,7 +1368,7 @@ impl EnterpriseMatrixSearcher {
             ]));
         }
         */
-        println!("{}", "\n\n");
+        println!("{}", "\n");
         _table.printstd();
         println!("{}", "\n\n");
         if _wants_export == "csv" {
