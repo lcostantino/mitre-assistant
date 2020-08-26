@@ -1352,9 +1352,9 @@ impl EnterpriseMatrixSearcher {
                 _group_id_cell,
                 Cell::new(&_row.name.as_str()),
                 Cell::new(&_aliases.replace("|", "\n")),
-                Cell::new(&_techniques.as_str().replace("|", "\n")),
-                Cell::new(&_subtechniques.as_str().replace("|", "\n")).style_spec("cFG"),
-                Cell::new(&_malware.replace("|", "\n")).style_spec("FW"),
+                Cell::new(&_techniques.as_str().replace("|", "\n")).style_spec("cFG"),
+                Cell::new(&_subtechniques.as_str().replace("|", "\n")).style_spec("cFW"),
+                Cell::new(&_malware.replace("|", "\n")),
                 Cell::new(&_tools.as_str().replace("|", "\n")),
             ]));
         }
