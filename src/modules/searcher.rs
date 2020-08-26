@@ -77,7 +77,9 @@ impl EnterpriseMatrixSearcher {
         let mut _wants_adversary: bool = false;
         let mut _wants_malware: bool = false;
         let mut _wants_tool: bool = false;
-        let mut _wants_all_adversaries: bool = true;
+        let mut _wants_all_adversaries: bool = false;
+        let mut _wants_all_malware: bool = false;
+        let mut _wants_all_tools: bool = false;
         let mut _wants_xref_datasources_tactics: bool = false;      // Returns The Stats Count XREF of Datasoources By Tactic
         let mut _wants_xref_datasources_platforms: bool = false;    // Return The Stats Count XREF of Datasources By Platform
         // Parse the search term explicitly
@@ -221,12 +223,18 @@ impl EnterpriseMatrixSearcher {
             let _idx: Vec<usize> = _scanner_to.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 40usize));
             _wants_tool  = true;
-            //_wants_by_datasource = true;
-            //println!("Matches:\n{:#?}", _idx);
         }
         else if _st == "adversaries" {
             _valid.push((_st, 41usize));
             _wants_all_adversaries = true;
+        }
+        else if _st == "malware" {
+            _valid.push((_st, 42usize));
+            _wants_all_malware = true;
+        }
+        else if _st == "tools" {
+            _valid.push((_st, 43usize));
+            _wants_all_tools = true;
         }                                                                                 
         else if !_st.contains(",") {
             if _scanner.pattern.is_match(_st) {
@@ -378,7 +386,13 @@ impl EnterpriseMatrixSearcher {
                 }
                 else if _pattern == &41usize {
                     _results.push(self.search_all_adversaries());
-                }                                                                                                                                                                                                                                                                                                                                                                                              
+                } 
+                else if _pattern == &42usize {
+                    _results.push(self.search_all_malware());
+                }
+                else if _pattern == &43usize {
+                    _results.push(self.search_all_tools());
+                }                                                                                                                                                                                                                                                                                                                                                                                                              
             }
             // Render Query Results
             // --------------------
@@ -399,7 +413,13 @@ impl EnterpriseMatrixSearcher {
             }
             else if _wants_all_adversaries {
                 self.render_enterprise_adversaries_table(&_results, _wants_export, _wants_outfile);
+            }     
+            else if _wants_all_malware {
+                self.render_enterprise_malware_table(&_results, _wants_export, _wants_outfile);
             }
+            else if _wants_all_tools {
+                self.render_enterprise_tools_table(&_results, _wants_export, _wants_outfile);
+            }                               
             else if _wants_revoked {
                 self.render_enterprise_revoked_table(&_results, _wants_export, _wants_outfile);
             }
@@ -676,6 +696,42 @@ impl EnterpriseMatrixSearcher {
         _results.sort();
         serde_json::to_string(&_results).expect("(?) Error: Unable To Deserialize String Of All Deprecated Techniques")        
     }
+    fn search_all_malware(&self) -> String
+    {
+        let mut _results = vec![];
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect("(?) Error: Unable to Deserialize All Malware");
+        for _item in _json.malware {
+            for _malware in _json.breakdown_malware.iter() {
+                if _malware.aliases.contains(&_item) {
+                    _results.push((_malware.name.clone(), _malware.aliases.clone()));
+                } else {
+                    _results.push((_malware.name.clone(), _malware.aliases.clone()));
+                }
+            }
+        }
+        _results.sort();
+        _results.dedup();
+        _results.sort();
+        serde_json::to_string(&_results).expect("(?) Error: Unable To Deserialize All Malware")
+    }
+    fn search_all_tools(&self) -> String
+    {
+        let mut _results = vec![];
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect("(?) Error: Unable to Deserialize All Malware");
+        for _item in _json.tools {
+            for _tool in _json.breakdown_tools.iter() {
+                if _tool.aliases.contains(&_item) {
+                    _results.push((_tool.name.clone(), _tool.aliases.clone()));
+                } else {
+                    _results.push((_tool.name.clone(), _tool.aliases.clone()));
+                }
+            }
+        }
+        _results.sort();
+        _results.dedup();
+        _results.sort();
+        serde_json::to_string(&_results).expect("(?) Error: Unable To Deserialize All Malware")
+    }       
     fn search_all_adversaries(&self) -> String
     {
         let mut _results = vec![];
@@ -1085,6 +1141,60 @@ impl EnterpriseMatrixSearcher {
             self.save_csv_export(_wants_outfile, &_table);
         }          
     }
+    fn render_enterprise_tools_table(&self,
+        results: &Vec<String>,
+        _wants_export: &str,
+        _wants_outfile: &str
+    )
+    {
+        let mut _table = Table::new();
+        _table.add_row(Row::new(vec![
+            Cell::new("INDEX").style_spec("FW"),
+            Cell::new("TOOLS").style_spec("FW"),
+            Cell::new("ALIASES")
+        ]));
+        let _json: Vec<(String, String)> = serde_json::from_str(results[0].as_str()).expect("(?) Error: Unable To Deserialize Search Results By Tools");
+        for (_idx, _row) in _json.iter().enumerate() {
+            _table.add_row(Row::new(vec![
+                Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                Cell::new(_row.0.as_str()).style_spec("FW"),
+                Cell::new(&_row.1.as_str().replace("|", "\n")).style_spec("FW"),
+            ]));
+        }
+        println!("{}", "\n\n");
+        _table.printstd();
+        println!("{}", "\n\n");
+        if _wants_export == "csv" {
+            self.save_csv_export(_wants_outfile, &_table);
+        }
+    }      
+    fn render_enterprise_malware_table(&self,
+        results: &Vec<String>,
+        _wants_export: &str,
+        _wants_outfile: &str
+    )
+    {
+        let mut _table = Table::new();
+        _table.add_row(Row::new(vec![
+            Cell::new("INDEX").style_spec("FW"),
+            Cell::new("MALWARE").style_spec("FW"),
+            Cell::new("ALIASES")
+        ]));
+        let _json: Vec<(String, String)> = serde_json::from_str(results[0].as_str()).expect("(?) Error: Unable To Deserialize Search Results By Malware");
+        for (_idx, _row) in _json.iter().enumerate() {
+            _table.add_row(Row::new(vec![
+                Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                Cell::new(_row.0.as_str()).style_spec("FW"),
+                Cell::new(&_row.1.as_str().replace("|", "\n")).style_spec("FW"),
+            ]));
+        }
+        println!("{}", "\n\n");
+        _table.printstd();
+        println!("{}", "\n\n");
+        if _wants_export == "csv" {
+            self.save_csv_export(_wants_outfile, &_table);
+        }
+    }     
     fn render_enterprise_adversaries_table(&self,
         results: &Vec<String>,
         _wants_export: &str,
