@@ -58,7 +58,7 @@ impl ArgumentsParser<'_> {
                                                 .long("matrix")
                                                 .value_name("matrix_name")
                                                 .takes_value(true)
-                                                .help("Load a Matrix From ATT&CK: (Enterprise|Mobile|Pre-Attatck)")
+                                                .help("Load a Matrix From ATT&CK: (Enterprise|Mobile|Pre-Attack)")
                                         )
                         )
                         .subcommand(
@@ -72,7 +72,7 @@ impl ArgumentsParser<'_> {
                                      .long("matrix")
                                      .value_name("matrix_name")
                                      .takes_value(true)
-                                     .help("Load a Matrix From ATT&CK: (Enterprise|Mobile|Pre-Attatck)")
+                                     .help("Load a Matrix From ATT&CK: (Enterprise|Mobile|Pre-Attack)")
                              )
                         )
                         .subcommand(
@@ -86,7 +86,7 @@ impl ArgumentsParser<'_> {
                                      .long("matrix")
                                      .value_name("matrix_name")
                                      .takes_value(true)
-                                     .help("Load a Matrix From ATT&CK: (Enterprise|Mobile|Pre-Attatck)")
+                                     .help("Load a Matrix From ATT&CK: (Enterprise|Mobile|Pre-Attack)")
                              )
                              .arg(
                                 Arg::with_name("term_search")

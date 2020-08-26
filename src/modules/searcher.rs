@@ -1138,11 +1138,12 @@ impl EnterpriseMatrixSearcher {
                 Cell::new(_row.as_str()).style_spec("FW"),
             ]));
         }
-        println!("{}", "\n\n");
-        _table.printstd();
-        println!("{}", "\n\n");
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
+        } else {
+            println!("{}", "\n\n");
+            _table.printstd();
+            println!("{}", "\n\n");
         }          
     }
     fn render_enterprise_tools_table(&self,
@@ -1151,25 +1152,39 @@ impl EnterpriseMatrixSearcher {
         _wants_outfile: &str
     )
     {
+        let mut _csv_table = Table::new();
         let mut _table = Table::new();
-        _table.add_row(Row::new(vec![
+        let _table_headers = Row::new(vec![
             Cell::new("INDEX").style_spec("FW"),
             Cell::new("TOOLS").style_spec("FW"),
             Cell::new("ALIASES")
-        ]));
+        ]);
+        if _wants_export == "csv" {
+            _csv_table.add_row(_table_headers);
+        } else {
+            _table.add_row(_table_headers);
+        }
         let _json: Vec<(String, String)> = serde_json::from_str(results[0].as_str()).expect("(?) Error: Unable To Deserialize Search Results By Tools");
         for (_idx, _row) in _json.iter().enumerate() {
+            if _wants_export == "csv" {
+                _csv_table.add_row(Row::new(vec![
+                    Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                    Cell::new(_row.0.as_str()).style_spec("FW"),
+                    Cell::new(&_row.1.as_str()).style_spec("FW"),
+                ]));
+            }
             _table.add_row(Row::new(vec![
                 Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
                 Cell::new(_row.0.as_str()).style_spec("FW"),
                 Cell::new(&_row.1.as_str().replace("|", "\n")).style_spec("FW"),
             ]));
         }
-        println!("{}", "\n\n");
-        _table.printstd();
-        println!("{}", "\n\n");
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
+        } else {
+            println!("{}", "\n\n");
+            _table.printstd();
+            println!("{}", "\n\n");
         }
     }      
     fn render_enterprise_malware_table(&self,
@@ -1179,25 +1194,40 @@ impl EnterpriseMatrixSearcher {
     )
     {
         let mut _table = Table::new();
-        _table.add_row(Row::new(vec![
+        let mut _csv_table = Table::new();
+        let _table_headers: Row = Row::new(vec![
             Cell::new("INDEX").style_spec("FW"),
             Cell::new("MALWARE").style_spec("FW"),
             Cell::new("ALIASES")
-        ]));
+        ]);
+        if _wants_export == "csv" {
+            _csv_table.add_row(_table_headers);
+        } else {
+            _table.add_row(_table_headers);
+        }
         let _msg = "(?) Error: Unable To Deserialize Search Results By Malware";
         let _json: Vec<EnterpriseMalware> = serde_json::from_str(results[0].as_str()).expect(_msg);
         for (_idx, _row) in _json.iter().enumerate() {
-            _table.add_row(Row::new(vec![
-                Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
-                Cell::new(_row.name.as_str()).style_spec("FW"),
-                Cell::new(&_row.aliases.replace("|", "\n")).style_spec("FW"),
-            ]));
+            if _wants_export == "csv" {
+                _csv_table.add_row(Row::new(vec![
+                    Cell::new((_idx + 1).to_string().as_str()),
+                    Cell::new(_row.name.as_str()),
+                    Cell::new(&_row.aliases)
+                ]));
+            } else {
+                _table.add_row(Row::new(vec![
+                    Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                    Cell::new(_row.name.as_str()).style_spec("FW"),
+                    Cell::new(&_row.aliases.replace("|", "\n")).style_spec("FW"),
+                ]));
+            }
         }
-        println!("{}", "\n\n");
-        _table.printstd();
-        println!("{}", "\n\n");
         if _wants_export == "csv" {
-            self.save_csv_export(_wants_outfile, &_table);
+            self.save_csv_export(_wants_outfile, &_csv_table);
+        } else {
+            println!("{}", "\n\n");
+            _table.printstd();
+            println!("{}", "\n\n");
         }
     }     
     fn render_enterprise_adversaries_table(&self,
@@ -1207,7 +1237,8 @@ impl EnterpriseMatrixSearcher {
     )
     {
         let mut _table = Table::new();
-        _table.add_row(Row::new(vec![
+        let mut _csv_table = Table::new();
+        let _table_headers: Row = Row::new(vec![
             Cell::new("INDEX").style_spec("c"),
             Cell::new("STATUS").style_spec("c"),
             Cell::new("GID").style_spec("cFG"),
@@ -1216,8 +1247,13 @@ impl EnterpriseMatrixSearcher {
             Cell::new("TECHNIQUES").style_spec("cFG"),
             Cell::new("SUBTECHNIQUES").style_spec("cFW"),
             Cell::new("MALWARE").style_spec("cFW"),
-            Cell::new("TOOLS").style_spec("cFW"),
-        ]));
+            Cell::new("TOOLS").style_spec("cFW")
+        ]);
+        if _wants_export == "csv" {
+            _csv_table.add_row(_table_headers);
+        } else {
+            _table.add_row(_table_headers);
+        }
         let _msg = "(?) Error: Unable To Deserialize Search Results By Adversaries";
         let mut _json: Vec<EnterpriseAdversary>;
         _json = serde_json::from_str(results[0].as_str()).expect(_msg);
@@ -1275,23 +1311,38 @@ impl EnterpriseMatrixSearcher {
                 _revoked_cell = Cell::new("Active").style_spec("cFG");
                 _group_id_cell = Cell::new(&_row.group_id.as_str()).style_spec("cFG");
             }
-            _table.add_row(Row::new(vec![
-                Cell::new((_idx + 1).to_string().as_str()).style_spec("c"),
-                _revoked_cell,
-                _group_id_cell,
-                Cell::new(&_row.name.as_str()),
-                Cell::new(&_aliases.replace("|", "\n")),
-                Cell::new(&_techniques.as_str().replace("|", "\n")).style_spec("cFG"),
-                Cell::new(&_subtechniques.as_str().replace("|", "\n")).style_spec("cFW"),
-                Cell::new(&_malware.replace("|", "\n")),
-                Cell::new(&_tools.as_str().replace("|", "\n")),
-            ]));
+            if _wants_export == "csv" {
+                _csv_table.add_row(Row::new(vec![
+                    Cell::new((_idx + 1).to_string().as_str()).style_spec("c"),
+                    _revoked_cell.clone(),
+                    _group_id_cell.clone(),
+                    Cell::new(&_row.name.as_str()),
+                    Cell::new(&_aliases),
+                    Cell::new(&_techniques),
+                    Cell::new(&_subtechniques.as_str()),
+                    Cell::new(&_malware),
+                    Cell::new(&_tools)
+                ]));
+            } else {
+                _table.add_row(Row::new(vec![
+                    Cell::new((_idx + 1).to_string().as_str()).style_spec("c"),
+                    _revoked_cell.clone(),
+                    _group_id_cell.clone(),
+                    Cell::new(&_row.name.as_str()),
+                    Cell::new(&_aliases.replace("|", "\n")),
+                    Cell::new(&_techniques.as_str().replace("|", "\n")).style_spec("cFG"),
+                    Cell::new(&_subtechniques.as_str().replace("|", "\n")).style_spec("cFW"),
+                    Cell::new(&_malware.replace("|", "\n")),
+                    Cell::new(&_tools.as_str().replace("|", "\n")),
+                ]));
+            }
         }
-        println!("{}", "\n");
-        _table.printstd();
-        println!("{}", "\n\n");
         if _wants_export == "csv" {
-            self.save_csv_export(_wants_outfile, &_table);
+            self.save_csv_export(_wants_outfile, &_csv_table);
+        } else {
+            println!("{}", "\n");
+            _table.printstd();
+            println!("{}", "\n\n");
         }
     }     
     fn render_enterprise_platforms_table(&self,
@@ -1312,11 +1363,12 @@ impl EnterpriseMatrixSearcher {
                 Cell::new(_row.as_str()).style_spec("FW"),
             ]));
         }
-        println!("{}", "\n\n");
-        _table.printstd();
-        println!("{}", "\n\n");
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
+        } else {
+            println!("{}", "\n\n");
+            _table.printstd();
+            println!("{}", "\n\n");
         }
     } 
     fn render_enterprise_datasources_table(&self,
@@ -1337,11 +1389,12 @@ impl EnterpriseMatrixSearcher {
                 Cell::new(_row.as_str()).style_spec("FW"),
             ]));
         }
-        println!("{}", "\n\n");
-        _table.printstd();
-        println!("{}", "\n\n");
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
+        } else {
+            println!("{}", "\n\n");
+            _table.printstd();
+            println!("{}", "\n\n");
         }        
     } 
     fn render_enterprise_table(&self,
@@ -1350,8 +1403,9 @@ impl EnterpriseMatrixSearcher {
         _wants_outfile: &str
     )
     {
+        let mut _csv_table = Table::new();
         let mut _table = Table::new();
-        _table.add_row(Row::new(vec![
+        let _table_headers: Row = Row::new(vec![
             Cell::new("INDEX"),
             Cell::new("STATUS"),
             Cell::new("PLATFORMS"),
@@ -1360,7 +1414,12 @@ impl EnterpriseMatrixSearcher {
             Cell::new("TECHNIQUE"),
             Cell::new("SUBTECHNIQUES"),
             Cell::new("DATA SOURCES")
-        ]));
+        ]);
+        if _wants_export == "csv" {
+            _csv_table.add_row(_table_headers);
+        } else {
+            _table.add_row(_table_headers);
+        }
  
         let mut _sorted_index: Vec<(String, usize, usize)> = vec![];
         for (_ridx, _item) in results.iter().enumerate() {
@@ -1387,57 +1446,52 @@ impl EnterpriseMatrixSearcher {
             }
             // When a deprecated Technique is part of the result
             // then create a row for the deprecated technique
+            let mut _status: Cell;
+            let mut _tid: Cell;
             if _row.is_deprecated {
-                _table.add_row(
-                    Row::new(vec![
-                        Cell::new((_idx + 1).to_string().as_str()),
-                        Cell::new("Deprecated").style_spec("FY"),
-                        Cell::new(_row.platform.replace("|", "\n").as_str()),
-                        Cell::new(_row.tactic.as_str()),
-                        Cell::new(_row.tid.as_str()).style_spec("FY"),
-                        Cell::new(_row.technique.as_str()).style_spec("FW"),
-                        Cell::new(_st.replace("|", "\n").as_str()).style_spec("cFW"),
-                        Cell::new(_row.datasources.replace("|", "\n").as_str())
-                    ])
-                ); 
+                _status = Cell::new("Deprecated").style_spec("FY");
+                _tid    = Cell::new(_row.tid.as_str()).style_spec("FY");
+            } else if _row.is_revoked {
+                _status = Cell::new("Revoked").style_spec("FR");
+                _tid    = Cell::new(_row.tid.as_str()).style_spec("FR");
+            } else {
+                _status = Cell::new("Active").style_spec("FG");
+                _tid    = Cell::new(_row.tid.as_str()).style_spec("FG");
             }
-            // When a revoked Technique is part of the result
-            // then create a row for the revoked technique
-            else if _row.is_revoked {
-                _table.add_row(
+            if _wants_export == "csv" {
+                _csv_table.add_row(
                     Row::new(vec![
                         Cell::new((_idx + 1).to_string().as_str()),
-                        Cell::new("Revoked").style_spec("FR"),
-                        Cell::new(_row.platform.replace("|", "\n").as_str()),
+                        _status,
+                        Cell::new(_row.platform.as_str()),
                         Cell::new(_row.tactic.as_str()),
-                        Cell::new(_row.tid.as_str()).style_spec("FR"),
-                        Cell::new(_row.technique.as_str()).style_spec("FW"),
-                        Cell::new(_st.replace("|", "\n").as_str()).style_spec("cFW"),
-                        Cell::new(_row.datasources.replace("|", "\n").as_str())
-                    ])
-                ); 
+                        _tid,
+                        Cell::new(_row.technique.as_str()),
+                        Cell::new(_st.as_str()),
+                        Cell::new(_row.datasources.as_str())
+                    ]));
             } else {
                 _table.add_row(
                     Row::new(vec![
                         Cell::new((_idx + 1).to_string().as_str()),
-                        Cell::new("Active").style_spec("FG"),
+                        _status,
                         Cell::new(_row.platform.replace("|", "\n").as_str()),
                         Cell::new(_row.tactic.as_str()),
-                        Cell::new(_row.tid.as_str()).style_spec("FG"),
+                        _tid,
                         Cell::new(_row.technique.as_str()).style_spec("FW"),
                         Cell::new(_st.replace("|", "\n").as_str()).style_spec("cFW"),
                         Cell::new(_row.datasources.replace("|", "\n").as_str())
-                    ])
-                ); 
+                    ]));
             }
             _st.clear();
             _idx += 1;            
         }
-        println!("{}", "\n\n");
-        _table.printstd();
-        println!("{}", "\n\n");
         if _wants_export == "csv" {
-            self.save_csv_export(_wants_outfile, &_table);
+            self.save_csv_export(_wants_outfile, &_csv_table);
+        } else {
+            println!("{}", "\n\n");
+            _table.printstd();
+            println!("{}", "\n\n");
         }
     }
     fn render_enterprise_revoked_table(&self,
@@ -1505,12 +1559,13 @@ impl EnterpriseMatrixSearcher {
                 _idx += 1;
             }
         }
-        println!("{}", "\n\n");
-        _table.printstd();
-        println!("{}", "\n\n");
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
-        }          
+        } else {
+            println!("{}", "\n\n");
+            _table.printstd();
+            println!("{}", "\n\n");
+        }
     }
     fn render_enterprise_stats_xref_datasource_platforms(&self,
         results: &Vec<String>,
@@ -1550,11 +1605,12 @@ impl EnterpriseMatrixSearcher {
                 Cell::new(&_data[_datasource]["windows"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
             ])); 
         }
-        println!("{}", "\n\n");
-        _table.printstd();
-        println!("{}", "\n\n");
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
+        } else {
+            println!("{}", "\n\n");
+            _table.printstd();
+            println!("{}", "\n\n");
         }
     }   
     fn render_enterprise_stats_xref_datasource_tactics(&self,
@@ -1602,11 +1658,12 @@ impl EnterpriseMatrixSearcher {
                 Cell::new(&_data[_datasource]["impact"].as_i64().unwrap().to_string().as_str()).style_spec("cFW"),
             ])); 
         }
-        println!("{}", "\n\n");
-        _table.printstd();
-        println!("{}", "\n\n");
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
+        } else {
+            println!("{}", "\n\n");
+            _table.printstd();
+            println!("{}", "\n\n");
         }              
     }    
     fn render_enterprise_stats(&self,
