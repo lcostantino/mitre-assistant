@@ -741,7 +741,7 @@ impl EnterpriseMatrixSearcher {
                 let mut _techniques = "".to_string();
                 if _adversary.profile.techniques.items.len() > 0 {
                     _adversary.profile.techniques.items.iter()
-                        .map(|x| { _techniques.push_str(x.as_str()); _techniques.push_str(“|”) })
+                        .map(|x| { _techniques.push_str(x.as_str()); _techniques.push_str("|") })
                         .collect::<Vec<_>>();
                 } else {
                     _techniques.push_str("none");
@@ -759,7 +759,7 @@ impl EnterpriseMatrixSearcher {
                 let mut _malware = "".to_string();
                 if _adversary.profile.malware.items.len() > 0 {
                     _adversary.profile.malware.items.iter()
-                        .map(|x| { _malware.push_str(x.as_str()); _malware.push_str(“|”) })
+                        .map(|x| { _malware.push_str(x.as_str()); _malware.push_str("|") })
                         .collect::<Vec<_>>();
                 } else {
                     _malware.push_str("none");
@@ -768,7 +768,7 @@ impl EnterpriseMatrixSearcher {
                 let mut _tools = "".to_string();
                 if _adversary.profile.tools.items.len() > 0 {
                     _adversary.profile.tools.items.iter()
-                        .map(|x| { _tools.push_str(x.as_str()); _tools.push_str(“|”) })
+                        .map(|x| { _tools.push_str(x.as_str()); _tools.push_str("|") })
                         .collect::<Vec<_>>();
                 } else {
                     _tools.push_str("none");
