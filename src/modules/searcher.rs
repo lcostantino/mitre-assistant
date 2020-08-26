@@ -712,13 +712,6 @@ impl EnterpriseMatrixSearcher {
                     _results.push(_malware);
                 }
             }
-            /*for _malware in _json.breakdown_malware.iter() {
-                if _malware.aliases.contains(&_item) {
-                    _results.push((_malware.name.clone(), _malware.aliases.clone()));
-                } else {
-                    _results.push((_malware.name.clone(), _malware.aliases.clone()));
-                }
-            }*/
         }
         _results.sort();
         _results.dedup();
@@ -749,68 +742,11 @@ impl EnterpriseMatrixSearcher {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect("(?) Error: Unable to Deserialize All Adversaries");
         for _item in _json.adversaries {
             for _adversary in _json.breakdown_adversaries.iter() {
-                let mut _techniques = "".to_string();
-                if _adversary.profile.techniques.items.len() > 0 {
-                    _adversary.profile.techniques.items.iter()
-                        .map(|x| { _techniques.push_str(x.as_str()); _techniques.push_str("|") })
-                        .collect::<Vec<_>>();
-                } else {
-                    _techniques.push_str("none");
-                }
-                //
-                let mut _subtechniques = "".to_string();
-                if _adversary.profile.subtechniques.items.len() > 0 {
-                    _adversary.profile.subtechniques.items.iter()
-                        .map(|x| { _subtechniques.push_str(x.as_str()); _subtechniques.push_str("|") })
-                        .collect::<Vec<_>>();
-                } else {
-                    _subtechniques.push_str("none");
-                }
-                //
-                let mut _malware = "".to_string();
-                if _adversary.profile.malware.items.len() > 0 {
-                    _adversary.profile.malware.items.iter()
-                        .map(|x| { _malware.push_str(x.as_str()); _malware.push_str("|") })
-                        .collect::<Vec<_>>();
-                } else {
-                    _malware.push_str("none");
-                }
-                //
-                let mut _tools = "".to_string();
-                if _adversary.profile.tools.items.len() > 0 {
-                    _adversary.profile.tools.items.iter()
-                        .map(|x| { _tools.push_str(x.as_str()); _tools.push_str("|") })
-                        .collect::<Vec<_>>();
-                } else {
-                    _tools.push_str("none");
-                }
                 if _adversary.aliases.contains(&_item) {
                     _results.push(_adversary);
                 } else {
                     _results.push(_adversary);
                 }
-                //
-                /*
-                if _adversary.aliases.contains(&_item) {
-                    _results.push((_adversary.group_id.clone(),
-                                   _adversary.is_revoked,
-                                   _adversary.name.clone(),
-                                   _adversary.aliases.clone(),
-                                   _techniques,
-                                   _subtechniques,
-                                   _malware,
-                                   _tools));
-                } else {
-                    _results.push((_adversary.group_id.clone(),
-                                   _adversary.is_revoked,
-                                   _adversary.name.clone(),
-                                   _adversary.aliases.clone(),
-                                   _techniques,
-                                   _subtechniques,
-                                   _malware,
-                                   _tools));
-                }
-                */
             }
         }
         _results.sort();
@@ -1257,13 +1193,6 @@ impl EnterpriseMatrixSearcher {
                 Cell::new(&_row.aliases.replace("|", "\n")).style_spec("FW"),
             ]));
         }
-        /*for (_idx, _row) in _json.iter().enumerate() {
-            _table.add_row(Row::new(vec![
-                Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
-                Cell::new(_row.0.as_str()).style_spec("FW"),
-                Cell::new(&_row.1.as_str().replace("|", "\n")).style_spec("FW"),
-            ]));
-        }*/
         println!("{}", "\n\n");
         _table.printstd();
         println!("{}", "\n\n");
@@ -1358,16 +1287,6 @@ impl EnterpriseMatrixSearcher {
                 Cell::new(&_tools.as_str().replace("|", "\n")),
             ]));
         }
-        /*
-        let _json: Vec<(String, String)> = serde_json::from_str(results[0].as_str()).expect("(?) Error: Unable To Deserialize Search Results By Adversaries");
-        for (_idx, _row) in _json.iter().enumerate() {
-            _table.add_row(Row::new(vec![
-                Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
-                Cell::new(_row.0.as_str()).style_spec("FW"),
-                Cell::new(&_row.1.as_str().replace("|", "\n")).style_spec("FW"),
-            ]));
-        }
-        */
         println!("{}", "\n");
         _table.printstd();
         println!("{}", "\n\n");
