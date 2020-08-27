@@ -70,7 +70,11 @@ impl EnterpriseMatrixSearcher {
         let _scanner_ds = RegexPatternManager::load_search_datasources(&_json.datasources, &_json.platforms);
         // Special Flags
         //      Easier to search this way without flooding the user with parameters
-        //      These flags are commonly placed in both the query and render functions 
+        //      These flags are commonly placed in both the query and render functions
+        //
+        let mut _matches_many: Vec<usize> = vec![];
+        //
+        //
         let mut _wants_stats: bool = false;                         // Returns The Stats Key
         let mut _wants_nosub: bool = false;                         // Returns Techniques That Don't Have Subtechniques
         let mut _wants_revoked: bool = false;                       // Returns Techniques Revoked By Mitre
@@ -208,11 +212,11 @@ impl EnterpriseMatrixSearcher {
         }
         // Adversaries
         else if _scanner_ad.pattern.is_match(_st) {
-            let _idx: Vec<usize> = _scanner_ad.pattern.matches(_st).into_iter().collect();
+            _matches_many = _scanner_ad.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 38usize));
             _wants_adversary = true;
             //_wants_by_datasource = true;
-            //println!("Matches:\n{:#?}", _idx);
+            //println!("Matches:\n{:#?}", _matches_many);
         }          
         // Malware
         else if _scanner_mw.pattern.is_match(_st) {
@@ -380,7 +384,7 @@ impl EnterpriseMatrixSearcher {
                     _results.push(self.search_by_datasource(_term, _wants_subtechniques));
                 }
                 else if _pattern == &38usize {
-                    _results.push(self.search_by_adversary(_term));
+                    _results.push(self.search_by_adversary(_term, _matches_many.clone()));
                 }
                 else if _pattern == &39usize {
                     _results.push(self.search_by_malware(_term));
@@ -407,7 +411,7 @@ impl EnterpriseMatrixSearcher {
             //              the renderer functions.
             //   
             if _wants_adversary {
-                 1 + 1;
+                self.render_enterprise_adversaries_table(&_results, _wants_export, _wants_outfile);
             }
             else if _wants_malware {
                 1 + 1;
@@ -471,7 +475,7 @@ impl EnterpriseMatrixSearcher {
     /// All of the functions are **private functions** that are not exposed to the end-user.  They are only accessible
     /// from the module itself, and specifically, when invoked by the `self.search()` method.
     ///
-    fn search_by_adversary(&self, adversary: &str) -> String
+    fn search_by_adversary(&self, adversary: &str, many: Vec<usize>) -> String
     {
         let mut _results = vec![];
         let adversary = adversary.to_lowercase();
@@ -479,12 +483,25 @@ impl EnterpriseMatrixSearcher {
         let _msg = format!("(?) Error: Unable To Deserialize String of All Techniques by Adversary: {}", adversary);
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect(_msg.as_str());
         let _msg = format!("(?) Error: Unable To Convert String of All Techniques by Adversary: {}", adversary);
-        for _actor in _json.breakdown_adversaries.iter() {
-            if _actor.name.to_lowercase().as_str() == adversary {
-                _results.push(_actor);
+        if many.len() == 1 {
+            for _item in _json.breakdown_adversaries.iter() {
+                if _item.name.to_lowercase().as_str() == adversary {
+                    _results.push(_item);
+                }
+            }
+        } else {
+            if adversary.contains(",") {
+                let _terms: Vec<_> = adversary.split(',').collect();
+                for _term in _terms {
+                    for _item in _json.breakdown_adversaries.iter() {
+                        if _item.name.to_lowercase().as_str() == _term {
+                            _results.push(_item);
+                        }
+                    }
+                }
             }
         }
-        println!("{}", serde_json::to_string_pretty(&_results).unwrap());
+        //println!("{}", serde_json::to_string_pretty(&_results).unwrap());
         serde_json::to_string(&_results).expect(_msg.as_str())  
     }
     ///
@@ -739,7 +756,8 @@ impl EnterpriseMatrixSearcher {
     fn search_all_adversaries(&self) -> String
     {
         let mut _results = vec![];
-        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect("(?) Error: Unable to Deserialize All Adversaries");
+        let _err = "(?) Error: Unable to Deserialize All Adversaries";
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect(_err);
         for _item in _json.adversaries {
             for _adversary in _json.breakdown_adversaries.iter() {
                 if _adversary.aliases.contains(&_item) {
@@ -1239,9 +1257,9 @@ impl EnterpriseMatrixSearcher {
         let mut _table = Table::new();
         let mut _csv_table = Table::new();
         let _table_headers: Row = Row::new(vec![
-            Cell::new("INDEX").style_spec("c"),
-            Cell::new("STATUS").style_spec("c"),
-            Cell::new("GID").style_spec("cFG"),
+            Cell::new("INDEX").style_spec("cFW"),
+            Cell::new("STATUS").style_spec("cFW"),
+            Cell::new("GID").style_spec("cFW"),
             Cell::new("ADVERSARIES").style_spec("cFW"),
             Cell::new("ALIASES").style_spec("cFW"),
             Cell::new("TECHNIQUES").style_spec("cFG"),
@@ -1254,9 +1272,9 @@ impl EnterpriseMatrixSearcher {
         } else {
             _table.add_row(_table_headers);
         }
-        let _msg = "(?) Error: Unable To Deserialize Search Results By Adversaries";
+        let _err = "(?) Error: Unable To Deserialize Search Results By Adversaries";
         let mut _json: Vec<EnterpriseAdversary>;
-        _json = serde_json::from_str(results[0].as_str()).expect(_msg);
+        _json = serde_json::from_str(results[0].as_str()).expect(_err);
         for (_idx, _row) in _json.iter().enumerate() {
             let mut _aliases = "".to_string();
             if _row.aliases.len() == 0 {
@@ -1309,7 +1327,7 @@ impl EnterpriseMatrixSearcher {
 
             } else {
                 _revoked_cell = Cell::new("Active").style_spec("cFG");
-                _group_id_cell = Cell::new(&_row.group_id.as_str()).style_spec("cFG");
+                _group_id_cell = Cell::new(&_row.group_id.as_str()).style_spec("cFW");
             }
             if _wants_export == "csv" {
                 _csv_table.add_row(Row::new(vec![
@@ -1341,7 +1359,8 @@ impl EnterpriseMatrixSearcher {
             self.save_csv_export(_wants_outfile, &_csv_table);
         } else {
             println!("{}", "\n");
-            _table.printstd();
+            //_table.printstd();
+            _table.print_tty(false);
             println!("{}", "\n\n");
         }
     }     
@@ -1356,7 +1375,8 @@ impl EnterpriseMatrixSearcher {
             Cell::new("INDEX").style_spec("FW"),
             Cell::new("PLATFORMS").style_spec("FW"),
         ]));
-        let _json: Vec<String> = serde_json::from_str(results[0].as_str()).expect("(?) Error: Unable To Deserialize Search Results By DataSources");
+        let _err: &str = "(?) Error: Unable To Deserialize Search Results By DataSources";
+        let _json: Vec<String> = serde_json::from_str(results[0].as_str()).expect(_err);
         for (_idx, _row) in _json.iter().enumerate() {
             _table.add_row(Row::new(vec![
                 Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
@@ -1382,7 +1402,8 @@ impl EnterpriseMatrixSearcher {
             Cell::new("INDEX").style_spec("FW"),
             Cell::new("DATASOURCE").style_spec("FW"),
         ]));
-        let _json: Vec<String> = serde_json::from_str(results[0].as_str()).expect("(?) Error: Unable To Deserialize Search Results By DataSources");
+        let _err: &str = "(?) Error: Unable To Deserialize Search Results By DataSources";
+        let _json: Vec<String> = serde_json::from_str(results[0].as_str()).expect(_err);
         for (_idx, _row) in _json.iter().enumerate() {
             _table.add_row(Row::new(vec![
                 Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
@@ -1422,8 +1443,9 @@ impl EnterpriseMatrixSearcher {
         }
  
         let mut _sorted_index: Vec<(String, usize, usize)> = vec![];
+        let _err: &str = "(?) Error: Render Table Deserialization";
         for (_ridx, _item) in results.iter().enumerate() {
-            let _json: Vec<EnterpriseTechnique> = serde_json::from_str(results[_ridx].as_str()).expect("(?) Error: Render Table Deserialization");
+            let _json: Vec<EnterpriseTechnique> = serde_json::from_str(results[_ridx].as_str()).expect(_err);
             for (_jidx, _record) in _json.iter().enumerate() {
                 _sorted_index.push((_record.tid.clone(), _jidx, _ridx));
             }
@@ -1435,8 +1457,9 @@ impl EnterpriseMatrixSearcher {
         // Pay attention to:
         //      `_jidx` => JSON index
         //      `_ridx` => Root index
+        let _err: &str = "(?) Error: Render Table Deserialization";
         for (_technique, _jidx, _ridx) in _sorted_index {
-            let _json: Vec<EnterpriseTechnique> = serde_json::from_str(results[_ridx].as_str()).expect("(?) Error: Render Table Deserialization");
+            let _json: Vec<EnterpriseTechnique> = serde_json::from_str(results[_ridx].as_str()).expect(_err);
             let _row = &_json[_jidx];
             if _row.has_subtechniques {
                 _row.subtechniques.iter()
