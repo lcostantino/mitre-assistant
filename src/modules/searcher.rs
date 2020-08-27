@@ -1257,15 +1257,15 @@ impl EnterpriseMatrixSearcher {
         let mut _table = Table::new();
         let mut _csv_table = Table::new();
         let _table_headers: Row = Row::new(vec![
-            Cell::new("INDEX").style_spec("cFW"),
-            Cell::new("STATUS").style_spec("cFW"),
-            Cell::new("GID").style_spec("cFW"),
-            Cell::new("ADVERSARIES").style_spec("cFW"),
-            Cell::new("ALIASES").style_spec("cFW"),
+            Cell::new("INDEX").style_spec("c"),
+            Cell::new("STATUS").style_spec("c"),
+            Cell::new("GID").style_spec("c"),
+            Cell::new("ADVERSARIES").style_spec("c"),
+            Cell::new("ALIASES").style_spec("c"),
             Cell::new("TECHNIQUES").style_spec("cFG"),
             Cell::new("SUBTECHNIQUES").style_spec("cFW"),
-            Cell::new("MALWARE").style_spec("cFW"),
-            Cell::new("TOOLS").style_spec("cFW")
+            Cell::new("MALWARE").style_spec("c"),
+            Cell::new("TOOLS").style_spec("c")
         ]);
         if _wants_export == "csv" {
             _csv_table.add_row(_table_headers);
