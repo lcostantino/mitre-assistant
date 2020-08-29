@@ -1171,7 +1171,8 @@ impl EnterpriseMatrixSearcher {
             Cell::new("WID").style_spec("cFW"),
             Cell::new("TOOL").style_spec("cFW"),
             Cell::new("ALIASES").style_spec("c"),
-            Cell::new("TACTICS").style_spec("c"),
+            Cell::new("PLATFORMS").style_spec("cFW"),
+            Cell::new("TACTICS").style_spec("cFW"),
             Cell::new("TECHNIQUES").style_spec("cFG"),
             Cell::new("SUBTECHNIQUES").style_spec("cFW"),
             Cell::new("ADVERSARIES").style_spec("c"),
@@ -1190,6 +1191,13 @@ impl EnterpriseMatrixSearcher {
                 _aliases.push_str("none");
             } else {
                 _aliases = _row.aliases.clone();
+            }
+            // Platforms
+            let mut _platforms = "".to_string();
+            if _row.platforms.len() == 0 {
+                _platforms.push_str("none");
+            } else {
+                _platforms = _row.platforms.clone();
             }
             // Tactics
             let mut _tactics = "".to_string();
@@ -1267,6 +1275,7 @@ impl EnterpriseMatrixSearcher {
                     _tool_id_cell.clone(),
                     Cell::new(&_row.name.as_str()),
                     Cell::new(&_aliases),
+                    Cell::new(&_platforms),
                     Cell::new(&_tactics.as_str()),
                     Cell::new(&_techniques),
                     Cell::new(&_subtechniques.as_str()),
@@ -1277,8 +1286,9 @@ impl EnterpriseMatrixSearcher {
                     Cell::new((_idx + 1).to_string().as_str()).style_spec("c"),
                     _status_cell.clone(),
                     _tool_id_cell.clone(),
-                    Cell::new(&_row.name.as_str()).style_spec("cFW"),
+                    Cell::new(&_row.name.as_str()).style_spec("FW"),
                     Cell::new(&_aliases.replace("|", "\n")),
+                    Cell::new(&_platforms.replace("|", "\n")),
                     Cell::new(&_tactics.as_str().replace("|", "\n")),
                     Cell::new(&_techniques.as_str().replace("|", "\n")).style_spec("cFG"),
                     Cell::new(&_subtechniques.as_str().replace("|", "\n")).style_spec("cFW"),
@@ -1309,10 +1319,11 @@ impl EnterpriseMatrixSearcher {
         let _table_headers: Row = Row::new(vec![
             Cell::new("INDEX").style_spec("c"),
             Cell::new("STATUS").style_spec("c"),
-            Cell::new("MID").style_spec("c"),
-            Cell::new("MALWARE").style_spec("c"),
+            Cell::new("MID").style_spec("cFW"),
+            Cell::new("MALWARE").style_spec("cFW"),
             Cell::new("ALIASES").style_spec("c"),
-            Cell::new("TACTICS").style_spec("c"),
+            Cell::new("PLATFORMS").style_spec("cFW"),
+            Cell::new("TACTICS").style_spec("cFW"),
             Cell::new("TECHNIQUES").style_spec("cFG"),
             Cell::new("SUBTECHNIQUES").style_spec("cFW"),
             Cell::new("ADVERSARIES").style_spec("c"),
@@ -1333,6 +1344,13 @@ impl EnterpriseMatrixSearcher {
             } else {
                 _aliases = _row.aliases.clone();
             }
+            // Platforms
+            let mut _platforms = "".to_string();
+            if _row.platforms.len() == 0 {
+                _platforms.push_str("none");
+            } else {
+                _platforms = _row.platforms.clone();
+            }            
             // Tactics
             let mut _tactics = "".to_string();
             if _row.profile.tactics.items.len() > 0 {
@@ -1409,24 +1427,24 @@ impl EnterpriseMatrixSearcher {
                     _malware_id_cell.clone(),
                     Cell::new(&_row.name.as_str()),
                     Cell::new(&_aliases),
+                    Cell::new(&_platforms),
                     Cell::new(&_tactics.as_str()),
                     Cell::new(&_techniques),
                     Cell::new(&_subtechniques.as_str()),
                     Cell::new(&_adversaries.as_str())
-                    //Cell::new(&_malware),
                 ]));
             } else {
                 _table.add_row(Row::new(vec![
                     Cell::new((_idx + 1).to_string().as_str()).style_spec("c"),
                     _status_cell.clone(),
                     _malware_id_cell.clone(),
-                    Cell::new(&_row.name.as_str()).style_spec("cFW"),
+                    Cell::new(&_row.name.as_str()).style_spec("FW"),
                     Cell::new(&_aliases.replace("|", "\n")),
+                    Cell::new(&_platforms.replace("|", "\n")),
                     Cell::new(&_tactics.as_str().replace("|", "\n")),
                     Cell::new(&_techniques.as_str().replace("|", "\n")).style_spec("cFG"),
                     Cell::new(&_subtechniques.as_str().replace("|", "\n")).style_spec("cFW"),
                     Cell::new(&_adversaries.as_str().replace("|","\n"))
-                    //Cell::new(&_malware.replace("|", "\n")),
                 ]));
             }
         }
