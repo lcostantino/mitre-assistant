@@ -372,7 +372,8 @@ pub struct EnterpriseAdversaryProfile {
     pub malware:        EnterpriseProfileEntry,
     pub tools:          EnterpriseProfileEntry,
     pub techniques:     EnterpriseProfileEntry,
-    pub subtechniques:  EnterpriseProfileEntry
+    pub subtechniques:  EnterpriseProfileEntry,
+    pub tactics:        EnterpriseProfileEntry
 }
 impl EnterpriseAdversaryProfile {
     pub fn new() -> Self
@@ -381,7 +382,8 @@ impl EnterpriseAdversaryProfile {
             malware:        EnterpriseProfileEntry::new(),
             tools:          EnterpriseProfileEntry::new(),
             techniques:     EnterpriseProfileEntry::new(),
-            subtechniques:  EnterpriseProfileEntry::new()
+            subtechniques:  EnterpriseProfileEntry::new(),
+            tactics:        EnterpriseProfileEntry::new(),
         }
     }
     pub fn update(&mut self)
@@ -390,6 +392,7 @@ impl EnterpriseAdversaryProfile {
         self.tools.update();
         self.techniques.update();
         self.subtechniques.update();
+        self.tactics.update();
     }
 }
 

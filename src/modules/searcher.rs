@@ -556,20 +556,110 @@ impl EnterpriseMatrixSearcher {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect(_msg.as_str());
         let mut _os: &str = "";
         let mut _terms: Vec<&str>;
-        let mut _weird: usize = 0;
+        let mut _weird: bool = false;
         if datasource.contains(":") {
             _terms = datasource.split(':').collect();
             _os = _terms[0];
         } else {
-            _os = "None";
+            _os = "n_a";
             _terms = vec![_os, datasource];
         }
+        println!("{:#?}", _terms);
+        
+        // Cloud Operating System Weirdness
+        if  _terms[1].starts_with("aws")
+            || _terms[1].starts_with("azure")
+            || _terms[1].starts_with("stack-driver-logs")
+        {
+            if _os != "aws"
+                && _os != "azure"
+                && _os != "gcp"
+                && _os != "saas"
+                && _os != "n_a"
+                {
+                    _weird = true;
+                }
+            print!("Weird: {}", _weird);
+        }
+        // Client Operating System Weirdness
+        if _terms[1].starts_with("anti-virus")
+            || _terms[1].starts_with("bios")
+            || _terms[1].starts_with("browser-extensions")
+            || _terms[1].starts_with("disk-forensics")
+            || _terms[1].starts_with("mbr")
+            || _terms[1].starts_with("named-pipes")
+            || _terms[1].starts_with("vbr")
+            || _terms[1].starts_with("wmi")
+            || _terms[1].starts_with("win")
+        {
+            if _os != "windows"
+                && _os != "macos"
+                && _os != "linux"
+                && _os != "n_a"
+                {
+                    _weird = true;
+                }
+            print!("Weird: {}", _weird);
+        }
+        // Office 365 Weirdness
+        if _terms[1].starts_with("office-365")
+        {
+            if _os != "office-365"
+                && _os != "n_a"
+                {
+                    _weird = true;
+                }
+            print!("Weird: {}", _weird);
+        }
+        if !_weird {
+            if _wants_subtechniques {
+                println!("{:#?}", _terms);
+                for _item in _json.breakdown_subtechniques.platforms.iter() {
+                    if _item.datasources.contains(_terms[1]) {
+                        let mut _modified = EnterpriseTechnique::new();
+                        if _os == "None" {
+                            _modified.platform = _item.platform.clone();
+                        } else {
+                            _modified.platform = _os.to_string();
+                        }
+                        _modified.tid = _item.tid.clone();
+                        _modified.technique = _item.technique.clone();
+                        _modified.tactic = _item.tactic.clone();
+                        _modified.datasources = _terms[1].to_string();
+                        _modified.has_subtechniques = _item.has_subtechniques.clone();
+                        _modified.subtechniques = _item.subtechniques.clone();
+                        _results.push(_modified);
+                    }
+                }
+            } else {
+                println!("{:#?}", _terms);
+                for _item in _json.breakdown_techniques.platforms.iter() {
+                    if _item.datasources.contains(_terms[1]) {
+                        let mut _modified = EnterpriseTechnique::new();
+                        if _os == "None" {
+                            _modified.platform = _item.platform.clone();
+                        } else {
+                            _modified.platform = _os.to_string();
+                        }
+                        _modified.tid = _item.tid.clone();
+                        _modified.technique = _item.technique.clone();
+                        _modified.tactic = _item.tactic.clone();
+                        _modified.datasources = _terms[1].to_string();
+                        _modified.has_subtechniques = _item.has_subtechniques.clone();
+                        _modified.subtechniques = _item.subtechniques.clone();
+                        _results.push(_modified);
+                    }
+                }
+            }
+        }
+        /*
         if (_terms[1].starts_with("win") && !_os.starts_with("windows") && !_os.starts_with("None"))
             || (_terms[1].starts_with("wmi") && !_os.starts_with("windows") && !_os.starts_with("None"))
             || (_terms[1].starts_with("gcp") && !_os.starts_with("gcp") && !_os.starts_with("None"))
             || (_terms[1].starts_with("anti-virus") && !_os.starts_with("windows") && !_os.starts_with("None"))
-            || (_terms[1].starts_with("anti-virus") && !_os.starts_with("linux") && !_os.starts_with("None"))
-            || (_terms[1].starts_with("anti-virus") && !_os.starts_with("macos") && !_os.starts_with("None"))
+            || (_terms[1].starts_with("win"))
+            //|| (_terms[1].starts_with("anti-virus") && !_os.starts_with("linux") && !_os.starts_with("None"))
+            //|| (_terms[1].starts_with("anti-virus") && !_os.starts_with("macos") && !_os.starts_with("None"))
             || (_terms[1].starts_with("bios") && !_os.starts_with("windows") && !_os.starts_with("None"))
             || (_terms[1].starts_with("bios") && !_os.starts_with("linux") && !_os.starts_with("None"))
             || (_terms[1].starts_with("bios") && !_os.starts_with("macos") && !_os.starts_with("None"))
@@ -593,10 +683,10 @@ impl EnterpriseMatrixSearcher {
             || (_terms[1].starts_with("stack-driver-logs") && !_os.starts_with("azure") && !_os.starts_with("None"))
             || (_terms[1].starts_with("stack-driver-logs") && !_os.starts_with("gcp") && !_os.starts_with("None"))
             || (_terms[1].starts_with("stack-driver-logs") && !_os.starts_with("saas") && !_os.starts_with("None"))
-        {
-            _weird += 1;
-        } else {
+            */
+        /*else {
             if _wants_subtechniques {
+                println!("{:#?}", _terms);
                 for _item in _json.breakdown_subtechniques.platforms.iter() {
                     if _item.datasources.contains(_terms[1]) {
                         let mut _modified = EnterpriseTechnique::new();
@@ -615,6 +705,7 @@ impl EnterpriseMatrixSearcher {
                     }
                 }
             } else {
+                println!("{:#?}", _terms);
                 for _item in _json.breakdown_techniques.platforms.iter() {
                     if _item.datasources.contains(_terms[1]) {
                         let mut _modified = EnterpriseTechnique::new();
@@ -634,6 +725,7 @@ impl EnterpriseMatrixSearcher {
                 }
             }
         }
+        */
         let _msg = format!("(?) Error: Unable To Convert String of All Techniques by Datasource: {}", datasource);
         serde_json::to_string(&_results).expect(_msg.as_str())           
     }
@@ -1262,6 +1354,7 @@ impl EnterpriseMatrixSearcher {
             Cell::new("GID").style_spec("c"),
             Cell::new("ADVERSARIES").style_spec("c"),
             Cell::new("ALIASES").style_spec("c"),
+            Cell::new("TACTICS").style_spec("c"),
             Cell::new("TECHNIQUES").style_spec("cFG"),
             Cell::new("SUBTECHNIQUES").style_spec("cFW"),
             Cell::new("MALWARE").style_spec("c"),
@@ -1281,6 +1374,15 @@ impl EnterpriseMatrixSearcher {
                 _aliases.push_str("none");
             } else {
                 _aliases = _row.aliases.clone();
+            }
+            //
+            let mut _tactics = "".to_string();
+            if _row.profile.tactics.items.len() > 0 {
+                _row.profile.tactics.items.iter()
+                .map(|x| { _tactics.push_str(x.as_str()); _tactics.push_str("|") })
+                .collect::<Vec<_>>();
+            } else {
+                _tactics.push_str("none");
             }
             //
             let mut _techniques = "".to_string();
@@ -1336,6 +1438,7 @@ impl EnterpriseMatrixSearcher {
                     _group_id_cell.clone(),
                     Cell::new(&_row.name.as_str()),
                     Cell::new(&_aliases),
+                    Cell::new(&_tactics.as_str()),
                     Cell::new(&_techniques),
                     Cell::new(&_subtechniques.as_str()),
                     Cell::new(&_malware),
@@ -1348,6 +1451,7 @@ impl EnterpriseMatrixSearcher {
                     _group_id_cell.clone(),
                     Cell::new(&_row.name.as_str()),
                     Cell::new(&_aliases.replace("|", "\n")),
+                    Cell::new(&_tactics.as_str().replace("|", "\n")),
                     Cell::new(&_techniques.as_str().replace("|", "\n")).style_spec("cFG"),
                     Cell::new(&_subtechniques.as_str().replace("|", "\n")).style_spec("cFW"),
                     Cell::new(&_malware.replace("|", "\n")),

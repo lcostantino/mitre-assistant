@@ -884,12 +884,14 @@ impl EnterpriseMatrixParser {
                 if _adversary.id.as_str() == _behavior.source.as_str() {
                     for _technique in self.details.breakdown_techniques.platforms.iter() {
                         if _behavior.target.as_str() == _technique.id.as_str() {
-                            _adversary.profile.techniques.items.push(_technique.tid.clone())
+                            _adversary.profile.techniques.items.push(_technique.tid.clone());
+                            _adversary.profile.tactics.items.push(_technique.tactic.clone());
                         }
                     }
                     for _subtechnique in self.details.breakdown_subtechniques.platforms.iter() {
                         if _behavior.target.as_str() == _subtechnique.id.as_str() {
-                            _adversary.profile.subtechniques.items.push(_subtechnique.tid.clone())
+                            _adversary.profile.subtechniques.items.push(_subtechnique.tid.clone());
+                            _adversary.profile.tactics.items.push(_subtechnique.tactic.clone());
                         }
                     }
                 }
