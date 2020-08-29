@@ -71,7 +71,7 @@ impl RegexPatternManager {
         let mut _patterns: Vec<String> = vec![];
         // First Create The Patterns of just datasources
         for _item in adversaries.iter() {
-            let _p = format!(r"{}", _item);
+            let _p = format!(r"\b{}\b", _item);
             _patterns.push(_p);
         }
         //println!("{:#?}", _patterns);
@@ -88,7 +88,7 @@ impl RegexPatternManager {
         let mut _patterns: Vec<String> = vec![];
         // First Create The Patterns of just datasources
         for _item in malware.iter() {
-            let _p = format!(r"{}", _item);
+            let _p = format!(r"\b{}\b", _item);
             _patterns.push(_p);
         }
         //println!("{:#?}", _patterns);
@@ -105,7 +105,7 @@ impl RegexPatternManager {
         let mut _patterns: Vec<String> = vec![];
         // First Create The Patterns of just datasources
         for _item in tools.iter() {
-            let _p = format!(r"{}", _item);
+            let _p = format!(r"\b{}\b", _item);
             _patterns.push(_p);
         }
         //println!("{:#?}", _patterns);

@@ -453,21 +453,27 @@ impl EnterpriseTool {
 
 #[derive(Debug, Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
 pub struct EnterpriseToolProfile {
+    pub tactics:        EnterpriseProfileEntry,
     pub techniques:     EnterpriseProfileEntry,
-    pub subtechniques:  EnterpriseProfileEntry
+    pub subtechniques:  EnterpriseProfileEntry,
+    pub adversaries:    EnterpriseProfileEntry
 }
 impl EnterpriseToolProfile {
     pub fn new() -> Self
     {
         EnterpriseToolProfile {
+            tactics:        EnterpriseProfileEntry::new(),
             techniques:     EnterpriseProfileEntry::new(),
-            subtechniques:  EnterpriseProfileEntry::new()
+            subtechniques:  EnterpriseProfileEntry::new(),
+            adversaries:    EnterpriseProfileEntry::new()
         }
     }
     pub fn update(&mut self)
     {
+        self.tactics.update();
         self.techniques.update();
         self.subtechniques.update();
+        self.adversaries.update();
     }
 }
 
@@ -500,21 +506,27 @@ impl EnterpriseMalware {
 
 #[derive(Debug, Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
 pub struct EnterpriseMalwareProfile {
+    pub tactics:        EnterpriseProfileEntry,
     pub techniques:     EnterpriseProfileEntry,
-    pub subtechniques:  EnterpriseProfileEntry
+    pub subtechniques:  EnterpriseProfileEntry,
+    pub adversaries:    EnterpriseProfileEntry
 }
 impl EnterpriseMalwareProfile {
     pub fn new() -> Self
     {
         EnterpriseMalwareProfile {
+            tactics:        EnterpriseProfileEntry::new(),
             techniques:     EnterpriseProfileEntry::new(),
-            subtechniques:  EnterpriseProfileEntry::new()
+            subtechniques:  EnterpriseProfileEntry::new(),
+            adversaries:    EnterpriseProfileEntry::new()
         }
     }
     pub fn update(&mut self)
     {
+        self.tactics.update();
         self.techniques.update();
         self.subtechniques.update();
+        self.adversaries.update();
     }
 }
 
