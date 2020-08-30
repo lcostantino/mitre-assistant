@@ -231,6 +231,7 @@ $> mitre-assistant baseline -m enterprise
 <br/>
 <br/>
 
+
 # *Search*
 Now you are ready to search your matrix.
 
@@ -1250,6 +1251,123 @@ $> mitre-assistant search -m enterprise -t "nodatasources"
 <br/>
 <br/>
 
+## *Searching For Adversaries*
+
+In this section you can see how to search for an adversary of interest, or multiple by using the comma char ",".
+
+
+Use the keyword `adversaries` to obtain a list of active techniques that are attributed to that adversary by Mitre.
+
+* the `-t` parameter with the term `adversaries`
+
+<br/>
+
+```bash
+# Assumes you want to get ALL Adversaries in the matrix
+#
+$> mitre-assistant search -m enterprise -t "adversaries"
+```
+
+<br/>
+
+Another approach after you see all the adversaries from the command above, you can tailor your searches
+based on either a `SINGLE` or `MANY` adversaries, let's see that in action.
+
+Use the {{ name_of_adversary }} as your keyword.
+
+<br/>
+
+```bash
+# Assumes you want a SINGLE Adversary referred to as `apt1`
+#
+$> mitre-assistant search -m enterprise -t "apt1"
+
+
+# Assumes you want MANY Adversaries
+#
+$> mitre-assistant search -m enterprise -t "apt1,apt3,apt28,apt29"
+```
+
+<br/>
+<br/>
+
+# Workflow Tutorial
+
+learning about the adversaries
+
+### STEP 1
+
+Find an adversary of interest
+
+```bash
+# Assumes you are interested in the adversary known as `FIN7`
+#
+$> mitre-assistant search -m enterprise -t "fin7"
+```
+<br/>
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/91663481-11fe1380-eab7-11ea-9410-2bdc725ee649.png)
+
+```
+![image](https://user-images.githubusercontent.com/11415591/91663483-15919a80-eab7-11ea-8932-ec83d8893f13.png)
+```
+
+<br/>
+<br/>
+
+### STEP 2
+
+Now, you are interested in knowing about `MALWARE` used by this adversary.
+
+Find the malware you are interested in:
+
+```bash
+# Assumes you are only interested in 3 malware items from the FIN7 adversary
+#
+# ***Note:  Look closely at how the comma char "," is used to ask for many
+#                 malware items of interest
+#
+$> mitre-assistant search -m enterprise -t "boostwrite,textmate,griffon"
+```
+
+<br/>
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/91663548-8f298880-eab7-11ea-8490-cbc81abe9cbd.png)
+
+
+```
+![image](https://user-images.githubusercontent.com/11415591/91663549-905ab580-eab7-11ea-9b33-07035b20c1d3.png)
+```
+
+<br/>
+<br/>
+
+### STEP 3
+
+Now, you are interested in knowing what are the **techniques** , **datasources**, and **platforms** used by the malware you were searching for, and that are attributed to the `FIN7` adversary according to the Mitre ATT&CK CTI.
+
+<br/>
+
+```bash
+# Assumes you want to search for the techniques of the malware
+# 
+# ***Note:   Notice here again, the convenient use of the comma char ","
+#
+$> mitre-assistant search -m enterprise -t "t1027,t1129,t1140,t1082,t1113,t1124"
+```
+
+<br/>
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/91663763-e11ede00-eab8-11ea-8850-2576dfa03077.png)
+
+```
+![image](https://user-images.githubusercontent.com/11415591/91663766-e2500b00-eab8-11ea-9035-f33e436c10d8.png)
+```
+<br/>
+<br/>
 ## *Exporting Output: CSV*
 
 ```text
@@ -1294,8 +1412,6 @@ These experiments were very useful to me a couple of years ago as I started lear
 
 ## TODO: Awesome Stuff here
 
-
-<br/>
 <br/>
 <br/>
 

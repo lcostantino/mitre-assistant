@@ -13,7 +13,7 @@ use fshandler::FileHandler;
 
 #[path = "../utils/regexes.rs"]
 mod regexes;
-use regexes::RegexPatternManager;
+use regexes::PatternManager;
 
 #[path = "../structs/enterprise.rs"]
 mod enterprise;
@@ -107,7 +107,7 @@ impl EnterpriseMatrixParser {
     fn baseline_enterprise(&mut self) -> Result<(), Box<dyn std::error::Error>> {
         let _bufr = FileHandler::load_resource("matrixes", "enterprise.json");
         let _json: serde_json::Value = serde_json::from_reader(_bufr).unwrap();
-        let _scanner = RegexPatternManager::load_subtechnique();
+        let _scanner = PatternManager::load_subtechnique();
         let mut _is_subtechnique = false;
         for _t in _json["objects"].as_array().unwrap().iter() {
             let _s = _t["type"].as_str().unwrap();
@@ -269,19 +269,23 @@ impl EnterpriseMatrixParser {
             // Extract Data Sources
             // Normalize the Data Source
             if _d.contains_key("x_mitre_data_sources") {
+                let mut _temp_items = vec![];
                 let mut _data_sources = String::from("");
                 for _ds in items["x_mitre_data_sources"]
                     .as_array()
                     .expect("Deserializing Data Sources Issue")
                 {
-                    _data_sources.push_str(
-                        _ds.as_str()
-                            .unwrap()
-                            .to_lowercase()
-                            .replace(" ", "-")
-                            .replace("/", "-")
-                            .as_str(),
-                    );
+                    _temp_items.push(_ds.as_str()
+                                        .unwrap()
+                                        .to_lowercase()
+                                        .replace(" ", "-")
+                                        .replace("/", "-"));
+                }
+                _temp_items.sort();
+                _temp_items.dedup();
+                _temp_items.sort();
+                for _ds in _temp_items.iter() {
+                    _data_sources.push_str(_ds);
                     _data_sources.push_str("|");
                 }
                 _data_sources.pop();

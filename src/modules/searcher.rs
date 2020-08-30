@@ -19,7 +19,7 @@ use fshandler::FileHandler;
 
 #[path = "../utils/regexes.rs"]
 mod regexes;
-use regexes::RegexPatternManager;
+use regexes::PatternManager;
 
 pub struct EnterpriseMatrixSearcher {
     matrix: String,
@@ -56,11 +56,13 @@ impl EnterpriseMatrixSearcher {
         let _st = search_term.to_lowercase();
         let _st = _st.as_str();
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
-        let _scanner = RegexPatternManager::load_search_term_patterns();
-        let _scanner_ad = RegexPatternManager::load_search_adversaries(&_json.adversaries);
-        let _scanner_mw = RegexPatternManager::load_search_malware(&_json.malware);
-        let _scanner_to = RegexPatternManager::load_search_tools(&_json.tools);
-        let _scanner_ds = RegexPatternManager::load_search_datasources(&_json.datasources, &_json.platforms);
+        let _scanner = PatternManager::load_search_term_patterns();
+        let _scanner_ad = PatternManager::load_search_adversaries(&_json.adversaries);
+        let _scanner_mw = PatternManager::load_search_malware(&_json.malware);
+        let _scanner_pl = PatternManager::load_search_platforms(&_json.platforms);
+        let _scanner_ta = PatternManager::load_search_tactics(&_json.tactics);
+        let _scanner_to = PatternManager::load_search_tools(&_json.tools);
+        let _scanner_ds = PatternManager::load_search_datasources(&_json.datasources, &_json.platforms);
         // Special Flags
         //      Easier to search this way without flooding the user with parameters
         //      These flags are commonly placed in both the query and render functions
@@ -111,49 +113,15 @@ impl EnterpriseMatrixSearcher {
         } else if _st == "deprecated" {
             _valid.push((_st, 12usize));
             _wants_deprecated = true;
-        } else if _st == "initial-access" {
-            _valid.push((_st, 13usize));
-        } else if _st == "execution" {
-            _valid.push((_st, 14usize));
-        } else if _st == "persistence" {
-            _valid.push((_st, 15usize));
-        } else if _st == "privilege-escalation" {
-            _valid.push((_st, 16usize));
-        } else if _st == "defense-evasion" {
-            _valid.push((_st, 17usize));
-        } else if _st == "credential-access" {
-            _valid.push((_st, 18usize));
-        } else if _st == "discovery" {
-            _valid.push((_st, 19usize));
-        } else if _st == "lateral-movement" {
-            _valid.push((_st, 20usize));
-        } else if _st == "collection" {
-            _valid.push((_st, 21usize));
-        } else if _st == "command-and-control" {
-            _valid.push((_st, 22usize));
-        } else if _st == "exfiltration" {
-            _valid.push((_st, 23usize));
-        } else if _st == "impact" {
-            _valid.push((_st, 24usize));
-        } else if _st == "aws" {
-            _valid.push((_st, 25usize));
-        } else if _st == "azure" {
-            _valid.push((_st, 26usize));
-        } else if _st == "azure-ad" {
-            _valid.push((_st, 27usize));
-        } else if _st == "gcp" {
-            _valid.push((_st, 28usize));
-        } else if _st == "linux" {
-            _valid.push((_st, 29usize));
-        } else if _st == "macos" {
-            _valid.push((_st, 30usize));
-        } else if _st == "office-365" {
-            _valid.push((_st, 31usize));
-        } else if _st == "saas" {
-            _valid.push((_st, 32usize));
-        } else if _st == "windows" {
-            _valid.push((_st, 33usize));
-        } else if _st == "overlap" {
+        } else if _scanner_ta.pattern.is_match(_st) {
+            _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
+            _valid.push((_st, 44usize));
+        }
+        else if _scanner_pl.pattern.is_match(_st) {
+            _matches_many = _scanner_pl.pattern.matches(_st).into_iter().collect();
+            _valid.push((_st, 45usize));
+        }
+        else if _st == "overlap" {
             _valid.push((_st, 34usize));
         } else if _st == "xref:datasources:platforms" {
             _valid.push((_st, 35usize));
@@ -162,7 +130,7 @@ impl EnterpriseMatrixSearcher {
             _valid.push((_st, 36usize));
             _wants_xref_datasources_tactics = true;
         } else if _scanner_ds.pattern.is_match(_st) {
-            let _idx: Vec<usize> = _scanner_ds.pattern.matches(_st).into_iter().collect();
+            _matches_many = _scanner_ds.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 37usize));
         }
         // Adversaries
@@ -242,56 +210,15 @@ impl EnterpriseMatrixSearcher {
                     _results.push(self.search_all_tactics());
                 } else if _pattern == &12usize {
                     _results.push(self.search_by_deprecated());
-                } else if _pattern == &13usize {
-                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
-                } else if _pattern == &14usize {
-                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
-                } else if _pattern == &15usize {
-                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
-                } else if _pattern == &16usize {
-                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
-                } else if _pattern == &17usize {
-                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
-                } else if _pattern == &18usize {
-                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
-                } else if _pattern == &19usize {
-                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
-                } else if _pattern == &20usize {
-                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
-                } else if _pattern == &21usize {
-                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
-                } else if _pattern == &22usize {
-                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
-                } else if _pattern == &23usize {
-                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
-                } else if _pattern == &24usize {
-                    _results.push(self.search_by_tactic(_term, _wants_subtechniques));
-                } else if _pattern == &25usize {
-                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
-                } else if _pattern == &26usize {
-                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
-                } else if _pattern == &27usize {
-                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
-                } else if _pattern == &28usize {
-                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
-                } else if _pattern == &29usize {
-                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
-                } else if _pattern == &30usize {
-                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
-                } else if _pattern == &31usize {
-                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
-                } else if _pattern == &32usize {
-                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
-                } else if _pattern == &33usize {
-                    _results.push(self.search_by_platform(_term, _wants_subtechniques));
-                } else if _pattern == &34usize {
+                }
+                else if _pattern == &34usize {
                     _results.push(self.search_all_overlapped());
                 } else if _pattern == &35usize {
                     _results.push(self.search_stats_datasources_and_platforms());
                 } else if _pattern == &36usize {
                     _results.push(self.search_stats_datasources_and_tactics());
                 } else if _pattern == &37usize {
-                    _results.push(self.search_by_datasource(_term, _wants_subtechniques));
+                    _results.push(self.search_by_datasource(_term, _wants_subtechniques, _matches_many.clone()));
                 } else if _pattern == &38usize {
                     _results.push(self.search_by_adversary(_term, _matches_many.clone()));
                 } else if _pattern == &39usize {
@@ -304,6 +231,10 @@ impl EnterpriseMatrixSearcher {
                     _results.push(self.search_all_malware());
                 } else if _pattern == &43usize {
                     _results.push(self.search_all_tools());
+                } else if _pattern == &44usize {
+                    _results.push(self.search_by_tactic(_term, _wants_subtechniques, _matches_many.clone()));
+                } else if _pattern == &45usize {
+                    _results.push(self.search_by_platform(_term, _wants_subtechniques, _matches_many.clone()));
                 }
             }
             // Render Query Results
@@ -314,18 +245,11 @@ impl EnterpriseMatrixSearcher {
             //      Note:   Transforming results into CSV, JSON should be done within
             //              the renderer functions.
             //
-            if _wants_adversary {
+            if _wants_adversary || _wants_all_adversaries {
                 self.render_adversaries_table(&_results, _wants_export, _wants_outfile);
-            } else if _wants_malware {
+            } else if _wants_malware || _wants_all_malware {
                 self.render_malware_table(&_results, _wants_export, _wants_outfile);
-            } else if _wants_tool {
-                //self.render_tools_table(&_results, _wants_export, _wants_outfile);
-                self.render_tools_table(&_results, _wants_export, _wants_outfile);
-            } else if _wants_all_adversaries {
-                self.render_adversaries_table(&_results, _wants_export, _wants_outfile);
-            } else if _wants_all_malware {
-                self.render_malware_table(&_results, _wants_export, _wants_outfile);
-            } else if _wants_all_tools {
+            } else if _wants_tool || _wants_all_tools {
                 self.render_tools_table(&_results, _wants_export, _wants_outfile);
             } else if _wants_revoked {
                 self.render_revoked_table(&_results, _wants_export, _wants_outfile);
@@ -352,7 +276,7 @@ impl EnterpriseMatrixSearcher {
                     _wants_outfile,
                 );
             } else {
-                self.render_table(&_results, _wants_export, _wants_outfile);
+                self._render_techniques_table(&_results, _wants_export, _wants_outfile);
             }
         } else {
             println!(
@@ -393,7 +317,7 @@ impl EnterpriseMatrixSearcher {
                     _results.push(_item);
                 }
             }
-        } else {
+        } else if many.len() > 1 {
             if adversary.contains(",") {
                 let _terms: Vec<_> = adversary.split(',').collect();
                 for _term in _terms {
@@ -432,7 +356,7 @@ impl EnterpriseMatrixSearcher {
                     _results.push(_item);
                 }
             }
-        } else {
+        } else if many.len() > 1 {
             if malware.contains(",") {
                 let _terms: Vec<_> = malware.split(',').collect();
                 for _term in _terms {
@@ -472,7 +396,7 @@ impl EnterpriseMatrixSearcher {
                     _results.push(_item);
                 }
             }
-        } else {
+        } else if many.len() > 1 {
             if tool.contains(",") {
                 let _terms: Vec<_> = tool.split(',').collect();
                 for _term in _terms {
@@ -495,94 +419,59 @@ impl EnterpriseMatrixSearcher {
     ///
     ///
     ///
-    fn search_by_datasource(&self, datasource: &str, _wants_subtechniques: bool) -> String {
+    fn search_by_datasource(
+        &self, datasource: &str,
+        _wants_subtechniques: bool,
+        many: Vec<usize>
+    ) -> String
+    {
         let mut _results = vec![];
         let _err = format!(
             "(?) Error: Unable To Deserialize String of All Techniques by Datasource: {}",
             datasource
         );
         let _json: EnterpriseMatrixBreakdown =
-            serde_json::from_slice(&self.content[..]).expect(_err.as_str());
-        let mut _os: &str = "";
-        let mut _terms: Vec<&str>;
-        let mut _weird: bool = false;
+            serde_json::from_slice(&self.content[..])
+                        .expect(_err.as_str());
         let _datasource = datasource.to_lowercase();
-        if _datasource.contains(":") {
-            _terms = _datasource.split(':').collect();
-            _os = _terms[0];
+        let _datasource = _datasource.as_str();
+        let mut _iterable: &Vec<_>;
+        if _wants_subtechniques {
+            _iterable = &_json.breakdown_subtechniques.platforms;
         } else {
-            _os = "n_a";
-            _terms = vec![_os, _datasource.as_str()];
+            _iterable = &_json.breakdown_techniques.platforms;
         }
-        // Cloud Operating System Weirdness
-        // Doesnt make sense for non-cloud logs to
-        // be searched and presented for non-cloud platforms
-        if _terms[1].starts_with("aws") {
-            if _os != "aws" || _os != "n_a" {
-                _weird = true;
-            }
-        }
-        if _terms[1].starts_with("azure") {
-            if !_os.starts_with("azure") || _os != "n_a" {
-                _weird = true;
-            }
-        }
-        if _terms[1].starts_with("stack-driver-logs") {
-            if _os != "aws" || _os != "azure" || _os != "gcp" || _os != "saas" || _os != "n_a" {
-                _weird = true;
-            }
-        }
-
-        if _terms[1].starts_with("gcp") {
-            if _os != "gcp" || _os != "n_a" {
-                _weird = true;
-            }
-        }
-        // Client Operating System Weirdness
-        if _terms[1].starts_with("anti-virus")
-            || _terms[1].starts_with("bios")
-            || _terms[1].starts_with("browser-extensions")
-            || _terms[1].starts_with("data-loss-prevention")
-            || _terms[1].starts_with("disk-forensics")
-            || _terms[1].starts_with("mbr")
-            || _terms[1].starts_with("named-pipes")
-            //|| _terms[1].starts_with("netflow")
-            || _terms[1].starts_with("vbr")
-            || _terms[1].starts_with("wmi")
-            || _terms[1].starts_with("win")
-        {
-            if _os != "windows" && _os != "macos" && _os != "linux" && _os != "n_a" {
-                _weird = true;
-            }
-        }
-        // Office 365 Weirdness
-        if _terms[1].starts_with("office-365") {
-            if _os != "office-365" || _os != "n_a" {
-                _weird = true;
-            }
-        }
-        if !_weird {
-            let mut _iterable: &Vec<_>;
-            if _wants_subtechniques {
-                _iterable = &_json.breakdown_subtechniques.platforms;
-            } else {
-                _iterable = &_json.breakdown_techniques.platforms;
-            }
+        if many.len() == 1 {
             for _item in _iterable {
-                if _item.datasources.contains(_terms[1]) {
-                    let mut _modified = EnterpriseTechnique::new();
-                    if _os == "n_a" {
-                        _modified.platform = _item.platform.clone();
-                    } else {
-                        _modified.platform = _os.to_string();
+                if _item.datasources.contains(_datasource) {
+                    let mut _et = EnterpriseTechnique::new();
+                    _et.tid = _item.tid.clone();
+                    _et.platform = _item.platform.clone();
+                    _et.technique = _item.technique.clone();
+                    _et.tactic = _item.tactic.clone();
+                    _et.datasources = _datasource.to_string();
+                    _et.has_subtechniques = _item.has_subtechniques.clone();
+                    _et.subtechniques = _item.subtechniques.clone();
+                    _results.push(_et);
+                }
+            }
+        } else {
+            if _datasource.contains(",") {
+                let _terms: Vec<&str> = _datasource.split(',').collect();
+                for _term in _terms {
+                    for _item in _iterable {
+                        if _item.datasources.contains(_term) {
+                            let mut _et = EnterpriseTechnique::new();
+                            _et.tid = _item.tid.clone();
+                            _et.platform = _item.platform.clone();
+                            _et.technique = _item.technique.clone();
+                            _et.tactic = _item.tactic.clone();
+                            _et.datasources = _term.to_string();
+                            _et.has_subtechniques = _item.has_subtechniques.clone();
+                            _et.subtechniques = _item.subtechniques.clone();
+                            _results.push(_et);
+                        }
                     }
-                    _modified.tid = _item.tid.clone();
-                    _modified.technique = _item.technique.clone();
-                    _modified.tactic = _item.tactic.clone();
-                    _modified.datasources = _terms[1].to_string();
-                    _modified.has_subtechniques = _item.has_subtechniques.clone();
-                    _modified.subtechniques = _item.subtechniques.clone();
-                    _results.push(_modified);
                 }
             }
         }
@@ -596,7 +485,13 @@ impl EnterpriseMatrixSearcher {
     ///
     ///
     ///
-    fn search_by_platform(&self, platform: &str, _wants_subtechniques: bool) -> String {
+    fn search_by_platform(
+        &self,
+        platform: &str,
+        _wants_subtechniques: bool,
+        many: Vec<usize>
+    ) -> String 
+    {
         let mut _results = vec![];
         let _err = format!(
             "(?) Error: Unable To Deserialize String of All Techniques by Platform: {}",
@@ -604,38 +499,48 @@ impl EnterpriseMatrixSearcher {
         );
         let _json: EnterpriseMatrixBreakdown =
             serde_json::from_slice(&self.content[..]).expect(_err.as_str());
-        for _item in _json.breakdown_techniques.platforms.iter() {
-            if _item.platform.contains(platform) {
-                let mut _modified = EnterpriseTechnique::new();
-                _modified.tid = _item.tid.clone();
-                _modified.technique = _item.technique.clone();
-                _modified.tactic = _item.tactic.clone();
-                _modified.datasources = _item.datasources.clone();
-                _modified.has_subtechniques = _item.has_subtechniques.clone();
-                _modified.subtechniques = _item.subtechniques.clone();
-                _modified.platform = platform.to_string();
-                _results.push(_modified);
+            let _platform = platform.to_lowercase();
+            let _platform = _platform.as_str();
+            let mut _iterable: &Vec<_>;
+            if _wants_subtechniques {
+                _iterable = &_json.breakdown_subtechniques.platforms;
+            } else {
+                _iterable = &_json.breakdown_techniques.platforms;
             }
-        }
-        if _wants_subtechniques {
-            for _item in _json.breakdown_subtechniques.platforms.iter() {
-                if _item.platform.contains(platform) {
-                    let mut _modified = EnterpriseTechnique::new();
-                    _modified.tid = _item.tid.clone();
-                    _modified.technique = _item.technique.clone();
-                    _modified.tactic = _item.tactic.clone();
-                    _modified.datasources = _item.datasources.clone();
-                    _modified.has_subtechniques = _item.has_subtechniques.clone();
-                    _modified.subtechniques = _item.subtechniques.clone();
-                    _modified.platform = platform.to_string();
-                    _results.push(_modified);
+            if many.len() == 1 {
+                for _item in _iterable {
+                    if _item.platform.contains(_platform) {
+                        let mut _et = EnterpriseTechnique::new();
+                        _et.platform = _platform.to_string();
+                        _et.tid = _item.tid.clone();
+                        _et.technique = _item.technique.clone();
+                        _et.tactic = _item.tactic.clone();
+                        _et.datasources = _item.datasources.to_string();
+                        _et.has_subtechniques = _item.has_subtechniques.clone();
+                        _et.subtechniques = _item.subtechniques.clone();
+                        _results.push(_et);
+                    }
+                }
+            } else if many.len() > 1 {
+                if _platform.contains(",") {
+                    let _terms: Vec<&str> = _platform.split(',').collect();
+                    for _term in _terms {
+                        for _item in _iterable {
+                            if _item.platform.contains(_term) {
+                                let mut _et = EnterpriseTechnique::new();
+                                _et.platform = _term.to_string();
+                                _et.tid = _item.tid.clone();
+                                _et.technique = _item.technique.clone();
+                                _et.tactic = _item.tactic.clone();
+                                _et.datasources = _item.datasources.to_string();
+                                _et.has_subtechniques = _item.has_subtechniques.clone();
+                                _et.subtechniques = _item.subtechniques.clone();
+                                _results.push(_et);
+                            }
+                        }
+                    }
                 }
             }
-        }
-        let _err = format!(
-            "(?) Error: Unable To Convert String of All Techniques by Platform: {}",
-            platform
-        );
         serde_json::to_string(&_results).expect(_err.as_str())
     }
     /// # Query By Tactics
@@ -645,7 +550,13 @@ impl EnterpriseMatrixSearcher {
     /// ```ignore
     /// self.search_by_tactic("initial-access", false)
     /// ```
-    fn search_by_tactic(&self, tactic: &str, _wants_subtechniques: bool) -> String {
+    fn search_by_tactic(
+        &self,
+        tactic: &str,
+        _wants_subtechniques: bool,
+        many: Vec<usize>
+    ) -> String 
+    {
         let mut _results = vec![];
         let _err = format!(
             "(?) Error: Unable To Deserialize String of All Techniques by Tactic: {}",
@@ -653,22 +564,48 @@ impl EnterpriseMatrixSearcher {
         );
         let _json: EnterpriseMatrixBreakdown =
             serde_json::from_slice(&self.content[..]).expect(_err.as_str());
-        for _item in _json.breakdown_techniques.platforms.iter() {
-            if _item.tactic.contains(tactic) {
-                _results.push(_item);
+            let _tactic = tactic.to_lowercase();
+            let _tactic = _tactic.as_str();
+            let mut _iterable: &Vec<_>;
+            if _wants_subtechniques {
+                _iterable = &_json.breakdown_subtechniques.platforms;
+            } else {
+                _iterable = &_json.breakdown_techniques.platforms;
             }
-        }
-        if _wants_subtechniques {
-            for _item in _json.breakdown_subtechniques.platforms.iter() {
-                if _item.tactic.contains(tactic) {
-                    _results.push(_item);
+            if many.len() == 1 {
+                for _item in _iterable {
+                    if _item.tactic.contains(_tactic) {
+                        let mut _et = EnterpriseTechnique::new();
+                        _et.platform = _item.platform.clone();
+                        _et.tid = _item.tid.clone();
+                        _et.technique = _item.technique.clone();
+                        _et.tactic = _item.tactic.clone();
+                        _et.datasources = _item.datasources.to_string();
+                        _et.has_subtechniques = _item.has_subtechniques.clone();
+                        _et.subtechniques = _item.subtechniques.clone();
+                        _results.push(_et);
+                    }
+                }
+            } else if many.len() > 1 {
+                if _tactic.contains(",") {
+                    let _terms: Vec<&str> = _tactic.split(',').collect();
+                    for _term in _terms {
+                        for _item in _iterable {
+                            if _item.tactic.contains(_term) {
+                                let mut _et = EnterpriseTechnique::new();
+                                _et.platform = _item.platform.clone();
+                                _et.tid = _item.tid.clone();
+                                _et.technique = _item.technique.clone();
+                                _et.tactic = _item.tactic.clone();
+                                _et.datasources = _item.datasources.to_string();
+                                _et.has_subtechniques = _item.has_subtechniques.clone();
+                                _et.subtechniques = _item.subtechniques.clone();
+                                _results.push(_et);
+                            }
+                        }
+                    }
                 }
             }
-        }
-        let _err = format!(
-            "(?) Error: Unable To Convert String of All Techniques by Tactic: {}",
-            tactic
-        );
         serde_json::to_string(&_results).expect(_err.as_str())
     }
     /// # Query By Deprecated Techniques
@@ -790,7 +727,7 @@ impl EnterpriseMatrixSearcher {
         }
         // Now get all the overlapped techniques
         for _target in _targets {
-            let mut _modified = EnterpriseTechnique::new();
+            let mut _et = EnterpriseTechnique::new();
             for _technique in _json.breakdown_techniques.platforms.iter() {
                 if _technique.tid.as_str() == _target.as_str() {
                     _results.push(_technique);
@@ -963,21 +900,21 @@ impl EnterpriseMatrixSearcher {
             let mut _results = vec![];
             for _revoked in _json.revoked_techniques.iter() {
                 if _revoked.0.to_lowercase().as_str() == technique_id.to_lowercase().as_str() {
-                    let mut _modified = EnterpriseTechnique::new();
-                    _modified.tid = _revoked.0.clone();
-                    _modified.technique = _revoked.1.clone();
-                    _modified.is_revoked = true;
-                    _results.push(_modified);
+                    let mut _et = EnterpriseTechnique::new();
+                    _et.tid = _revoked.0.clone();
+                    _et.technique = _revoked.1.clone();
+                    _et.is_revoked = true;
+                    _results.push(_et);
                 }
             }
             // Check & Get From Deprecated Techniques
             for _deprecated in _json.deprecated_techniques.iter() {
                 if _deprecated.0.to_lowercase().as_str() == technique_id.to_lowercase().as_str() {
-                    let mut _modified = EnterpriseTechnique::new();
-                    _modified.tid = _deprecated.0.clone();
-                    _modified.technique = _deprecated.1.clone();
-                    _modified.is_deprecated = true;
-                    _results.push(_modified);
+                    let mut _et = EnterpriseTechnique::new();
+                    _et.tid = _deprecated.0.clone();
+                    _et.technique = _deprecated.1.clone();
+                    _et.is_deprecated = true;
+                    _results.push(_et);
                 }
             }
             _results.sort();
@@ -1671,7 +1608,7 @@ impl EnterpriseMatrixSearcher {
             println!("{}", "\n\n");
         }
     }
-    fn render_table(
+    fn _render_techniques_table(
         &self,
         results: &Vec<String>,
         _wants_export: &str,
