@@ -1487,7 +1487,8 @@ $> mitre-assistant search -m enterprise -t "t1027,t1129,t1140,t1082,t1113,t1124"
 
 ```text
 NOTE:
-          CSV Exports are available for v.0.0.11 and above
+          - CSV Exports are available for v.0.0.11 and above
+          - Tables provided as output to queries, are exportable
 
 ```
 <br/>
