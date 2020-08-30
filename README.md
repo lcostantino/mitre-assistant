@@ -1296,6 +1296,114 @@ $> mitre-assistant search -m enterprise -t "apt1,apt3,apt28"
 <br/>
 <br/>
 
+## *Searching For Malware*
+
+In this section you can see how to search for malware of interest, or multiple by using the comma char `","`.
+
+
+Use the keyword `malware` to obtain a list of active techniques that are attributed to that malware by Mitre.
+
+* the `-t` parameter with the term `malware`
+
+Notice in these queries, how the `mitre-assistant` conveniently re-organizes the relationship from the `cti-repo`
+to quickly show you which **adversaries** are attributed to having used this malware.
+
+<br/>
+
+```bash
+# Assumes you want to get ALL Adversaries in the matrix
+#
+$> mitre-assistant search -m enterprise -t "malware"
+```
+
+<br/>
+
+Another approach after you see all the adversaries from the command above, you can tailor your searches
+based on either a `SINGLE` or `MANY` malware, let's see that in action by using:
+ 
+* the `-t` parameter with the term {{ name_of_malware }} as your keyword.
+
+<br/>
+
+```bash
+# Assumes you want to search for the `poisonivy` malware
+#
+$> mitre-assistant search -m enterprise -t "poisonivy"
+```
+
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/91664501-a4a1b100-eabd-11ea-8e07-8ce1c8252da1.png)
+
+<br/>
+
+```bash
+# Assumes you want to search for the `poisonivy` and `plugx` malware
+#
+$> mitre-assistant search -m enterprise -t "poisonivy,plugx"
+```
+
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/91664490-9358a480-eabd-11ea-9780-6ea6197e45c3.png)
+
+<br/>
+<br/>
+
+## *Searching For Tools*
+
+In this section you can see how to search for tools of interest, or multiple by using the comma char `","`.
+
+
+Use the keyword `tools` to obtain a list of active techniques that are attributed to that tool by Mitre.
+
+* the `-t` parameter with the term `tools`
+
+<br/>
+
+```bash
+# Assumes you want to get ALL Adversaries in the matrix
+#
+$> mitre-assistant search -m enterprise -t "tools"
+```
+
+<br/>
+
+Another approach after you see all the adversaries from the command above, you can tailor your searches
+based on either a `SINGLE` or `MANY` malware, let's see that in action by using:
+ 
+* the `-t` parameter with the term {{ name_of_tool }} as your keyword.
+
+Notice in these queries, how the `mitre-assistant` conveniently re-organizes the relationship from the `cti-repo`
+to quickly show you which **adversaries** are attributed to having used this tool.
+
+<br/>
+
+```bash
+# Assumes you want to search for the `psexec` tool
+#
+$> mitre-assistant search -m enterprise -t "psexec"
+```
+
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/91664346-9a32e780-eabc-11ea-8820-80e8c0b16ea3.png)
+
+<br/>
+
+```bash
+# Assumes you want to search for the `psexec` and `mimikatz` tools
+#
+$> mitre-assistant search -m enterprise -t "psexec,mimikatz"
+```
+
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/91664390-03b2f600-eabd-11ea-97f0-acb72e52906f.png)
+
+<br/>
+<br/>
+
 # Workflow Tutorial
 
 learning about the adversaries
@@ -1371,8 +1479,10 @@ $> mitre-assistant search -m enterprise -t "t1027,t1129,t1140,t1082,t1113,t1124"
 ```
 ![image](https://user-images.githubusercontent.com/11415591/91663766-e2500b00-eab8-11ea-9035-f33e436c10d8.png)
 ```
+
 <br/>
 <br/>
+
 ## *Exporting Output: CSV*
 
 ```text
