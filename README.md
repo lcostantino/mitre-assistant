@@ -1253,7 +1253,7 @@ $> mitre-assistant search -m enterprise -t "nodatasources"
 
 ## *Searching For Adversaries*
 
-In this section you can see how to search for an adversary of interest, or multiple by using the comma char ",".
+In this section you can see how to search for an adversary of interest, or multiple by using the comma char `","`.
 
 
 Use the keyword `adversaries` to obtain a list of active techniques that are attributed to that adversary by Mitre.
@@ -1271,9 +1271,9 @@ $> mitre-assistant search -m enterprise -t "adversaries"
 <br/>
 
 Another approach after you see all the adversaries from the command above, you can tailor your searches
-based on either a `SINGLE` or `MANY` adversaries, let's see that in action.
-
-Use the {{ name_of_adversary }} as your keyword.
+based on either a `SINGLE` or `MANY` adversaries, let's see that in action by using:
+ 
+* the `-t` parameter with the term {{ name_of_adversary }} as your keyword.
 
 <br/>
 
@@ -1285,8 +1285,13 @@ $> mitre-assistant search -m enterprise -t "apt1"
 
 # Assumes you want MANY Adversaries
 #
-$> mitre-assistant search -m enterprise -t "apt1,apt3,apt28,apt29"
+$> mitre-assistant search -m enterprise -t "apt1,apt3,apt28"
 ```
+
+<br/>
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/91664177-7622d680-eabb-11ea-9c6f-940da897a8de.png)
 
 <br/>
 <br/>
