@@ -49,15 +49,17 @@ impl PatternManager {
             // TODO: Alias Terms
             // These are common among users and save
             // typing time
-            /*
+            
             if _item.starts_with("netflow") {
                 _patterns.push(format!(r"\b{}\b", "netflow"));
             } else if _item.starts_with("network-intrusion-detection-system") {
                 _patterns.push(format!(r"\b{}\b", "nids"));
             } else if _item.starts_with("web-application-firewall-logs") {
                 _patterns.push(format!(r"\b{}\b", "waf"));
+            } else if _item.starts_with("network-protocol-analysis") {
+                _patterns.push(format!(r"\b{}\b", "pcap"));
             }
-            */
+            
             _patterns.push(format!(r"\b{}\b", _item));
         }
         // Now Create the Patterns of Platforms with Datasource

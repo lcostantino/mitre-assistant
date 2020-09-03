@@ -117,11 +117,14 @@ impl EnterpriseMatrixSearcher {
             _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 44usize));
         }
+        else if _scanner_ds.pattern.is_match(_st) {
+            _matches_many = _scanner_ds.pattern.matches(_st).into_iter().collect();
+            _valid.push((_st, 37usize));
+        }
         else if _scanner_pl.pattern.is_match(_st) {
             _matches_many = _scanner_pl.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 45usize));
-        }
-        else if _st == "overlap" {
+        } else if _st == "overlap" {
             _valid.push((_st, 34usize));
         } else if _st == "xref:datasources:platforms" {
             _valid.push((_st, 35usize));
@@ -129,9 +132,6 @@ impl EnterpriseMatrixSearcher {
         } else if _st == "xref:datasources:tactics" {
             _valid.push((_st, 36usize));
             _wants_xref_datasources_tactics = true;
-        } else if _scanner_ds.pattern.is_match(_st) {
-            _matches_many = _scanner_ds.pattern.matches(_st).into_iter().collect();
-            _valid.push((_st, 37usize));
         }
         // Adversaries
         else if _scanner_ad.pattern.is_match(_st) {
@@ -210,8 +210,7 @@ impl EnterpriseMatrixSearcher {
                     _results.push(self.search_all_tactics());
                 } else if _pattern == &12usize {
                     _results.push(self.search_by_deprecated());
-                }
-                else if _pattern == &34usize {
+                } else if _pattern == &34usize {
                     _results.push(self.search_all_overlapped());
                 } else if _pattern == &35usize {
                     _results.push(self.search_stats_datasources_and_platforms());
@@ -435,6 +434,14 @@ impl EnterpriseMatrixSearcher {
                         .expect(_err.as_str());
         let _datasource = datasource.to_lowercase();
         let _datasource = _datasource.as_str();
+        // Check for Shorthand Terms
+        // Transform to the explicit datasource
+        let _datasource = match _datasource {
+            "waf" => "web-application-firewall-logs",
+            "netflow" => "netflow-enclave-netflow",
+            "pcap" => "packet-capture",
+            _ => _datasource
+        };
         let mut _iterable: &Vec<_>;
         if _wants_subtechniques {
             _iterable = &_json.breakdown_subtechniques.platforms;
