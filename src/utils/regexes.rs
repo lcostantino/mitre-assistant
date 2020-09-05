@@ -52,12 +52,18 @@ impl PatternManager {
             
             if _item.starts_with("netflow") {
                 _patterns.push(format!(r"\b{}\b", "netflow"));
-            } else if _item.starts_with("network-intrusion-detection-system") {
+            }
+            else if _item.starts_with("network-intrusion-detection-system") {
                 _patterns.push(format!(r"\b{}\b", "nids"));
-            } else if _item.starts_with("web-application-firewall-logs") {
-                _patterns.push(format!(r"\b{}\b", "waf"));
-            } else if _item.starts_with("network-protocol-analysis") {
+            }
+            else if _item.starts_with("packet-capture") {
                 _patterns.push(format!(r"\b{}\b", "pcap"));
+            }
+            else if _item.starts_with("web-application-firewall-logs") {
+                _patterns.push(format!(r"\b{}\b", "waf"));
+            }
+            else if _item.starts_with("windows-error-reporting") {
+                _patterns.push(format!(r"\b{}\b", "wer"));
             }
             
             _patterns.push(format!(r"\b{}\b", _item));

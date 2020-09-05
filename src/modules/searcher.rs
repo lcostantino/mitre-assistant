@@ -437,9 +437,10 @@ impl EnterpriseMatrixSearcher {
         // Check for Shorthand Terms
         // Transform to the explicit datasource
         let _datasource = match _datasource {
-            "waf" => "web-application-firewall-logs",
             "netflow" => "netflow-enclave-netflow",
             "pcap" => "packet-capture",
+            "waf" => "web-application-firewall-logs",
+            "wer" => "windows-error-reporting",
             _ => _datasource
         };
         let mut _iterable: &Vec<_>;
