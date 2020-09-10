@@ -1,4 +1,4 @@
-use serde_derive;
+use serde_derive::{Deserialize, Serialize};
 
 
 /// # Navigator Version 2
@@ -17,9 +17,9 @@ use serde_derive;
 /// 
 /// 
 /// 
-/// # Legacy: V2Navigator
+/// # Legacy: V2
 /// The entire `json` used by the `mitre-navigator` application
-/// is represented in the `mitre-assistant` as `V2Navigator`.
+/// is represented in the `mitre-assistant` as `V2`.
 /// 
 /// The constructor is invoked like this:
 /// 
@@ -27,7 +27,7 @@ use serde_derive;
 /// // Assumes you want to setup a V2 object
 /// // and manipulate it yourself.
 /// 
-/// let mut _nav = V2Navigator::new();
+/// let mut _nav = V2::new();
 /// 
 /// // Add the name of your navigator
 /// _nav.name = "My Awesome Navigator Object";
@@ -45,51 +45,52 @@ pub struct V2Navigator {
     pub version:                            String,
     pub domain:                             String,
     pub description:                        String,
-    pub filters:                            V2NavigatorFilters,
+    pub filters:                            V2Filters,
     pub sorting:                            u8,
     pub view_mode:                          u8,
     pub hide_disabled:                      bool,
-    pub techniques:                         Vec<V2NavigatorTechnique>,
-    pub gradient:                           V2NavigatorGradient,
-    pub legend_items:                       Vec<V2NavigatorLegendItem>
+    pub techniques:                         Vec<V2Technique>,
+    pub gradient:                           V2Gradient,
+    pub legend_items:                       Vec<V2LegendItem>,
     pub metadata:                           Vec<String>,
     pub show_tactic_row_background:         bool,
     pub tactic_row_background:              String,
     pub select_techniques_across_tactics:   bool,
 }
 impl V2Navigator {
-    /// # V2Navigator Constructor
+    /// # V2 Constructor
     /// 
-    pub new() -> Self
+    pub fn new() -> Self
     {
         V2Navigator {
             name:           "".to_string(),
             version:        "".to_string(),
             domain:         "".to_string(),
             description:    "".to_string(),
-            filters:        V2NavigatorFilters::new(),
+            filters:        V2Filters::new(),
             sorting:        1,
             view_mode:      0,
             hide_disabled:  true,
             techniques:     vec![],
-            gradient:       V2NavigatorGradient::new(),
+            gradient:       V2Gradient::new(),
             legend_items:   vec![],
             metadata:       vec![],
             show_tactic_row_background: true,
+			tactic_row_background: "".to_string(),
             select_techniques_across_tactics: true
         }
     }
 }
 
 #[derive(Debug, Deserialize, Serialize, Hash)]
-pub struct V2NavigatorFilters {
+pub struct V2Filters {
     pub stages:     Vec<String>,
     pub platforms:  Vec<String>
 }
-impl V2NavigatorFilters {
-    pub new() ->
+impl V2Filters {
+    pub fn new() -> Self
     {
-        V2NavigatorFilters {
+        V2Filters {
             stages:     vec![],
             platforms:  vec![]
         }
@@ -98,7 +99,7 @@ impl V2NavigatorFilters {
 
 
 #[derive(Debug, Deserialize, Serialize, Hash)]
-pub struct V2NavigatorTechnique {
+pub struct V2Technique {
     pub technique_id:   String,
     pub tactic:         String,
     pub score:          u32,
@@ -107,10 +108,10 @@ pub struct V2NavigatorTechnique {
     pub enabled:        bool,
     pub metadata:       Vec<String>
 }
-impl V2NavigatorTechnique {
-    pub new() -> Self
+impl V2Technique {
+    pub fn new() -> Self
     {
-        V2NavigatorTechnique {
+        V2Technique {
             technique_id:   "".to_string(),
             tactic:         "".to_string(),
             score:          0,
@@ -124,15 +125,15 @@ impl V2NavigatorTechnique {
 
 
 #[derive(Debug, Deserialize, Serialize, Hash)]
-pub struct V2NavigatorGradient {
+pub struct V2Gradient {
     pub colors:     Vec<String>,
     pub min_value:  u32,
     pub max_value:  u32
 }
-impl V2NavigatorGradient {
-    pub new() -> Self
+impl V2Gradient {
+    pub fn new() -> Self
     {
-        V2NavigatorGradient {
+        V2Gradient {
             colors:     vec![],
             min_value:  0,
             max_value:  0
@@ -142,14 +143,14 @@ impl V2NavigatorGradient {
 
 
 #[derive(Debug, Deserialize, Serialize, Hash)]
-pub struct V2NavigatorLegendItem {
+pub struct V2LegendItem {
     pub color:  String,
     pub label:  String
 }
-impl V2NavigatorLegendItem {
-    pub new() -> Self
+impl V2LegendItem {
+    pub fn new() -> Self
     {
-        V2NavigatorLegendItem {
+        V2LegendItem {
             color:  "".to_string(),
             label:  "".to_string()
         }

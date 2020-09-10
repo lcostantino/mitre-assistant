@@ -13,6 +13,14 @@ use enterprise::{
     EnterpriseAdversary, EnterpriseMalware, EnterpriseMatrixStatistics, EnterpriseTool, EnterpriseTechnique,
 };
 
+#[path = "../structs/navigator.rs"]
+mod navigator;
+use navigator::{
+    V2Navigator
+};
+
+
+
 #[path = "../utils/fshandler.rs"]
 mod fshandler;
 use fshandler::FileHandler;
@@ -432,17 +440,13 @@ impl EnterpriseMatrixSearcher {
         let _json: EnterpriseMatrixBreakdown =
             serde_json::from_slice(&self.content[..])
                         .expect(_err.as_str());
-        let _datasource = datasource.to_lowercase();
+        let _datasource = datasource.to_lowercase().replace(" ", "");
         let _datasource = _datasource.as_str();
         // Check for Shorthand Terms
         // Transform to the explicit datasource
-        let _datasource = match _datasource {
-            "netflow" => "netflow-enclave-netflow",
-            "pcap" => "packet-capture",
-            "waf" => "web-application-firewall-logs",
-            "wer" => "windows-error-reporting",
-            _ => _datasource
-        };
+        /*
+
+        */
         let mut _iterable: &Vec<_>;
         if _wants_subtechniques {
             _iterable = &_json.breakdown_subtechniques.platforms;
@@ -451,35 +455,54 @@ impl EnterpriseMatrixSearcher {
         }
         if many.len() == 1 {
             for _item in _iterable {
-                if _item.datasources.contains(_datasource) {
+                let _search_term = self.get_datasource_shorthand(_datasource);
+                if _item.datasources.contains(&_search_term) {
                     let mut _et = EnterpriseTechnique::new();
                     _et.tid = _item.tid.clone();
                     _et.platform = _item.platform.clone();
                     _et.technique = _item.technique.clone();
                     _et.tactic = _item.tactic.clone();
-                    _et.datasources = _datasource.to_string();
+                    _et.datasources = _search_term;
                     _et.has_subtechniques = _item.has_subtechniques.clone();
                     _et.subtechniques = _item.subtechniques.clone();
                     _results.push(_et);
                 }
             }
-        } else {
+        } else if many.len() > 1 {
             if _datasource.contains(",") {
-                let _terms: Vec<&str> = _datasource.split(',').collect();
-                for _term in _terms {
-                    for _item in _iterable {
-                        if _item.datasources.contains(_term) {
-                            let mut _et = EnterpriseTechnique::new();
-                            _et.tid = _item.tid.clone();
-                            _et.platform = _item.platform.clone();
-                            _et.technique = _item.technique.clone();
-                            _et.tactic = _item.tactic.clone();
-                            _et.datasources = _term.to_string();
-                            _et.has_subtechniques = _item.has_subtechniques.clone();
-                            _et.subtechniques = _item.subtechniques.clone();
-                            _results.push(_et);
+                let _terms: Vec<String> = _datasource.split(',')
+                                                     .map(|x| self.get_datasource_shorthand(x))
+                                                     .collect();
+                //println!("TERMS: {:#?}", _terms);
+                let mut _match_count: usize = 0;
+                let mut _temp_string: String = String::from("");
+                for _item in _iterable {
+                    for _term in _terms.iter() {
+                        if _item.datasources.contains(_term.as_str()) { 
+                            _match_count += 1;
+                            if _match_count > 1 {
+                                let _s = format!("|{}", _term);
+                                _temp_string.push_str(_s.as_str());
+                            } else if _match_count == 1 {
+                                let _s = format!("{}", _term);
+                                _temp_string.push_str(_s.as_str());
+                            }
                         }
                     }
+                    if _match_count >= 1 {
+                        //_temp_string.pop();
+                        let mut _et = EnterpriseTechnique::new();
+                        _et.tid = _item.tid.clone();
+                        _et.platform = _item.platform.clone();
+                        _et.technique = _item.technique.clone();
+                        _et.datasources = _temp_string.clone();
+                        _et.tactic = _item.tactic.clone();
+                        _et.has_subtechniques = _item.has_subtechniques.clone();
+                        _et.subtechniques = _item.subtechniques.clone();
+                        _results.push(_et);
+                    }
+                    _match_count = 0;       // Reset
+                    _temp_string.clear();    
                 }
             }
         }
@@ -488,6 +511,20 @@ impl EnterpriseMatrixSearcher {
             datasource
         );
         serde_json::to_string(&_results).expect(_err.as_str())
+    }
+    ///
+    ///
+    ///
+    fn get_datasource_shorthand(&self, _datasource: &str) -> String
+    {
+        let _datasource = match _datasource {
+            "netflow" => "netflow-enclave-netflow",
+            "pcap" => "packet-capture",
+            "waf" => "web-application-firewall-logs",
+            "wer" => "windows-error-reporting",
+            _ => _datasource
+        };
+        String::from(_datasource)
     }
     ///
     ///
