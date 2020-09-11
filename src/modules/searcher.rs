@@ -518,8 +518,15 @@ impl EnterpriseMatrixSearcher {
     fn get_datasource_shorthand(&self, _datasource: &str) -> String
     {
         let _datasource = match _datasource {
+            "av" => "anti-virus",
+            "dns" => "dns-records",
+            "drivers" => "kernel-drivers",
+            "eventlogs" | "evtx" => "windows-event-logs",
             "netflow" => "netflow-enclave-netflow",
+            "nids" => "network-intrusion-detection-system",
             "pcap" => "packet-capture",
+            "registry" => "windows-registry",
+            "sandboxing" => "detonation-chamber",
             "waf" => "web-application-firewall-logs",
             "wer" => "windows-error-reporting",
             _ => _datasource
@@ -569,6 +576,38 @@ impl EnterpriseMatrixSearcher {
             } else if many.len() > 1 {
                 if _platform.contains(",") {
                     let _terms: Vec<&str> = _platform.split(',').collect();
+                    let mut _match_count: usize = 0;
+                    let mut _temp_string: String = String::from("");
+                    for _item in _iterable {
+                        for _term in _terms.iter() {
+                            if _item.platform.contains(_term) { 
+                                _match_count += 1;
+                                if _match_count > 1 {
+                                    let _s = format!("|{}", _term);
+                                    _temp_string.push_str(_s.as_str());
+                                } else if _match_count == 1 {
+                                    let _s = format!("{}", _term);
+                                    _temp_string.push_str(_s.as_str());
+                                }
+                            }
+                        }
+                        if _match_count >= 1 {
+                            //_temp_string.pop();
+                            let mut _et = EnterpriseTechnique::new();
+                            _et.tid = _item.tid.clone();
+                            _et.platform = _temp_string.clone();
+                            _et.technique = _item.technique.clone();
+                            _et.datasources = _item.datasources.clone();
+                            _et.tactic = _item.tactic.clone();
+                            _et.has_subtechniques = _item.has_subtechniques.clone();
+                            _et.subtechniques = _item.subtechniques.clone();
+                            _results.push(_et);
+                        }
+                        _match_count = 0;       // Reset
+                        _temp_string.clear();    
+                    }
+                }
+                    /*
                     for _term in _terms {
                         for _item in _iterable {
                             if _item.platform.contains(_term) {
@@ -584,7 +623,8 @@ impl EnterpriseMatrixSearcher {
                             }
                         }
                     }
-                }
+                    
+                }*/
             }
         serde_json::to_string(&_results).expect(_err.as_str())
     }

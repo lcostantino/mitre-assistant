@@ -34,7 +34,7 @@ impl PatternManager {
             pattern:  RegexSetBuilder::new(&[
                 r#"^T\d{4}$"#,                  // Technique ID
                 r#"^T\d{4}\.\d{3}$"#,           // Subtechnique ID
-                r#"(\W|^)[A-z]{3,}(\W|$)"#,     // Technique Name, controls input length in search
+                r#"(\W|^)[A-z]{2,}(\W|$)"#,     // Technique Name, controls input length in search
             ]).case_insensitive(true)
               .unicode(true)
               .build()
@@ -49,8 +49,13 @@ impl PatternManager {
             // TODO: Alias Terms
             // These are common among users and save
             // typing time
-            
-            if _item.starts_with("netflow") {
+            if _item.starts_with("anti-virus") {
+                _patterns.push(format!(r"\b{}\b", "av"));
+            }
+            else if _item.starts_with("kernel-drivers") {
+                _patterns.push(format!(r"\b{}\b", "drivers"));
+            }            
+            else if _item.starts_with("netflow") {
                 _patterns.push(format!(r"\b{}\b", "netflow"));
             }
             else if _item.starts_with("network-intrusion-detection-system") {
@@ -65,7 +70,19 @@ impl PatternManager {
             else if _item.starts_with("windows-error-reporting") {
                 _patterns.push(format!(r"\b{}\b", "wer"));
             }
-            
+            else if _item.starts_with("dns-records") {
+                _patterns.push(format!(r"\b{}\b", "dns"));
+            }
+            else if _item.starts_with("detonation-chamber") {
+                _patterns.push(format!(r"\b{}\b", "sandboxing"));
+            }
+            else if _item.starts_with("windows-registry") {
+                _patterns.push(format!(r"\b{}\b", "registry"));
+            }
+            else if _item.starts_with("windows-event-logs") {
+                _patterns.push(format!(r"\b{}\b", "eventlogs"));
+                _patterns.push(format!(r"\b{}\b", "evtx"));
+            }
             _patterns.push(format!(r"\b{}\b", _item));
         }
         // Now Create the Patterns of Platforms with Datasource
