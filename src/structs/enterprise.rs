@@ -288,6 +288,30 @@ impl EnterpriseTechnique {
     }
 }
 
+#[derive(Debug, Deserialize, Serialize, Eq, PartialEq, Ord, PartialOrd)]
+pub struct EnterpriseRevokedItem {
+    pub id:         String,
+    pub name:       String,
+    pub eid:        String,     // T1234,S01234,etc
+    pub is_revoked: bool,
+    pub new_id:     String,
+    pub new_name:   String,
+    pub new_eid:    String
+}
+impl EnterpriseRevokedItem {
+    pub fn new() -> Self
+    {
+        EnterpriseRevokedItem {
+            id:         "".to_string(),
+            name:       "".to_string(),
+            eid:        "".to_string(),
+            is_revoked: true,
+            new_id:     "".to_string(),
+            new_eid:    "".to_string(),
+            new_name:   "".to_string()
+        }
+    }
+}
 
 #[derive(Debug,Deserialize, Serialize)]
 pub struct EnterpriseSubtechniquesByPlatform {
@@ -537,7 +561,8 @@ pub struct EnterpriseRelationships {
     pub adversary_to_techniques:    HashSet<EnterpriseRelationship>,
     pub adversary_to_tools:         HashSet<EnterpriseRelationship>,
     pub malware_to_techniques:      HashSet<EnterpriseRelationship>,
-    pub tool_to_techniques:         HashSet<EnterpriseRelationship>
+    pub tool_to_techniques:         HashSet<EnterpriseRelationship>,
+    pub old_to_new_techniques:      HashSet<EnterpriseRelationship>
 }
 impl EnterpriseRelationships {
     pub fn new() -> Self
@@ -547,7 +572,8 @@ impl EnterpriseRelationships {
             adversary_to_techniques:    HashSet::new(),
             adversary_to_tools:         HashSet::new(),
             malware_to_techniques:      HashSet::new(),
-            tool_to_techniques:         HashSet::new()
+            tool_to_techniques:         HashSet::new(),
+            old_to_new_techniques:      HashSet::new()
         }
     }
 }

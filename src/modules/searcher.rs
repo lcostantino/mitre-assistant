@@ -39,6 +39,8 @@ impl EnterpriseMatrixSearcher {
         let mut _content: Vec<u8> = vec![];
         if _input == "enterprise".to_string() {
             _content = FileHandler::load_baseline("baselines", "baseline-enterprise.json");
+        } else if _input == "enterprise-legacy" {
+            _content = FileHandler::load_baseline("baselines", "baseline-enterprise-legacy.json");
         }
         EnterpriseMatrixSearcher {
             matrix: _input,
@@ -607,24 +609,6 @@ impl EnterpriseMatrixSearcher {
                         _temp_string.clear();    
                     }
                 }
-                    /*
-                    for _term in _terms {
-                        for _item in _iterable {
-                            if _item.platform.contains(_term) {
-                                let mut _et = EnterpriseTechnique::new();
-                                _et.platform = _term.to_string();
-                                _et.tid = _item.tid.clone();
-                                _et.technique = _item.technique.clone();
-                                _et.tactic = _item.tactic.clone();
-                                _et.datasources = _item.datasources.to_string();
-                                _et.has_subtechniques = _item.has_subtechniques.clone();
-                                _et.subtechniques = _item.subtechniques.clone();
-                                _results.push(_et);
-                            }
-                        }
-                    }
-                    
-                }*/
             }
         serde_json::to_string(&_results).expect(_err.as_str())
     }
@@ -1004,11 +988,13 @@ impl EnterpriseMatrixSearcher {
             }
             _results.sort();
             _results.dedup();
+            _results.sort();
             serde_json::to_string_pretty(&_results)
                 .expect("(?) Error:  Unable To Deserialize Search Results By Revoked Technique ID")
         } else {
             _results.sort();
             _results.dedup();
+            _results.sort();
             serde_json::to_string_pretty(&_results)
                 .expect("(?) Error:  Unable To Deserialize Search Results By Technique ID")
         }

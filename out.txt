@@ -1,0 +1,1296 @@
+Source: attack-pattern--52f3d5a6-8a0f-4f82-977e-750abf90d0b0 | Target: attack-pattern--0042a9f5-f053-4769-b3ef-9ad018dfa298
+Source: attack-pattern--c1a452f3-6499-4c12-b7e9-a6a0a102af76 | Target: attack-pattern--7007935a-a8a7-4c0b-bd98-4e85be8ed197
+Source: attack-pattern--1c338d0f-a65e-4073-a5c1-c06878849f21 | Target: attack-pattern--b200542e-e877-4395-875b-cf1a44537ca4
+Source: attack-pattern--18d4ab39-12ed-4a16-9fdb-ae311bba4a0f | Target: attack-pattern--dca670cf-eeec-438f-8185-fd959d9ef211
+Source: attack-pattern--2ba5aa71-9d15-4b22-b726-56af06d9ad2f | Target: attack-pattern--c0dfe7b0-b873-4618-9ff8-53e31f70907f
+Source: attack-pattern--0fff2797-19cb-41ea-a5f1-8a9303b8158e | Target: attack-pattern--dfefe2ed-4389-4318-8762-f0272b350a1b
+Source: attack-pattern--dd901512-6e37-4155-943b-453e3777b125 | Target: attack-pattern--d10cbd34-42e3-45c0-84d2-535a09849584
+Source: attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc | Target: attack-pattern--9efb1ea7-c37b-4595-9640-b7680cd84279
+Source: attack-pattern--68c96494-1a50-403e-8844-69a6af278c68 | Target: attack-pattern--98034fef-d9fb-4667-8dc4-2eab6231724c
+Source: attack-pattern--2892b9ee-ca9f-4723-b332-0dc6e843a8ae | Target: attack-pattern--ce4b7013-640e-48a9-b501-d0025a95f4bf
+Source: attack-pattern--e906ae4d-1d3a-4675-be23-22f7311c0da4 | Target: attack-pattern--910906dd-8c0a-475a-9cc1-5e029e2fad58
+Source: attack-pattern--01df3350-ce05-4bdf-bdf8-0a919a66d4a8 | Target: attack-pattern--b63a34e8-0a61-4c97-a23b-bf8a2ed812e2
+Source: attack-pattern--b53dbcc6-147d-48bb-9df4-bcb8bb808ff6 | Target: attack-pattern--63220765-d418-44de-8fae-694b3912317d
+Source: attack-pattern--04ef4356-8926-45e2-9441-634b6f3dcecb | Target: attack-pattern--10ff21b9-5a01-4268-a1b5-3b55015f1847
+Source: attack-pattern--bb0e0cb5-f3e4-4118-a4cb-6bf13bfbc9f2 | Target: attack-pattern--f63fe421-b1d1-45c0-b8a7-02cd16ff2bed
+Source: attack-pattern--9b99b83a-1aac-4e29-b975-b374950551a3 | Target: attack-pattern--70e52b04-2a0c-4cea-9d18-7149f1df9dc5
+Source: attack-pattern--4bf5845d-a814-4490-bc5c-ccdee6043025 | Target: attack-pattern--7d57b371-10c2-45e5-b3cc-83a8fb380e4c
+Source: attack-pattern--317fefa6-46c7-4062-adb6-2008cf6bcb41 | Target: attack-pattern--cc89ecbd-3d33-4a41-bcca-001e702d18fd
+Source: attack-pattern--7c93aa74-4bc0-4a9e-90ea-f25f86301566 | Target: attack-pattern--42fe883a-21ea-4cfb-b94a-78b6476dcc83
+Source: attack-pattern--62166220-e498-410f-a90a-19d4339d4e99 | Target: attack-pattern--6d4a7fb3-5a24-42be-ae61-6728a2b581f6
+Source: attack-pattern--723e3a2b-ca0d-4daa-ada8-82ea35d3733a | Target: attack-pattern--0f2c410d-d740-4ed9-abb1-b8f4a7faf6c3
+Source: attack-pattern--d376668f-b208-42de-b1f5-fdfe0ad4b753 | Target: attack-pattern--9c45eaa3-8604-4780-8988-b5074dbb9ecd
+Source: attack-pattern--52d40641-c480-4ad5-81a3-c80ccaddf82d | Target: attack-pattern--b8cfed42-6a8a-4989-ad72-541af74475ec
+Source: attack-pattern--dce31a00-1e90-4655-b0f9-e2e71a748a87 | Target: attack-pattern--61afc315-860c-4364-825d-0d62b2e91edc
+Source: attack-pattern--514ede4c-78b3-4d78-a38b-daddf6217a79 | Target: attack-pattern--6836813e-8ec8-4375-b459-abb388cb1a35
+Source: attack-pattern--6c174520-beea-43d9-aac6-28fb77f3e446 | Target: attack-pattern--5095a853-299c-4876-abd7-ac0050fb5462
+Source: attack-pattern--6be14413-578e-46c1-8304-310762b3ecd5 | Target: attack-pattern--a1b52199-c8c5-438a-9ded-656f1d0888c6
+Source: attack-pattern--6a3be63a-64c5-4678-a036-03ff8fc35300 | Target: attack-pattern--e5cc9e7a-e61a-46a1-b869-55fb6eab058e
+Source: attack-pattern--6e6845c2-347a-4a6f-a2d1-b74a18ebd352 | Target: attack-pattern--f0589bc3-a6ae-425a-a3d5-5659bfee07f4
+Source: attack-pattern--970cdb5c-02fb-4c38-b17e-d6327cf3c810 | Target: attack-pattern--4ab929c6-ee2d-4fb5-aab4-b14be2ed7179
+Source: attack-pattern--1f47e2fd-fa77-4f2f-88ee-e85df308f125 | Target: attack-pattern--43881e51-ac74-445b-b4c6-f9f9e9bf23fe
+Source: attack-pattern--27960489-4e7f-461d-a62a-f5c0cb521e4a | Target: attack-pattern--f005e783-57d4-4837-88ad-dbe7faee1c51
+Source: attack-pattern--c23b740b-a42b-47a1-aec2-9d48ddd547ff | Target: attack-pattern--e624264c-033a-424d-9fd7-fc9c3bbdb03e
+Source: attack-pattern--a257ed11-ff3b-4216-8c9d-3938ef57064c | Target: attack-pattern--7b211ac6-c815-4189-93a9-ab415deca926
+Source: attack-pattern--c5e31fb5-fcbd-48a4-af8c-5a6ed5b932e5 | Target: attack-pattern--c3c8c916-2f3c-4e71-94b2-240bdfc996f0
+Source: attack-pattern--d3046a90-580c-4004-8208-66915bc29830 | Target: attack-pattern--3aef9463-9a7a-43ba-8957-a867e07c1e6a
+Source: attack-pattern--56fca983-1cf1-4fd1-bda0-5e170a37ab59 | Target: attack-pattern--d63a3fb8-9452-4e9d-a60a-54be68d5998c
+Source: attack-pattern--e7eab98d-ae11-4491-bd28-a53ba875865a | Target: attack-pattern--a750a9f6-0bde-4bb3-9aae-1e2786e9780c
+Source: attack-pattern--7d6f590f-544b-45b4-9a42-e0805f342af3 | Target: attack-pattern--4cbc6a62-9e34-4f94-8a19-5c1a11392a49
+Source: attack-pattern--d21a2069-23d5-4043-ad6d-64f6b644cb1a | Target: attack-pattern--a6937325-9321-4e2e-bb2b-3ed2d40b2a9d
+Source: attack-pattern--8df54627-376c-487c-a09c-7d2b5620f56e | Target: attack-pattern--4ff5d6a8-c062-4c68-a778-36fc5edd564f
+Source: attack-pattern--f792d02f-813d-402b-86a5-ab98cb391d3b | Target: attack-pattern--2cd950a6-16c4-404a-aa01-044322395107
+Source: attack-pattern--a127c32c-cbb0-4f9d-be07-881a792408ec | Target: attack-pattern--840a987a-99bd-4a80-a5c9-0cb2baa6cade
+Source: attack-pattern--215190a9-9f02-4e83-bb5f-e0589965a302 | Target: attack-pattern--c48a67ee-b657-45c1-91bf-6cdbe27205f8
+Source: attack-pattern--68f7e3a1-f09f-4164-9a62-16b648a0dd5a | Target: attack-pattern--b97f1d35-4249-4486-a6b5-ee60ccf24fab
+Source: attack-pattern--62b8c999-dcc0-4755-bd69-09442d9359f5 | Target: attack-pattern--045d0922-2310-4e60-b5e4-3302302cb3c5
+Source: attack-pattern--ba8e391f-14b5-496f-81f2-2d5ecd646c1c | Target: attack-pattern--837f9164-50af-4ac0-8219-379d8a74cefc
+Source: attack-pattern--2edd9d6a-5674-4326-a600-ba56de467286 | Target: attack-pattern--341e222a-a6e3-4f6f-b69c-831d792b1580
+Source: attack-pattern--44dca04b-808d-46ca-b25f-d85236d4b9f8 | Target: attack-pattern--8187bd2a-866f-4457-9009-86b0ddedffa3
+Source: attack-pattern--6ff403bc-93e3-48be-8687-e102fdba8c88 | Target: attack-pattern--deb98323-e13f-4b0c-8d94-175379069062
+Source: attack-pattern--519630c5-f03f-4882-825c-3af924935817 | Target: attack-pattern--5bfccc3f-2326-4112-86cc-c1ece9d8a2b5
+Source: attack-pattern--6fb6408c-0db3-41d9-a3a1-a32e5f16454e | Target: attack-pattern--31a0a2ac-c67c-4a7e-b9ed-6a96477d4e8e
+Source: attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d | Target: attack-pattern--32901740-b42c-4fdd-bc02-345b5dc57082
+Source: attack-pattern--72b5ef57-325c-411b-93ca-a3ca6fa17e31 | Target: attack-pattern--543fceb5-cb92-40cb-aacf-6913d4db58bc
+Source: attack-pattern--ca1a3f50-5ebd-41f8-8320-2c7d6a6e88be | Target: attack-pattern--120d5519-3098-4e1c-9191-2aa61232f073
+Source: attack-pattern--c0df6533-30ee-4a4a-9c6d-17af5abdf0b2 | Target: attack-pattern--6831414d-bb70-42b7-8030-d4e06b2660c9
+Source: attack-pattern--2169ba87-1146-4fc7-a118-12b72251db7e | Target: attack-pattern--1365fe3b-0f50-455d-b4da-266ce31c23b0
+Source: attack-pattern--9e80ddfb-ce32-4961-a778-ca6a10cfae72 | Target: attack-pattern--1365fe3b-0f50-455d-b4da-266ce31c23b0
+Source: attack-pattern--101c3a64-9ba5-46c9-b573-5c501053cbca | Target: attack-pattern--b84903f0-c7d5-435d-a69e-de47cc3578c0
+Source: attack-pattern--e2907cea-4b43-4ed7-a570-0fdf0fbeea00 | Target: attack-pattern--e51137a5-1cdc-499e-911a-abaedaa5ac86
+Source: attack-pattern--51dea151-0898-4a45-967c-3ebee0420484 | Target: attack-pattern--eb062747-2193-45de-8fa2-e62549c37ddf
+Source: attack-pattern--ffe742ed-9100-4686-9e00-c331da544787 | Target: attack-pattern--4f9ca633-15c5-463c-9724-bdcd54fde541
+Source: attack-pattern--c3bce4f4-9795-46c6-976e-8676300bbc39 | Target: attack-pattern--60d0c01d-e2bf-49dd-a453-f8a9c9fa6f65
+Source: attack-pattern--1c2fd73a-e634-44ed-b1b5-9e7cf7404e9f | Target: attack-pattern--19bf235b-8620-4997-b5b4-94e0659ed7c3
+Source: attack-pattern--b8c5c9dd-a662-479d-9428-ae745872537c | Target: attack-pattern--3731fbcd-0e43-47ae-ae6c-d15e510f0d42
+Source: attack-pattern--0dbf5f1b-a560-4d51-ac1b-d70caab3e1f0 | Target: attack-pattern--650c784b-7504-4df7-ab2c-4ea882384d1e
+Source: attack-pattern--b39d03cb-7b98-41c4-a878-c40c1a913dc0 | Target: attack-pattern--f2877f7f-9a4c-4251-879f-1224e3006bee
+Source: attack-pattern--91ce1ede-107f-4d8b-bf4c-735e8789c94b | Target: attack-pattern--a2029942-0a85-4947-b23c-ca434698171d
+Source: attack-pattern--66f73398-8394-4711-85e5-34c8540b22a5 | Target: attack-pattern--f5946b5e-9408-485f-a7f7-b5efc88909b6
+Source: attack-pattern--9e09ddb2-1746-4448-9cad-7f8b41777d6d | Target: attack-pattern--1eaebf46-e361-4437-bc23-d5d65a3b92e3
+Source: attack-pattern--2715c335-1bf2-4efe-9f18-0691317ff83b | Target: attack-pattern--1a80d097-54df-41d8-9d33-34e755ec5e72
+Source: attack-pattern--4579d9c9-d5b9-45e0-9848-0104637b579f | Target: attack-pattern--58a3e6aa-4453-4cc8-a51f-4befe80b31a8
+Source: attack-pattern--56ff457d-5e39-492b-974c-dfd2b8603ffe | Target: attack-pattern--60b508a1-6a5e-46b1-821a-9f7b78752abf
+Source: attack-pattern--128c55d3-aeba-469f-bd3e-c8996ab4112a | Target: attack-pattern--47f2d673-ca62-47e9-929b-1b0be9657611
+Source: attack-pattern--9ddc2534-e91c-4dab-a8f6-43dab81e8142 | Target: attack-pattern--93591901-3172-4e94-abf8-6034ab26f44a
+Source: attack-pattern--1df0326d-2fbc-4d08-a16b-48365f1e742d | Target: attack-pattern--b7dc639b-24cd-482d-a7f1-8897eda21023
+Source: attack-pattern--b82f7d37-b826-4ec9-9391-8e121c78aed7 | Target: attack-pattern--fb640c43-aa6b-431e-a961-a279010424ac
+Source: attack-pattern--2e114e45-2c50-404c-804a-3af9564d240e | Target: attack-pattern--0af0ca99-357d-4ba1-805f-674fdfb7bef9
+Source: attack-pattern--2e0dd10b-676d-4964-acd0-8a404c92b044 | Target: attack-pattern--ac08589e-ee59-4935-8667-d845e38fe579
+Source: attack-pattern--086952c4-5b90-4185-b573-02bad8e11953 | Target: attack-pattern--8f504411-cb96-4dac-a537-8d2bb7679c59
+Source: attack-pattern--d519cfd5-f3a8-43a9-a846-ed0bb40672b1 | Target: attack-pattern--c615231b-f253-4f58-9d47-d5b4cbdb6839
+Source: attack-pattern--241814ae-de3f-4656-b49e-f9a80764d4b7 | Target: attack-pattern--cba37adb-d6fb-4610-b069-dd04c0643384
+Source: attack-pattern--c1b11bf7-c68e-4fbf-a95b-28efbe7953bb | Target: attack-pattern--4d2a5b3e-340d-4600-9123-309dd63c9bf8
+Source: attack-pattern--0bf78622-e8d2-41da-a857-731472d61a92 | Target: attack-pattern--1cfcb312-b8d7-47a4-b560-4b16cc677292
+Source: attack-pattern--cc1e737c-236c-4e3b-83ba-32039a626ef8 | Target: attack-pattern--d0613359-5781-4fd2-b5be-c269270be1f6
+Source: attack-pattern--ca205a36-c1ad-488b-aa6c-ab34bdd3a36b | Target: attack-pattern--32ad5c86-2bcf-47d8-8fdc-d7f3d79a7490
+Source: attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38 | Target: attack-pattern--2e34237d-8574-43f6-aace-ae2915de8597
+Source: attack-pattern--20138b9d-1aac-4a26-8654-a36b6bbf2bba | Target: attack-pattern--2b742742-28c3-4e1b-bab7-8350d6300fa7
+Source: attack-pattern--d3df754e-997b-4cf9-97d4-70feb3120847 | Target: attack-pattern--f6ad61ee-65f3-4bd0-a3f5-2f0accb36317
+Source: attack-pattern--edbe24e9-aec4-4994-ac75-6a6bc7f1ddd0 | Target: attack-pattern--232a7e42-cd6e-4902-8fe9-2960f529dd4d
+Source: attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0 | Target: attack-pattern--970a3432-3237-47ad-bcca-7d8cbb217736
+Source: attack-pattern--5ad95aaa-49c1-4784-821d-2e83f47b079b | Target: attack-pattern--37b11151-1776-4f8f-b328-30939fbf2ceb
+Source: attack-pattern--53bfc8bf-8f76-4cd7-8958-49a884ddb3ee | Target: attack-pattern--810aa4ad-61c9-49cb-993f-daa06199421d
+Source: attack-pattern--f44731de-ea9f-406d-9b83-30ecbb9b4392 | Target: attack-pattern--f1951e8a-500e-4a26-8803-76d95c4554b4
+Source: attack-pattern--dc27c2ec-c5f9-4228-ba57-d67b590bda93 | Target: attack-pattern--ec8fc7e2-b356-455c-8db5-2e37be158e7d
+Source: attack-pattern--ce73ea43-8e77-47ba-9c11-5e9c9c58b9ff | Target: attack-pattern--8c4aef43-48d5-49aa-b2af-c0cd58d30c3d
+Source: attack-pattern--04ee0cb7-dac3-4c6c-9387-4c6aa096f4cf | Target: attack-pattern--cbb66055-0325-4111-aca0-40547b6ad5b0
+Source: attack-pattern--f2d44246-91f1-478a-b6c8-1227e0ca109d | Target: attack-pattern--f2857333-11d4-45bf-b064-2c28d8525be5
+Source: attack-pattern--c848fcf7-6b62-4bde-8216-b6c157d48da0 | Target: attack-pattern--b18eae87-b469-4e14-b454-b171b416bc18
+Source: attack-pattern--7d751199-05fa-4a72-920f-85df4506c76c | Target: attack-pattern--a782ebe2-daba-42c7-bc82-e8e9d923162d
+Source: attack-pattern--1ce03c65-5946-4ac9-9d4d-66db87e024bd | Target: attack-pattern--ca9d3402-ada3-484d-876a-d717bd6e05f2
+Source: attack-pattern--cf7b3a06-8b42-4c33-bbe9-012120027925 | Target: attack-pattern--c726e0a2-a57a-4b7b-a973-d0f013246617
+Source: attack-pattern--62dfd1ca-52d5-483c-a84b-d6e80bf94b7b | Target: attack-pattern--2959d63f-73fd-46a1-abd2-109d7dcede32
+Source: attack-pattern--06780952-177c-4247-b978-79c357fb311f | Target: attack-pattern--6747daa2-3533-4e78-8fb8-446ebb86448a
+Source: attack-pattern--478aa214-2ca7-4ec0-9978-18798e514790 | Target: attack-pattern--2959d63f-73fd-46a1-abd2-109d7dcede32
+Source: attack-pattern--e99ec083-abdd-48de-ad87-4dbf6f8ba2a4 | Target: attack-pattern--573ad264-1371-4ae0-8482-d2673b719dba
+Source: attack-pattern--46944654-fcc1-4f63-9dad-628102376586 | Target: attack-pattern--2fee9321-3e71-4cf4-af24-d4d40d355b34
+Source: attack-pattern--aa8bfbc9-78dc-41a4-a03b-7453e0fdccda | Target: attack-pattern--fc742192-19e3-466c-9eb5-964a97b29490
+Source: attack-pattern--0ca7beef-9bbc-4e35-97cf-437384ddce6a | Target: attack-pattern--9e8b28c9-35fe-48ac-a14d-e6cc032dcbcd
+Source: attack-pattern--39a130e1-6ab7-434a-8bd2-418e7d9d6427 | Target: attack-pattern--17cc750b-e95b-4d7d-9dde-49e0de24148c
+Source: attack-pattern--c0a384a4-9a25-40e1-97b6-458388474bc8 | Target: attack-pattern--35dd844a-b219-4e2b-a6bb-efa9a75995a9
+Source: attack-pattern--6a5848a8-6201-4a2c-8a6a-ca5af8c6f3df | Target: attack-pattern--74d2a63f-3c7b-4852-92da-02d8fbab16da
+Source: attack-pattern--36675cd3-fe00-454c-8516-aebecacbe9d9 | Target: attack-pattern--6747daa2-3533-4e78-8fb8-446ebb86448a
+Source: attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df | Target: attack-pattern--5d0d3609-d06d-49e1-b9c9-b544e0c618cb
+Source: attack-pattern--b2001907-166b-4d71-bb3c-9d26c871de09 | Target: attack-pattern--e64c62cf-9cd7-4a14-94ec-cdaac43ab44b
+Source: attack-pattern--00d0b012-8a03-410e-95de-5826bf542de6 | Target: attack-pattern--b0533c6e-8fea-4788-874f-b799cacc4b92
+Source: attack-pattern--9b52fca7-1a36-4da0-b62d-da5bd83b4d69 | Target: attack-pattern--bc0f5e80-91c0-4e04-9fbb-e4e332c85dae
+Source: attack-pattern--f72eb8a8-cd4c-461d-a814-3f862befbf00 | Target: attack-pattern--c21d5a77-d422-4a69-acd7-2c53c1faa34b
+Source: attack-pattern--54456690-84de-4538-9101-643e26437e09 | Target: attack-pattern--118f61a5-eb3e-4fb6-931f-2096647f4ecd
+Source: attack-pattern--02fefddc-fb1b-423f-a76b-7552dd211d4d | Target: attack-pattern--1b7b1806-7746-41a1-a35d-e48dae25ddba
+Source: attack-pattern--4b74a1d4-b0e9-4ef1-93f1-14ecc6e2f5b5 | Target: attack-pattern--b8902400-e6c5-4ba2-95aa-2d35b442b118
+Source: attack-pattern--327f3cc5-eea1-42d4-a6cd-ed34b7ce8f61 | Target: attack-pattern--92a78814-b191-47ca-909c-1ccfe3777414
+Source: attack-pattern--428ca9f8-0e33-442a-be87-f869cb4cf73e | Target: attack-pattern--b8902400-e6c5-4ba2-95aa-2d35b442b118
+Source: attack-pattern--b9f5dbe2-4c55-4fc5-af2e-d42c1d182ec4 | Target: attack-pattern--53ac20cd-aca3-406e-9aa0-9fc7fdc60a5a
+Source: attack-pattern--d54416bd-0803-41ca-870a-ce1af7c05638 | Target: attack-pattern--53ac20cd-aca3-406e-9aa0-9fc7fdc60a5a
+Source: attack-pattern--6856ddd6-2df3-4379-8b87-284603c189c3 | Target: attack-pattern--16ab6452-c3c1-497c-a47d-206018ca1ada
+Source: attack-pattern--3b3cbbe0-6ed3-4334-b543-3ddfd8c5642d | Target: attack-pattern--b8902400-e6c5-4ba2-95aa-2d35b442b118
+Source: attack-pattern--3b4121aa-fc8b-40c8-ac4f-afcb5838b72c | Target: attack-pattern--0708ae90-d0eb-4938-9a76-d0fc94f6eec1
+Source: attack-pattern--10d5f3b7-6be6-4da5-9a77-0f1e2bbfcc44 | Target: attack-pattern--791481f8-e96a-41be-b089-a088763083d4
+[
+    EnterpriseRevokedItem {
+        id: "attack-pattern--00d0b012-8a03-410e-95de-5826bf542de6",
+        name: "Indicator Removal from Tools",
+        eid: "T1066",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--01df3350-ce05-4bdf-bdf8-0a919a66d4a8",
+        name: ".bash_profile and .bashrc",
+        eid: "T1156",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--02fefddc-fb1b-423f-a76b-7552dd211d4d",
+        name: "Bootkit",
+        eid: "T1067",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--04ee0cb7-dac3-4c6c-9387-4c6aa096f4cf",
+        name: "Hidden Window",
+        eid: "T1143",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--04ef4356-8926-45e2-9441-634b6f3dcecb",
+        name: "LC_LOAD_DYLIB Addition",
+        eid: "T1161",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--06780952-177c-4247-b978-79c357fb311f",
+        name: "Plist Modification",
+        eid: "T1150",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--086952c4-5b90-4185-b573-02bad8e11953",
+        name: "HISTCONTROL",
+        eid: "T1148",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--0bf78622-e8d2-41da-a857-731472d61a92",
+        name: "Stored Data Manipulation",
+        eid: "T1492",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--0ca7beef-9bbc-4e35-97cf-437384ddce6a",
+        name: "File System Permissions Weakness",
+        eid: "T1044",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--0dbf5f1b-a560-4d51-ac1b-d70caab3e1f0",
+        name: "LLMNR/NBT-NS Poisoning and Relay",
+        eid: "T1171",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--0fff2797-19cb-41ea-a5f1-8a9303b8158e",
+        name: "Systemd Service",
+        eid: "T1501",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--101c3a64-9ba5-46c9-b573-5c501053cbca",
+        name: "Elevated Execution with Prompt",
+        eid: "T1514",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--10d5f3b7-6be6-4da5-9a77-0f1e2bbfcc44",
+        name: "Component Firmware",
+        eid: "T1109",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--128c55d3-aeba-469f-bd3e-c8996ab4112a",
+        name: "Timestomp",
+        eid: "T1099",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--18d4ab39-12ed-4a16-9fdb-ae311bba4a0f",
+        name: "Rc.common",
+        eid: "T1163",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--1b84d551-6de8-4b96-9930-d177677c3b1d",
+        name: "Code Signing",
+        eid: "T1116",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--1c2fd73a-e634-44ed-b1b5-9e7cf7404e9f",
+        name: "Cloud Instance Metadata API",
+        eid: "T1522",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--1c338d0f-a65e-4073-a5c1-c06878849f21",
+        name: "Process Hollowing",
+        eid: "T1093",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--1ce03c65-5946-4ac9-9d4d-66db87e024bd",
+        name: "Domain Fronting",
+        eid: "T1172",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--1df0326d-2fbc-4d08-a16b-48365f1e742d",
+        name: "SID-History Injection",
+        eid: "T1178",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--1f47e2fd-fa77-4f2f-88ee-e85df308f125",
+        name: "Port Monitors",
+        eid: "T1013",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--20138b9d-1aac-4a26-8654-a36b6bbf2bba",
+        name: "Spearphishing Link",
+        eid: "T1192",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--215190a9-9f02-4e83-bb5f-e0589965a302",
+        name: "Regsvcs/Regasm",
+        eid: "T1121",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--2169ba87-1146-4fc7-a118-12b72251db7e",
+        name: "Sudo Caching",
+        eid: "T1206",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--241814ae-de3f-4656-b49e-f9a80764d4b7",
+        name: "Security Software Discovery",
+        eid: "T1063",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--2715c335-1bf2-4efe-9f18-0691317ff83b",
+        name: "Securityd Memory",
+        eid: "T1167",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--27960489-4e7f-461d-a62a-f5c0cb521e4a",
+        name: "Application Access Token",
+        eid: "T1527",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--2892b9ee-ca9f-4723-b332-0dc6e843a8ae",
+        name: "Screensaver",
+        eid: "T1180",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--2ba5aa71-9d15-4b22-b726-56af06d9ad2f",
+        name: "Startup Items",
+        eid: "T1165",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--2e0dd10b-676d-4964-acd0-8a404c92b044",
+        name: "Disabling Security Tools",
+        eid: "T1089",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--2e114e45-2c50-404c-804a-3af9564d240e",
+        name: "Disk Structure Wipe",
+        eid: "T1487",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--2edd9d6a-5674-4326-a600-ba56de467286",
+        name: "Credentials in Registry",
+        eid: "T1214",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--317fefa6-46c7-4062-adb6-2008cf6bcb41",
+        name: "AppInit DLLs",
+        eid: "T1103",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--327f3cc5-eea1-42d4-a6cd-ed34b7ce8f61",
+        name: "Application Deployment Software",
+        eid: "T1017",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--36675cd3-fe00-454c-8516-aebecacbe9d9",
+        name: "Login Item",
+        eid: "T1162",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--39a130e1-6ab7-434a-8bd2-418e7d9d6427",
+        name: "Service Registry Permissions Weakness",
+        eid: "T1058",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--3b3cbbe0-6ed3-4334-b543-3ddfd8c5642d",
+        name: "Custom Cryptographic Protocol",
+        eid: "T1024",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--3b4121aa-fc8b-40c8-ac4f-afcb5838b72c",
+        name: "Revert Cloud Instance",
+        eid: "T1536",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--428ca9f8-0e33-442a-be87-f869cb4cf73e",
+        name: "Multilayer Encryption",
+        eid: "T1079",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--44dca04b-808d-46ca-b25f-d85236d4b9f8",
+        name: "Bash History",
+        eid: "T1139",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--4579d9c9-d5b9-45e0-9848-0104637b579f",
+        name: "Credentials from Web Browsers",
+        eid: "T1503",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--46944654-fcc1-4f63-9dad-628102376586",
+        name: "DLL Search Order Hijacking",
+        eid: "T1038",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--478aa214-2ca7-4ec0-9978-18798e514790",
+        name: "New Service",
+        eid: "T1050",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--4b74a1d4-b0e9-4ef1-93f1-14ecc6e2f5b5",
+        name: "Standard Cryptographic Protocol",
+        eid: "T1032",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--4bf5845d-a814-4490-bc5c-ccdee6043025",
+        name: "AppCert DLLs",
+        eid: "T1182",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--514ede4c-78b3-4d78-a38b-daddf6217a79",
+        name: "Winlogon Helper DLL",
+        eid: "T1004",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--519630c5-f03f-4882-825c-3af924935817",
+        name: "Binary Padding",
+        eid: "T1009",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--51dea151-0898-4a45-967c-3ebee0420484",
+        name: "Remote Desktop Protocol",
+        eid: "T1076",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--52d40641-c480-4ad5-81a3-c80ccaddf82d",
+        name: "Authentication Package",
+        eid: "T1131",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--52f3d5a6-8a0f-4f82-977e-750abf90d0b0",
+        name: "Extra Window Memory Injection",
+        eid: "T1181",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--53bfc8bf-8f76-4cd7-8958-49a884ddb3ee",
+        name: "Launchctl",
+        eid: "T1152",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--54456690-84de-4538-9101-643e26437e09",
+        name: "Domain Generation Algorithms",
+        eid: "T1483",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--56fca983-1cf1-4fd1-bda0-5e170a37ab59",
+        name: "File Deletion",
+        eid: "T1107",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--56ff457d-5e39-492b-974c-dfd2b8603ffe",
+        name: "Private Keys",
+        eid: "T1145",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--5ad95aaa-49c1-4784-821d-2e83f47b079b",
+        name: "AppleScript",
+        eid: "T1155",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--62166220-e498-410f-a90a-19d4339d4e99",
+        name: "Image File Execution Options Injection",
+        eid: "T1183",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--62b8c999-dcc0-4755-bd69-09442d9359f5",
+        name: "Rundll32",
+        eid: "T1085",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--62dfd1ca-52d5-483c-a84b-d6e80bf94b7b",
+        name: "Modify Existing Service",
+        eid: "T1031",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--66f73398-8394-4711-85e5-34c8540b22a5",
+        name: "Hooking",
+        eid: "T1179",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--6856ddd6-2df3-4379-8b87-284603c189c3",
+        name: "System Firmware",
+        eid: "T1019",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--68c96494-1a50-403e-8844-69a6af278c68",
+        name: "Change Default File Association",
+        eid: "T1042",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--68f7e3a1-f09f-4164-9a62-16b648a0dd5a",
+        name: "Regsvr32",
+        eid: "T1117",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--6a3be63a-64c5-4678-a036-03ff8fc35300",
+        name: "Re-opened Applications",
+        eid: "T1164",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--6a5848a8-6201-4a2c-8a6a-ca5af8c6f3df",
+        name: "Indicator Blocking",
+        eid: "T1054",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--6aac77c4-eaf2-4366-8c13-ce50ab951f38",
+        name: "Spearphishing Attachment",
+        eid: "T1193",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--6be14413-578e-46c1-8304-310762b3ecd5",
+        name: "Kernel Modules and Extensions",
+        eid: "T1215",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--6c174520-beea-43d9-aac6-28fb77f3e446",
+        name: "Security Support Provider",
+        eid: "T1101",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--6e6845c2-347a-4a6f-a2d1-b74a18ebd352",
+        name: "LSASS Driver",
+        eid: "T1177",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--6fb6408c-0db3-41d9-a3a1-a32e5f16454e",
+        name: "Gatekeeper Bypass",
+        eid: "T1144",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--6ff403bc-93e3-48be-8687-e102fdba8c88",
+        name: "Software Packing",
+        eid: "T1045",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--723e3a2b-ca0d-4daa-ada8-82ea35d3733a",
+        name: "PowerShell Profile",
+        eid: "T1504",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--72b5ef57-325c-411b-93ca-a3ca6fa17e31",
+        name: "SIP and Trust Provider Hijacking",
+        eid: "T1198",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--7c93aa74-4bc0-4a9e-90ea-f25f86301566",
+        name: "Application Shimming",
+        eid: "T1138",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--7d6f590f-544b-45b4-9a42-e0805f342af3",
+        name: "CMSTP",
+        eid: "T1191",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--7d751199-05fa-4a72-920f-85df4506c76c",
+        name: "Multi-hop Proxy",
+        eid: "T1188",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--8df54627-376c-487c-a09c-7d2b5620f56e",
+        name: "Control Panel Items",
+        eid: "T1196",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--91ce1ede-107f-4d8b-bf4c-735e8789c94b",
+        name: "Input Prompt",
+        eid: "T1141",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--9422fc14-1c43-410d-ab0f-a709b76c72dc",
+        name: "Registry Run Keys / Startup Folder",
+        eid: "T1060",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--970cdb5c-02fb-4c38-b17e-d6327cf3c810",
+        name: "Shortcut Modification",
+        eid: "T1023",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--9b52fca7-1a36-4da0-b62d-da5bd83b4d69",
+        name: "Component Object Model Hijacking",
+        eid: "T1122",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--9b99b83a-1aac-4e29-b975-b374950551a3",
+        name: "Accessibility Features",
+        eid: "T1015",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--9ddc2534-e91c-4dab-a8f6-43dab81e8142",
+        name: "Parent PID Spoofing",
+        eid: "T1502",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--9e09ddb2-1746-4448-9cad-7f8b41777d6d",
+        name: "Keychain",
+        eid: "T1142",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--9e80ddfb-ce32-4961-a778-ca6a10cfae72",
+        name: "Sudo",
+        eid: "T1169",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--a127c32c-cbb0-4f9d-be07-881a792408ec",
+        name: "Mshta",
+        eid: "T1170",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--a257ed11-ff3b-4216-8c9d-3938ef57064c",
+        name: "Pass the Ticket",
+        eid: "T1097",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--aa8bfbc9-78dc-41a4-a03b-7453e0fdccda",
+        name: "Dylib Hijacking",
+        eid: "T1157",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--b2001907-166b-4d71-bb3c-9d26c871de09",
+        name: "DLL Side-Loading",
+        eid: "T1073",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--b39d03cb-7b98-41c4-a878-c40c1a913dc0",
+        name: "Kerberoasting",
+        eid: "T1208",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--b53dbcc6-147d-48bb-9df4-bcb8bb808ff6",
+        name: "Trap",
+        eid: "T1154",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--b82f7d37-b826-4ec9-9391-8e121c78aed7",
+        name: "Disk Content Wipe",
+        eid: "T1488",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--b8c5c9dd-a662-479d-9428-ae745872537c",
+        name: "Password Filter DLL",
+        eid: "T1174",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--b9f5dbe2-4c55-4fc5-af2e-d42c1d182ec4",
+        name: "Data Compressed",
+        eid: "T1002",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--ba8e391f-14b5-496f-81f2-2d5ecd646c1c",
+        name: "Credentials in Files",
+        eid: "T1081",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--bb0e0cb5-f3e4-4118-a4cb-6bf13bfbc9f2",
+        name: "Netsh Helper DLL",
+        eid: "T1128",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--c0a384a4-9a25-40e1-97b6-458388474bc8",
+        name: "Local Job Scheduling",
+        eid: "T1168",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--c0df6533-30ee-4a4a-9c6d-17af5abdf0b2",
+        name: "Setuid and Setgid",
+        eid: "T1166",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--c16e5409-ee53-4d79-afdc-4099dc9292df",
+        name: "Web Shell",
+        eid: "T1100",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--c1a452f3-6499-4c12-b7e9-a6a0a102af76",
+        name: "Process Doppelgänging",
+        eid: "T1186",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--c1b11bf7-c68e-4fbf-a95b-28efbe7953bb",
+        name: "SSH Hijacking",
+        eid: "T1184",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--c23b740b-a42b-47a1-aec2-9d48ddd547ff",
+        name: "Pass the Hash",
+        eid: "T1075",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--c3bce4f4-9795-46c6-976e-8676300bbc39",
+        name: "Windows Remote Management",
+        eid: "T1028",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--c5e31fb5-fcbd-48a4-af8c-5a6ed5b932e5",
+        name: "Web Session Cookie",
+        eid: "T1506",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--c848fcf7-6b62-4bde-8216-b6c157d48da0",
+        name: "Uncommonly Used Port",
+        eid: "T1065",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--ca1a3f50-5ebd-41f8-8320-2c7d6a6e88be",
+        name: "Bypass User Account Control",
+        eid: "T1088",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--ca205a36-c1ad-488b-aa6c-ab34bdd3a36b",
+        name: "Runtime Data Manipulation",
+        eid: "T1494",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--cc1e737c-236c-4e3b-83ba-32039a626ef8",
+        name: "Transmitted Data Manipulation",
+        eid: "T1493",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--ce73ea43-8e77-47ba-9c11-5e9c9c58b9ff",
+        name: "Hidden Users",
+        eid: "T1147",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--cf7b3a06-8b42-4c33-bbe9-012120027925",
+        name: "Compile After Delivery",
+        eid: "T1500",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--d21a2069-23d5-4043-ad6d-64f6b644cb1a",
+        name: "Compiled HTML File",
+        eid: "T1223",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--d3046a90-580c-4004-8208-66915bc29830",
+        name: "Clear Command History",
+        eid: "T1146",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--d376668f-b208-42de-b1f5-fdfe0ad4b753",
+        name: "Emond",
+        eid: "T1519",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--d3df754e-997b-4cf9-97d4-70feb3120847",
+        name: "Spearphishing via Service",
+        eid: "T1194",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--d519cfd5-f3a8-43a9-a846-ed0bb40672b1",
+        name: "Install Root Certificate",
+        eid: "T1130",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--d54416bd-0803-41ca-870a-ce1af7c05638",
+        name: "Data Encrypted",
+        eid: "T1022",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--dc27c2ec-c5f9-4228-ba57-d67b590bda93",
+        name: "Hidden Files and Directories",
+        eid: "T1158",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--dce31a00-1e90-4655-b0f9-e2e71a748a87",
+        name: "Time Providers",
+        eid: "T1209",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--dd901512-6e37-4155-943b-453e3777b125",
+        name: "Launch Agent",
+        eid: "T1159",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--e2907cea-4b43-4ed7-a570-0fdf0fbeea00",
+        name: "Space after Filename",
+        eid: "T1151",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--e7eab98d-ae11-4491-bd28-a53ba875865a",
+        name: "Network Share Connection Removal",
+        eid: "T1126",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--e906ae4d-1d3a-4675-be23-22f7311c0da4",
+        name: "Windows Management Instrumentation Event Subscription",
+        eid: "T1084",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--e99ec083-abdd-48de-ad87-4dbf6f8ba2a4",
+        name: "Launch Daemon",
+        eid: "T1160",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--edbe24e9-aec4-4994-ac75-6a6bc7f1ddd0",
+        name: "Dynamic Data Exchange",
+        eid: "T1173",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--f2d44246-91f1-478a-b6c8-1227e0ca109d",
+        name: "NTFS File Attributes",
+        eid: "T1096",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--f44731de-ea9f-406d-9b83-30ecbb9b4392",
+        name: "Service Execution",
+        eid: "T1035",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--f4882e23-8aa7-4b12-b28a-b349c12ee9e0",
+        name: "PowerShell",
+        eid: "T1086",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--f72eb8a8-cd4c-461d-a814-3f862befbf00",
+        name: "Custom Command and Control Protocol",
+        eid: "T1094",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--f792d02f-813d-402b-86a5-ab98cb391d3b",
+        name: "InstallUtil",
+        eid: "T1118",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+    EnterpriseRevokedItem {
+        id: "attack-pattern--ffe742ed-9100-4686-9e00-c331da544787",
+        name: "Windows Admin Shares",
+        eid: "T1077",
+        is_revoked: true,
+        new_id: "",
+        new_name: "",
+        new_eid: "",
+    },
+]
+
+	[ INFO ] New File Created: /Users/cdiaz/.mitre-assistant/baselines/baseline-enterprise.json
+
+

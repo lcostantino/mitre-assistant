@@ -22,7 +22,7 @@ use enterprise::{
     EnterpriseMatrixStatistics, EnterpriseProfileEntry, EnterpriseRelationship,
     EnterpriseRelationships, EnterpriseSubtechniquesByPlatform, EnterpriseTechnique,
     EnterpriseTechniquesByPlatform, EnterpriseTechniquesByTactic, EnterpriseTool,
-    EnterpriseToolProfile,
+    EnterpriseToolProfile, EnterpriseRevokedItem
 };
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -34,6 +34,8 @@ pub struct EnterpriseMatrixBreakdown {
     pub platforms: HashSet<String>,
     pub datasources: Vec<String>,
     pub revoked_techniques: HashSet<(String, String)>,
+    pub enterprise_revoked_techniques: Vec<EnterpriseRevokedItem>,
+    
     pub deprecated_techniques: HashSet<(String, String)>,
     pub breakdown_adversaries: Vec<EnterpriseAdversary>,
     pub breakdown_malware: Vec<EnterpriseMalware>,
@@ -56,6 +58,7 @@ impl EnterpriseMatrixBreakdown {
             platforms: HashSet::new(),
             datasources: Vec::new(),
             revoked_techniques: HashSet::new(),
+            enterprise_revoked_techniques: vec![],
             deprecated_techniques: HashSet::new(),
             breakdown_adversaries: vec![],
             breakdown_malware: vec![],
@@ -72,16 +75,20 @@ impl EnterpriseMatrixBreakdown {
 }
 #[derive(Debug, Deserialize, Serialize)]
 pub struct EnterpriseMatrixParser {
+    pub matrix_type: String,
     pub techniques: HashSet<String>,
     pub subtechniques: HashSet<String>,
+    pub new_revoked_techniques: Vec<EnterpriseRevokedItem>,
     pub relationships: EnterpriseRelationships,
     pub details: EnterpriseMatrixBreakdown,
 }
 impl EnterpriseMatrixParser {
     pub fn new() -> EnterpriseMatrixParser {
         EnterpriseMatrixParser {
+            matrix_type: "none".to_string(),
             techniques: HashSet::new(),
             subtechniques: HashSet::new(),
+            new_revoked_techniques: vec![],
             relationships: EnterpriseRelationships::new(),
             details: EnterpriseMatrixBreakdown::new(),
         }
@@ -89,7 +96,7 @@ impl EnterpriseMatrixParser {
     pub fn baseline(&mut self, matrix_type: &str) -> Result<(), Box<dyn std::error::Error>> {
         if FileHandler::check_for_config_folder().unwrap() {
             match matrix_type {
-                "enterprise" => self.baseline_enterprise()?,
+                "enterprise" | "enterprise-legacy" => self.baseline_enterprise()?,
                 _ => (),
             }
         }
@@ -105,7 +112,16 @@ impl EnterpriseMatrixParser {
     /// self.baseline_enterprise()?
     /// ```
     fn baseline_enterprise(&mut self) -> Result<(), Box<dyn std::error::Error>> {
-        let _bufr = FileHandler::load_resource("matrixes", "enterprise.json");
+        
+        let _target_matrix = match self.matrix_type.as_str() {
+            "enterprise-legacy" => "enterprise-legacy.json",
+            "enterprise" => "enterprise.json",
+            _ => "None"
+        };
+        if _target_matrix == "None" {
+            return Ok(());
+        }
+        let _bufr = FileHandler::load_resource("matrixes", _target_matrix);
         let _json: serde_json::Value = serde_json::from_reader(_bufr).unwrap();
         let _scanner = PatternManager::load_subtechnique();
         let mut _is_subtechnique = false;
@@ -154,6 +170,8 @@ impl EnterpriseMatrixParser {
         */
         // Now Correlate Relationships
         self.correlate_relationships();
+        println!("{:#?}", self.relationships.old_to_new_techniques);
+        //println!("{:#?}", self.new_revoked_techniques);
         Ok(())
     }
     /// # Extract Revoked Techniques
@@ -165,6 +183,7 @@ impl EnterpriseMatrixParser {
         items: &serde_json::Value,
     ) -> Result<(), Box<dyn std::error::Error>> {
         if items["revoked"].as_bool().unwrap() {
+            let mut _revoked: EnterpriseRevokedItem = EnterpriseRevokedItem::new();
             let _tid = items["external_references"]
                 .as_array()
                 .expect("Problem With External References");
@@ -172,6 +191,11 @@ impl EnterpriseMatrixParser {
                 .as_str()
                 .expect("Problem With External ID");
             let _tname = items["name"].as_str().expect("Problem With Technique Name");
+            
+            _revoked.id   = items["id"].as_str().unwrap().to_string();
+            _revoked.name = _tname.to_string();
+            _revoked.eid  = _tid.to_string();
+            self.new_revoked_techniques.push(_revoked);
             self.details
                 .revoked_techniques
                 .insert((_tid.to_string(), _tname.to_string()));
@@ -179,7 +203,8 @@ impl EnterpriseMatrixParser {
         } else {
             self.extract_techniques_and_tactics(items, false);
         }
-
+        self.new_revoked_techniques.sort();
+        self.new_revoked_techniques.dedup();
         Ok(())
     }
     fn extract_deprecated_techniques(
@@ -362,7 +387,11 @@ impl EnterpriseMatrixParser {
         serde_json::to_string_pretty(&self.details).unwrap()
     }
     pub fn save_baseline(&self) {
-        FileHandler::write_baseline("baseline-enterprise.json", &self.to_string());
+        if self.matrix_type == "enterprise-legacy" {
+            FileHandler::write_baseline("baseline-enterprise-legacy.json", &self.to_string());
+        } else if self.matrix_type == "enterprise" {
+            FileHandler::write_baseline("baseline-enterprise.json", &self.to_string());
+        }
     }
     /// # **Stats Functions**
     /// The functions in this code section baseline specific queries to offer
@@ -905,10 +934,55 @@ impl EnterpriseMatrixParser {
             else if _er.source.starts_with("tool") && _er.target.starts_with("attack-pattern") {
                 self.relationships.tool_to_techniques.insert(_er);
             }
+        } else if _relationship["relationship_type"] == "revoked-by" {
+            _er.relation_type = "revoked-by".to_string();
+            if _er.source.starts_with("attack-pattern") && _er.target.starts_with("attack-pattern") {
+                //println!("Source: {} | Target: {}", _er.source, _er.target);
+                self.relationships.old_to_new_techniques.insert(_er);
+            }
         }
         Ok(())
     }
     fn correlate_relationships(&mut self) {
+        // Revoked Techniques to New Techniques
+        let mut _count: usize = 0;
+        for _relation in self.relationships.old_to_new_techniques.iter() {
+            for _revoked_item in self.enterprise_revoked_techniques.iter_mut() {
+                if _relation.source.as_str() == _revoked_item.id.as_str() {
+                    for _technique in self.details.breakdown_techniques.platforms.iter() {
+                        if _relation.target.as_str() == _technique.id.as_str() {
+                            _count += 1;
+                            println!("{}\t| {} | {}", _count, _revoked_item.eid, _technique.tid);
+                        }
+                    }
+                }
+            }
+        }
+        /*
+        for _technique in self.details.breakdown_techniques.platforms.iter() {
+            for _replacement in self.relationships.old_to_new_techniques.iter() {
+                if _technique.id == _replacement.target {
+                    println!("OLD: {} | NEW {}", _technique.id, _replacement.target);
+                    for _revoked_item in self.new_revoked_techniques.iter_mut() {
+                        if _replacement.source == _revoked_item.id {
+                            let mut _revoked = EnterpriseRevokedItem::new();
+                            _revoked.id = _revoked_item.id.clone();
+                            _revoked.name = _revoked_item.name.clone();
+                            _revoked.eid = _revoked_item.eid.clone();
+                            _revoked.new_id = _technique.id.clone();
+                            _revoked.new_eid = _technique.tid.clone();
+                            _revoked.new_name = _technique.technique.clone();
+                            self.details.enterprise_revoked_techniques.push(_revoked);
+                        }
+                    }
+                }
+            }
+        }
+        
+        self.details.enterprise_revoked_techniques.sort();
+        self.details.enterprise_revoked_techniques.dedup();
+        self.details.enterprise_revoked_techniques.sort();
+        */
         // Adversaries to Malware
         for _adversary in self.details.breakdown_adversaries.iter_mut() {
             // Correlate Adversary to Malware

@@ -58,7 +58,7 @@ impl ArgumentsParser<'_> {
                                                 .long("matrix")
                                                 .value_name("matrix_name")
                                                 .takes_value(true)
-                                                .help("Load a Matrix From ATT&CK: (Enterprise|Mobile|Pre-Attack)")
+                                                .help("Load a Matrix From ATT&CK: (Enterprise|Enterprise-Legacy|Mobile|Pre-Attack)")
                                         )
                         )
                         .subcommand(
@@ -158,6 +158,7 @@ impl ArgumentsParser<'_> {
             let _wc = WebClient::new();
             let _mx = match _matrix {
                 "enterprise" => _wc.download("enterprise")?,
+                "enterprise-legacy" => _wc.download("enterprise-legacy")?,
                 "pre-attack" => _wc.download("pre-attack")?,
                 "mobile" => _wc.download("mobile")?,
                 _ => "None".to_string()
@@ -174,6 +175,8 @@ impl ArgumentsParser<'_> {
         };
         if _matrix != "None" {
             let mut _emp = EnterpriseMatrixParser::new();
+            _emp.matrix_type = _matrix.to_string();
+            println!("Matrix Type For Baseline: {}", _matrix);
             _emp.baseline(_matrix)?;
             _emp.save_baseline();
         }

@@ -27,6 +27,7 @@ impl WebClient {
         WebClient {
             source_urls: &[
                 ("enterprise-attack", "https://raw.githubusercontent.com/mitre/cti/master/enterprise-attack/enterprise-attack.json"),
+                ("enterprise-legacy", "https://raw.githubusercontent.com/mitre/cti/7c7f7fdd93a8fb424afd7e274790d7edae918614/enterprise-attack/enterprise-attack.json"),
                 ("mobile-attack", "https://raw.githubusercontent.com/mitre/cti/master/mobile-attack/mobile-attack.json"),
                 ("pre-attack", "https://raw.githubusercontent.com/mitre/cti/master/pre-attack/pre-attack.json")
             ]
@@ -45,8 +46,9 @@ impl WebClient {
     {
         let _url = match matrix_type {
             "enterprise" => self.source_urls[0].1,
-            "mobile" => self.source_urls[1].1,
-            "pre-attack" => self.source_urls[2].1,
+            "enterprise-legacy" => self.source_urls[1].1,
+            "mobile" => self.source_urls[2].1,
+            "pre-attack" => self.source_urls[3].1,
             _ => "None"
         };
         let _dashes = "=".repeat(_url.len());
