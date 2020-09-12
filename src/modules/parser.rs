@@ -170,7 +170,7 @@ impl EnterpriseMatrixParser {
         */
         // Now Correlate Relationships
         self.correlate_relationships();
-        println!("{:#?}", self.relationships.old_to_new_techniques);
+        //println!("{:#?}", self.relationships.old_to_new_techniques);
         //println!("{:#?}", self.new_revoked_techniques);
         Ok(())
     }
@@ -946,18 +946,51 @@ impl EnterpriseMatrixParser {
     fn correlate_relationships(&mut self) {
         // Revoked Techniques to New Techniques
         let mut _count: usize = 0;
-        for _relation in self.relationships.old_to_new_techniques.iter() {
-            for _revoked_item in self.enterprise_revoked_techniques.iter_mut() {
-                if _relation.source.as_str() == _revoked_item.id.as_str() {
-                    for _technique in self.details.breakdown_techniques.platforms.iter() {
-                        if _relation.target.as_str() == _technique.id.as_str() {
-                            _count += 1;
-                            println!("{}\t| {} | {}", _count, _revoked_item.eid, _technique.tid);
+        for _relationship in self.relationships.old_to_new_techniques.iter() {
+
+            for _t in self.details.breakdown_techniques.platforms.iter() {
+                if _relationship.target.as_str() == _t.id.as_str() {
+                    //_count += 1;
+                    //println!("{}\t|{}|{}|{}", _count, _relationship.source, _relationship.target, _t.tid);
+                    for _revoked in self.new_revoked_techniques.iter_mut() {
+                        if _relationship.source.as_str() == _revoked.id.as_str() {
+                            let mut _eri = EnterpriseRevokedItem::new();
+                            _eri.id = _relationship.source.clone();
+                            _eri.eid = _revoked.eid.clone();
+                            _eri.name = _revoked.name.clone();
+                            _eri.new_id = _relationship.target.clone();
+                            _eri.new_eid = _t.tid.clone();
+                            _eri.new_name = _t.technique.clone();
+                            self.details.enterprise_revoked_techniques.push(_eri);
                         }
                     }
                 }
             }
         }
+        for _relationship in self.relationships.old_to_new_techniques.iter() {
+
+            for _t in self.details.breakdown_subtechniques.platforms.iter() {
+                if _relationship.target.as_str() == _t.id.as_str() {
+                    //_count += 1;
+                    //println!("{}\t|{}|{}|{}", _count, _relationship.source, _relationship.target, _t.tid);
+                    for _revoked in self.new_revoked_techniques.iter_mut() {
+                        if _relationship.source.as_str() == _revoked.id.as_str() {
+                            let mut _eri = EnterpriseRevokedItem::new();
+                            _eri.id = _relationship.source.clone();
+                            _eri.eid = _revoked.eid.clone();
+                            _eri.name = _revoked.name.clone();
+                            _eri.new_id = _relationship.target.clone();
+                            _eri.new_eid = _t.tid.clone();
+                            _eri.new_name = _t.technique.clone();
+                            self.details.enterprise_revoked_techniques.push(_eri);
+                        }
+                    }                    
+                }
+            }
+        }
+        self.details.enterprise_revoked_techniques.sort();
+        self.details.enterprise_revoked_techniques.dedup();
+        self.details.enterprise_revoked_techniques.sort();
         /*
         for _technique in self.details.breakdown_techniques.platforms.iter() {
             for _replacement in self.relationships.old_to_new_techniques.iter() {
