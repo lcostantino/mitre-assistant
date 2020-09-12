@@ -11,6 +11,7 @@ use parser::EnterpriseMatrixBreakdown;
 mod enterprise;
 use enterprise::{
     EnterpriseAdversary, EnterpriseMalware, EnterpriseMatrixStatistics, EnterpriseTool, EnterpriseTechnique,
+    EnterpriseRevokedItem, EnterpriseRevokedTechniques
 };
 
 #[path = "../structs/navigator.rs"]
@@ -967,11 +968,11 @@ impl EnterpriseMatrixSearcher {
             }
             // Check & Get From Revoked Techniques
             let mut _results = vec![];
-            for _revoked in _json.revoked_techniques.iter() {
-                if _revoked.0.to_lowercase().as_str() == technique_id.to_lowercase().as_str() {
+            for _revoked in _json.enterprise_revoked_techniques.items.iter() {
+                if _revoked.eid.to_lowercase().as_str() == technique_id.to_lowercase().as_str() {
                     let mut _et = EnterpriseTechnique::new();
-                    _et.tid = _revoked.0.clone();
-                    _et.technique = _revoked.1.clone();
+                    _et.tid = _revoked.eid.clone();
+                    _et.technique = _revoked.name.clone();
                     _et.is_revoked = true;
                     _results.push(_et);
                 }
@@ -1024,10 +1025,11 @@ impl EnterpriseMatrixSearcher {
     /// ```ignore
     /// self.search_revoked();
     /// ```
-    fn search_revoked(&self) -> String {
+    fn search_revoked(&self) -> String
+    {
         let mut _results = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
-        for _item in _json.revoked_techniques.iter() {
+        for _item in _json.enterprise_revoked_techniques.items.iter() {
             _results.push(_item);
         }
         serde_json::to_string_pretty(&_results)
@@ -1776,6 +1778,8 @@ impl EnterpriseMatrixSearcher {
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_csv_table);
+        } else if _wants_export == "json" {
+            println!("{}", serde_json::to_string(results.as_slice()).unwrap());
         } else {
             println!("{}", "\n\n");
             _table.printstd();
@@ -1791,30 +1795,41 @@ impl EnterpriseMatrixSearcher {
         let mut _table = Table::new();
         _table.add_row(Row::new(vec![
             Cell::new("INDEX").style_spec("FW"),
-            Cell::new("STATUS").style_spec("FR"),
-            Cell::new("TID").style_spec("FR"),
-            Cell::new("TECHNIQUE"),
+            Cell::new("STATUS").style_spec("cFW"),
+            Cell::new("OLD TID").style_spec("cFW"),
+            Cell::new("TECHNIQUE").style_spec("cFW"),
+            Cell::new("NEW TID").style_spec("cFG"),
+            Cell::new("TECHNIQUE").style_spec("cFW")
         ]));
         let mut _idx: usize = 0;
         for _item in results.iter() {
-            let mut _json: Vec<(&str, &str)> = serde_json::from_str(_item.as_str())
+            let mut _json: Vec<EnterpriseRevokedItem> = serde_json::from_str(_item.as_str())
                 .expect("(?) Error:  Render Table Deserialization For Revoked");
             _json.sort();
-            for (_tid, _technique) in _json.iter() {
-                _table.add_row(Row::new(vec![
-                    Cell::new((_idx + 1).to_string().as_str()),
-                    Cell::new("Revoked"),
-                    Cell::new(_tid).style_spec("FR"),
-                    Cell::new(_technique).style_spec("FW"),
-                ]));
+            for _item in _json.iter() {
+                _table.add_row(
+                    Row::new(vec![
+                        Cell::new((_idx + 1).to_string().as_str()),
+                        Cell::new("Revoked").style_spec("FR"),
+                        Cell::new(_item.eid.as_str()).style_spec("cFW"),
+                        Cell::new(_item.name.as_str()).style_spec("FW"),
+                        Cell::new(_item.new_eid.as_str()).style_spec("cFG"),
+                        Cell::new(_item.new_name.as_str()).style_spec("FW")
+                    ])
+                );
                 _idx += 1;
             }
         }
-        println!("{}", "\n\n");
-        _table.printstd();
-        println!("{}", "\n\n");
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
+        }
+        else if _wants_export == "json" {
+            println!("{}", results[0]);
+        } 
+        else {
+            println!("{}", "\n\n");
+            _table.printstd();
+            println!("{}", "\n\n");
         }
     }
     fn render_deprecated_table(
@@ -1847,7 +1862,11 @@ impl EnterpriseMatrixSearcher {
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
-        } else {
+        }
+        else if _wants_export == "json" {
+            println!("{}", results[0]);
+        }
+        else {
             println!("{}", "\n\n");
             _table.printstd();
             println!("{}", "\n\n");
@@ -1956,7 +1975,8 @@ impl EnterpriseMatrixSearcher {
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
-        } else {
+        } 
+        else {
             println!("{}", "\n\n");
             _table.printstd();
             println!("{}", "\n\n");

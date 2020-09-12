@@ -287,7 +287,27 @@ impl EnterpriseTechnique {
         self.count_subtechniques = self.subtechniques.len();
     }
 }
-
+#[derive(Debug, Deserialize, Serialize)]
+pub struct EnterpriseRevokedTechniques {
+    pub count: usize,
+    pub items: Vec<EnterpriseRevokedItem>
+}
+impl EnterpriseRevokedTechniques {
+    pub fn new() -> Self
+    {
+        EnterpriseRevokedTechniques {
+            count: 0,
+            items: vec![]
+        }
+    }
+    pub fn update(&mut self)
+    {
+        self.items.sort();
+        self.items.dedup();
+        self.items.sort();
+        self.count = self.items.len();
+    }
+}
 #[derive(Debug, Deserialize, Serialize, Eq, PartialEq, Ord, PartialOrd)]
 pub struct EnterpriseRevokedItem {
     pub id:         String,
