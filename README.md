@@ -11,6 +11,16 @@ A custom, more useful, and much cooler MITRE-CTI-CLIENT.
 
 <br/>
 
+<div align="center">
+    <h3>Legacy V6 CTI Support</h3>
+<div>
+
+<br/>
+
+![image](https://user-images.githubusercontent.com/11415591/93018273-839c8e00-f59c-11ea-9ee0-2490b870fbf0.png)
+
+<br/>
+
 ```bash
 # Assumes you have installed the rust tool chain
 # and that you have the `cargo` package manager
