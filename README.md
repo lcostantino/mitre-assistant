@@ -11,9 +11,7 @@ A custom, more useful, and much cooler MITRE-CTI-CLIENT.
 
 <br/>
 
-<div align="center">
-    <h3>Legacy V6 CTI Support</h3>
-<div>
+### Support For V6 CTI - Legacy
 
 <br/>
 
