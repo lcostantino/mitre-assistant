@@ -19,14 +19,6 @@ A custom, more useful, and much cooler MITRE-CTI-CLIENT.
 
 <br/>
 
-```bash
-# Assumes you have installed the rust tool chain
-# and that you have the `cargo` package manager
-#
-# Preferably use rust stable channel
-#
-$> cargo install mitre-assistant
-```
 <br/>
 
 <br/>
@@ -35,6 +27,7 @@ $> cargo install mitre-assistant
 
 ## W.I.P - Status
 - [x] Mitre Enterprise Matrix
+    - [x] V6 CTI Legacy Support
 - [ ] Mitre Mobile Matrix
 - [ ] Mitre Pre-Attack Matrix
 - [ ] Mitre Navigator JSON
