@@ -16,7 +16,7 @@ mod regexes;
 use regexes::PatternManager;
 
 #[path = "../structs/enterprise.rs"]
-mod enterprise;
+pub mod enterprise;
 use enterprise::{
     EnterpriseAdversary, EnterpriseAdversaryProfile, EnterpriseMalware, EnterpriseMalwareProfile,
     EnterpriseMatrixStatistics, EnterpriseProfileEntry, EnterpriseRelationship,

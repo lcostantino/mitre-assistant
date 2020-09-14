@@ -20,8 +20,6 @@ use navigator::{
     V2Navigator
 };
 
-
-
 #[path = "../utils/fshandler.rs"]
 mod fshandler;
 use fshandler::FileHandler;
@@ -49,7 +47,13 @@ impl EnterpriseMatrixSearcher {
         }
     }
     pub fn save_csv_export(&self, _wants_outfile: &str, _table: &Table) {
-        let _fp = FileHandler::open(_wants_outfile, "crw");
+        let mut _outfile: &str = "";
+        if _wants_outfile == "None" {
+            _outfile = "mitre-assistant.csv";
+        } else {
+            _outfile = _wants_outfile;
+        }
+        let _fp = FileHandler::open(_outfile, "crw");
         _table
             .to_csv(_fp.handle)
             .expect("(?) Error: Unable to Save CSV Output File");
@@ -60,6 +64,7 @@ impl EnterpriseMatrixSearcher {
         _wants_subtechniques: bool,
         _wants_export: &str,
         _wants_outfile: &str,
+        _wants_correlation: bool
     ) {
         let search_term = search_term.trim_end();
         let mut _results: Vec<String> = vec![];
@@ -230,7 +235,7 @@ impl EnterpriseMatrixSearcher {
                 } else if _pattern == &37usize {
                     _results.push(self.search_by_datasource(_term, _wants_subtechniques, _matches_many.clone()));
                 } else if _pattern == &38usize {
-                    _results.push(self.search_by_adversary(_term, _matches_many.clone()));
+                    _results.push(self.search_by_adversary(_term, _matches_many.clone(), _wants_correlation));
                 } else if _pattern == &39usize {
                     _results.push(self.search_by_malware(_term, _matches_many.clone()));
                 } else if _pattern == &40usize {
@@ -256,7 +261,7 @@ impl EnterpriseMatrixSearcher {
             //              the renderer functions.
             //
             if _wants_adversary || _wants_all_adversaries {
-                self.render_adversaries_table(&_results, _wants_export, _wants_outfile);
+                self.render_adversaries_table(&_results, _wants_export, _wants_outfile, _wants_correlation);
             } else if _wants_malware || _wants_all_malware {
                 self.render_malware_table(&_results, _wants_export, _wants_outfile);
             } else if _wants_tool || _wants_all_tools {
@@ -286,7 +291,7 @@ impl EnterpriseMatrixSearcher {
                     _wants_outfile,
                 );
             } else {
-                self._render_techniques_table(&_results, _wants_export, _wants_outfile);
+                self.render_techniques_table(&_results, _wants_export, _wants_outfile);
             }
         } else {
             println!(
@@ -311,8 +316,138 @@ impl EnterpriseMatrixSearcher {
     /// All of the functions are **private functions** that are not exposed to the end-user.  They are only accessible
     /// from the module itself, and specifically, when invoked by the `self.search()` method.
     ///
-    fn search_by_adversary(&self, adversary: &str, many: Vec<usize>) -> String {
-        let mut _results = vec![];
+    ///
+    ///
+    ///
+    ///
+    fn correlate_adversary(
+        &self,
+        target: &str,
+        _results: &mut Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique>
+    )
+    {
+        let _err = format!(
+            "(?) Error: Unable To Deserialize Correlation String of All Techniques by: {}",
+            target
+        );
+        let mut _temp_holder: Vec<(String, String, String, String)>;
+        let mut _temp_results: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique>;
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..])
+                                                          .expect(_err.as_str());
+
+        for _item in _json.breakdown_adversaries {
+            if _item.name.to_lowercase().as_str() == target {
+                for _x in _item.profile.techniques.items.iter() {
+                    for _technique in _json.breakdown_techniques.platforms.iter() {
+                        if _technique.tid.as_str() == _x {
+                            let mut _et = _technique.clone();
+                            _et.correlation_adversary = _item.name.clone();
+                            for _malware in &_json.breakdown_malware {
+                                for _mt in _malware.profile.adversaries.items.iter() {
+                                    if _mt.as_str() == target {
+                                        for _behavior in _malware.profile.techniques.items.iter() {
+                                            if _technique.tid.as_str() == _behavior.as_str() {
+                                                _et.correlation_malware = _malware.name.clone();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            _temp_holder.push((
+                                _et.tactic.clone(),
+                                _et.tid.clone()
+                                _et.technique.clone(),
+                                _et.correlation_malware.clone()
+                            ));
+                            _temp_results.push(_et);
+                        }
+                    }
+                }
+                for _x in _item.profile.subtechniques.items.iter() {
+                    for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
+                        if _subtechnique.tid.as_str() == _x {
+                            let mut _et = _subtechnique.clone();
+                            _et.correlation_adversary = _item.name.clone();
+                            for _malware in &_json.breakdown_malware {
+                                for _mt in _malware.profile.adversaries.items.iter() {
+                                    if _mt.as_str() == target {
+                                        for _behavior in _malware.profile.techniques.items.iter() {
+                                            if _subtechnique.tid.as_str() == _behavior.as_str() {
+                                                _et.correlation_malware = _malware.name.clone();
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            _temp_holder.push((
+                                _et.tactic.clone(),
+                                _et.tid.clone()
+                                _et.technique.clone(),
+                                _et.correlation_malware.clone()
+                            ));
+                            _temp_results.push(_et);
+                        }
+                    }
+                }
+            }
+        }
+        // Now go get the techniques from Every Malware
+        // Where the actor is cited
+
+        for _malware in &_json.breakdown_malware {
+            for _ma in _malware.profile.adversaries.items.iter() {
+                if target == _ma.as_str() {
+                    for _mt in _malware.profile.techniques.items.iter() {
+                        for _technique in _json.breakdown_techniques.platforms.iter() {
+                            if _technique.tid.as_str() == _mt.as_str() {
+                                let mut _et = _technique.clone();
+                                _et.correlation_adversary = target.to_string();
+                                _et.correlation_malware = _malware.name.clone();
+                                _temp_holder.push((
+                                    _et.tactic.clone(),
+                                    _et.tid.clone()
+                                    _et.technique.clone(),
+                                    _et.correlation_malware.clone()
+                                ));
+                                _temp_results.push(_et);
+                            }
+                        }
+                        for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
+                            if _subtechnique.tid.as_str() == _mt.as_str() {
+                                let mut _et = _subtechnique.clone();
+                                _et.correlation_adversary = target.to_string();
+                                _et.correlation_malware = _malware.name.clone();
+                                _temp_holder.push((
+                                    _et.tactic.clone(),
+                                    _et.tid.clone()
+                                    _et.technique.clone(),
+                                    _et.correlation_malware.clone()
+                                ));
+                                _temp_results.push(_et);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        _temp_holder.sort();
+        _temp_holder.dedup();
+        _temp_holder.sort();
+        _temp_results.sort();
+        _temp_results.dedup();
+        _temp_results.sort();
+        println!("Holder {}:{} Results", _temp_holder.len(), _temp_results.len());
+        // Now finalize the output results
+
+    }
+    fn search_by_adversary(
+        &self, 
+        adversary: &str,
+        many: Vec<usize>,
+        _wants_correlation: bool
+    ) -> String {
+        let mut _results_correlation: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
+        let mut _results_adversaries: Vec<_> = vec![];
         let adversary = adversary.to_lowercase();
         let adversary = adversary.as_str();
         let _err = format!(
@@ -322,9 +457,13 @@ impl EnterpriseMatrixSearcher {
         let _json: EnterpriseMatrixBreakdown =
             serde_json::from_slice(&self.content[..]).expect(_err.as_str());
         if many.len() == 1 {
-            for _item in _json.breakdown_adversaries.iter() {
-                if _item.name.to_lowercase().as_str() == adversary {
-                    _results.push(_item);
+            if _wants_correlation {
+                self.correlate_adversary(adversary, &mut _results_correlation);
+            } else {
+                for _item in _json.breakdown_adversaries.iter() {
+                    if _item.name.to_lowercase().as_str() == adversary {
+                        _results_adversaries.push(_item);
+                    }
                 }
             }
         } else if many.len() > 1 {
@@ -333,18 +472,26 @@ impl EnterpriseMatrixSearcher {
                 for _term in _terms {
                     for _item in _json.breakdown_adversaries.iter() {
                         if _item.name.to_lowercase().as_str() == _term {
-                            _results.push(_item);
+                            if _wants_correlation {
+                                self.correlate_adversary(_term, &mut _results_correlation);
+                            } else {
+                                _results_adversaries.push(_item);
+                            }
                         }
                     }
                 }
             }
         }
-        //println!("{}", serde_json::to_string_pretty(&_results).unwrap());
         let _err = format!(
             "(?) Error: Unable To Convert String of All Techniques by Adversary: {}",
             adversary
         );
-        serde_json::to_string(&_results).expect(_err.as_str())
+
+        if _wants_correlation {
+            serde_json::to_string(&_results_correlation).expect(_err.as_str())
+        } else {
+            serde_json::to_string(&_results_adversaries).expect(_err.as_str())
+        }
     }
     ///
     ///
@@ -378,7 +525,6 @@ impl EnterpriseMatrixSearcher {
                 }
             }
         }
-        //println!("{}", serde_json::to_string_pretty(&_results).unwrap());
         let _err = format!(
             "(?) Error: Unable To Convert String of All Techniques by malware: {}",
             malware
@@ -1475,147 +1621,244 @@ impl EnterpriseMatrixSearcher {
         results: &Vec<String>,
         _wants_export: &str,
         _wants_outfile: &str,
+        _wants_correlation: bool
     ) {
         let mut _table = Table::new();
         let mut _csv_table = Table::new();
-        let _table_headers: Row = Row::new(vec![
-            Cell::new("INDEX").style_spec("c"),
-            Cell::new("STATUS").style_spec("c"),
-            Cell::new("GID").style_spec("cFW"),
-            Cell::new("ADVERSARIES").style_spec("cFW"),
-            Cell::new("ALIASES").style_spec("c"),
-            Cell::new("TACTICS").style_spec("c"),
-            Cell::new("TECHNIQUES").style_spec("cFG"),
-            Cell::new("SUBTECHNIQUES").style_spec("cFW"),
-            Cell::new("MALWARE").style_spec("c"),
-            Cell::new("TOOLS").style_spec("c"),
-        ]);
+        let mut _table_headers: Row;
+        if _wants_correlation {
+            _table_headers = Row::new(vec![
+                Cell::new("INDEX").style_spec("c"),
+                Cell::new("STATUS").style_spec("c"),
+                //Cell::new("GID").style_spec("cFW"),
+                Cell::new("ADVERSARY").style_spec("cFW"),
+                //Cell::new("ALIASES").style_spec("c"),
+                Cell::new("PLATFORMS"),
+                Cell::new("TACTIC").style_spec("c"),
+                Cell::new("TID").style_spec("cFG"),
+                Cell::new("TECHNIQUE").style_spec("cFG"),
+                Cell::new("SUBTECHNIQUES").style_spec("cFW"),
+                Cell::new("DATA SOURCES").style_spec("c"),
+                Cell::new("MALWARE").style_spec("FY"),
+            ]);
+        } else {
+            _table_headers = Row::new(vec![
+                Cell::new("INDEX").style_spec("c"),
+                Cell::new("STATUS").style_spec("c"),
+                Cell::new("GID").style_spec("cFW"),
+                Cell::new("ADVERSARIES").style_spec("cFW"),
+                Cell::new("ALIASES").style_spec("c"),
+                Cell::new("TACTICS").style_spec("c"),
+                Cell::new("TID").style_spec("cFG"),
+                Cell::new("SUBTECHNIQUES").style_spec("cFW"),
+                Cell::new("MALWARE").style_spec("c"),
+                Cell::new("TOOLS").style_spec("c"),
+            ]);
+        }
         if _wants_export == "csv" {
             _csv_table.add_row(_table_headers);
         } else {
             _table.add_row(_table_headers);
         }
-        let _err = "(?) Error: Unable To Deserialize Search Results By Adversaries";
-        let mut _json: Vec<EnterpriseAdversary>;
-        _json = serde_json::from_str(results[0].as_str()).expect(_err);
-        for (_idx, _row) in _json.iter().enumerate() {
-            let mut _aliases = "".to_string();
-            if _row.aliases.len() == 0 {
-                _aliases.push_str("none");
-            } else {
-                _aliases = _row.aliases.clone();
+        if _wants_correlation {
+            let _err = "(?) Error: Unable To Deserialize Search Correlation Results By Adversaries";
+            let mut _json: Vec<EnterpriseTechnique>;
+            _json = serde_json::from_str(results[0].as_str()).expect(_err);
+            let mut _sorted_index: Vec<(String, usize, usize)> = vec![];
+            let _err: &str = "(?) Error: Render Adversaries Correlation Table Deserialization";
+            for (_ridx, _item) in results.iter().enumerate() {
+                let _json: Vec<EnterpriseTechnique> =
+                    serde_json::from_str(results[_ridx].as_str()).expect(_err);
+                for (_jidx, _record) in _json.iter().enumerate() {
+                    _sorted_index.push((_record.tid.clone(), _jidx, _ridx));
+                }
             }
-            //
-            let mut _tactics = "".to_string();
-            if _row.profile.tactics.items.len() > 0 {
-                _row.profile
-                    .tactics
-                    .items
-                    .iter()
-                    .map(|x| {
-                        _tactics.push_str(x.as_str());
-                        _tactics.push_str("|")
-                    })
-                    .collect::<Vec<_>>();
-            } else {
-                _tactics.push_str("none");
+            _sorted_index.sort();
+            let mut _st = String::from("");
+            let mut _idx: usize = 0;
+            let _err: &str = "(?) Error: Render Adversaries Correlation Table Deserialization";
+            for (_technique, _jidx, _ridx) in _sorted_index {
+                let _json: Vec<EnterpriseTechnique> =
+                    serde_json::from_str(results[_ridx].as_str()).expect(_err);
+                let _row = &_json[_jidx];
+                if _row.has_subtechniques {
+                    _row.subtechniques
+                        .iter()
+                        .map(|x| {
+                            _st.push_str(x.as_str());
+                            _st.push_str("|")
+                        })
+                        .collect::<Vec<_>>();
+                } else {
+                    _st.push_str("n_a");
+                }
+                // When a deprecated Technique is part of the result
+                // then create a row for the deprecated technique
+                let mut _status: Cell;
+                let mut _tid: Cell;
+                if _row.is_deprecated {
+                    _status = Cell::new("Deprecated").style_spec("FY");
+                    _tid = Cell::new(_row.tid.as_str()).style_spec("FY");
+                } else if _row.is_revoked {
+                    _status = Cell::new("Revoked").style_spec("FR");
+                    _tid = Cell::new(_row.tid.as_str()).style_spec("FR");
+                } else {
+                    _status = Cell::new("Active").style_spec("FG");
+                    _tid = Cell::new(_row.tid.as_str()).style_spec("cFG");
+                }
+                if _wants_export == "csv" {
+                    _csv_table.add_row(Row::new(vec![
+                        Cell::new((_idx + 1).to_string().as_str()),
+                        _status,
+                        Cell::new(_row.correlation_adversary.as_str()),
+                        Cell::new(_row.platform.as_str()),
+                        Cell::new(_row.tactic.as_str()),
+                        _tid,
+                        Cell::new(_row.technique.as_str()),
+                        Cell::new(_st.as_str()),
+                        Cell::new(_row.datasources.as_str()),
+                        Cell::new(_row.correlation_malware.as_str()),
+                    ]));
+                } else {
+                    _table.add_row(Row::new(vec![
+                        Cell::new((_idx + 1).to_string().as_str()),
+                        _status,
+                        Cell::new(_row.correlation_adversary.as_str()).style_spec("FW"),
+                        Cell::new(_row.platform.replace("|", "\n").as_str()),
+                        Cell::new(_row.tactic.as_str()).style_spec("FW"),
+                        _tid,
+                        Cell::new(_row.technique.as_str()).style_spec("FW"),
+                        Cell::new(_st.replace("|", "\n").as_str()).style_spec("cFW"),
+                        Cell::new(_row.datasources.replace("|", "\n").as_str()),
+                        Cell::new(_row.correlation_malware.as_str()).style_spec("FW"),
+                    ]));
+                }
+                _st.clear();
+                _idx += 1;
             }
-            //
-            let mut _techniques = "".to_string();
-            if _row.profile.techniques.items.len() > 0 {
-                _row.profile
-                    .techniques
-                    .items
-                    .iter()
-                    .map(|x| {
-                        _techniques.push_str(x.as_str());
-                        _techniques.push_str("|")
-                    })
-                    .collect::<Vec<_>>();
-            } else {
-                _techniques.push_str("none");
-            }
-            //
-            let mut _subtechniques = "".to_string();
-            if _row.profile.subtechniques.items.len() > 0 {
-                _row.profile
-                    .subtechniques
-                    .items
-                    .iter()
-                    .map(|x| {
-                        _subtechniques.push_str(x.as_str());
-                        _subtechniques.push_str("|")
-                    })
-                    .collect::<Vec<_>>();
-            } else {
-                _subtechniques.push_str("none");
-            }
-            //
-            let mut _malware = "".to_string();
-            if _row.profile.malware.items.len() > 0 {
-                _row.profile
-                    .malware
-                    .items
-                    .iter()
-                    .map(|x| {
-                        _malware.push_str(x.as_str());
-                        _malware.push_str("|")
-                    })
-                    .collect::<Vec<_>>();
-            } else {
-                _malware.push_str("none");
-            }
-            //
-            let mut _tools = "".to_string();
-            if _row.profile.tools.items.len() > 0 {
-                _row.profile
-                    .tools
-                    .items
-                    .iter()
-                    .map(|x| {
-                        _tools.push_str(x.as_str());
-                        _tools.push_str("|")
-                    })
-                    .collect::<Vec<_>>();
-            } else {
-                _tools.push_str("none");
-            }
-            //
-            let mut _revoked_cell: Cell;
-            let mut _group_id_cell: Cell;
-            if _row.is_revoked {
-                _revoked_cell = Cell::new("Revoked").style_spec("cFR");
-                _group_id_cell = Cell::new(&_row.group_id.as_str()).style_spec("cFR");
-            } else {
-                _revoked_cell = Cell::new("Active").style_spec("cFG");
-                _group_id_cell = Cell::new(&_row.group_id.as_str()).style_spec("cFW");
-            }
-            if _wants_export == "csv" {
-                _csv_table.add_row(Row::new(vec![
-                    Cell::new((_idx + 1).to_string().as_str()).style_spec("c"),
-                    _revoked_cell.clone(),
-                    _group_id_cell.clone(),
-                    Cell::new(&_row.name.as_str()),
-                    Cell::new(&_aliases),
-                    Cell::new(&_tactics.as_str()),
-                    Cell::new(&_techniques),
-                    Cell::new(&_subtechniques.as_str()),
-                    Cell::new(&_malware),
-                    Cell::new(&_tools),
-                ]));
-            } else {
-                _table.add_row(Row::new(vec![
-                    Cell::new((_idx + 1).to_string().as_str()).style_spec("c"),
-                    _revoked_cell.clone(),
-                    _group_id_cell.clone(),
-                    Cell::new(&_row.name.as_str()).style_spec("cFW"),
-                    Cell::new(&_aliases.replace("|", "\n")),
-                    Cell::new(&_tactics.as_str().replace("|", "\n")),
-                    Cell::new(&_techniques.as_str().replace("|", "\n")).style_spec("cFG"),
-                    Cell::new(&_subtechniques.as_str().replace("|", "\n")).style_spec("cFW"),
-                    Cell::new(&_malware.replace("|", "\n")),
-                    Cell::new(&_tools.as_str().replace("|", "\n")),
-                ]));
+        } else {
+            let _err = "(?) Error: Unable To Deserialize Search Results By Adversaries";
+            let mut _json: Vec<EnterpriseAdversary>;
+            _json = serde_json::from_str(results[0].as_str()).expect(_err);
+            for (_idx, _row) in _json.iter().enumerate() {
+                let mut _aliases = "".to_string();
+                if _row.aliases.len() == 0 {
+                    _aliases.push_str("none");
+                } else {
+                    _aliases = _row.aliases.clone();
+                }
+                //
+                let mut _tactics = "".to_string();
+                if _row.profile.tactics.items.len() > 0 {
+                    _row.profile
+                        .tactics
+                        .items
+                        .iter()
+                        .map(|x| {
+                            _tactics.push_str(x.as_str());
+                            _tactics.push_str("|")
+                        })
+                        .collect::<Vec<_>>();
+                } else {
+                    _tactics.push_str("none");
+                }
+                //
+                let mut _techniques = "".to_string();
+                if _row.profile.techniques.items.len() > 0 {
+                    _row.profile
+                        .techniques
+                        .items
+                        .iter()
+                        .map(|x| {
+                            _techniques.push_str(x.as_str());
+                            _techniques.push_str("|")
+                        })
+                        .collect::<Vec<_>>();
+                } else {
+                    _techniques.push_str("none");
+                }
+                //
+                let mut _subtechniques = "".to_string();
+                if _row.profile.subtechniques.items.len() > 0 {
+                    _row.profile
+                        .subtechniques
+                        .items
+                        .iter()
+                        .map(|x| {
+                            _subtechniques.push_str(x.as_str());
+                            _subtechniques.push_str("|")
+                        })
+                        .collect::<Vec<_>>();
+                } else {
+                    _subtechniques.push_str("none");
+                }
+                //
+                let mut _malware = "".to_string();
+                if _row.profile.malware.items.len() > 0 {
+                    _row.profile
+                        .malware
+                        .items
+                        .iter()
+                        .map(|x| {
+                            _malware.push_str(x.as_str());
+                            _malware.push_str("|")
+                        })
+                        .collect::<Vec<_>>();
+                } else {
+                    _malware.push_str("none");
+                }
+                //
+                let mut _tools = "".to_string();
+                if _row.profile.tools.items.len() > 0 {
+                    _row.profile
+                        .tools
+                        .items
+                        .iter()
+                        .map(|x| {
+                            _tools.push_str(x.as_str());
+                            _tools.push_str("|")
+                        })
+                        .collect::<Vec<_>>();
+                } else {
+                    _tools.push_str("none");
+                }
+                //
+                let mut _revoked_cell: Cell;
+                let mut _group_id_cell: Cell;
+                if _row.is_revoked {
+                    _revoked_cell = Cell::new("Revoked").style_spec("cFR");
+                    _group_id_cell = Cell::new(&_row.group_id.as_str()).style_spec("cFR");
+                } else {
+                    _revoked_cell = Cell::new("Active").style_spec("cFG");
+                    _group_id_cell = Cell::new(&_row.group_id.as_str()).style_spec("cFW");
+                }
+                if _wants_export == "csv" {
+                    _csv_table.add_row(Row::new(vec![
+                        Cell::new((_idx + 1).to_string().as_str()).style_spec("c"),
+                        _revoked_cell.clone(),
+                        _group_id_cell.clone(),
+                        Cell::new(&_row.name.as_str()),
+                        Cell::new(&_aliases),
+                        Cell::new(&_tactics.as_str()),
+                        Cell::new(&_techniques),
+                        Cell::new(&_subtechniques.as_str()),
+                        Cell::new(&_malware),
+                        Cell::new(&_tools),
+                    ]));
+                } else {
+                    _table.add_row(Row::new(vec![
+                        Cell::new((_idx + 1).to_string().as_str()).style_spec("c"),
+                        _revoked_cell.clone(),
+                        _group_id_cell.clone(),
+                        Cell::new(&_row.name.as_str()).style_spec("cFW"),
+                        Cell::new(&_aliases.replace("|", "\n")),
+                        Cell::new(&_tactics.as_str().replace("|", "\n")),
+                        Cell::new(&_techniques.as_str().replace("|", "\n")).style_spec("cFG"),
+                        Cell::new(&_subtechniques.as_str().replace("|", "\n")).style_spec("cFW"),
+                        Cell::new(&_malware.replace("|", "\n")),
+                        Cell::new(&_tools.as_str().replace("|", "\n")),
+                    ]));
+                }
             }
         }
         if _wants_export == "csv" {
@@ -1681,7 +1924,7 @@ impl EnterpriseMatrixSearcher {
             println!("{}", "\n\n");
         }
     }
-    fn _render_techniques_table(
+    fn render_techniques_table(
         &self,
         results: &Vec<String>,
         _wants_export: &str,

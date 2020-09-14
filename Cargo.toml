@@ -1,6 +1,6 @@
 [package]
 name = "mitre-assistant"
-version = "0.0.13"
+version = "0.0.14"
 authors = ["dfirence <carlos.diaz.pro@gmail.com>"]
 edition = "2018"
 description = "A more flexible, useful and cooler Mitre ATT&CK Client"
@@ -16,7 +16,7 @@ exclude = [
 ]
 
 [profile.release]
-codegen-units = 1
+codegen-units = 0
 
 [dependencies]
 reqwest = { version = "0.10", features = ["json", "blocking"] }

@@ -251,7 +251,7 @@ impl EnterpriseTechniquesByPlatform {
 }
 
 
-#[derive(Debug,Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Debug,Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd,Clone)]
 pub struct EnterpriseTechnique {
     pub id:             String,
     pub platform:       String,
@@ -263,7 +263,10 @@ pub struct EnterpriseTechnique {
     pub is_deprecated:  bool,
     pub is_revoked:     bool,
     pub subtechniques:  Vec<String>,
-    pub count_subtechniques: usize
+    pub count_subtechniques: usize,
+    pub correlation_adversary: String,
+    pub correlation_malware: String,
+    pub correlation_tool: String,
 }
 impl EnterpriseTechnique {
     pub fn new() -> Self
@@ -279,7 +282,10 @@ impl EnterpriseTechnique {
             is_deprecated:      false,
             is_revoked:         false,
             subtechniques:      vec![],
-            count_subtechniques: 0usize
+            count_subtechniques: 0usize,
+            correlation_adversary: "none".to_string(),
+            correlation_malware: "none".to_string(),
+            correlation_tool: "none".to_string()
         }
     }
     pub fn update(&mut self)

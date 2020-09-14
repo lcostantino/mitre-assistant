@@ -19,7 +19,7 @@ use searcher::EnterpriseMatrixSearcher;
 /// # Globals
 /// Represent global variables used throughout this source file.
 //static _URL: &str = "https://github.com/dfirence/mitre-assistant";
-static _VERSION: &str = "v.0.0.13"; 
+static _VERSION: &str = "v.0.0.14"; 
 static _AUTHOR: &str = "carlos diaz | @dfirence\n\n";
 static _ABOUT: &str = "Mitre Attack Assistant\n\n\tA more useful utility for the ATT&CK Matrix";
 
@@ -119,6 +119,14 @@ impl ArgumentsParser<'_> {
                                 .value_name("file")
                                 .takes_value(true)
                                 .help("Output File | Must use with `-m`, `-t`, and `-e`")                                 
+                             )
+                             .arg(
+                                 Arg::with_name("correlate")
+                                 .short("c")
+                                 .long("correlate")
+                                 .value_name("correlation")
+                                 .takes_value(false)
+                                 .help("Correlates Techniques from Adversary|Malware|Tools objects. Must use special queries")
                              )                                                                                      
                         )                        
                         .get_matches()
@@ -204,13 +212,18 @@ impl ArgumentsParser<'_> {
         let _wants_outfile = match _subcommand.is_present("file") {
             true => _subcommand.value_of("file").unwrap(),
             false => "None"
+        };
+        let _wants_correlation = match _subcommand.is_present("correlate") {
+            true => true,
+            false => false
         };        
         if _matrix != "None" && _search_term != "None" {
             let mut _searcher = EnterpriseMatrixSearcher::new(_matrix);
             _searcher.search(_search_term,
                              _wants_subtechniques,
                              _wants_export,
-                             _wants_outfile);
+                             _wants_outfile,
+                             _wants_correlation);
         }        
         Ok(())
     }
