@@ -330,12 +330,12 @@ impl EnterpriseMatrixSearcher {
             "(?) Error: Unable To Deserialize Correlation String of All Techniques by: {}",
             target
         );
-        let mut _temp_holder: Vec<(String, String, String, String)>;
-        let mut _temp_results: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique>;
+        let mut _temp_holder: Vec<(String, String, String, String)> = vec![];
+        let mut _temp_results: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..])
                                                           .expect(_err.as_str());
 
-        for _item in _json.breakdown_adversaries {
+        for _item in _json.breakdown_adversaries.iter() {
             if _item.name.to_lowercase().as_str() == target {
                 for _x in _item.profile.techniques.items.iter() {
                     for _technique in _json.breakdown_techniques.platforms.iter() {
@@ -355,7 +355,7 @@ impl EnterpriseMatrixSearcher {
                             }
                             _temp_holder.push((
                                 _et.tactic.clone(),
-                                _et.tid.clone()
+                                _et.tid.clone(),
                                 _et.technique.clone(),
                                 _et.correlation_malware.clone()
                             ));
@@ -381,7 +381,7 @@ impl EnterpriseMatrixSearcher {
                             }
                             _temp_holder.push((
                                 _et.tactic.clone(),
-                                _et.tid.clone()
+                                _et.tid.clone(),
                                 _et.technique.clone(),
                                 _et.correlation_malware.clone()
                             ));
@@ -405,7 +405,7 @@ impl EnterpriseMatrixSearcher {
                                 _et.correlation_malware = _malware.name.clone();
                                 _temp_holder.push((
                                     _et.tactic.clone(),
-                                    _et.tid.clone()
+                                    _et.tid.clone(),
                                     _et.technique.clone(),
                                     _et.correlation_malware.clone()
                                 ));
@@ -419,7 +419,7 @@ impl EnterpriseMatrixSearcher {
                                 _et.correlation_malware = _malware.name.clone();
                                 _temp_holder.push((
                                     _et.tactic.clone(),
-                                    _et.tid.clone()
+                                    _et.tid.clone(),
                                     _et.technique.clone(),
                                     _et.correlation_malware.clone()
                                 ));
