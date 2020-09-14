@@ -16,7 +16,7 @@ exclude = [
 ]
 
 [profile.release]
-codegen-units = 0
+codegen-units = 1
 
 [dependencies]
 reqwest = { version = "0.10", features = ["json", "blocking"] }
