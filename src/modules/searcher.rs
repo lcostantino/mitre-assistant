@@ -353,12 +353,6 @@ impl EnterpriseMatrixSearcher {
                                     }
                                 }
                             }
-                            _temp_holder.push((
-                                _et.tactic.clone(),
-                                _et.tid.clone(),
-                                _et.technique.clone(),
-                                _et.correlation_malware.clone()
-                            ));
                             _temp_results.push(_et);
                         }
                     }
@@ -379,12 +373,6 @@ impl EnterpriseMatrixSearcher {
                                     }
                                 }
                             }
-                            _temp_holder.push((
-                                _et.tactic.clone(),
-                                _et.tid.clone(),
-                                _et.technique.clone(),
-                                _et.correlation_malware.clone()
-                            ));
                             _temp_results.push(_et);
                         }
                     }
@@ -403,12 +391,6 @@ impl EnterpriseMatrixSearcher {
                                 let mut _et = _technique.clone();
                                 _et.correlation_adversary = target.to_string();
                                 _et.correlation_malware = _malware.name.clone();
-                                _temp_holder.push((
-                                    _et.tactic.clone(),
-                                    _et.tid.clone(),
-                                    _et.technique.clone(),
-                                    _et.correlation_malware.clone()
-                                ));
                                 _temp_results.push(_et);
                             }
                         }
@@ -417,12 +399,6 @@ impl EnterpriseMatrixSearcher {
                                 let mut _et = _subtechnique.clone();
                                 _et.correlation_adversary = target.to_string();
                                 _et.correlation_malware = _malware.name.clone();
-                                _temp_holder.push((
-                                    _et.tactic.clone(),
-                                    _et.tid.clone(),
-                                    _et.technique.clone(),
-                                    _et.correlation_malware.clone()
-                                ));
                                 _temp_results.push(_et);
                             }
                         }
@@ -430,15 +406,106 @@ impl EnterpriseMatrixSearcher {
                 }
             }
         }
-        _temp_holder.sort();
-        _temp_holder.dedup();
-        _temp_holder.sort();
         _temp_results.sort();
         _temp_results.dedup();
         _temp_results.sort();
         println!("Holder {}:{} Results", _temp_holder.len(), _temp_results.len());
+        // Iterate through the techniques attributed
+        // to the adversary
+        let mut _count: usize = 0;
+        let mut _duplicates: Vec<_> = vec![];
+        let mut _clean_up_list: Vec<usize> = vec![];
+        let mut _tstring: String = "none".to_string();
+        let _copy_results = _temp_results.clone();
+        for (_idx,_result) in _temp_results.iter().enumerate() {
+            let mut _target_result = _result.clone();
+            for _copy in _copy_results.iter() {
+                if _result.tid.as_str() == _copy.tid.as_str()
+                    && _result.tactic.as_str() == _copy.tactic.as_str()
+                    && _result.correlation_malware.as_str() != _copy.correlation_malware.as_str()
+                    && _result.correlation_malware.as_str() != "none"
+                {
+                    _tstring.push_str(format!("{}|", _copy.correlation_malware).as_str());
+                    _count += 1;
+                }
+            }
+            if _count > 1 {
+                _target_result.correlation_malware = _tstring.clone();
+                _duplicates.push(_target_result.clone());
+                _clean_up_list.push(_idx);
+            } 
+            _tstring.clear();
+            _count = 0;
+        }
+        _tstring.clear();
+        _count = 0;
+        {
+            let mut _copy_duplicates = _duplicates.clone();
+            for _duplicate in _duplicates.iter_mut() {
+                for _copy in _copy_duplicates.iter() {
+                    if _duplicate.tid.as_str() == _copy.tid.as_str()
+                        && _duplicate.technique.as_str() == _copy.technique.as_str()
+                    {
+                        _tstring.push_str(format!("{}", _duplicate.correlation_malware).as_str());
+                        _count += 1;
+                        _duplicate.correlation_malware.push_str(_tstring.as_str());
+                    }
+                }
+                if _count > 1 {
+                    let mut _et = _duplicate.clone();
+                    _et.correlation_malware = _tstring.clone();
+                    _results.push(_et);
+                }
+                _tstring.clear();
+                _count = 0;
+            }
+        }
+        for _item in _clean_up_list {
+            _temp_results.remove(_item);
+        }
+        /*
+        for _result in _temp_results {
+            _results.push(_result);
+        }*/
+        /*
+        let mut _count: usize = 0;
+        for _technique in _temp_results.iter() {
+            let mut _temp_strings: Vec<String> = vec![];
+            let mut _et = _technique.clone();
+            for _item in _temp_holder.iter() {
+                if (_technique.tactic.as_str() == _item.0.as_str())
+                    && (_technique.tid.as_str() == _item.1.as_str())
+                    && (_technique.correlation_malware.as_str() == _item.3.as_str())
+                    && (_technique.correlation_malware.as_str() != "none")
+                {
+                    _count += 1;
+                }
+                if _count == 1 && _item.3.as_str() != "none" {
+                    let _s = format!("|{}", _item.3);
+                    _temp_strings.push(_s);
+                }
+                else if _count > 1 && _item.3.as_str() != "none" {
+                    let _s = format!("|{}", _item.3);
+                    _temp_strings.push(_s);
+                }
+            }
+            _temp_strings.sort();
+            _temp_strings.dedup();
+            _temp_strings.sort();
+            let mut _temp_string = "".to_string();
+            for _s in _temp_strings {
+                _temp_string.push_str(format!("|{}", _s).as_str());
+            }
+            _et.correlation_malware = _temp_string.clone();
+            
+            _results.push(_et);
+            _count = 0;
+        }
+        */
         // Now finalize the output results
-
+        _results.sort();
+        _results.dedup();
+        _results.sort();
     }
     fn search_by_adversary(
         &self, 
@@ -1675,6 +1742,7 @@ impl EnterpriseMatrixSearcher {
             }
             _sorted_index.sort();
             let mut _st = String::from("");
+            let mut _mw = String::from("");
             let mut _idx: usize = 0;
             let _err: &str = "(?) Error: Render Adversaries Correlation Table Deserialization";
             for (_technique, _jidx, _ridx) in _sorted_index {
@@ -1692,6 +1760,7 @@ impl EnterpriseMatrixSearcher {
                 } else {
                     _st.push_str("n_a");
                 }
+
                 // When a deprecated Technique is part of the result
                 // then create a row for the deprecated technique
                 let mut _status: Cell;
@@ -1730,7 +1799,7 @@ impl EnterpriseMatrixSearcher {
                         Cell::new(_row.technique.as_str()).style_spec("FW"),
                         Cell::new(_st.replace("|", "\n").as_str()).style_spec("cFW"),
                         Cell::new(_row.datasources.replace("|", "\n").as_str()),
-                        Cell::new(_row.correlation_malware.as_str()).style_spec("FW"),
+                        Cell::new(_row.correlation_malware.replace("|", "\n").as_str()).style_spec("FY"),
                     ]));
                 }
                 _st.clear();
