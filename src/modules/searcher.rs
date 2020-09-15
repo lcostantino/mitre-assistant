@@ -413,10 +413,12 @@ impl EnterpriseMatrixSearcher {
         // Iterate through the techniques attributed
         // to the adversary
         let mut _count: usize = 0;
+        let muy _tools_strings: Vec<String> = vec![];
+        let mut _malware_strings: Vec<String> = vec![];
         let mut _duplicates: Vec<_> = vec![];
         let mut _clean_up_list: Vec<usize> = vec![];
         let mut _tstring: String = "none".to_string();
-        let _copy_results = _temp_results.clone();
+        let mut _copy_results = _temp_results.clone();
         for (_idx,_result) in _temp_results.iter().enumerate() {
             let mut _target_result = _result.clone();
             for _copy in _copy_results.iter() {
@@ -425,84 +427,48 @@ impl EnterpriseMatrixSearcher {
                     && _result.correlation_malware.as_str() != _copy.correlation_malware.as_str()
                     && _result.correlation_malware.as_str() != "none"
                 {
-                    _tstring.push_str(format!("{}|", _copy.correlation_malware).as_str());
+                    if &_malware_strings.len() == &0usize {
+                        _malware_strings.push(_result.correlation_malware.clone());
+                        _malware_strings.push(_copy.correlation_malware.clone());
+                        _clean_up_list.push(_idx);
+                    } else if &_malware_strings.len() > &1usize && !&_malware_strings.contains(&_copy.correlation_malware) {
+                        _malware_strings.push(_copy.correlation_malware.clone());
+                        _clean_up_list.push(_idx);
+                    }
                     _count += 1;
                 }
             }
-            if _count > 1 {
+            if _count == 0 {
+                _results.push(_target_result.clone());
+            }
+            else if _count > 1 {
+                _malware_strings.sort();
+                _malware_strings.dedup();
+                _malware_strings.sort();
+                for _string in &_malware_strings {
+                    _tstring.push_str(format!("{}|", _string.as_str()).as_str());
+                }
                 _target_result.correlation_malware = _tstring.clone();
                 _duplicates.push(_target_result.clone());
-                _clean_up_list.push(_idx);
-            } 
+            }
             _tstring.clear();
+            _malware_strings.clear();
             _count = 0;
         }
+        _clean_up_list.sort();
+        _clean_up_list.dedup();
         _tstring.clear();
         _count = 0;
-        {
-            let mut _copy_duplicates = _duplicates.clone();
-            for _duplicate in _duplicates.iter_mut() {
-                for _copy in _copy_duplicates.iter() {
-                    if _duplicate.tid.as_str() == _copy.tid.as_str()
-                        && _duplicate.technique.as_str() == _copy.technique.as_str()
-                    {
-                        _tstring.push_str(format!("{}", _duplicate.correlation_malware).as_str());
-                        _count += 1;
-                        _duplicate.correlation_malware.push_str(_tstring.as_str());
-                    }
-                }
-                if _count > 1 {
-                    let mut _et = _duplicate.clone();
-                    _et.correlation_malware = _tstring.clone();
-                    _results.push(_et);
-                }
-                _tstring.clear();
-                _count = 0;
-            }
-        }
-        for _item in _clean_up_list {
-            _temp_results.remove(_item);
-        }
-        /*
-        for _result in _temp_results {
-            _results.push(_result);
-        }*/
-        /*
-        let mut _count: usize = 0;
-        for _technique in _temp_results.iter() {
-            let mut _temp_strings: Vec<String> = vec![];
-            let mut _et = _technique.clone();
-            for _item in _temp_holder.iter() {
-                if (_technique.tactic.as_str() == _item.0.as_str())
-                    && (_technique.tid.as_str() == _item.1.as_str())
-                    && (_technique.correlation_malware.as_str() == _item.3.as_str())
-                    && (_technique.correlation_malware.as_str() != "none")
+        // Clean Up
+        for _item in _temp_results.iter() {
+            for _duplicate in _duplicates.iter() {
+                if _item.tid.as_str() == _duplicate.tid.as_str()
+                    && _item.tactic.as_str() == _duplicate.tactic.as_str()
                 {
-                    _count += 1;
-                }
-                if _count == 1 && _item.3.as_str() != "none" {
-                    let _s = format!("|{}", _item.3);
-                    _temp_strings.push(_s);
-                }
-                else if _count > 1 && _item.3.as_str() != "none" {
-                    let _s = format!("|{}", _item.3);
-                    _temp_strings.push(_s);
+                    _results.push(_duplicate.clone());
                 }
             }
-            _temp_strings.sort();
-            _temp_strings.dedup();
-            _temp_strings.sort();
-            let mut _temp_string = "".to_string();
-            for _s in _temp_strings {
-                _temp_string.push_str(format!("|{}", _s).as_str());
-            }
-            _et.correlation_malware = _temp_string.clone();
-            
-            _results.push(_et);
-            _count = 0;
         }
-        */
-        // Now finalize the output results
         _results.sort();
         _results.dedup();
         _results.sort();
@@ -1706,7 +1672,7 @@ impl EnterpriseMatrixSearcher {
                 Cell::new("TECHNIQUE").style_spec("cFG"),
                 Cell::new("SUBTECHNIQUES").style_spec("cFW"),
                 Cell::new("DATA SOURCES").style_spec("c"),
-                Cell::new("MALWARE").style_spec("FY"),
+                Cell::new("MALWARE").style_spec("cFY"),
             ]);
         } else {
             _table_headers = Row::new(vec![
@@ -1799,7 +1765,7 @@ impl EnterpriseMatrixSearcher {
                         Cell::new(_row.technique.as_str()).style_spec("FW"),
                         Cell::new(_st.replace("|", "\n").as_str()).style_spec("cFW"),
                         Cell::new(_row.datasources.replace("|", "\n").as_str()),
-                        Cell::new(_row.correlation_malware.replace("|", "\n").as_str()).style_spec("FY"),
+                        Cell::new(_row.correlation_malware.replace("|", "\n").as_str()).style_spec("FW"),
                     ]));
                 }
                 _st.clear();
