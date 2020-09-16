@@ -379,12 +379,12 @@ impl EnterpriseMatrixSearcher {
                 }
             }
         }
-        // Now go get the techniques from Every Malware
+        // Now go get the techniques & subtechniques from Every Malware
         // Where the actor is cited
-
         for _malware in &_json.breakdown_malware {
             for _ma in _malware.profile.adversaries.items.iter() {
                 if target == _ma.as_str() {
+                    // Techniques
                     for _mt in _malware.profile.techniques.items.iter() {
                         for _technique in _json.breakdown_techniques.platforms.iter() {
                             if _technique.tid.as_str() == _mt.as_str() {
@@ -394,6 +394,9 @@ impl EnterpriseMatrixSearcher {
                                 _temp_results.push(_et);
                             }
                         }
+                    }
+                    // Subtechniques
+                    for _mt in _malware.profile.subtechniques.items.iter() {
                         for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
                             if _subtechnique.tid.as_str() == _mt.as_str() {
                                 let mut _et = _subtechnique.clone();
@@ -406,18 +409,45 @@ impl EnterpriseMatrixSearcher {
                 }
             }
         }
+        // Now go get the techniques & subtechniques from Every `Tool`
+        // Where the actor is cited
+        for _tool in &_json.breakdown_tools {
+            for _ma in _tool.profile.adversaries.items.iter() {
+                if target == _ma.as_str() {
+                    for _mt in _tool.profile.techniques.items.iter() {
+                        for _technique in _json.breakdown_techniques.platforms.iter() {
+                            if _technique.tid.as_str() == _mt.as_str() {
+                                let mut _et = _technique.clone();
+                                _et.correlation_adversary = target.to_string();
+                                _et.correlation_tool= _tool.name.clone();
+                                _temp_results.push(_et);
+                            }
+                        }
+                    }
+                    for _mt in _tool.profile.subtechniques.items.iter() {
+                        for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
+                            if _subtechnique.tid.as_str() == _mt.as_str() {
+                                let mut _et = _subtechnique.clone();
+                                _et.correlation_adversary = target.to_string();
+                                _et.correlation_tool = _tool.name.clone();
+                                _temp_results.push(_et);
+                            }
+                        }
+                    }                    
+                }
+            }
+        }
         _temp_results.sort();
         _temp_results.dedup();
         _temp_results.sort();
-        println!("Holder {}:{} Results", _temp_holder.len(), _temp_results.len());
         // Iterate through the techniques attributed
         // to the adversary
         let mut _count: usize = 0;
-        let muy _tools_strings: Vec<String> = vec![];
+        let mut _tools_strings: Vec<String> = vec![];
         let mut _malware_strings: Vec<String> = vec![];
         let mut _duplicates: Vec<_> = vec![];
-        let mut _clean_up_list: Vec<usize> = vec![];
-        let mut _tstring: String = "none".to_string();
+        let mut _malware_string: String = "none".to_string();
+        let mut _tool_string: String = "none".to_string();
         let mut _copy_results = _temp_results.clone();
         for (_idx,_result) in _temp_results.iter().enumerate() {
             let mut _target_result = _result.clone();
@@ -425,15 +455,24 @@ impl EnterpriseMatrixSearcher {
                 if _result.tid.as_str() == _copy.tid.as_str()
                     && _result.tactic.as_str() == _copy.tactic.as_str()
                     && _result.correlation_malware.as_str() != _copy.correlation_malware.as_str()
-                    && _result.correlation_malware.as_str() != "none"
                 {
                     if &_malware_strings.len() == &0usize {
                         _malware_strings.push(_result.correlation_malware.clone());
                         _malware_strings.push(_copy.correlation_malware.clone());
-                        _clean_up_list.push(_idx);
                     } else if &_malware_strings.len() > &1usize && !&_malware_strings.contains(&_copy.correlation_malware) {
                         _malware_strings.push(_copy.correlation_malware.clone());
-                        _clean_up_list.push(_idx);
+                    }
+                    _count += 1;
+                }
+                if _result.tid.as_str() == _copy.tid.as_str()
+                    && _result.tactic.as_str() == _copy.tactic.as_str()
+                    && _result.correlation_tool.as_str() != _copy.correlation_tool.as_str()
+                {
+                    if &_tools_strings.len() == &0usize {
+                        _tools_strings.push(_result.correlation_tool.clone());
+                        _tools_strings.push(_copy.correlation_tool.clone());
+                    } else if &_tools_strings.len() > &1usize && !&_tools_strings.contains(&_copy.correlation_tool) {
+                        _tools_strings.push(_copy.correlation_tool.clone());
                     }
                     _count += 1;
                 }
@@ -445,26 +484,44 @@ impl EnterpriseMatrixSearcher {
                 _malware_strings.sort();
                 _malware_strings.dedup();
                 _malware_strings.sort();
+                _tools_strings.sort();
+                _tools_strings.dedup();
+                _tools_strings.sort();
                 for _string in &_malware_strings {
-                    _tstring.push_str(format!("{}|", _string.as_str()).as_str());
+                    let _string = _string.replace("none","");
+                    if _string.as_str() != "none" || _string.as_str() != ""
+                    {
+                        _malware_string.push_str(format!("{}|", _string.as_str()).as_str());
+                    }
                 }
-                _target_result.correlation_malware = _tstring.clone();
+                for _string in &_tools_strings {
+                    let _string = _string.replace("none","");
+                    if _string.as_str() != "none" || _string.as_str() != ""
+                    {
+                        let _string = _string.replace("none","");
+                        _tool_string.push_str(format!("{}|", _string.as_str()).as_str());
+                    }
+                }
+                _target_result.correlation_malware = _malware_string.clone();
+                _target_result.correlation_tool = _tool_string.clone();
                 _duplicates.push(_target_result.clone());
             }
-            _tstring.clear();
+            _malware_string.clear();
+            _tool_string.clear();
             _malware_strings.clear();
+            _tools_strings.clear();
             _count = 0;
         }
-        _clean_up_list.sort();
-        _clean_up_list.dedup();
-        _tstring.clear();
-        _count = 0;
-        // Clean Up
+        // Finalize Results
+        _duplicates.sort();
+        _duplicates.dedup();
+        _duplicates.sort();
         for _item in _temp_results.iter() {
             for _duplicate in _duplicates.iter() {
                 if _item.tid.as_str() == _duplicate.tid.as_str()
                     && _item.tactic.as_str() == _duplicate.tactic.as_str()
                 {
+                    //if _item.correlation_malware.as_str() == "none"
                     _results.push(_duplicate.clone());
                 }
             }
@@ -1673,6 +1730,7 @@ impl EnterpriseMatrixSearcher {
                 Cell::new("SUBTECHNIQUES").style_spec("cFW"),
                 Cell::new("DATA SOURCES").style_spec("c"),
                 Cell::new("MALWARE").style_spec("cFY"),
+                Cell::new("TOOLS").style_spec("cFY"),
             ]);
         } else {
             _table_headers = Row::new(vec![
@@ -1753,6 +1811,7 @@ impl EnterpriseMatrixSearcher {
                         Cell::new(_st.as_str()),
                         Cell::new(_row.datasources.as_str()),
                         Cell::new(_row.correlation_malware.as_str()),
+                        Cell::new(_row.correlation_tool.as_str()),
                     ]));
                 } else {
                     _table.add_row(Row::new(vec![
@@ -1766,6 +1825,7 @@ impl EnterpriseMatrixSearcher {
                         Cell::new(_st.replace("|", "\n").as_str()).style_spec("cFW"),
                         Cell::new(_row.datasources.replace("|", "\n").as_str()),
                         Cell::new(_row.correlation_malware.replace("|", "\n").as_str()).style_spec("FW"),
+                        Cell::new(_row.correlation_tool.replace("|", "\n").as_str()).style_spec("FW"),
                     ]));
                 }
                 _st.clear();
