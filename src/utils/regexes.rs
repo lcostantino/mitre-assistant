@@ -119,13 +119,21 @@ impl PatternManager {
                         .expect("(?) Error: PatternManager | Cannot Build Searc Terms For Adversaries")
         }
     }
-    pub fn load_search_malware(malware: &Vec<String>) -> Self
+    pub fn load_search_malware(malware: &Vec<String>, actors: &Vec<String>) -> Self
     {
         let mut _patterns: Vec<String> = vec![];
         // First Create The Patterns of just datasources
         for _item in malware.iter() {
             let _p = format!(r"\b{}\b", _item);
             _patterns.push(_p);
+        }
+        for _item in malware.iter() {
+            for _actor in actors.iter() {
+                if _actor.as_str() == _item {
+                    let _p = format!(r"\b_{}\b", _item);
+                    _patterns.push(_p);
+                }
+            }
         }
         //println!("{:#?}", _patterns);
         PatternManager {

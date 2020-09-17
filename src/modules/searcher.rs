@@ -74,7 +74,8 @@ impl EnterpriseMatrixSearcher {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         let _scanner = PatternManager::load_search_term_patterns();
         let _scanner_ad = PatternManager::load_search_adversaries(&_json.adversaries);
-        let _scanner_mw = PatternManager::load_search_malware(&_json.malware);
+        //let _scanner_mw = PatternManager::load_search_malware(&_json.malware);
+        let _scanner_mw = PatternManager::load_search_malware(&_json.malware, &_json.adversaries);
         let _scanner_pl = PatternManager::load_search_platforms(&_json.platforms);
         let _scanner_ta = PatternManager::load_search_tactics(&_json.tactics);
         let _scanner_to = PatternManager::load_search_tools(&_json.tools);
@@ -590,6 +591,7 @@ impl EnterpriseMatrixSearcher {
     fn search_by_malware(&self, malware: &str, many: Vec<usize>) -> String {
         let mut _results = vec![];
         let malware = malware.to_lowercase();
+        let malware = malware.replace("_","");
         let malware = malware.as_str();
         let _err = format!(
             "(?) Error: Unable To Deserialize String of All Techniques by malware: {}",
