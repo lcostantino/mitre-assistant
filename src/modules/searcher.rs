@@ -2119,7 +2119,7 @@ impl EnterpriseMatrixSearcher {
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_csv_table);
         } else if _wants_export == "json" {
-            println!("{}", results[0]);
+            println!("{}", results[0..]);
         } else {
             println!("{}", "\n\n");
             _table.printstd();
