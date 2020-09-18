@@ -804,6 +804,7 @@ impl EnterpriseMatrixSearcher {
                 for _item in _iterable {
                     if _item.platform.contains(_platform) {
                         let mut _et = EnterpriseTechnique::new();
+                        _et.id = _item.id.clone();
                         _et.platform = _platform.to_string();
                         _et.tid = _item.tid.clone();
                         _et.technique = _item.technique.clone();
@@ -835,6 +836,7 @@ impl EnterpriseMatrixSearcher {
                         if _match_count >= 1 {
                             //_temp_string.pop();
                             let mut _et = EnterpriseTechnique::new();
+                            _et.id = _item.id.clone();
                             _et.tid = _item.tid.clone();
                             _et.platform = _temp_string.clone();
                             _et.technique = _item.technique.clone();
