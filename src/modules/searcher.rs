@@ -2060,6 +2060,7 @@ impl EnterpriseMatrixSearcher {
         // Pay attention to:
         //      `_jidx` => JSON index
         //      `_ridx` => Root index
+        let _json_out: Vec<EnterpriseTechnique> = vec![];
         let _err: &str = "(?) Error: Render Table Deserialization";
         for (_technique, _jidx, _ridx) in _sorted_index {
             let _json: Vec<EnterpriseTechnique> =
@@ -2115,11 +2116,12 @@ impl EnterpriseMatrixSearcher {
             }
             _st.clear();
             _idx += 1;
+            _json_out.push(row);
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_csv_table);
         } else if _wants_export == "json" {
-            println!("{:#?}", results);
+            println!("{:#?}", _json_out);
         } else {
             println!("{}", "\n\n");
             _table.printstd();
