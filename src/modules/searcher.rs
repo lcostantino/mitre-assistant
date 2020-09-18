@@ -2116,7 +2116,7 @@ impl EnterpriseMatrixSearcher {
             }
             _st.clear();
             _idx += 1;
-            _json_out.push(row);
+            _json_out.push(_row);
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_csv_table);
