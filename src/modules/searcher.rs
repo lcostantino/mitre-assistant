@@ -2120,7 +2120,7 @@ impl EnterpriseMatrixSearcher {
             self.save_csv_export(_wants_outfile, &_csv_table);
         } else if _wants_export == "json" {
             let _json: Vec<EnterpriseTechnique> = serde_json::from_slice(&results[..]).unwrap();
-            println!("{}", serde_json::to_string_pretty(_json).unwrap();
+            println!("{}", serde_json::to_string_pretty(_json).unwrap());
         } else {
             println!("{}", "\n\n");
             _table.printstd();
