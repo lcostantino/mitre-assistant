@@ -2639,7 +2639,7 @@ impl EnterpriseMatrixSearcher {
                     Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
                     Cell::new(_row.count_subtechniques.to_string().as_str()).style_spec("cFW"),
                     Cell::new(_row.percent_techniques.to_string().as_str()).style_spec("cFW"),
-                    Cell::new(_row.percent_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_subtechniques.to_string().as_str()).style_spec("cFW"),
                 ]));
             }
         }
