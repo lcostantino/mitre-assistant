@@ -623,3 +623,36 @@ impl EnterpriseRelationship {
         }
     }
 }
+
+#[derive(Debug, Deserialize, Serialize, Hash, Eq, PartialEq, PartialOrd, Ord)]
+pub struct EnterpriseStatistics {
+    pub datasources: Vec<EnterpriseStatistic>,
+    pub tactics: Vec<EnterpriseStatistic>
+}
+impl EnterpriseStatistics {
+    pub fn new() -> Self
+    {
+        EnterpriseStatistics{
+            datasources: vec![],
+            tactics: vec![]
+        }
+    }
+}
+#[derive(Debug, Deserialize, Serialize, Hash, Eq, PartialEq, PartialOrd, Ord)]
+pub struct EnterpriseStatistic {
+    pub item:   String,
+    pub count_techniques: usize,
+    pub count_subtechniques: usize,
+    pub is_legacy_matrix: bool,
+}
+impl EnterpriseStatistic {
+    pub fn new() -> Self
+    {
+        EnterpriseStatistic {
+            item: "".to_string(),
+            count_techniques: 0,
+            count_subtechniques: 0,
+            is_legacy_matrix: false
+        }
+    }
+}
