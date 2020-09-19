@@ -1548,6 +1548,8 @@ impl EnterpriseMatrixSearcher {
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_csv_table);
+        } else if _wants_export == "json" {
+            println!("{}", serde_json::to_string_pretty(&_json).unwrap());
         } else {
             println!("{}", "\n");
             _table.print_tty(false);
@@ -1700,6 +1702,8 @@ impl EnterpriseMatrixSearcher {
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_csv_table);
+        } else if _wants_export == "json" {
+            println!("{}", serde_json::to_string_pretty(&_json).unwrap());
         } else {
             println!("{}", "\n");
             _table.print_tty(false);
@@ -1962,6 +1966,8 @@ impl EnterpriseMatrixSearcher {
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_csv_table);
+        } else if _wants_export == "json" {
+            println!("{}", serde_json::to_string_pretty(&_json).unwrap());
         } else {
             println!("{}", "\n");
             //_table.printstd();
