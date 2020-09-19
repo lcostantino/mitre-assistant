@@ -1762,7 +1762,7 @@ impl EnterpriseMatrixSearcher {
         let mut _json_out: Vec<EnterpriseTechnique> = vec![];
         let mut _json_out_adversary: Vec<EnterpriseAdversary> = vec![];
         if _wants_correlation {
-            let _err = “(?) Error: Unable To Deserialize Search Correlation Results By Adversaries”;
+            let _err = "(?) Error: Unable To Deserialize Search Correlation Results By Adversaries";
             let mut _json: Vec<EnterpriseTechnique>;
             _json = serde_json::from_str(results[0].as_str()).expect(_err);
             let mut _sorted_index: Vec<(String, usize, usize)> = vec![];
