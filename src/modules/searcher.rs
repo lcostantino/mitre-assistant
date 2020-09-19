@@ -1972,9 +1972,9 @@ impl EnterpriseMatrixSearcher {
             self.save_csv_export(_wants_outfile, &_csv_table);
         } else if _wants_export == "json" {
             if _wants_correlation {
-                println!(“{}”, serde_json::to_string_pretty(&_json_out).unwrap());
+                println!("{}", serde_json::to_string_pretty(&_json_out).unwrap());
             } else {
-                println!(“{}”, serde_json::to_string_pretty(&_json_out_adversary).unwrap());
+                println!("{}",serde_json::to_string_pretty(&_json_out_adversary).unwrap());
             }
         } else {
             println!("{}", "\n");
