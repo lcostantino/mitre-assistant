@@ -1840,7 +1840,7 @@ impl EnterpriseMatrixSearcher {
                 }
                 _st.clear();
                 _idx += 1;
-                _json_out.push(_row);
+                _json_out.push(_row.clone());
             }
         } else {
             let _err = "(?) Error: Unable To Deserialize Search Results By Adversaries";
