@@ -105,7 +105,6 @@ impl PatternManager {
     pub fn load_search_adversaries(adversaries: &Vec<String>) -> Self
     {
         let mut _patterns: Vec<String> = vec![];
-        // First Create The Patterns of just datasources
         for _item in adversaries.iter() {
             let _p = format!(r"\b{}\b", _item);
             _patterns.push(_p);
@@ -122,7 +121,6 @@ impl PatternManager {
     pub fn load_search_malware(malware: &Vec<String>, actors: &Vec<String>) -> Self
     {
         let mut _patterns: Vec<String> = vec![];
-        // First Create The Patterns of just datasources
         for _item in malware.iter() {
             let _p = format!(r"\b{}\b", _item);
             _patterns.push(_p);
@@ -147,7 +145,6 @@ impl PatternManager {
     pub fn load_search_tools(tools: &Vec<String>) -> Self
     {
         let mut _patterns: Vec<String> = vec![];
-        // First Create The Patterns of just datasources
         for _item in tools.iter() {
             let _p = format!(r"\b{}\b", _item);
             _patterns.push(_p);
@@ -164,7 +161,6 @@ impl PatternManager {
     pub fn load_search_platforms(platforms: &HashSet<String>) -> Self
     {
         let mut _patterns: Vec<String> = vec![];
-        // First Create The Patterns of just datasources
         for _item in platforms.iter() {
             let _p = format!(r"\b{}\b", _item);
             _patterns.push(_p);
@@ -181,7 +177,6 @@ impl PatternManager {
     pub fn load_search_tactics(tactics: &HashSet<String>) -> Self
     {
         let mut _patterns: Vec<String> = vec![];
-        // First Create The Patterns of just datasources
         for _item in tactics.iter() {
             let _p = format!(r"\b{}\b", _item);
             _patterns.push(_p);
