@@ -1759,8 +1759,10 @@ impl EnterpriseMatrixSearcher {
         } else {
             _table.add_row(_table_headers);
         }
+        let mut _json_out: Vec<EnterpriseTechnique> = vec![];
+        let mut _json_out_adversary: Vec<EnterpriseAdversary> = vec![];
         if _wants_correlation {
-            let _err = "(?) Error: Unable To Deserialize Search Correlation Results By Adversaries";
+            let _err = “(?) Error: Unable To Deserialize Search Correlation Results By Adversaries”;
             let mut _json: Vec<EnterpriseTechnique>;
             _json = serde_json::from_str(results[0].as_str()).expect(_err);
             let mut _sorted_index: Vec<(String, usize, usize)> = vec![];
@@ -1838,6 +1840,7 @@ impl EnterpriseMatrixSearcher {
                 }
                 _st.clear();
                 _idx += 1;
+                _json_out.push(row);
             }
         } else {
             let _err = "(?) Error: Unable To Deserialize Search Results By Adversaries";
@@ -1962,12 +1965,17 @@ impl EnterpriseMatrixSearcher {
                         Cell::new(&_tools.as_str().replace("|", "\n")),
                     ]));
                 }
+                _json_out_adversary.push(_row);
             }
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_csv_table);
         } else if _wants_export == "json" {
-            println!("{}", serde_json::to_string_pretty(&_json).unwrap());
+            if _wants_correlation {
+                println!(“{}”, serde_json::to_string_pretty(&_json_out).unwrap());
+            } else {
+                println!(“{}”, serde_json::to_string_pretty(&_json_out_adversary).unwrap());
+            }
         } else {
             println!("{}", "\n");
             //_table.printstd();
