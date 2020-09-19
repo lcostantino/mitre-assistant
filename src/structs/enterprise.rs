@@ -643,6 +643,10 @@ pub struct EnterpriseStatistic {
     pub item:   String,
     pub count_techniques: usize,
     pub count_subtechniques: usize,
+    pub percent_techniques: String,
+    pub percent_subtechniques: String,
+    pub from_total_techniques: usize,
+    pub from_total_subtechniques: usize,
     pub is_legacy_matrix: bool,
 }
 impl EnterpriseStatistic {
@@ -652,6 +656,10 @@ impl EnterpriseStatistic {
             item: "".to_string(),
             count_techniques: 0,
             count_subtechniques: 0,
+            percent_techniques: "%".to_string(),
+            percent_subtechniques: "%".to_string(),
+            from_total_techniques: 0,
+            from_total_subtechniques: 0,
             is_legacy_matrix: false
         }
     }

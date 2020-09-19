@@ -221,11 +221,11 @@ impl EnterpriseMatrixSearcher {
                     //_results.push(self.search_all_datasources());
                     _results.push(self.search_stats_by_datasources());
                 } else if _pattern == &9usize {
-                    _results.push(self.search_all_platforms());
+                    _results.push(self.search_stats_by_platforms());
                 } else if _pattern == &10usize {
                     _results.push(self.search_by_no_datasources());
                 } else if _pattern == &11usize {
-                    _results.push(self.search_all_tactics());
+                    _results.push(self.search_stats_by_tactics());
                 } else if _pattern == &12usize {
                     _results.push(self.search_by_deprecated());
                 } else if _pattern == &34usize {
@@ -246,9 +246,11 @@ impl EnterpriseMatrixSearcher {
                     //_results.push(self.search_all_adversaries());
                     _results.push(self.search_stats_by_adversaries());
                 } else if _pattern == &42usize {
-                    _results.push(self.search_all_malware());
+                   // _results.push(self.search_all_malware());
+                   _results.push(self.search_stats_by_malware());
                 } else if _pattern == &43usize {
-                    _results.push(self.search_all_tools());
+                    _results.push(self.search_stats_by_tools());
+                    //_results.push(self.search_all_tools());
                 } else if _pattern == &44usize {
                     _results.push(self.search_by_tactic(_term, _wants_subtechniques, _matches_many.clone()));
                 } else if _pattern == &45usize {
@@ -268,10 +270,14 @@ impl EnterpriseMatrixSearcher {
                 //self.render_adversaries_profile_table(&_results, _wants_export, _wants_outfile, _wants_correlation);
             } else if _wants_adversary {
                 self.render_adversaries_profile_table(&_results, _wants_export, _wants_outfile, _wants_correlation);
-            } else if _wants_malware || _wants_all_malware {
-                self.render_malware_table(&_results, _wants_export, _wants_outfile, _wants_correlation);
-            } else if _wants_tool || _wants_all_tools {
+            } else if _wants_all_malware {
+                self.render_malware_table(&_results, _wants_export, _wants_outfile);
+            } else if _wants_malware {
+                self.render_malware_profile_table(&_results, _wants_export, _wants_outfile, _wants_correlation);
+            } else if _wants_all_tools {
                 self.render_tools_table(&_results, _wants_export, _wants_outfile);
+            } else if _wants_tool {
+                self.render_tools_profile_table(&_results, _wants_export, _wants_outfile);
             } else if _wants_revoked {
                 self.render_revoked_table(&_results, _wants_export, _wants_outfile);
             } else if _wants_stats {
@@ -615,7 +621,6 @@ impl EnterpriseMatrixSearcher {
                 for _term in _terms {
                     for _item in _json.breakdown_adversaries.iter() {
                         if _item.name.to_lowercase().as_str() == _term
-                            || _item.aliases.contains(_term)
                         {
                             if _wants_correlation {
                                 self.correlate_adversary(_term, &mut _results_correlation);
@@ -1362,16 +1367,86 @@ impl EnterpriseMatrixSearcher {
     /// self.search_stats();
     /// ```
     ///
-    fn search_stats_by_adversaries(&self) -> String
+    ///
+    fn search_stats_by_tactics(&self) -> String
     {
         let mut _results: Vec<EnterpriseStatistic> = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
-        for _adversary in _json.breakdown_adversaries.iter() {
-            let mut _ds_counts: EnterpriseStatistic = EnterpriseStatistic::new();
+        // Load totals for percentages
+        let _total_techniques: usize = _json.stats.count_active_total_techniques;
+        let _total_subtechniques: usize = _json.stats.count_active_total_subtechniques;
+        for _item in _json.tactics.iter() {
+            let mut _stat: EnterpriseStatistic = EnterpriseStatistic::new();
+            for _technique in _json.breakdown_techniques.platforms.iter() {
+                if _technique.tactic.contains(_item) {
+                    _stat.count_techniques += 1;
+                }
+            }
+            for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
+                if _subtechnique.tactic.contains(_item) {
+                    _stat.count_subtechniques += 1;
+                }
+            }
+            _stat.item = _item.clone();
+            let _tp = (_stat.count_techniques as f64 /_total_techniques as f64) *100f64;
+            let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques as f64) *100f64;
+            _stat.from_total_techniques = _total_techniques;
+            _stat.from_total_subtechniques = _total_subtechniques;
+            _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
+            _stat.percent_subtechniques = format!("{}{}", _sp.ceil().to_string(), "%");
+            _results.push(_stat);
+        }
+        let _err: &str = "(?) Error: Unable To Deserialize Statistics For Datasources";
+        //println!("{:#?}", _results);
+        serde_json::to_string(&_results).expect(_err)
+    }    
+    ///
+    ///
+    fn search_stats_by_platforms(&self) -> String
+    {
+        let mut _results: Vec<EnterpriseStatistic> = vec![];
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
+        // Load totals for percentages
+        let _total_techniques: f64 = _json.stats.count_active_total_techniques as f64;
+        let _total_subtechniques: f64 = _json.stats.count_active_total_subtechniques as f64;
+        for _item in _json.platforms.iter() {
+            let mut _stat: EnterpriseStatistic = EnterpriseStatistic::new();
+            for _technique in _json.breakdown_techniques.platforms.iter() {
+                if _technique.platform.contains(_item) {
+                    _stat.count_techniques += 1;
+                }
+            }
+            for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
+                if _subtechnique.platform.contains(_item) {
+                    _stat.count_subtechniques += 1;
+                }
+            }
+            _stat.item = _item.clone();
+            let _tp = (_stat.count_techniques as f64 /_total_techniques) *100f64;
+            let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques) *100f64;
+            _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
+            _stat.percent_subtechniques = format!("{}{}", _sp.ceil().to_string(), "%");
+            _results.push(_stat);
+        }
+        let _err: &str = "(?) Error: Unable To Deserialize Statistics For Datasources";
+        //println!("{:#?}", _results);
+        serde_json::to_string(&_results).expect(_err)
+    }     
+    ///
+    ///
+    fn search_stats_by_tools(&self) -> String
+    {
+        let mut _results: Vec<EnterpriseStatistic> = vec![];
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
+        // Load totals for percentages
+        let _total_techniques: f64 = _json.stats.count_active_total_techniques as f64;
+        let _total_subtechniques: f64 = _json.stats.count_active_total_subtechniques as f64;
+        for _adversary in _json.breakdown_tools.iter() {
+            let mut _stat: EnterpriseStatistic = EnterpriseStatistic::new();
             for _technique in _json.breakdown_techniques.platforms.iter() {
                 for _at in _adversary.profile.techniques.items.iter() {
                     if _technique.tid.as_str() == _at.as_str() {
-                        _ds_counts.count_techniques += 1;
+                        _stat.count_techniques += 1;
                     }
                 }
             }
@@ -1379,16 +1454,103 @@ impl EnterpriseMatrixSearcher {
                 for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
                     for _at in _adversary.profile.subtechniques.items.iter() {
                         if _subtechnique.tid.as_str() == _at.as_str() {
-                            _ds_counts.count_subtechniques += 1;
+                            _stat.count_subtechniques += 1;
                         }
                     }
                 }
             }
             if self.matrix.as_str() == "enterprise-legacy" {
-                _ds_counts.is_legacy_matrix = true;
+                _stat.is_legacy_matrix = true;
             }
-            _ds_counts.item = _adversary.name.clone();
-            _results.push(_ds_counts);
+            _stat.item = _adversary.name.clone();
+            let _tp = (_stat.count_techniques as f64 /_total_techniques) *100f64;
+            let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques) *100f64;
+            _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
+            _stat.percent_subtechniques = format!("{}{}", _sp.ceil().to_string(), "%");
+            _results.push(_stat);
+        }
+        let _err: &str = "(?) Error: Unable To Deserialize Statistics For Datasources";
+        //println!("{:#?}", _results);
+        serde_json::to_string(&_results).expect(_err)
+    }    
+    ///
+    ///
+    fn search_stats_by_malware(&self) -> String
+    {
+        let mut _results: Vec<EnterpriseStatistic> = vec![];
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
+        // Load totals for percentages
+        let _total_techniques: f64 = _json.stats.count_active_total_techniques as f64;
+        let _total_subtechniques: f64 = _json.stats.count_active_total_subtechniques as f64;
+        for _adversary in _json.breakdown_malware.iter() {
+            let mut _stat: EnterpriseStatistic = EnterpriseStatistic::new();
+            for _technique in _json.breakdown_techniques.platforms.iter() {
+                for _at in _adversary.profile.techniques.items.iter() {
+                    if _technique.tid.as_str() == _at.as_str() {
+                        _stat.count_techniques += 1;
+                    }
+                }
+            }
+            if self.matrix.as_str() != "enterprise-legacy" {
+                for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
+                    for _at in _adversary.profile.subtechniques.items.iter() {
+                        if _subtechnique.tid.as_str() == _at.as_str() {
+                            _stat.count_subtechniques += 1;
+                        }
+                    }
+                }
+            }
+            if self.matrix.as_str() == "enterprise-legacy" {
+                _stat.is_legacy_matrix = true;
+            }
+            _stat.item = _adversary.name.clone();
+            let _tp = (_stat.count_techniques as f64 /_total_techniques) *100f64;
+            let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques) *100f64;
+            _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
+            _stat.percent_subtechniques = format!("{}{}", _sp.ceil().to_string(), "%");
+            _results.push(_stat);
+        }
+        let _err: &str = "(?) Error: Unable To Deserialize Statistics For Malware";
+        //println!("{:#?}", _results);
+        serde_json::to_string(&_results).expect(_err)
+    }    
+    ///
+    ///
+    ///
+    fn search_stats_by_adversaries(&self) -> String
+    {
+        let mut _results: Vec<EnterpriseStatistic> = vec![];
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
+        // Load totals for percentages
+        let _total_techniques: f64 = _json.stats.count_active_total_techniques as f64;
+        let _total_subtechniques: f64 = _json.stats.count_active_total_subtechniques as f64;
+        for _adversary in _json.breakdown_adversaries.iter() {
+            let mut _stat: EnterpriseStatistic = EnterpriseStatistic::new();
+            for _technique in _json.breakdown_techniques.platforms.iter() {
+                for _at in _adversary.profile.techniques.items.iter() {
+                    if _technique.tid.as_str() == _at.as_str() {
+                        _stat.count_techniques += 1;
+                    }
+                }
+            }
+            if self.matrix.as_str() != "enterprise-legacy" {
+                for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
+                    for _at in _adversary.profile.subtechniques.items.iter() {
+                        if _subtechnique.tid.as_str() == _at.as_str() {
+                            _stat.count_subtechniques += 1;
+                        }
+                    }
+                }
+            }
+            if self.matrix.as_str() == "enterprise-legacy" {
+                _stat.is_legacy_matrix = true;
+            }
+            _stat.item = _adversary.name.clone();
+            let _tp = (_stat.count_techniques as f64 /_total_techniques) *100f64;
+            let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques) *100f64;
+            _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
+            _stat.percent_subtechniques = format!("{}{}", _sp.ceil().to_string(), "%");
+            _results.push(_stat);
         }
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Datasources";
         //println!("{:#?}", _results);
@@ -1406,25 +1568,31 @@ impl EnterpriseMatrixSearcher {
     {
         let mut _results: Vec<EnterpriseStatistic> = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
+        let _total_techniques: f64 = _json.stats.count_active_total_techniques as f64;
+        let _total_subtechniques: f64 = _json.stats.count_active_total_subtechniques as f64;
         for _datasource in _json.datasources.iter() {
-            let mut _ds_counts: EnterpriseStatistic = EnterpriseStatistic::new();
+            let mut _stat: EnterpriseStatistic = EnterpriseStatistic::new();
             for _technique in _json.breakdown_techniques.platforms.iter() {
                 if _technique.datasources.contains(_datasource.as_str()) {
-                    _ds_counts.count_techniques += 1;
+                    _stat.count_techniques += 1;
                 }
             }
             if self.matrix.as_str() != "enterprise-legacy" {
                 for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
                     if _subtechnique.datasources.contains(_datasource.as_str()) {
-                        _ds_counts.count_subtechniques += 1;
+                        _stat.count_subtechniques += 1;
                     }
                 }
             }
             if self.matrix.as_str() == "enterprise-legacy" {
-                _ds_counts.is_legacy_matrix = true;
+                _stat.is_legacy_matrix = true;
             }
-            _ds_counts.item = _datasource.clone();
-            _results.push(_ds_counts);
+            _stat.item = _datasource.clone();
+            let _tp = (_stat.count_techniques as f64 /_total_techniques) *100f64;
+            let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques) *100f64;
+            _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
+            _stat.percent_subtechniques = format!("{}{}", _sp.ceil().to_string(), "%");
+            _results.push(_stat);
         }
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Datasources";
         //println!("{:#?}", _results);
@@ -1525,17 +1693,44 @@ impl EnterpriseMatrixSearcher {
         _wants_outfile: &str,
     ) {
         let mut _table = Table::new();
-        _table.add_row(Row::new(vec![
-            Cell::new("INDEX").style_spec("FW"),
-            Cell::new("TACTICS").style_spec("FW"),
-        ]));
-        let _json: Vec<String> = serde_json::from_str(results[0].as_str())
+        if self.matrix.as_str() == "enterprise-legacy" {
+            _table.add_row(Row::new(vec![
+                Cell::new("INDEX").style_spec("FY"),
+                Cell::new("TACTICS").style_spec("FW"),
+                Cell::new("TECHNIQUES").style_spec("cFW"),
+                Cell::new("% TECHNIQUES").style_spec("cFY"),
+            ]));
+        } else {
+            _table.add_row(Row::new(vec![
+                Cell::new("INDEX").style_spec("FY"),
+                Cell::new("TACTICS").style_spec("FW"),
+                Cell::new("TECHNIQUES").style_spec("cFW"),
+                Cell::new("SUBTECHNIQUES").style_spec("cFW"),
+                Cell::new("% TECHNIQUES").style_spec("cFY"),
+                Cell::new("% SUBTECHNIQUES").style_spec("cFY"),
+            ]));
+        }
+
+        let _json: Vec<EnterpriseStatistic> = serde_json::from_str(results[0].as_str())
             .expect("(?) Error: Unable To Deserialize Search Results By Tactics");
         for (_idx, _row) in _json.iter().enumerate() {
-            _table.add_row(Row::new(vec![
-                Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
-                Cell::new(_row.as_str()).style_spec("FW"),
-            ]));
+            if self.matrix.as_str() == "enterprise-legacy" {
+                _table.add_row(Row::new(vec![
+                    Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                    Cell::new(_row.item.as_str()).style_spec("FW"),
+                    Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_techniques.as_str()).style_spec("cFW"),
+                ]));
+            } else {
+                _table.add_row(Row::new(vec![
+                    Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                    Cell::new(_row.item.as_str()).style_spec("FW"),
+                    Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_subtechniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_techniques.as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_subtechniques.as_str()).style_spec("cFW"),
+                ]));
+            }
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
@@ -1549,7 +1744,7 @@ impl EnterpriseMatrixSearcher {
     /// 
     /// 
     /// 
-    fn render_tools_table(
+    fn render_tools_profile_table(
         &self,
         results: &Vec<String>,
         _wants_export: &str,
@@ -1702,7 +1897,7 @@ impl EnterpriseMatrixSearcher {
     ///
     ///
     ///
-    fn render_malware_table(
+    fn render_malware_profile_table(
         &self,
         results: &Vec<String>,
         _wants_export: &str,
@@ -2242,17 +2437,44 @@ impl EnterpriseMatrixSearcher {
         _wants_outfile: &str,
     ) {
         let mut _table = Table::new();
-        _table.add_row(Row::new(vec![
-            Cell::new("INDEX").style_spec("FW"),
-            Cell::new("PLATFORMS").style_spec("FW"),
-        ]));
-        let _err: &str = "(?) Error: Unable To Deserialize Search Results By Platforms";
-        let _json: Vec<String> = serde_json::from_str(results[0].as_str()).expect(_err);
-        for (_idx, _row) in _json.iter().enumerate() {
+        if self.matrix.as_str() == "enterprise-legacy" {
             _table.add_row(Row::new(vec![
-                Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
-                Cell::new(_row.as_str()).style_spec("FW"),
+                Cell::new("INDEX").style_spec("FW"),
+                Cell::new("PLATFORMS").style_spec("FW"),
+                Cell::new("TECHNIQUES").style_spec("cFW"),
+                Cell::new("% TECHNIQUES").style_spec("cFY"),
             ]));
+        } else {
+            _table.add_row(Row::new(vec![
+                Cell::new("INDEX").style_spec("FW"),
+                Cell::new("PLATFORMS").style_spec("FW"),
+                Cell::new("TECHNIQUES").style_spec("cFW"),
+                Cell::new("SUBTECHNIQUES").style_spec("cFW"),
+                Cell::new("% TECHNIQUES").style_spec("cFY"),
+                Cell::new("% SUBTECHNIQUES").style_spec("cFY"),
+            ]));
+        }
+        let _err: &str = "(?) Error: Unable To Deserialize Search Results By Platforms";
+        //let _json: Vec<String> = serde_json::from_str(results[0].as_str()).expect(_err);
+        let _json: Vec<EnterpriseStatistic> = serde_json::from_str(results[0].as_str()).expect(_err);
+        for (_idx, _row) in _json.iter().enumerate() {
+            if self.matrix.as_str() == "enterprise-legacy" {
+                _table.add_row(Row::new(vec![
+                    Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                    Cell::new(_row.item.as_str()).style_spec("FW"),
+                    Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_techniques.as_str()).style_spec("cFW"),
+                ]));
+            } else {
+                _table.add_row(Row::new(vec![
+                    Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                    Cell::new(_row.item.as_str()).style_spec("FW"),
+                    Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_subtechniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_techniques.as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_subtechniques.as_str()).style_spec("cFW"),
+                ]));
+            }
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
@@ -2275,6 +2497,7 @@ impl EnterpriseMatrixSearcher {
                 Cell::new("INDEX").style_spec("FW"),
                 Cell::new("ADVERSARY").style_spec("cFW"),
                 Cell::new("TECHNIQUES").style_spec("cFW"),
+                Cell::new("(%) TECHNIQUES").style_spec("cFY"),
             ]));
         } else {
             _table.add_row(Row::new(vec![
@@ -2282,6 +2505,8 @@ impl EnterpriseMatrixSearcher {
                 Cell::new("ADVERSARY").style_spec("FW"),
                 Cell::new("TECHNIQUES").style_spec("cFW"),
                 Cell::new("SUBTECHNIQUES").style_spec("cFW"),
+                Cell::new("(%) TECHNIQUES").style_spec("cFY"),
+                Cell::new("(%) SUBTECHNIQUES").style_spec("cFY"),
             ]));
         }
         let _err: &str = "(?) Error: Unable To Deserialize Search Results By Adversaries";
@@ -2293,13 +2518,16 @@ impl EnterpriseMatrixSearcher {
                     Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
                     Cell::new(_row.item.as_str()).style_spec("FW"),
                     Cell::new(_row.count_techniques.to_string().as_str()).style_spec("c"),
+                    Cell::new(_row.percent_techniques.as_str()).style_spec("c"),
                 ]));
             } else {
                 _table.add_row(Row::new(vec![
                     Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
                     Cell::new(_row.item.as_str()).style_spec("FW"),
-                    Cell::new(_row.count_techniques.to_string().as_str()).style_spec("c"),
-                    Cell::new(_row.count_subtechniques.to_string().as_str()).style_spec("c"),
+                    Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_subtechniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_techniques.as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_subtechniques.as_str()).style_spec("cFW"),
                 ]));
             }
         }
@@ -2310,9 +2538,119 @@ impl EnterpriseMatrixSearcher {
             _table.printstd();
             println!("{}", "\n\n");
         }
-    }    
+    }
     ///
     ///
+    fn render_malware_table(
+        &self,
+        results: &Vec<String>,
+        _wants_export: &str,
+        _wants_outfile: &str,
+    ) {
+        let mut _table = Table::new();
+        if self.matrix.as_str() == "enterprise-legacy" {
+            _table.add_row(Row::new(vec![
+                Cell::new("INDEX").style_spec("FW"),
+                Cell::new("TOOL").style_spec("cFW"),
+                Cell::new("TECHNIQUES").style_spec("cFW"),
+                Cell::new("% TECHNIQUES").style_spec("cFY"),
+            ]));
+        } else {
+            _table.add_row(Row::new(vec![
+                Cell::new("INDEX").style_spec("FW"),
+                Cell::new("TOOL").style_spec("cFW"),
+                Cell::new("TECHNIQUES").style_spec("cFW"),
+                Cell::new("SUBTECHNIQUES").style_spec("cFW"),
+                Cell::new("% TECHNIQUES").style_spec("cFY"),
+                Cell::new("% SUBTECHNIQUES").style_spec("cFY"),
+            ]));
+        }
+        let _err: &str = "(?) Error: Unable To Deserialize Search Results By DataSources";
+        //let _json: Vec<String> = serde_json::from_str(results[0].as_str()).expect(_err);
+        let _json: Vec<EnterpriseStatistic> = serde_json::from_str(results[0].as_str()).expect(_err);
+        for (_idx, _row) in _json.iter().enumerate() {
+            if self.matrix.as_str()  == "enterprise-legacy" {
+                _table.add_row(Row::new(vec![
+                    Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                    Cell::new(_row.item.as_str()).style_spec("FW"),
+                    Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_subtechniques.to_string().as_str()).style_spec("cFW"),
+                ]));
+            } else {
+                _table.add_row(Row::new(vec![
+                    Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                    Cell::new(_row.item.as_str()).style_spec("FW"),
+                    Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_subtechniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_subtechniques.to_string().as_str()).style_spec("cFW"),
+                ]));
+            }
+        }
+        if _wants_export == "csv" {
+            self.save_csv_export(_wants_outfile, &_table);
+        } else {
+            println!("{}", "\n\n");
+            _table.printstd();
+            println!("{}", "\n\n");
+        }
+    }
+    ///
+    ///
+    fn render_tools_table(
+        &self,
+        results: &Vec<String>,
+        _wants_export: &str,
+        _wants_outfile: &str,
+    ) {
+        let mut _table = Table::new();
+        if self.matrix.as_str() == "enterprise-legacy" {
+            _table.add_row(Row::new(vec![
+                Cell::new("INDEX").style_spec("FW"),
+                Cell::new("TOOL").style_spec("cFW"),
+                Cell::new("TECHNIQUES").style_spec("cFW"),
+                Cell::new("% TECHNIQUES").style_spec("cFY"),
+            ]));
+        } else {
+            _table.add_row(Row::new(vec![
+                Cell::new("INDEX").style_spec("FW"),
+                Cell::new("TOOL").style_spec("cFW"),
+                Cell::new("TECHNIQUES").style_spec("cFW"),
+                Cell::new("SUBTECHNIQUES").style_spec("cFW"),
+                Cell::new("% TECHNIQUES").style_spec("cFY"),
+                Cell::new("% SUBTECHNIQUES").style_spec("cFY"),
+            ]));
+        }
+        let _err: &str = "(?) Error: Unable To Deserialize Search Results By DataSources";
+        //let _json: Vec<String> = serde_json::from_str(results[0].as_str()).expect(_err);
+        let _json: Vec<EnterpriseStatistic> = serde_json::from_str(results[0].as_str()).expect(_err);
+        for (_idx, _row) in _json.iter().enumerate() {
+            if self.matrix.as_str()  == "enterprise-legacy" {
+                _table.add_row(Row::new(vec![
+                    Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                    Cell::new(_row.item.as_str()).style_spec("FW"),
+                    Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_techniques.to_string().as_str()).style_spec("cFW"),
+                ]));
+            } else {
+                _table.add_row(Row::new(vec![
+                    Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                    Cell::new(_row.item.as_str()).style_spec("FW"),
+                    Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_subtechniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_techniques.to_string().as_str()).style_spec("cFW"),
+                ]));
+            }
+        }
+        if _wants_export == "csv" {
+            self.save_csv_export(_wants_outfile, &_table);
+        } else {
+            println!("{}", "\n\n");
+            _table.printstd();
+            println!("{}", "\n\n");
+        }
+    }
     ///
     ///
     fn render_datasources_table(
@@ -2327,13 +2665,16 @@ impl EnterpriseMatrixSearcher {
                 Cell::new("INDEX").style_spec("FW"),
                 Cell::new("DATASOURCE").style_spec("cFW"),
                 Cell::new("TECHNIQUES").style_spec("cFW"),
+                Cell::new("% TECHNIQUES").style_spec("cFY"),
             ]));
         } else {
             _table.add_row(Row::new(vec![
                 Cell::new("INDEX").style_spec("FW"),
-                Cell::new("DATASOURCE").style_spec("FW"),
+                Cell::new("DATASOURCE").style_spec("cFW"),
                 Cell::new("TECHNIQUES").style_spec("cFW"),
                 Cell::new("SUBTECHNIQUES").style_spec("cFW"),
+                Cell::new("% TECHNIQUES").style_spec("cFY"),
+                Cell::new("% SUBTECHNIQUES").style_spec("cFY"),
             ]));
         }
         let _err: &str = "(?) Error: Unable To Deserialize Search Results By DataSources";
@@ -2344,14 +2685,17 @@ impl EnterpriseMatrixSearcher {
                 _table.add_row(Row::new(vec![
                     Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
                     Cell::new(_row.item.as_str()).style_spec("FW"),
-                    Cell::new(_row.count_techniques.to_string().as_str()).style_spec("c"),
+                    Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_techniques.to_string().as_str()).style_spec("cFW"),
                 ]));
             } else {
                 _table.add_row(Row::new(vec![
                     Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
                     Cell::new(_row.item.as_str()).style_spec("FW"),
-                    Cell::new(_row.count_techniques.to_string().as_str()).style_spec("c"),
-                    Cell::new(_row.count_subtechniques.to_string().as_str()).style_spec("c"),
+                    Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_subtechniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_techniques.to_string().as_str()).style_spec("cFW"),
                 ]));
             }
         }

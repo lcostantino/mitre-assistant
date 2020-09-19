@@ -402,7 +402,7 @@ impl EnterpriseMatrixParser {
         let _high = total as f64;
         let _low = actual as f64;
         let _percent = (_low / _high) * 100f64;
-        format!("{}{}", _percent.floor().to_string(), "%")
+        format!("{}{}", _percent.round().to_string(), "%")
     }
     fn extract_stats_techniques_by_totals(&mut self) {
         let mut _total_techniques: HashSet<String> = HashSet::new();
