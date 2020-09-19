@@ -554,6 +554,8 @@ impl EnterpriseMatrixSearcher {
                 for _item in _json.breakdown_adversaries.iter() {
                     if _item.name.to_lowercase().as_str() == adversary {
                         _results_adversaries.push(_item);
+                    } else if _item.aliases.contains(adversary) {
+                        _results.adversaries.push(_item);
                     }
                 }
             }
@@ -562,7 +564,9 @@ impl EnterpriseMatrixSearcher {
                 let _terms: Vec<_> = adversary.split(',').collect();
                 for _term in _terms {
                     for _item in _json.breakdown_adversaries.iter() {
-                        if _item.name.to_lowercase().as_str() == _term {
+                        if _item.name.to_lowercase().as_str() == _term
+                            || _item.aliases.contains(_term)
+                        {
                             if _wants_correlation {
                                 self.correlate_adversary(_term, &mut _results_correlation);
                             } else {
