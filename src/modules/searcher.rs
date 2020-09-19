@@ -1965,7 +1965,7 @@ impl EnterpriseMatrixSearcher {
                         Cell::new(&_tools.as_str().replace("|", "\n")),
                     ]));
                 }
-                _json_out_adversary.push(_row);
+                _json_out_adversary.push(_row.clone());
             }
         }
         if _wants_export == "csv" {

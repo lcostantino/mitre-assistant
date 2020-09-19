@@ -389,7 +389,7 @@ impl EnterpriseTactic {
     }
 }
 
-#[derive(Debug, Deserialize, Serialize, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Clone, Debug, Deserialize, Serialize, Eq, PartialEq, Ord, PartialOrd)]
 pub struct EnterpriseAdversary {
     pub id:         String,
     pub name:       String,
@@ -417,7 +417,7 @@ impl EnterpriseAdversary {
 }
 
 
-#[derive(Debug, Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Clone, Debug, Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
 pub struct EnterpriseAdversaryProfile {
     pub malware:        EnterpriseProfileEntry,
     pub tools:          EnterpriseProfileEntry,
