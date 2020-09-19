@@ -447,7 +447,7 @@ impl EnterpriseAdversaryProfile {
 }
 
 
-#[derive(Debug, Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
+#[derive(Clone,Debug, Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd)]
 pub struct EnterpriseProfileEntry {
     pub count: usize,
     pub items: Vec<String>
