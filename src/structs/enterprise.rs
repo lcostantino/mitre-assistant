@@ -641,8 +641,15 @@ impl EnterpriseStatistics {
 #[derive(Debug, Deserialize, Serialize, Hash, Eq, PartialEq, PartialOrd, Ord)]
 pub struct EnterpriseStatistic {
     pub item:   String,
+    pub meta:   String,
     pub count_techniques: usize,
     pub count_subtechniques: usize,
+    pub count_platforms: usize,
+    pub count_tactics: usize,
+    pub count_datasources: usize,
+    pub count_adversaries: usize,
+    pub count_malware: usize,
+    pub count_tools: usize,
     pub percent_techniques: String,
     pub percent_subtechniques: String,
     pub from_total_techniques: usize,
@@ -654,8 +661,15 @@ impl EnterpriseStatistic {
     {
         EnterpriseStatistic {
             item: "".to_string(),
+            meta: "".to_string(),
             count_techniques: 0,
             count_subtechniques: 0,
+            count_platforms: 0,
+            count_tactics: 0,
+            count_datasources: 0,
+            count_adversaries: 0,
+            count_malware: 0,
+            count_tools: 0,
             percent_techniques: "%".to_string(),
             percent_subtechniques: "%".to_string(),
             from_total_techniques: 0,

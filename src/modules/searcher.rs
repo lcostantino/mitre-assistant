@@ -87,6 +87,7 @@ impl EnterpriseMatrixSearcher {
         let mut _matches_many: Vec<usize> = vec![];
         //
         //
+        let mut _wants_summary: bool = false; // Signals that it wants a "stats:{object} query"
         let mut _wants_stats: bool = false; // Returns The Stats Key
         let mut _wants_nosub: bool = false; // Returns Techniques That Don't Have Subtechniques
         let mut _wants_revoked: bool = false; // Returns Techniques Revoked By Mitre
@@ -97,6 +98,8 @@ impl EnterpriseMatrixSearcher {
         let mut _wants_adversary: bool = false;
         let mut _wants_malware: bool = false;
         let mut _wants_tool: bool = false;
+        let mut _wants_all_techniques: bool = false;
+        let mut _wants_all_subtechniques: bool = false;
         let mut _wants_all_adversaries: bool = false;
         let mut _wants_all_malware: bool = false;
         let mut _wants_all_tools: bool = false;
@@ -116,21 +119,48 @@ impl EnterpriseMatrixSearcher {
             _valid.push((_st, 6usize));
         } else if _st == "subtechniques" {
             _valid.push((_st, 7usize));
-        } else if _st == "datasources" {
+        } else if _st == "stats:datasources" {
             _valid.push((_st, 8usize));
             _wants_datasources = true;
-        } else if _st == "platforms" {
+            _wants_summary = true;
+        } else if _st == "stats:platforms" {
             _valid.push((_st, 9usize));
             _wants_platforms = true;
+            _wants_summary = true;
         } else if _st == "nodatasources" {
             _valid.push((_st, 10usize));
-        } else if _st == "tactics" {
+        } else if _st == "stats:tactics" {
             _valid.push((_st, 11usize));
             _wants_tactics = true;
         } else if _st == "deprecated" {
             _valid.push((_st, 12usize));
             _wants_deprecated = true;
-        } else if _scanner_ta.pattern.is_match(_st) {
+        } else if _st == "stats:techniques" {
+            _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
+            _valid.push((_st, 13usize));
+            _wants_all_techniques = true;
+            _wants_summary = true;
+        } else if _st == "stats:subtechniques" {
+            _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
+            _valid.push((_st, 14usize));
+            _wants_summary = true;
+        } else if _st == "stats:adversaries" {
+            _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
+            _valid.push((_st, 15usize));
+            _wants_all_adversaries = true;
+            _wants_summary = true;
+        } else if _st == "stats:malware" {
+            _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
+            _valid.push((_st, 16usize));
+            _wants_all_malware = true;
+            _wants_summary = true;
+        } else if _st == "stats:tools" {
+            _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
+            _valid.push((_st, 17usize));
+            _wants_all_tools = true;
+            _wants_summary = true;
+        }
+        else if _scanner_ta.pattern.is_match(_st) {
             _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 44usize));
         }
@@ -228,6 +258,16 @@ impl EnterpriseMatrixSearcher {
                     _results.push(self.search_stats_by_tactics());
                 } else if _pattern == &12usize {
                     _results.push(self.search_by_deprecated());
+                } else if _pattern == &13usize { 
+                    _results.push(self.search_stats_by_techniques());
+                } /*else if _pattern == &14usize { 
+                    _results.push();
+                }*/ else if _pattern == &15usize { 
+                    _results.push(self.search_stats_by_adversaries());
+                } else if _pattern == &16usize {
+                    _results.push(self.search_stats_by_malware()); 
+                } else if _pattern == &17usize {
+                    _results.push(self.search_stats_by_tools()); 
                 } else if _pattern == &34usize {
                     _results.push(self.search_all_overlapped());
                 } else if _pattern == &35usize {
@@ -243,14 +283,14 @@ impl EnterpriseMatrixSearcher {
                 } else if _pattern == &40usize {
                     _results.push(self.search_by_tool(_term, _matches_many.clone()));
                 } else if _pattern == &41usize {
-                    //_results.push(self.search_all_adversaries());
-                    _results.push(self.search_stats_by_adversaries());
+                    _results.push(self.search_all_adversaries());
+                    //_results.push(self.search_stats_by_adversaries());
                 } else if _pattern == &42usize {
-                   // _results.push(self.search_all_malware());
-                   _results.push(self.search_stats_by_malware());
+                    _results.push(self.search_all_malware());
+                   //_results.push(self.search_stats_by_malware());
                 } else if _pattern == &43usize {
-                    _results.push(self.search_stats_by_tools());
-                    //_results.push(self.search_all_tools());
+                    //_results.push(self.search_stats_by_tools());
+                    _results.push(self.search_all_tools());
                 } else if _pattern == &44usize {
                     _results.push(self.search_by_tactic(_term, _wants_subtechniques, _matches_many.clone()));
                 } else if _pattern == &45usize {
@@ -265,17 +305,34 @@ impl EnterpriseMatrixSearcher {
             //      Note:   Transforming results into CSV, JSON should be done within
             //              the renderer functions.
             //
-            if _wants_all_adversaries {
-                self.render_adversaries_table(&_results, _wants_export, _wants_outfile);
-                //self.render_adversaries_profile_table(&_results, _wants_export, _wants_outfile, _wants_correlation);
+            if _wants_all_techniques {
+                if _wants_summary {
+                    self.render_techniques_table(&_results, _wants_export, _wants_outfile);
+                } else {
+                    self.render_techniques_details_table(&_results, _wants_export, _wants_outfile)
+                }
+            } else if _wants_all_adversaries {
+                if _wants_summary {
+                    self.render_adversaries_table(&_results, _wants_export, _wants_outfile);
+                } else {
+                    self.render_adversaries_profile_table(&_results, _wants_export, _wants_outfile, _wants_correlation);
+                }
             } else if _wants_adversary {
                 self.render_adversaries_profile_table(&_results, _wants_export, _wants_outfile, _wants_correlation);
             } else if _wants_all_malware {
-                self.render_malware_table(&_results, _wants_export, _wants_outfile);
+                if _wants_summary {
+                    self.render_malware_table(&_results, _wants_export, _wants_outfile);
+                } else {
+                    self.render_malware_profile_table(&_results, _wants_export, _wants_outfile, _wants_correlation);
+                }
             } else if _wants_malware {
                 self.render_malware_profile_table(&_results, _wants_export, _wants_outfile, _wants_correlation);
             } else if _wants_all_tools {
-                self.render_tools_table(&_results, _wants_export, _wants_outfile);
+                if _wants_summary {
+                    self.render_tools_table(&_results, _wants_export, _wants_outfile);
+                } else {
+                    self.render_tools_profile_table(&_results, _wants_export, _wants_outfile);
+                }
             } else if _wants_tool {
                 self.render_tools_profile_table(&_results, _wants_export, _wants_outfile);
             } else if _wants_revoked {
@@ -303,7 +360,7 @@ impl EnterpriseMatrixSearcher {
                     _wants_outfile,
                 );
             } else {
-                self.render_techniques_table(&_results, _wants_export, _wants_outfile);
+                self.render_techniques_details_table(&_results, _wants_export, _wants_outfile);
             }
         } else {
             println!(
@@ -1367,6 +1424,104 @@ impl EnterpriseMatrixSearcher {
     /// self.search_stats();
     /// ```
     ///
+    fn search_stats_by_techniques(&self) -> String
+    {
+        let mut _results: Vec<EnterpriseStatistic> = vec![];
+        let mut _tracker: HashSet<String> = HashSet::new();
+        let mut _tracker_tactics: Vec<(String, String)> = vec![];
+        let mut _uniq_targets: HashSet<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = HashSet::new();
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
+        // Load totals for percentages
+        let _total_techniques: usize = _json.stats.count_active_total_techniques;
+        let _total_subtechniques: usize = _json.stats.count_active_total_subtechniques;
+        // Load tuple
+        for _technique in _json.breakdown_techniques.platforms.iter() {
+            _tracker_tactics.push((_technique.tid.clone(), _technique.tactic.clone()));
+        }
+        for _item in _json.uniques_techniques.iter() {
+            if !_tracker.contains(_item.as_str()) {
+                {
+                    for _technique in _json.breakdown_techniques.platforms.iter() {
+                        if _technique.tid.as_str() == _item {
+                            let mut _et = _technique.clone();
+                            _et.tactic = "stripped".to_string();
+                            _uniq_targets.insert(_et);
+                        }
+                    }
+                }
+                _tracker.insert(_item.clone());
+            }
+        }
+        
+        for _technique in _uniq_targets.iter() {
+            // # of Tactics
+            let mut _stat: EnterpriseStatistic = EnterpriseStatistic::new();
+            for _killchain in _tracker_tactics.iter() {
+                if _technique.tid.as_str() == _killchain.0.as_str() {
+                    _stat.count_tactics += 1;
+                }
+            }
+            // # of Platforms
+            if _technique.platform.contains("|") {
+                let _x: Vec<&str> = _technique.platform.split("|").collect();
+                for _item in _x {
+                    _stat.count_platforms += 1;
+                }
+            } else {
+                _stat.count_platforms += 1;
+            }
+            // # of Subtechniques
+            if _technique.has_subtechniques {
+                _stat.count_subtechniques = _technique.subtechniques.len();
+            }
+            // # of Datasources
+            if _technique.datasources.as_str() != "none" {
+                let _x: Vec<&str> = _technique.datasources.as_str().split("|").collect();
+                for _item in _x {
+                    _stat.count_datasources += 1;
+                }
+            }
+            // # of Adversaries
+            for _adversary in _json.breakdown_adversaries.iter() {
+                if _adversary.profile.techniques.items.len() > 0 {
+                    for _at in _adversary.profile.techniques.items.iter() {
+                        if _at.as_str() == _technique.tid.as_str() {
+                            _stat.count_adversaries += 1;
+                        }
+                    }
+                }
+            }
+            // # of Malware
+            for _malware in _json.breakdown_malware.iter() {
+                if _malware.profile.techniques.items.len() > 0 {
+                    for _mt in _malware.profile.techniques.items.iter() {
+                        if _mt.as_str() == _technique.tid.as_str() {
+                            _stat.count_malware += 1;
+                        }
+                    }
+                }
+            }
+            // # of Tools
+            for _tool in _json.breakdown_tools.iter() {
+                if _tool.profile.techniques.items.len() > 0 {
+                    for _tt in _tool.profile.techniques.items.iter() {
+                        if _tt.as_str() == _technique.tid.as_str() {
+                            _stat.count_tools += 1;
+                        }
+                    }
+                }
+            }
+            _stat.item = _technique.tid.clone();
+            _stat.meta = _technique.technique.clone();
+            _results.push(_stat);
+        }
+        _results.sort();
+        // Rollup the Statistic
+        let _err: &str = "(?) Error: Unable To Deserialize Statistics For Techniques";
+        //println!("{:#?}", _results);
+        serde_json::to_string(&_results).expect(_err)
+    }      
+    ///
     ///
     fn search_stats_by_tactics(&self) -> String
     {
@@ -1697,6 +1852,94 @@ impl EnterpriseMatrixSearcher {
     /// # **Rendering Functions**
     /// This section of the source code is for functions that render queery results
     /// or render information to the end-user.
+    ///
+    fn render_techniques_table(
+        &self,
+        results: &Vec<String>,
+        _wants_export: &str,
+        _wants_outfile: &str,
+    ) {
+        
+        let mut _table = Table::new();
+        if self.matrix.as_str() == "enterprise-legacy" {
+            _table.add_row(Row::new(vec![
+                Cell::new("INDEX").style_spec("FY"),
+                Cell::new("TECHNIQUE").style_spec("FW"),
+                Cell::new("TECHNIQUE NAME").style_spec("FW"),
+                Cell::new("TACTICS").style_spec("cFW"),
+                Cell::new("PLATFORMS").style_spec("cFW"),
+                Cell::new("DATASOURCES").style_spec("cFW"),
+                Cell::new("ADVERSARIES").style_spec("cFW"),
+                Cell::new("MALWARE").style_spec("cFW"),
+                Cell::new("TOOLS").style_spec("cFW"),
+            ]));
+        } else {
+            _table.add_row(Row::new(vec![
+                Cell::new("INDEX").style_spec("FY"),
+                Cell::new("TECHNIQUE").style_spec("cFW"),
+                Cell::new("TECHNIQUE NAME").style_spec("FW"),
+                Cell::new("SUBTECHNIQUES").style_spec("cFW"),
+                Cell::new("TACTICS").style_spec("cFW"),
+                Cell::new("PLATFORMS").style_spec("cFW"),
+                Cell::new("DATASOURCES").style_spec("cFW"),
+                Cell::new("ADVERSARIES").style_spec("cFW"),
+                Cell::new("MALWARE").style_spec("cFW"),
+                Cell::new("TOOLS").style_spec("cFW"),
+            ]));
+        }
+
+        let _json: Vec<EnterpriseStatistic> = serde_json::from_str(results[0].as_str())
+            .expect("(?) Error: Unable To Deserialize Search Results By Techniques");
+        for (_idx, _row) in _json.iter().enumerate() {
+            if self.matrix.as_str() == "enterprise-legacy" {
+                _table.add_row(Row::new(vec![
+                    Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                    Cell::new(_row.item.as_str()).style_spec("cFW"),
+                    Cell::new(_row.meta.as_str()).style_spec("FW"),
+                    Cell::new(_row.count_tactics.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_platforms.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_datasources.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_adversaries.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_malware.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_tools.to_string().as_str()).style_spec("cFW"),
+                ]));
+            } else {
+                _table.add_row(Row::new(vec![
+                    Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
+                    Cell::new(_row.item.as_str()).style_spec("cFW"),
+                    Cell::new(_row.meta.as_str()).style_spec("FW"),
+                    Cell::new(_row.count_subtechniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_tactics.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_platforms.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_datasources.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_adversaries.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_malware.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_tools.to_string().as_str()).style_spec("cFW"),
+                ]));
+            }
+        }
+        if _wants_export == "csv" {
+            self.save_csv_export(_wants_outfile, &_table);
+        } else if _wants_export == "json" {
+            println!("{}", serde_json::to_string_pretty(&_json).unwrap());
+        } else {
+            println!("{}", "\n\n");
+            let mut _totals_table = Table::new();
+            _totals_table.add_row(Row::new(vec![
+                Cell::new("Total Techniques").style_spec("FY"),
+                Cell::new(_json[0].from_total_techniques.to_string().as_str()).style_spec("cFW"),
+                Cell::new(_json[0].from_total_subtechniques.to_string().as_str()).style_spec("cFW"),
+                Cell::new("Total Subtechniques").style_spec("FY"),
+            ]));
+
+            _totals_table.printstd();
+            println!("{}", "\n\n");
+            _table.printstd();
+            println!("{}", "\n\n");
+            
+        }
+    }    
+    ///
     ///
     fn render_tactics_table(
         &self,
@@ -2793,7 +3036,7 @@ impl EnterpriseMatrixSearcher {
             println!("{}", "\n\n");
         }
     }
-    fn render_techniques_table(
+    fn render_techniques_details_table(
         &self,
         results: &Vec<String>,
         _wants_export: &str,
