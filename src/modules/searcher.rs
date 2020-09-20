@@ -169,7 +169,7 @@ impl EnterpriseMatrixSearcher {
             _matches_many = _scanner_ds.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 37usize));
         }
-        else if _scanner_pl.pattern.is_match(_st) {
+        else if _scanner_pl.pattern.is_match(_st) && !_st.contains("-") {
             _matches_many = _scanner_pl.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 45usize));
         } else if _st == "overlap" {
