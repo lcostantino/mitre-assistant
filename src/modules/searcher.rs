@@ -1727,8 +1727,7 @@ impl EnterpriseMatrixSearcher {
                 _stat.is_legacy_matrix = true;
             }
             _stat.item = _adversary.name.clone();
-            _stat.count_tools = _adversary.profile.tools.count;
-            _stat.count_malware = _adversary.profile.malware.count;
+            _stat.count_adversaries = _adversary.profile.adversaries.count;
             _stat.count_tactics = _adversary.profile.tactics.count;
             _stat.count_techniques = _adversary.profile.techniques.count;
             _stat.count_subtechniques = _adversary.profile.subtechniques.count;
@@ -1777,7 +1776,7 @@ impl EnterpriseMatrixSearcher {
                 _stat.is_legacy_matrix = true;
             }
             _stat.item = _adversary.name.clone();
-            _stat.count_tools = _adversary.profile.tools.count;
+            _stat.count_adversaries = _adversary.profile.adversaries.count;
             _stat.count_tactics = _adversary.profile.tactics.count;
             _stat.count_techniques = _adversary.profile.techniques.count;
             _stat.count_subtechniques = _adversary.profile.subtechniques.count;
