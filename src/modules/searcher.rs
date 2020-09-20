@@ -1394,6 +1394,8 @@ impl EnterpriseMatrixSearcher {
             _stat.from_total_subtechniques = _total_subtechniques;
             _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
             _stat.percent_subtechniques = format!("{}{}", _sp.ceil().to_string(), "%");
+            _stat.from_total_techniques = _total_techniques as usize;
+            _stat.from_total_subtechniques = _total_subtechniques as usize;
             _results.push(_stat);
         }
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Datasources";
@@ -1426,6 +1428,8 @@ impl EnterpriseMatrixSearcher {
             let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques) *100f64;
             _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
             _stat.percent_subtechniques = format!("{}{}", _sp.ceil().to_string(), "%");
+            _stat.from_total_techniques = _total_techniques as usize;
+            _stat.from_total_subtechniques = _total_subtechniques as usize;
             _results.push(_stat);
         }
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Datasources";
@@ -1467,6 +1471,8 @@ impl EnterpriseMatrixSearcher {
             let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques) *100f64;
             _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
             _stat.percent_subtechniques = format!("{}{}", _sp.ceil().to_string(), "%");
+            _stat.from_total_techniques = _total_techniques as usize;
+            _stat.from_total_subtechniques = _total_subtechniques as usize;
             _results.push(_stat);
         }
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Datasources";
@@ -1508,6 +1514,8 @@ impl EnterpriseMatrixSearcher {
             let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques) *100f64;
             _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
             _stat.percent_subtechniques = format!("{}{}", _sp.ceil().to_string(), "%");
+            _stat.from_total_techniques = _total_techniques as usize;
+            _stat.from_total_subtechniques = _total_subtechniques as usize;
             _results.push(_stat);
         }
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Malware";
@@ -1550,6 +1558,8 @@ impl EnterpriseMatrixSearcher {
             let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques) *100f64;
             _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
             _stat.percent_subtechniques = format!("{}{}", _sp.ceil().to_string(), "%");
+            _stat.from_total_techniques = _total_techniques as usize;
+            _stat.from_total_subtechniques = _total_subtechniques as usize;
             _results.push(_stat);
         }
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Datasources";
@@ -1592,6 +1602,8 @@ impl EnterpriseMatrixSearcher {
             let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques) *100f64;
             _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
             _stat.percent_subtechniques = format!("{}{}", _sp.ceil().to_string(), "%");
+            _stat.from_total_techniques = _total_techniques as usize;
+            _stat.from_total_subtechniques = _total_subtechniques as usize;
             _results.push(_stat);
         }
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Datasources";
@@ -1692,6 +1704,7 @@ impl EnterpriseMatrixSearcher {
         _wants_export: &str,
         _wants_outfile: &str,
     ) {
+        
         let mut _table = Table::new();
         if self.matrix.as_str() == "enterprise-legacy" {
             _table.add_row(Row::new(vec![
@@ -1734,10 +1747,23 @@ impl EnterpriseMatrixSearcher {
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
+        } else if _wants_export == "json" {
+            println!("{}", serde_json::to_string_pretty(&_json).unwrap());
         } else {
+            println!("{}", "\n\n");
+            let mut _totals_table = Table::new();
+            _totals_table.add_row(Row::new(vec![
+                Cell::new("Total Techniques").style_spec("FY"),
+                Cell::new(_json[0].from_total_techniques.to_string().as_str()).style_spec("cFW"),
+                Cell::new(_json[0].from_total_subtechniques.to_string().as_str()).style_spec("cFW"),
+                Cell::new("Total Subtechniques").style_spec("FY"),
+            ]));
+
+            _totals_table.printstd();
             println!("{}", "\n\n");
             _table.printstd();
             println!("{}", "\n\n");
+            
         }
     }
     ///
@@ -1888,8 +1914,8 @@ impl EnterpriseMatrixSearcher {
         } else if _wants_export == "json" {
             println!("{}", serde_json::to_string_pretty(&_json).unwrap());
         } else {
-            println!("{}", "\n");
-            _table.print_tty(false);
+            println!("{}", "\n\n");
+            _table.printstd();
             println!("{}", "\n\n");
         }
     }
@@ -2478,7 +2504,19 @@ impl EnterpriseMatrixSearcher {
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
+        } else if _wants_export == "json" {
+            println!("{}", serde_json::to_string_pretty(&_json).unwrap());
         } else {
+            println!("{}", "\n\n");
+            let mut _totals_table = Table::new();
+            _totals_table.add_row(Row::new(vec![
+                Cell::new("Total Techniques").style_spec("FY"),
+                Cell::new(_json[0].from_total_techniques.to_string().as_str()).style_spec("cFW"),
+                Cell::new(_json[0].from_total_subtechniques.to_string().as_str()).style_spec("cFW"),
+                Cell::new("Total Subtechniques").style_spec("FY"),
+            ]));
+
+            _totals_table.printstd();
             println!("{}", "\n\n");
             _table.printstd();
             println!("{}", "\n\n");
@@ -2533,7 +2571,19 @@ impl EnterpriseMatrixSearcher {
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
+        } else if _wants_export == "json" {
+            println!("{}", serde_json::to_string_pretty(&_json).unwrap()); 
         } else {
+            println!("{}", "\n\n");
+            let mut _totals_table = Table::new();
+            _totals_table.add_row(Row::new(vec![
+                Cell::new("Total Techniques").style_spec("FY"),
+                Cell::new(_json[0].from_total_techniques.to_string().as_str()).style_spec("cFW"),
+                Cell::new(_json[0].from_total_subtechniques.to_string().as_str()).style_spec("cFW"),
+                Cell::new("Total Subtechniques").style_spec("FY"),
+            ]));
+
+            _totals_table.printstd();
             println!("{}", "\n\n");
             _table.printstd();
             println!("{}", "\n\n");
@@ -2551,14 +2601,14 @@ impl EnterpriseMatrixSearcher {
         if self.matrix.as_str() == "enterprise-legacy" {
             _table.add_row(Row::new(vec![
                 Cell::new("INDEX").style_spec("FW"),
-                Cell::new("TOOL").style_spec("cFW"),
+                Cell::new("MALWARE").style_spec("cFW"),
                 Cell::new("TECHNIQUES").style_spec("cFW"),
                 Cell::new("% TECHNIQUES").style_spec("cFY"),
             ]));
         } else {
             _table.add_row(Row::new(vec![
                 Cell::new("INDEX").style_spec("FW"),
-                Cell::new("TOOL").style_spec("cFW"),
+                Cell::new("MALWARE").style_spec("cFW"),
                 Cell::new("TECHNIQUES").style_spec("cFW"),
                 Cell::new("SUBTECHNIQUES").style_spec("cFW"),
                 Cell::new("% TECHNIQUES").style_spec("cFY"),
@@ -2589,7 +2639,19 @@ impl EnterpriseMatrixSearcher {
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
+        } else if _wants_export == "json" {
+            println!("{}", serde_json::to_string_pretty(&_json).unwrap()); 
         } else {
+            println!("{}", "\n\n");
+            let mut _totals_table = Table::new();
+            _totals_table.add_row(Row::new(vec![
+                Cell::new("Total Techniques").style_spec("FY"),
+                Cell::new(_json[0].from_total_techniques.to_string().as_str()).style_spec("cFW"),
+                Cell::new(_json[0].from_total_subtechniques.to_string().as_str()).style_spec("cFW"),
+                Cell::new("Total Subtechniques").style_spec("FY"),
+            ]));
+
+            _totals_table.printstd();
             println!("{}", "\n\n");
             _table.printstd();
             println!("{}", "\n\n");
@@ -2645,7 +2707,19 @@ impl EnterpriseMatrixSearcher {
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
+        } else if _wants_export == "json" {
+            println!("{}", serde_json::to_string_pretty(&_json).unwrap()); 
         } else {
+            println!("{}", "\n\n");
+            let mut _totals_table = Table::new();
+            _totals_table.add_row(Row::new(vec![
+                Cell::new("Total Techniques").style_spec("FY"),
+                Cell::new(_json[0].from_total_techniques.to_string().as_str()).style_spec("cFW"),
+                Cell::new(_json[0].from_total_subtechniques.to_string().as_str()).style_spec("cFW"),
+                Cell::new("Total Subtechniques").style_spec("FY"),
+            ]));
+
+            _totals_table.printstd();
             println!("{}", "\n\n");
             _table.printstd();
             println!("{}", "\n\n");
@@ -2701,7 +2775,19 @@ impl EnterpriseMatrixSearcher {
         }
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_table);
+        } else if _wants_export == "json" {
+            println!("{}", serde_json::to_string_pretty(&_json).unwrap()); 
         } else {
+            println!("{}", "\n\n");
+            let mut _totals_table = Table::new();
+            _totals_table.add_row(Row::new(vec![
+                Cell::new("Total Techniques").style_spec("FY"),
+                Cell::new(_json[0].from_total_techniques.to_string().as_str()).style_spec("cFW"),
+                Cell::new(_json[0].from_total_subtechniques.to_string().as_str()).style_spec("cFW"),
+                Cell::new("Total Subtechniques").style_spec("FY"),
+            ]));
+
+            _totals_table.printstd();
             println!("{}", "\n\n");
             _table.printstd();
             println!("{}", "\n\n");
