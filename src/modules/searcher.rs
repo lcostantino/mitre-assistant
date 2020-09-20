@@ -1792,6 +1792,7 @@ impl EnterpriseMatrixSearcher {
         let _total_subtechniques: f64 = _json.stats.count_active_total_subtechniques as f64;
         for _adversary in _json.breakdown_adversaries.iter() {
             let mut _stat: EnterpriseStatistic = EnterpriseStatistic::new();
+            /*
             for _technique in _json.breakdown_techniques.platforms.iter() {
                 for _at in _adversary.profile.techniques.items.iter() {
                     if _technique.tid.as_str() == _at.as_str() {
@@ -1808,6 +1809,12 @@ impl EnterpriseMatrixSearcher {
                     }
                 }
             }
+            */
+            _stat.count_tools = _adversary.profile.tools.count;
+            _stat.count_malware = _adversary.profile.malware.count;
+            _stat.count_tactics = _adversary.profile.tactics.count;
+            _stat.count_techniques = _adversary.profile.techniques.count;
+            _stat.count_subtechniques = _adversary.profile.subtechniques.count;
             if self.matrix.as_str() == "enterprise-legacy" {
                 _stat.is_legacy_matrix = true;
             }
