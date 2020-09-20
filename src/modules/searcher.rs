@@ -2967,6 +2967,7 @@ impl EnterpriseMatrixSearcher {
             _table.add_row(Row::new(vec![
                 Cell::new("INDEX").style_spec("FW"),
                 Cell::new("ADVERSARY").style_spec("cFW"),
+                Cell::new("TACTICS").style_spec("cFW"),
                 Cell::new("TECHNIQUES").style_spec("cFW"),
                 Cell::new("(%) TECHNIQUES").style_spec("cFY"),
             ]));
@@ -2974,6 +2975,7 @@ impl EnterpriseMatrixSearcher {
             _table.add_row(Row::new(vec![
                 Cell::new("INDEX").style_spec("FW"),
                 Cell::new("ADVERSARY").style_spec("FW"),
+                Cell::new("TACTICS").style_spec("cFW"),
                 Cell::new("TECHNIQUES").style_spec("cFW"),
                 Cell::new("SUBTECHNIQUES").style_spec("cFW"),
                 Cell::new("(%) TECHNIQUES").style_spec("cFY"),
@@ -2988,6 +2990,7 @@ impl EnterpriseMatrixSearcher {
                 _table.add_row(Row::new(vec![
                     Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
                     Cell::new(_row.item.as_str()).style_spec("FW"),
+                    Cell::new(_row.count_tactics.to_string().as_str()).style_spec("cFW"),
                     Cell::new(_row.count_techniques.to_string().as_str()).style_spec("c"),
                     Cell::new(_row.percent_techniques.as_str()).style_spec("c"),
                 ]));
@@ -2995,6 +2998,7 @@ impl EnterpriseMatrixSearcher {
                 _table.add_row(Row::new(vec![
                     Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
                     Cell::new(_row.item.as_str()).style_spec("FW"),
+                    Cell::new(_row.count_tactics.to_string().as_str()).style_spec("cFW"),
                     Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
                     Cell::new(_row.count_subtechniques.to_string().as_str()).style_spec("cFW"),
                     Cell::new(_row.percent_techniques.as_str()).style_spec("cFW"),
