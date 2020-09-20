@@ -1705,6 +1705,7 @@ impl EnterpriseMatrixSearcher {
         let _total_subtechniques: f64 = _json.stats.count_active_total_subtechniques as f64;
         for _adversary in _json.breakdown_tools.iter() {
             let mut _stat: EnterpriseStatistic = EnterpriseStatistic::new();
+            /*
             for _technique in _json.breakdown_techniques.platforms.iter() {
                 for _at in _adversary.profile.techniques.items.iter() {
                     if _technique.tid.as_str() == _at.as_str() {
@@ -1721,10 +1722,16 @@ impl EnterpriseMatrixSearcher {
                     }
                 }
             }
+            */
             if self.matrix.as_str() == "enterprise-legacy" {
                 _stat.is_legacy_matrix = true;
             }
             _stat.item = _adversary.name.clone();
+            _stat.count_tools = _adversary.profile.tools.count;
+            _stat.count_malware = _adversary.profile.malware.count;
+            _stat.count_tactics = _adversary.profile.tactics.count;
+            _stat.count_techniques = _adversary.profile.techniques.count;
+            _stat.count_subtechniques = _adversary.profile.subtechniques.count;
             let _tp = (_stat.count_techniques as f64 /_total_techniques) *100f64;
             let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques) *100f64;
             _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
@@ -1748,6 +1755,7 @@ impl EnterpriseMatrixSearcher {
         let _total_subtechniques: f64 = _json.stats.count_active_total_subtechniques as f64;
         for _adversary in _json.breakdown_malware.iter() {
             let mut _stat: EnterpriseStatistic = EnterpriseStatistic::new();
+            /*
             for _technique in _json.breakdown_techniques.platforms.iter() {
                 for _at in _adversary.profile.techniques.items.iter() {
                     if _technique.tid.as_str() == _at.as_str() {
@@ -1764,10 +1772,15 @@ impl EnterpriseMatrixSearcher {
                     }
                 }
             }
+            */
             if self.matrix.as_str() == "enterprise-legacy" {
                 _stat.is_legacy_matrix = true;
             }
             _stat.item = _adversary.name.clone();
+            _stat.count_tools = _adversary.profile.tools.count;
+            _stat.count_tactics = _adversary.profile.tactics.count;
+            _stat.count_techniques = _adversary.profile.techniques.count;
+            _stat.count_subtechniques = _adversary.profile.subtechniques.count;
             let _tp = (_stat.count_techniques as f64 /_total_techniques) *100f64;
             let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques) *100f64;
             _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
@@ -1792,24 +1805,7 @@ impl EnterpriseMatrixSearcher {
         let _total_subtechniques: f64 = _json.stats.count_active_total_subtechniques as f64;
         for _adversary in _json.breakdown_adversaries.iter() {
             let mut _stat: EnterpriseStatistic = EnterpriseStatistic::new();
-            /*
-            for _technique in _json.breakdown_techniques.platforms.iter() {
-                for _at in _adversary.profile.techniques.items.iter() {
-                    if _technique.tid.as_str() == _at.as_str() {
-                        _stat.count_techniques += 1;
-                    }
-                }
-            }
-            if self.matrix.as_str() != "enterprise-legacy" {
-                for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
-                    for _at in _adversary.profile.subtechniques.items.iter() {
-                        if _subtechnique.tid.as_str() == _at.as_str() {
-                            _stat.count_subtechniques += 1;
-                        }
-                    }
-                }
-            }
-            */
+            _stat.item = _adversary.name.clone();
             _stat.count_tools = _adversary.profile.tools.count;
             _stat.count_malware = _adversary.profile.malware.count;
             _stat.count_tactics = _adversary.profile.tactics.count;
@@ -1818,7 +1814,6 @@ impl EnterpriseMatrixSearcher {
             if self.matrix.as_str() == "enterprise-legacy" {
                 _stat.is_legacy_matrix = true;
             }
-            _stat.item = _adversary.name.clone();
             let _tp = (_stat.count_techniques as f64 /_total_techniques) *100f64;
             let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques) *100f64;
             _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
