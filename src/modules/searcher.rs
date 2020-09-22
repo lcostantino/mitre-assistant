@@ -10,8 +10,15 @@ use parser::EnterpriseMatrixBreakdown;
 #[path = "../structs/enterprise.rs"]
 mod enterprise;
 use enterprise::{
-    EnterpriseAdversary, EnterpriseMalware, EnterpriseMatrixStatistics, EnterpriseTool, EnterpriseTechnique,
-    EnterpriseRevokedItem, EnterpriseRevokedTechniques, EnterpriseStatistics, EnterpriseStatistic
+    EnterpriseAdversary,
+    EnterpriseMalware,
+    EnterpriseMatrixStatistics,
+    EnterpriseTool,
+    EnterpriseTechnique,
+    EnterpriseRevokedItem,
+    EnterpriseRevokedTechniques,
+    EnterpriseStatistics,
+    EnterpriseStatistic
 };
 
 #[path = "../structs/navigator.rs"]
@@ -109,53 +116,67 @@ impl EnterpriseMatrixSearcher {
         if _st == "revoked" {
             _valid.push((_st, 3usize));
             _wants_revoked = true;
-        } else if _st == "stats" {
+        }
+        else if _st == "stats" {
             _valid.push((_st, 4usize));
             _wants_stats = true;
-        } else if _st == "nosub" {
+        }
+        else if _st == "nosub" {
             _valid.push((_st, 5usize));
             _wants_nosub = true;
-        } else if _st == "techniques" {
+        }
+        else if _st == "techniques" {
             _valid.push((_st, 6usize));
-        } else if _st == "subtechniques" {
+        }
+        else if _st == "subtechniques" {
             _valid.push((_st, 7usize));
-        } else if _st == "stats:datasources" {
+        }
+        else if _st == "stats:datasources" {
             _valid.push((_st, 8usize));
             _wants_datasources = true;
             _wants_summary = true;
-        } else if _st == "stats:platforms" {
+        }
+        else if _st == "stats:platforms" {
             _valid.push((_st, 9usize));
             _wants_platforms = true;
             _wants_summary = true;
-        } else if _st == "nodatasources" {
+        }
+        else if _st == "nodatasources" {
             _valid.push((_st, 10usize));
-        } else if _st == "stats:tactics" {
+        }
+        else if _st == "stats:tactics" {
             _valid.push((_st, 11usize));
             _wants_tactics = true;
-        } else if _st == "deprecated" {
+        }
+        else if _st == "deprecated" {
             _valid.push((_st, 12usize));
             _wants_deprecated = true;
-        } else if _st == "stats:techniques" {
+        }
+        else if _st == "stats:techniques" {
             _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 13usize));
             _wants_all_techniques = true;
             _wants_summary = true;
-        } else if _st == "stats:subtechniques" {
+        }
+        else if _st == "stats:subtechniques" {
             _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 14usize));
             _wants_all_subtechniques = true;
             _wants_summary = true;
-        } else if _st == "stats:adversaries" {
+        }
+        else if _st == "stats:adversaries" {
             _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 15usize));
             _wants_all_adversaries = true;
             _wants_summary = true;
-        } else if _st == "stats:malware" {
+        }
+        else if _st == "stats:malware" {
             _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 16usize));
             _wants_all_malware = true;
             _wants_summary = true;
-        } else if _st == "stats:tools" {
+        }
+        else if _st == "stats:tools" {
             _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 17usize));
             _wants_all_tools = true;
@@ -172,12 +193,15 @@ impl EnterpriseMatrixSearcher {
         else if _scanner_pl.pattern.is_match(_st) && !_st.contains("-") {
             _matches_many = _scanner_pl.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 45usize));
-        } else if _st == "overlap" {
+        }
+        else if _st == "overlap" {
             _valid.push((_st, 34usize));
-        } else if _st == "xref:datasources:platforms" {
+        }
+        else if _st == "xref:datasources:platforms" {
             _valid.push((_st, 35usize));
             _wants_xref_datasources_platforms = true;
-        } else if _st == "xref:datasources:tactics" {
+        }
+        else if _st == "xref:datasources:tactics" {
             _valid.push((_st, 36usize));
             _wants_xref_datasources_tactics = true;
         }
@@ -198,21 +222,26 @@ impl EnterpriseMatrixSearcher {
             _matches_many = _scanner_to.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 40usize));
             _wants_tool = true;
-        } else if _st == "adversaries" {
+        }
+        else if _st == "adversaries" {
             _valid.push((_st, 41usize));
             _wants_all_adversaries = true;
-        } else if _st == "malware" {
+        }
+        else if _st == "malware" {
             _valid.push((_st, 42usize));
             _wants_all_malware = true;
-        } else if _st == "tools" {
+        }
+        else if _st == "tools" {
             _valid.push((_st, 43usize));
             _wants_all_tools = true;
-        } else if !_st.contains(",") {
+        }
+        else if !_st.contains(",") {
             if _scanner.pattern.is_match(_st) {
                 let _idx: Vec<usize> = _scanner.pattern.matches(_st).into_iter().collect();
                 _valid.push((_st, _idx[0])); // Search Term 0usize
             }
-        } else if _st.contains(",") {
+        }
+        else if _st.contains(",") {
             let _terms: Vec<&str> = _st.split(',').collect();
             _valid = _terms
                 .iter()
@@ -234,67 +263,92 @@ impl EnterpriseMatrixSearcher {
             for (_term, _pattern) in _valid.iter() {
                 if _pattern == &0usize {
                     _results.push(self.search_by_id(_term, _wants_subtechniques));
-                } else if _pattern == &1usize {
+                }
+                else if _pattern == &1usize {
                     _results.push(self.search_by_subtechnique_id(_term));
-                } else if _pattern == &2usize {
+                }
+                else if _pattern == &2usize {
                     _results.push(self.search_by_name(_term));
-                } else if _pattern == &3usize {
+                }
+                else if _pattern == &3usize {
                     _results.push(self.search_revoked());
-                } else if _pattern == &4usize {
+                }
+                else if _pattern == &4usize {
                     _results.push(self.search_stats());
-                } else if _pattern == &5usize {
+                }
+                else if _pattern == &5usize {
                     _results.push(self.search_by_no_subtechniques());
-                } else if _pattern == &6usize {
+                }
+                else if _pattern == &6usize {
                     _results.push(self.search_all_techniques());
-                } else if _pattern == &7usize {
+                }
+                else if _pattern == &7usize {
                     _results.push(self.search_all_subtechniques());
-                } else if _pattern == &8usize {
-                    //_results.push(self.search_all_datasources());
+                }
+                else if _pattern == &8usize {
                     _results.push(self.search_stats_by_datasources());
-                } else if _pattern == &9usize {
+                }
+                else if _pattern == &9usize {
                     _results.push(self.search_stats_by_platforms());
-                } else if _pattern == &10usize {
+                }
+                else if _pattern == &10usize {
                     _results.push(self.search_by_no_datasources());
-                } else if _pattern == &11usize {
+                }
+                else if _pattern == &11usize {
                     _results.push(self.search_stats_by_tactics());
-                } else if _pattern == &12usize {
+                }
+                else if _pattern == &12usize {
                     _results.push(self.search_by_deprecated());
-                } else if _pattern == &13usize { 
+                }
+                else if _pattern == &13usize { 
                     _results.push(self.search_stats_by_techniques());
-                } else if _pattern == &14usize { 
+                }
+                else if _pattern == &14usize { 
                     _results.push(self.search_stats_by_subtechniques());
-                } else if _pattern == &15usize { 
+                }
+                else if _pattern == &15usize { 
                     _results.push(self.search_stats_by_adversaries());
-                } else if _pattern == &16usize {
+                }
+                else if _pattern == &16usize {
                     _results.push(self.search_stats_by_malware()); 
-                } else if _pattern == &17usize {
+                }
+                else if _pattern == &17usize {
                     _results.push(self.search_stats_by_tools()); 
-                } else if _pattern == &34usize {
+                }
+                else if _pattern == &34usize {
                     _results.push(self.search_all_overlapped());
-                } else if _pattern == &35usize {
+                }
+                else if _pattern == &35usize {
                     _results.push(self.search_stats_datasources_and_platforms());
-                } else if _pattern == &36usize {
+                }
+                else if _pattern == &36usize {
                     _results.push(self.search_stats_datasources_and_tactics());
-                } else if _pattern == &37usize {
+                }
+                else if _pattern == &37usize {
                     _results.push(self.search_by_datasource(_term, _wants_subtechniques, _matches_many.clone()));
-                } else if _pattern == &38usize {
+                }
+                else if _pattern == &38usize {
                     _results.push(self.search_by_adversary(_term, _matches_many.clone(), _wants_correlation));
-                } else if _pattern == &39usize {
+                }
+                else if _pattern == &39usize {
                     _results.push(self.search_by_malware(_term, _matches_many.clone(), _wants_correlation));
-                } else if _pattern == &40usize {
+                }
+                else if _pattern == &40usize {
                     _results.push(self.search_by_tool(_term, _matches_many.clone()));
-                } else if _pattern == &41usize {
+                }
+                else if _pattern == &41usize {
                     _results.push(self.search_all_adversaries());
-                    //_results.push(self.search_stats_by_adversaries());
-                } else if _pattern == &42usize {
+                }
+                else if _pattern == &42usize {
                     _results.push(self.search_all_malware());
-                   //_results.push(self.search_stats_by_malware());
-                } else if _pattern == &43usize {
-                    //_results.push(self.search_stats_by_tools());
+                }
+                else if _pattern == &43usize {
                     _results.push(self.search_all_tools());
-                } else if _pattern == &44usize {
+                }
+                else if _pattern == &44usize {
                     _results.push(self.search_by_tactic(_term, _wants_subtechniques, _matches_many.clone()));
-                } else if _pattern == &45usize {
+                }
+                else if _pattern == &45usize {
                     _results.push(self.search_by_platform(_term, _wants_subtechniques, _matches_many.clone()));
                 }
             }
@@ -312,53 +366,68 @@ impl EnterpriseMatrixSearcher {
                 } else {
                     self.render_techniques_details_table(&_results, _wants_export, _wants_outfile)
                 }
-            } else if _wants_all_subtechniques {
+            }
+            else if _wants_all_subtechniques {
                 if _wants_summary {
                     self.render_subtechniques_table(&_results, _wants_export, _wants_outfile);
                 }
-            } else if _wants_all_adversaries {
+            }
+            else if _wants_all_adversaries {
                 if _wants_summary {
                     self.render_adversaries_table(&_results, _wants_export, _wants_outfile);
                 } else {
                     self.render_adversaries_profile_table(&_results, _wants_export, _wants_outfile, _wants_correlation);
                 }
-            } else if _wants_adversary {
+            }
+            else if _wants_adversary {
                 self.render_adversaries_profile_table(&_results, _wants_export, _wants_outfile, _wants_correlation);
-            } else if _wants_all_malware {
+            }
+            else if _wants_all_malware {
                 if _wants_summary {
                     self.render_malware_table(&_results, _wants_export, _wants_outfile);
                 } else {
                     self.render_malware_profile_table(&_results, _wants_export, _wants_outfile, _wants_correlation);
                 }
-            } else if _wants_malware {
+            }
+            else if _wants_malware {
                 self.render_malware_profile_table(&_results, _wants_export, _wants_outfile, _wants_correlation);
-            } else if _wants_all_tools {
+            }
+            else if _wants_all_tools {
                 if _wants_summary {
                     self.render_tools_table(&_results, _wants_export, _wants_outfile);
                 } else {
                     self.render_tools_profile_table(&_results, _wants_export, _wants_outfile);
                 }
-            } else if _wants_tool {
+            }
+            else if _wants_tool {
                 self.render_tools_profile_table(&_results, _wants_export, _wants_outfile);
-            } else if _wants_revoked {
+            }
+            else if _wants_revoked {
                 self.render_revoked_table(&_results, _wants_export, _wants_outfile);
-            } else if _wants_stats {
+            }
+            else if _wants_stats {
                 self.render_stats(&_results, _wants_export, _wants_outfile);
-            } else if _wants_datasources {
+            }
+            else if _wants_datasources {
                 self.render_datasources_table(&_results, _wants_export, _wants_outfile);
-            } else if _wants_platforms {
+            }
+            else if _wants_platforms {
                 self.render_platforms_table(&_results, _wants_export, _wants_outfile);
-            } else if _wants_tactics {
+            }
+            else if _wants_tactics {
                 self.render_tactics_table(&_results, _wants_export, _wants_outfile);
-            } else if _wants_deprecated {
+            }
+            else if _wants_deprecated {
                 self.render_deprecated_table(&_results, _wants_export, _wants_outfile);
-            } else if _wants_xref_datasources_platforms {
+            }
+            else if _wants_xref_datasources_platforms {
                 self.render_stats_xref_datasource_platforms(
                     &_results,
                     _wants_export,
                     _wants_outfile,
                 );
-            } else if _wants_xref_datasources_tactics {
+            }
+            else if _wants_xref_datasources_tactics {
                 self.render_stats_xref_datasource_tactics(
                     &_results,
                     _wants_export,
