@@ -133,7 +133,7 @@ impl ArgumentsParser<'_> {
                                  .short("n")
                                  .long("navigator")
                                  .value_name("navigator")
-                                 .takes_value(false)
+                                 .takes_value(true)
                                  .help("Navigator JSON File Path | Must Use With `-m`")
                              )    
                         )                        
@@ -225,8 +225,8 @@ impl ArgumentsParser<'_> {
             true => true,
             false => false
         };        
-        if _wants_navigator_in = match _subcommand.is_present("navigator") {
-            true => _subcommand.value_of("Navigator").unwrap(),
+        let _wants_navigator_in = match _subcommand.is_present("navigator") {
+            true => _subcommand.value_of("navigator").unwrap(),
             false => "None"
         };
         if _matrix != "None" && _search_term != "None" {
