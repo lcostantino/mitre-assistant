@@ -47,14 +47,27 @@ pub struct V2Navigator {
     pub description:                        String,
     pub filters:                            V2Filters,
     pub sorting:                            u8,
+    
+    #[serde(rename = "viewMode")]
     pub view_mode:                          u8,
+    
+    #[serde(rename = "hideDisabled")]
     pub hide_disabled:                      bool,
+    
     pub techniques:                         Vec<V2Technique>,
     pub gradient:                           V2Gradient,
+    
+    #[serde(rename = "legendItems")]
     pub legend_items:                       Vec<V2LegendItem>,
     pub metadata:                           Vec<String>,
+    
+    #[serde(rename = "showTacticRowBackground")]
     pub show_tactic_row_background:         bool,
+    
+    #[serde(rename = "tacticRowBackground")]
     pub tactic_row_background:              String,
+    
+    #[serde(rename = "selectTechniquesAcrossTactics")]
     pub select_techniques_across_tactics:   bool,
 }
 impl V2Navigator {
@@ -100,6 +113,7 @@ impl V2Filters {
 
 #[derive(Debug, Deserialize, Serialize, Hash)]
 pub struct V2Technique {
+    #[serde(rename = "techniqueID")]
     pub technique_id:   String,
     pub tactic:         String,
     pub score:          u32,
@@ -127,7 +141,11 @@ impl V2Technique {
 #[derive(Debug, Deserialize, Serialize, Hash)]
 pub struct V2Gradient {
     pub colors:     Vec<String>,
+    
+    #[serde(rename = "minValue")]
     pub min_value:  u32,
+    
+    #[serde(rename = "maxValue")]
     pub max_value:  u32
 }
 impl V2Gradient {
