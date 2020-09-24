@@ -25,12 +25,6 @@ use enterprise::{
     EnterpriseStatistic
 };
 
-#[path = "../structs/navigator.rs"]
-mod navigator;
-use navigator::{
-    V2Navigator
-};
-
 #[path = "../utils/fshandler.rs"]
 mod fshandler;
 use fshandler::FileHandler;
@@ -46,13 +40,15 @@ pub struct EnterpriseMatrixSearcher {
 impl EnterpriseMatrixSearcher {
     pub fn new(matrix_type: &str, navigator_path: &str) -> Self {
         let _input = matrix_type.to_lowercase();
-        let _input = _input.as_str();
+        
         let mut _content: Vec<u8> = vec![];
-        if _input == "enterprise" {
+        if _input.as_str() == "enterprise" {
             _content = FileHandler::load_baseline("baselines", "baseline-enterprise.json");
-        } else if _input == "enterprise-legacy" {
+        }
+        else if _input.as_str() == "enterprise-legacy" {
             _content = FileHandler::load_baseline("baselines", "baseline-enterprise-legacy.json");
-        } else if _input == "enterprise-navigator" {
+        }
+        else if _input.as_str() == "enterprise-navigator" {
             let _fp = FileHandler::open(navigator_path, "r");
             _content = _fp.read_as_vecbytes(_fp.size).unwrap();
         }

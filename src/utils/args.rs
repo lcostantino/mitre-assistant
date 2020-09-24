@@ -228,7 +228,7 @@ impl ArgumentsParser<'_> {
         if _wants_navigator_in = match _subcommand.is_present("navigator") {
             true => _subcommand.value_of("Navigator").unwrap(),
             false => "None"
-        }
+        };
         if _matrix != "None" && _search_term != "None" {
             let mut _searcher = EnterpriseMatrixSearcher::new(_matrix, _wants_navigator_in);
             _searcher.search(_search_term,
