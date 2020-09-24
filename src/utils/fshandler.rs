@@ -207,9 +207,9 @@ impl FileHandler {
      /// ```
      /// let _f = FileHandler::open("foo.exe", "r");
      ///
-     ///     _f.read_as_vecbytes()?;
+     ///     _f.read_as_vecbytes(_f.size)?;
      ///
-     ///     println!("{:#?}", f.content);
+     ///     println!("{:#?}", _f.content);
      /// ```
      pub fn read_as_vecbytes(&self, n_bytes: u64) -> Result<Vec<u8>, Box<dyn std::error::Error>>
      {

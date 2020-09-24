@@ -7,6 +7,10 @@ use std::collections::HashSet;
 mod parser;
 use parser::EnterpriseMatrixBreakdown;
 
+#[path = "../structs/navigator.rs"]
+mod navigator;
+use navigator::{V2Navigator};
+
 #[path = "../structs/enterprise.rs"]
 mod enterprise;
 use enterprise::{
@@ -40,19 +44,26 @@ pub struct EnterpriseMatrixSearcher {
     content: Vec<u8>,
 }
 impl EnterpriseMatrixSearcher {
-    pub fn new(matrix_type: &str) -> Self {
+    pub fn new(matrix_type: &str, navigator_path: Option<&str>) -> Self {
         let _input = matrix_type.to_lowercase();
         let mut _content: Vec<u8> = vec![];
         if _input == "enterprise".to_string() {
             _content = FileHandler::load_baseline("baselines", "baseline-enterprise.json");
         } else if _input == "enterprise-legacy" {
             _content = FileHandler::load_baseline("baselines", "baseline-enterprise-legacy.json");
+        } else if _input == "enterprise-navigator" {
+            let _fp = navigator_path.unwrap();
+            let _fp = FileHandler::open(_fp, "r");
+            _content = _fp.read_as_vecbytes(_fp.size).unwrap();
         }
         EnterpriseMatrixSearcher {
             matrix: _input,
             content: _content,
         }
     }
+    ///
+    ///
+    ///
     pub fn save_csv_export(&self, _wants_outfile: &str, _table: &Table) {
         let mut _outfile: &str = "";
         if _wants_outfile == "None" {
@@ -65,6 +76,18 @@ impl EnterpriseMatrixSearcher {
             .to_csv(_fp.handle)
             .expect("(?) Error: Unable to Save CSV Output File");
     }
+    ///
+    ///
+    ///
+    pub fn inspect_navigator(&self)
+    {
+        let _err = "(?) Error: Unable to Serialize Navigator";
+        let _json: V2Navigator = serder_json::from_slice(&self.content[..]).expect(_err);
+        println!("{:#?}", _json);
+    }
+    ///
+    ///
+    ///
     pub fn search(
         &self,
         search_term: &str,

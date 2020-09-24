@@ -104,6 +104,9 @@ impl EnterpriseMatrixParser {
     /// # Baseline
     /// Private method used to read, parse the CTI matrix of choice
     /// and create the custom `json` database used by this program.
+    ///
+    ///
+    ///
     /// ```rust
     /// // Assumes you already downloaded the enterprise matrix
     /// // Gets invoked by the `baseline()` method.

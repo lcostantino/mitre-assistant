@@ -2,15 +2,15 @@ use serde_derive::{Deserialize, Serialize};
 
 
 /// # Navigator Version 2
-/// These structs accomdoate the legacy version of the
+/// These structs accommodate the legacy version of the
 /// navigator application's data format before the new
 /// version with subtechniques was introduced in 2020.
 /// 
 /// While the newer version is being introduced, let's
-/// support the legacy version as most people like are
+/// support the legacy version as most people likely are
 /// using this version for now.
 /// 
-/// When the newer version, the `mitre-assistant` will
+/// When the newer version is stable, the `mitre-assistant` will
 /// split the compatibility into two distinct structs
 /// prefixed with a `V2` for legacy, and a `V3` for the
 /// newer versions.
