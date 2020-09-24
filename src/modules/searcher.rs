@@ -79,7 +79,8 @@ impl EnterpriseMatrixSearcher {
     {
         let _err = "(?) Error: Unable to Serialize Navigator";
         let _json: V2Navigator = serde_json::from_slice(&self.content[..]).expect(_err);
-        println!("{:#?}", _json);
+        //println!("{:#?}", _json);
+	println!("{}", serde_json::to_string_pretty(&_json).unwrap());
     }
     ///
     ///
