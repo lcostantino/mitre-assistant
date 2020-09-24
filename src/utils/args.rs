@@ -128,6 +128,14 @@ impl ArgumentsParser<'_> {
                                  .takes_value(false)
                                  .help("Correlates Techniques from Adversary|Malware|Tools objects. Must use special queries")
                              )                                                                                      
+                             .arg(
+                                 Arg::with_name("navigator")
+                                 .short("n")
+                                 .long("navigator")
+                                 .value_name("navigator")
+                                 .takes_value(false)
+                                 .help("Navigator JSON File Path | Must Use With `-m`")
+                             )    
                         )                        
                         .get_matches()
         }
@@ -217,14 +225,30 @@ impl ArgumentsParser<'_> {
             true => true,
             false => false
         };        
+        if _wants_navigator_in = match _subcommand.is_present("navigator") {
+            true => _subcommand.value_of("Navigator").unwrap(),
+            false => "None"
+        }
         if _matrix != "None" && _search_term != "None" {
-            let mut _searcher = EnterpriseMatrixSearcher::new(_matrix);
+            let mut _searcher = EnterpriseMatrixSearcher::new(_matrix, _wants_navigator_in);
             _searcher.search(_search_term,
                              _wants_subtechniques,
                              _wants_export,
                              _wants_outfile,
                              _wants_correlation);
-        }        
+        }
+        else if _matrix != "None" && _wants_navigator_in != "None" && _search_term == "None" {
+            let mut _searcher = EnterpriseMatrixSearcher::new(_matrix, _wants_navigator_in);
+            _searcher.inspect_navigator();
+            /*
+            _searcher.search(_search_term,
+                             _wants_subtechniques,
+                             _wants_export,
+                             _wants_outfile,
+                             _wants_correlation);
+            */
+        }
+        
         Ok(())
     }
 }
