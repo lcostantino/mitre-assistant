@@ -42,13 +42,15 @@ impl EnterpriseMatrixSearcher {
         let _input = matrix_type.to_lowercase();
         
         let mut _content: Vec<u8> = vec![];
-        if _input.as_str() == "enterprise" {
+        if _input.as_str() == "enterprise" && navigator_path == "None" {
             _content = FileHandler::load_baseline("baselines", "baseline-enterprise.json");
         }
-        else if _input.as_str() == "enterprise-legacy" {
+        else if _input.as_str() == "enterprise-legacy" && navigator_path == "None" {
             _content = FileHandler::load_baseline("baselines", "baseline-enterprise-legacy.json");
         }
-        else if navigator_path != "None" {
+        else if _input.as_str() == "enterprise" && navigator_path != "None"
+	  || _input.as_str() == "enterprise-legacy" && navigator_path != "None"
+	{
             let _fp = FileHandler::open(navigator_path, "r");
             _content = _fp.read_as_vecbytes(_fp.size).unwrap();
         }
@@ -104,7 +106,8 @@ impl EnterpriseMatrixSearcher {
 	    _results.dedup();
 	    _results.sort();
 	    let _results: String = serde_json::to_string_pretty(&_results).expect(_err);
-	    self.render_techniques_details_table(&Vec<results>, "None", "None");
+	    let _data: Vec<String> = vec![_results];
+	    self.render_techniques_details_table(&_data, "None", "None");
     }
     ///
     ///
