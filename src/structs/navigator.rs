@@ -116,7 +116,7 @@ pub struct V2Technique {
     #[serde(rename = "techniqueID")]
     pub technique_id:   String,
     pub tactic:         String,
-    pub score:          u32,
+    pub score:          Option<u32>,
     pub color:          String,
     pub comment:        String,
     pub enabled:        bool,
@@ -128,7 +128,7 @@ impl V2Technique {
         V2Technique {
             technique_id:   "".to_string(),
             tactic:         "".to_string(),
-            score:          0,
+            score:          Some(0),
             color:          "".to_string(),
             comment:        "".to_string(),
             enabled:        false,
