@@ -88,6 +88,7 @@ impl EnterpriseMatrixSearcher {
 	            _query.push_str(",");
 	        }
 	    }
+	    _query.pop();
 	    println!("{}", _query);
 	/*
 	    self.search(
