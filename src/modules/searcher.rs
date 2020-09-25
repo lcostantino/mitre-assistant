@@ -92,8 +92,8 @@ impl EnterpriseMatrixSearcher {
 	    println!("{}", _query);
 	    self.search(_query.as_str(),
 	                false,
-	                "None”,
-	                "None”,
+	                "None",
+	                "None",
 	                false);
     }
     ///
