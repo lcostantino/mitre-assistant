@@ -88,12 +88,15 @@ impl EnterpriseMatrixSearcher {
 	            _query.push_str(",");
 	        }
 	    }
+	    println!("{}", _query);
+	/*
 	    self.search(
-	        _query,
+	        _query.as_str(),
 	        false,
 	        "None",
 	        "None",
 	        false);
+	*/
     }
     ///
     ///
