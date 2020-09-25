@@ -49,17 +49,17 @@ pub struct V2Navigator {
     pub sorting:                            u8,
     
     #[serde(rename = "viewMode")]
-    pub view_mode:                          u8,
+    pub view_mode:                          Option<u8>,
     
     #[serde(rename = "hideDisabled")]
     pub hide_disabled:                      bool,
     
     pub techniques:                         Vec<V2Technique>,
-    pub gradient:                           V2Gradient,
+    pub gradient:                           Option<V2Gradient>,
     
     #[serde(rename = "legendItems")]
     pub legend_items:                       Vec<V2LegendItem>,
-    pub metadata:                           Vec<String>,
+    pub metadata:                           Option<Vec<String>>,
     
     #[serde(rename = "showTacticRowBackground")]
     pub show_tactic_row_background:         bool,
@@ -82,12 +82,12 @@ impl V2Navigator {
             description:    "".to_string(),
             filters:        V2Filters::new(),
             sorting:        1,
-            view_mode:      0,
+            view_mode:      Some(0),
             hide_disabled:  true,
             techniques:     vec![],
-            gradient:       V2Gradient::new(),
+            gradient:       Some(V2Gradient::new()),
             legend_items:   vec![],
-            metadata:       vec![],
+            metadata:       Some(vec![]),
             show_tactic_row_background: true,
 			tactic_row_background: "".to_string(),
             select_techniques_across_tactics: true
@@ -120,7 +120,7 @@ pub struct V2Technique {
     pub color:          String,
     pub comment:        String,
     pub enabled:        bool,
-    pub metadata:       Vec<String>
+    pub metadata:       Option<Vec<String>>
 }
 impl V2Technique {
     pub fn new() -> Self
@@ -132,7 +132,7 @@ impl V2Technique {
             color:          "".to_string(),
             comment:        "".to_string(),
             enabled:        false,
-            metadata:       vec![]
+            metadata:       Some(vec![])
         }
     }
 }
