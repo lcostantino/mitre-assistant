@@ -1441,6 +1441,9 @@ impl EnterpriseMatrixSearcher {
                 }
             }
         }
+        _results.sort();
+        _results.dedup();
+        _results.sort();
         if _results.len() == 0usize {
             // If no results then we want to search for a two conditions
             //      1. When the user wants subtechniques, then get them
@@ -1506,6 +1509,9 @@ impl EnterpriseMatrixSearcher {
                 _results.push(_item);
             }
         }
+        _results.sort();
+        _results.dedup();
+        _results.sort();
         serde_json::to_string_pretty(&_results)
             .expect("(?) Error:  Unable To Deserialize Search Results By Subtechnique ID")
     }
