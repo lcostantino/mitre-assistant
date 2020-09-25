@@ -75,26 +75,36 @@ impl EnterpriseMatrixSearcher {
     ///
     ///
     ///
-    pub fn inspect_navigator(&self)
+    pub fn inspect_navigator(&mut self)
     {
         let _err = "(?) Error: Unable to Serialize Navigator";
         let _json: V2Navigator = serde_json::from_slice(&self.content[..]).expect(_err);
-        //println!("{:#?}", _json);
-	    //println!(“{}”, serde_json::to_string_pretty(&_json).unwrap());
-	    let mut _query = String::from("");
-	    for record in _json.techniques.iter() {
-	        if record.technique_id.as_str() != "" {
-	            _query.push_str(record.technique_id.as_str());
-	            _query.push_str(",");
+
+        let mut _content: Vec<u8> = vec![];
+	    if _input.as_str() == "enterprise" {
+            _content = FileHandler::load_baseline("baselines", "baseline-enterprise.json");
+        }
+        else if _input.as_str() == "enterprise-legacy" {
+            _content = FileHandler::load_baseline("baselines", "baseline-enterprise-legacy.json");
+        }
+	    self.content = _content;
+	    let _err = "(?) Error: Unable to Serialize Matrix Breakdown For Navigator";
+	    let _baseline: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect(_err);
+	    
+	    let mut _results: Vec<EnterpriseTechnique> = vec![];
+	    for _record in _json.techniques.iter() {
+	        for _bt in _baseline.breakdown_techniques.platforms.iter() {
+	            if _record.technique_id.to_lowercase().as_str() == _bt.tid.to_lowercase().as_str()
+	                && _record.tactic.to_lowercase().as_str() == _bt.tactic.to_lowercase().as_str() {
+	                _results.push(_bt.clone);
+	            }
 	        }
 	    }
-	    _query.pop();
-	    println!("{}", _query);
-	    self.search(_query.as_str(),
-	                false,
-	                "None",
-	                "None",
-	                false);
+	    _results.sort();
+	    _results.dedup();
+	    _results.sort();
+	    let _results: String = serde_json::to_string_pretty(&_results).expect(_err);
+	    self.render_techniques_details_table(_results, "None", "None");
     }
     ///
     ///
