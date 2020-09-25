@@ -81,10 +81,10 @@ impl EnterpriseMatrixSearcher {
         let _json: V2Navigator = serde_json::from_slice(&self.content[..]).expect(_err);
 
         let mut _content: Vec<u8> = vec![];
-	    if _input.as_str() == "enterprise" {
+	    if self.matrix.as_str() == "enterprise" {
             _content = FileHandler::load_baseline("baselines", "baseline-enterprise.json");
         }
-        else if _input.as_str() == "enterprise-legacy" {
+        else if self.matrix.as_str() == "enterprise-legacy" {
             _content = FileHandler::load_baseline("baselines", "baseline-enterprise-legacy.json");
         }
 	    self.content = _content;
@@ -96,7 +96,7 @@ impl EnterpriseMatrixSearcher {
 	        for _bt in _baseline.breakdown_techniques.platforms.iter() {
 	            if _record.technique_id.to_lowercase().as_str() == _bt.tid.to_lowercase().as_str()
 	                && _record.tactic.to_lowercase().as_str() == _bt.tactic.to_lowercase().as_str() {
-	                _results.push(_bt.clone);
+	                _results.push(_bt.clone());
 	            }
 	        }
 	    }
@@ -104,7 +104,7 @@ impl EnterpriseMatrixSearcher {
 	    _results.dedup();
 	    _results.sort();
 	    let _results: String = serde_json::to_string_pretty(&_results).expect(_err);
-	    self.render_techniques_details_table(_results, "None", "None");
+	    self.render_techniques_details_table(&_results, "None", "None");
     }
     ///
     ///
