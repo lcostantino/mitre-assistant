@@ -48,7 +48,7 @@ impl EnterpriseMatrixSearcher {
         else if _input.as_str() == "enterprise-legacy" {
             _content = FileHandler::load_baseline("baselines", "baseline-enterprise-legacy.json");
         }
-        else if _input.as_str() == "enterprise-navigator" {
+        else if navigator_path != "None" {
             let _fp = FileHandler::open(navigator_path, "r");
             _content = _fp.read_as_vecbytes(_fp.size).unwrap();
         }
@@ -90,14 +90,11 @@ impl EnterpriseMatrixSearcher {
 	    }
 	    _query.pop();
 	    println!("{}", _query);
-	/*
-	    self.search(
-	        _query.as_str(),
-	        false,
-	        "None",
-	        "None",
-	        false);
-	*/
+	    self.search(_query.as_str(),
+	                false,
+	                "None”,
+	                "None”,
+	                false);
     }
     ///
     ///
