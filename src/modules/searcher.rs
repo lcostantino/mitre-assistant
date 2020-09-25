@@ -91,7 +91,7 @@ impl EnterpriseMatrixSearcher {
 	    let _err = "(?) Error: Unable to Serialize Matrix Breakdown For Navigator";
 	    let _baseline: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect(_err);
 	    
-	    let mut _results: Vec<EnterpriseTechnique> = vec![];
+	    let mut _results: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
 	    for _record in _json.techniques.iter() {
 	        for _bt in _baseline.breakdown_techniques.platforms.iter() {
 	            if _record.technique_id.to_lowercase().as_str() == _bt.tid.to_lowercase().as_str()
@@ -104,7 +104,7 @@ impl EnterpriseMatrixSearcher {
 	    _results.dedup();
 	    _results.sort();
 	    let _results: String = serde_json::to_string_pretty(&_results).expect(_err);
-	    self.render_techniques_details_table(&_results, "None", "None");
+	    self.render_techniques_details_table(&Vec<results>, "None", "None");
     }
     ///
     ///
