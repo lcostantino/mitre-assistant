@@ -94,13 +94,24 @@ impl EnterpriseMatrixSearcher {
 	    let _baseline: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect(_err);
 	    
 	    let mut _results: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
+	    let mut _subs: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
+	    
 	    for _record in _json.techniques.iter() {
-	        for _bt in _baseline.breakdown_techniques.platforms.iter() {
-	            if _record.technique_id.to_lowercase().as_str() == _bt.tid.to_lowercase().as_str()
-	                && _record.tactic.to_lowercase().as_str() == _bt.tactic.to_lowercase().as_str() {
-	                _results.push(_bt.clone());
+	        if _record.technique_id.contains(".") {
+	            for _bst in _baseline.breakdown_techniques.platforms.iter() {
+	                if _record.technique_id.to_lowercase().as_str() == _bst.tid.to_lowercase().as_str()
+    	                && _record.tactic.to_lowercase().as_str() == _bst.tactic.to_lowercase().as_str() {
+    	                _results.push(_bt.clone());
+    	            }
 	            }
-	        }
+	        } else {
+    	        for _bt in _baseline.breakdown_techniques.platforms.iter() {
+    	            if _record.technique_id.to_lowercase().as_str() == _bt.tid.to_lowercase().as_str()
+    	                && _record.tactic.to_lowercase().as_str() == _bt.tactic.to_lowercase().as_str() {
+    	                _results.push(_bt.clone());
+    	            }
+    	        }
+    	    }
 	    }
 	    _results.sort();
 	    _results.dedup();
