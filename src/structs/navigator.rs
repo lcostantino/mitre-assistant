@@ -45,7 +45,7 @@ pub struct V2Navigator {
     pub version:                            String,
     pub domain:                             String,
     pub description:                        String,
-    pub filters:                            V2Filters,
+    pub filters:                            Option<V2Filters>,
     pub sorting:                            u8,
     
     #[serde(rename = "viewMode")]
@@ -80,7 +80,7 @@ impl V2Navigator {
             version:        "".to_string(),
             domain:         "".to_string(),
             description:    "".to_string(),
-            filters:        V2Filters::new(),
+            filters:        Some(V2Filters::new()),
             sorting:        1,
             view_mode:      Some(0),
             hide_disabled:  true,
