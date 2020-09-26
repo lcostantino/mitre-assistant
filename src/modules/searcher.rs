@@ -94,7 +94,6 @@ impl EnterpriseMatrixSearcher {
 	    let _baseline: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).expect(_err);
 	    
 	    let mut _results: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
-	    let mut _subs: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
 	    
 	    for _record in _json.techniques.iter() {
 	        if _record.technique_id.contains(".") {
