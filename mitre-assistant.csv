@@ -1,4 +1,0 @@
-INDEX,STATUS,PLATFORMS,TACTIC,TID,TECHNIQUE,SUBTECHNIQUES,DATA SOURCES
-1,Active,linux|macos|windows,lateral-movement,T1021,Remote Services,T1021.001|T1021.002|T1021.003|T1021.004|T1021.005|T1021.006|,api-monitoring|authentication-logs|dll-monitoring|file-monitoring|netflow-enclave-netflow|network-protocol-analysis|packet-capture|powershell-logs|process-command-line-parameters|process-monitoring|process-use-of-network|windows-event-logs|windows-registry
-2,Active,windows|office-365|saas,defense-evasion,T1550,Use Alternate Authentication Material,T1550.001|T1550.002|T1550.003|T1550.004|,authentication-logs|oauth-audit-logs|office-365-audit-logs
-3,Active,windows|office-365|saas,lateral-movement,T1550,Use Alternate Authentication Material,T1550.001|T1550.002|T1550.003|T1550.004|,authentication-logs|oauth-audit-logs|office-365-audit-logs

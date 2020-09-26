@@ -239,14 +239,7 @@ impl ArgumentsParser<'_> {
         }
         else if _matrix != "None" && _wants_navigator_in != "None" && _search_term == "None" {
             let mut _searcher = EnterpriseMatrixSearcher::new(_matrix, _wants_navigator_in);
-            _searcher.inspect_navigator();
-            /*
-            _searcher.search(_search_term,
-                             _wants_subtechniques,
-                             _wants_export,
-                             _wants_outfile,
-                             _wants_correlation);
-            */
+            _searcher.inspect_navigator(_wants_export, _wants_outfile);
         }
         
         Ok(())

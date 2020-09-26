@@ -77,7 +77,11 @@ impl EnterpriseMatrixSearcher {
     ///
     ///
     ///
-    pub fn inspect_navigator(&mut self)
+    pub fn inspect_navigator(
+        &mut self,
+        _wants_export: &str,
+        _wants_outfile: &str
+    )
     {
         let _err = "(?) Error: Unable to Serialize Navigator";
         let _json: V2Navigator = serde_json::from_slice(&self.content[..]).expect(_err);
@@ -118,7 +122,7 @@ impl EnterpriseMatrixSearcher {
 	    _results.sort();
 	    let _results: String = serde_json::to_string_pretty(&_results).expect(_err);
 	    let _data: Vec<String> = vec![_results];
-	    self.render_techniques_details_table(&_data, "None", "None");
+	    self.render_techniques_details_table(&_data, _wants_export, _wants_outfile);
     }
     ///
     ///
@@ -1650,6 +1654,12 @@ impl EnterpriseMatrixSearcher {
             }
             _stat.item = _technique.tid.clone();
             _stat.meta = _technique.technique.clone();
+            let _tp = (_stat.count_techniques as f64 /_total_techniques as f64) *100f64;
+            let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques as f64) *100f64;
+            _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
+            _stat.percent_subtechniques = format!("{}{}", _sp.ceil().to_string(), "%");
+            _stat.from_total_techniques = _total_techniques as usize;
+            _stat.from_total_subtechniques = _total_subtechniques as usize;
             _results.push(_stat);
         }
         _results.sort();
@@ -1657,8 +1667,8 @@ impl EnterpriseMatrixSearcher {
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Techniques";
         //println!("{:#?}", _results);
         serde_json::to_string(&_results).expect(_err)
-    }     /// ```
-
+    }
+    ///
     ///
     ///
     fn search_stats_by_techniques(&self) -> String
@@ -1750,9 +1760,16 @@ impl EnterpriseMatrixSearcher {
             }
             _stat.item = _technique.tid.clone();
             _stat.meta = _technique.technique.clone();
+            let _tp = (_stat.count_techniques as f64 /_total_techniques as f64) *100f64;
+            let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques as f64) *100f64;
+            _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
+            _stat.percent_subtechniques = format!("{}{}", _sp.ceil().to_string(), "%");
+            _stat.from_total_techniques = _total_techniques as usize;
+            _stat.from_total_subtechniques = _total_subtechniques as usize;
             _results.push(_stat);
         }
         _results.sort();
+
         // Rollup the Statistic
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Techniques";
         //println!("{:#?}", _results);
@@ -1839,24 +1856,7 @@ impl EnterpriseMatrixSearcher {
         let _total_subtechniques: f64 = _json.stats.count_active_total_subtechniques as f64;
         for _adversary in _json.breakdown_tools.iter() {
             let mut _stat: EnterpriseStatistic = EnterpriseStatistic::new();
-            /*
-            for _technique in _json.breakdown_techniques.platforms.iter() {
-                for _at in _adversary.profile.techniques.items.iter() {
-                    if _technique.tid.as_str() == _at.as_str() {
-                        _stat.count_techniques += 1;
-                    }
-                }
-            }
-            if self.matrix.as_str() != "enterprise-legacy" {
-                for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
-                    for _at in _adversary.profile.subtechniques.items.iter() {
-                        if _subtechnique.tid.as_str() == _at.as_str() {
-                            _stat.count_subtechniques += 1;
-                        }
-                    }
-                }
-            }
-            */
+
             if self.matrix.as_str() == "enterprise-legacy" {
                 _stat.is_legacy_matrix = true;
             }
@@ -1888,24 +1888,7 @@ impl EnterpriseMatrixSearcher {
         let _total_subtechniques: f64 = _json.stats.count_active_total_subtechniques as f64;
         for _adversary in _json.breakdown_malware.iter() {
             let mut _stat: EnterpriseStatistic = EnterpriseStatistic::new();
-            /*
-            for _technique in _json.breakdown_techniques.platforms.iter() {
-                for _at in _adversary.profile.techniques.items.iter() {
-                    if _technique.tid.as_str() == _at.as_str() {
-                        _stat.count_techniques += 1;
-                    }
-                }
-            }
-            if self.matrix.as_str() != "enterprise-legacy" {
-                for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
-                    for _at in _adversary.profile.subtechniques.items.iter() {
-                        if _subtechnique.tid.as_str() == _at.as_str() {
-                            _stat.count_subtechniques += 1;
-                        }
-                    }
-                }
-            }
-            */
+
             if self.matrix.as_str() == "enterprise-legacy" {
                 _stat.is_legacy_matrix = true;
             }
