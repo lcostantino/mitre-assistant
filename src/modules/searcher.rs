@@ -300,6 +300,8 @@ impl EnterpriseMatrixSearcher {
         }
         else if _st.contains(",") {
             let _terms: Vec<&str> = _st.split(',').collect();
+            _terms.sort();
+            _terms.dedup();
             _valid = _terms
                 .iter()
                 .filter(|_x| _scanner.pattern.is_match(_x))
@@ -1452,11 +1454,10 @@ impl EnterpriseMatrixSearcher {
                 if _wants_subtechniques {
                     if _item.has_subtechniques {
                         _results.push(_item);
-                        //_temp.insert(_item);
+                        
                         for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
                             if _subtechnique.tid.contains(&_item.tid) {
                                 _results.push(_subtechnique);
-                                //_temp.insert(_subtechnique);
                             }
                         }
                     }
