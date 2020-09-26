@@ -300,7 +300,7 @@ impl EnterpriseMatrixSearcher {
             }
         }
         else if _st.contains(",") {
-            let _terms: Vec<&str> = _st.split(',').collect();
+            let mut _terms: Vec<&str> = _st.split(',').collect();
             _terms.sort();
             _terms.dedup();
             _valid = _terms
