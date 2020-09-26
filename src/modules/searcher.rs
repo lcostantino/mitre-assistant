@@ -97,11 +97,12 @@ impl EnterpriseMatrixSearcher {
 	    
 	    for _record in _json.techniques.iter() {
 	        if _record.technique_id.contains(".") {
-	            for _bst in _baseline.breakdown_techniques.platforms.iter() {
+	            for _bst in _baseline.breakdown_subtechniques.platforms.iter() {
 	                if _record.technique_id.to_lowercase().as_str() == _bst.tid.to_lowercase().as_str()
-    	                && _record.tactic.to_lowercase().as_str() == _bst.tactic.to_lowercase().as_str() {
-    	                _results.push(_bt.clone());
-    	            }
+    	                && _record.tactic.to_lowercase().as_str() == _bst.tactic.to_lowercase().as_str()
+			{
+    	                	_results.push(_bst.clone());
+			}
 	            }
 	        } else {
     	        for _bt in _baseline.breakdown_techniques.platforms.iter() {
