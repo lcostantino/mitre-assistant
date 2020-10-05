@@ -5,7 +5,7 @@
 
 <div id="title" align="center">
     <h1>MITRE-ASSISTANT</h1>
-    <p>A More Flexible, Useful and Coller Mitre ATT&CK Client</p>
+    <p>A More Flexible, Useful and Cooler Mitre ATT&CK Client</p>
 </div>
 <br/><br/>
 
