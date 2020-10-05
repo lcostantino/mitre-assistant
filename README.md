@@ -9,10 +9,14 @@
 <br/><br/>
 
 
-The **#MitreAssistant** is a cross-platform command-line application engine that powers many web applications and data-pipeline workflows.
+The **#Mitre-Assistant** is a cross-platform command-line application engine that powers many web applications and data-pipeline workflows.
 It supports both the `V6` and `V7` versions of the Mitre ATT&CK STIX CTI, as well as, the `V2` and `V3` Mitre ATT&CK Navigator Layers.
 
-The end-goal of this tool is to remove friction between users and the ATT&CK Matrix in a business setting:
+<br/>
+
+<div align="center">
+     <p>The end-goal of this tool is to remove friction between users and the ATT&CK Matrix in a business setting.</p>
+</div>
 
 <br/>
 <div align="center">
@@ -26,10 +30,10 @@ The end-goal of this tool is to remove friction between users and the ATT&CK Mat
                <td style=“padding:10px 0px 10px 0px”>Streamline team-wide capability, productivity and readiness</td>
                <td style=“padding:10px 0px 10px 0px”>
                    <ul>
-                       <li>Easy to use and consume details</li>
+                       <li>Easy to use and consumption of details</li>
                        <li>Built-in Queries and Views</li>
                        <li>Built-in Comma Separated Multiple Input</li>
-                       <li>Built-in Data Transormation & Normalization</li>
+                       <li>Built-in Data Transformation & Normalization</li>
                        <li>Backward Compatible ATT&CK Data Format(s)</li>
                        <li>Export Queries To CSV or JSON</li>
                        <li>Import JSON Navigator</li>
