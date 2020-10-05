@@ -1,11 +1,13 @@
 [![Github Downloads](https://img.shields.io/github/downloads/dfirence/mitre-assistant/total)]()
 [![Github Stars](https://img.shields.io/github/stars/dfirence/mitre-assistant)]()
 
-<div id=“title” align=“center”>
+
+<div id="title"align="center">
     <h1>#MITRE-ASSISTANT</h1>
     <p>A More Flexible, Useful and Cooler Mitre ATT&CK Client</p>
 </div>
 <br/><br/>
+
 
 The **#MitreAssistant** is a cross-platform command-line application engine that powers many web applications and data-pipeline workflows.
 It supports both the `V6` and `V7` versions of the Mitre ATT&CK STIX CTI, as well as, the `V2` and `V3` Mitre ATT&CK Navigator Layers.
@@ -13,8 +15,8 @@ It supports both the `V6` and `V7` versions of the Mitre ATT&CK STIX CTI, as wel
 The end-goal of this tool is to remove friction between users and the ATT&CK Matrix in a business setting:
 
 <br/>
-<div id=“goals-table” align=“center”>
-   <table width=“90%” style=“border-collapse:collapse;”>
+<div align="center">
+   <table width="90%" style="border-collapse:collapse;">
        <tbody>
            <tr>
                <th style=“padding:10px 0px 10px 0px”>Real-World Frictions</th>
