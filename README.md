@@ -1,6 +1,16 @@
 [![Github Downloads](https://img.shields.io/github/downloads/dfirence/mitre-assistant/total)]()
 [![Github Stars](https://img.shields.io/github/stars/dfirence/mitre-assistant)]()
 
+[![Github Downloads](https://img.shields.io/github/downloads/dfirence/mitre-assistant/total)]()
+[![Github Stars](https://img.shields.io/github/stars/dfirence/mitre-assistant)]()
+
+<div id="title" align="center">
+    <h1 style="color:teal;">MITRE-ASSISTANT</h1>
+    <hr/>
+    <h4 style="color:black">A More Flexible, Useful and Cooler Mitre ATT&CK Client</h4>
+</div>
+<br/><br
+
 # mitre-assistant
 
 A custom, more useful, and much cooler MITRE-CTI-CLIENT.
