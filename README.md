@@ -5,10 +5,9 @@
 
 <div id="title" align="center">
     <h1>MITRE-ASSISTANT</h1>
-
-    <h4>A More Flexible, Useful and Cooler Mitre ATT&CK Client</h4>
+    <h4>A More Flexible, Useful and Coller Mitre ATT&CK Client</h4>
 </div>
-<br/><br>
+<br/><br/>
 
 
 ![image](https://user-images.githubusercontent.com/11415591/90009693-8a1daa00-dc6c-11ea-87c7-968da8f400e8.png)
