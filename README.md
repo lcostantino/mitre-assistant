@@ -1,14 +1,72 @@
-
-
 [![Github Downloads](https://img.shields.io/github/downloads/dfirence/mitre-assistant/total)]()
 [![Github Stars](https://img.shields.io/github/stars/dfirence/mitre-assistant)]()
 
-<div id="title" align="center">
-    <h1>MITRE-ASSISTANT</h1>
+<div id=“title” align=“center”>
+    <h1>#MITRE-ASSISTANT</h1>
     <p>A More Flexible, Useful and Cooler Mitre ATT&CK Client</p>
 </div>
 <br/><br/>
 
+The **#MitreAssistant** is a cross-platform command-line application engine that powers many web applications and data-pipeline workflows.
+It supports both the `V6` and `V7` versions of the Mitre ATT&CK STIX CTI, as well as, the `V2` and `V3` Mitre ATT&CK Navigator Layers.
+
+The end-goal of this tool is to remove friction between users and the ATT&CK Matrix in a business setting:
+
+<br/>
+<div id=“goals-table” align=“center”>
+   <table width=“90%” style=“border-collapse:collapse;”>
+       <tbody>
+           <tr>
+               <th style=“padding:10px 0px 10px 0px”>Real-World Frictions</th>
+               <th style=“padding:10px 0px 10px 10px”>Mitre-Assistant Capabilities</th>
+           </tr>
+           <tr>
+               <td style=“padding:10px 0px 10px 0px”>Streamline team-wide capability, productivity and readiness</td>
+               <td style=“padding:10px 0px 10px 0px”>
+                   <ul>
+                       <li>Easy to use and consume details</li>
+                       <li>Built-in Queries and Views</li>
+                       <li>Built-in Comma Separated Multiple Input</li>
+                       <li>Built-in Data Transormation & Normalization</li>
+                       <li>Backward Compatible ATT&CK Data Format(s)</li>
+                       <li>Export Queries To CSV or JSON</li>
+                       <li>Import JSON Navigator</li>
+                       <li>Export JSON Navigator To CSV</li>
+                   </ul>
+               </td>
+           </tr>
+           <tr>
+               <td  style=“padding:10px 0px 10px 0px”>Enable efficient cross-functional education, and collaboration for tactical workshops</td>
+               <td  style=“padding:10px 0px 10px 0px”>
+                    <ul>
+                       <li>Built-in Correlation of Adversary, Malware and Tools</li>
+                       <li>Multiple Adversary Modeling</li>
+                       <li>Multiple Malware Modeling</li>
+                       <li>Multiple Tool Modeling</li>
+                       <li>Multiple KillChain Modeling</li>
+                   </ul>
+               </td>
+           </tr>
+           <tr>
+               <td  style=“padding:10px 0px 10px 0px”>Enable effective business communication in the pursuit of security outcomes</td>
+               <td  style=“padding:10px 0px 10px 0px”>
+                   <ul>
+                       <li>Built-in Stats By Total Techniques</li>
+                       <li>Built-in Stats By Total Subtechniques</li>
+                       <li>Built-in Stats By Total Density in Datasources</li>
+                       <li>Built-in Stats By Total Density in KillChains</li>
+                       <li>Built-in Stats By Total Density in Platforms</li>
+                       <li>Built-in Stats By Total Density of Adversaries</li>
+                       <li>Built-in Stats By Total Density of Malware</li>
+                       <li>Built-in Dtats By Total Density of Tools</li>
+                   </ul>
+               </td>
+           </tr>
+       </tbody>
+   </table> 
+</div>
+<br/>
+<br/>
 
 ![image](https://user-images.githubusercontent.com/11415591/90009693-8a1daa00-dc6c-11ea-87c7-968da8f400e8.png)
 
