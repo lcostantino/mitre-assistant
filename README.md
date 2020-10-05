@@ -10,11 +10,6 @@
 </div>
 <br/><br
 
-# mitre-assistant
-
-A custom, more useful, and much cooler MITRE-CTI-CLIENT.
-
-<br/>
 
 ![image](https://user-images.githubusercontent.com/11415591/90009693-8a1daa00-dc6c-11ea-87c7-968da8f400e8.png)
 
