@@ -60,7 +60,9 @@
       
     </div>
     
-      <header class="md-header" data-md-component="header">
+      
+
+<header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid" aria-label="Header">
     <a href="/." title="Mitre-Assistant" class="md-header-nav__button md-logo" aria-label="Mitre-Assistant">
       
@@ -124,6 +126,26 @@
       
       
         
+          
+
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  <li class="md-tabs__item">
+    
+      <a href="/." class="md-tabs__link md-tabs__link--active">
+        Mitre-Assistant
+      </a>
+    
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+        
       
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
@@ -132,7 +154,9 @@
               <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+                    
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="/." title="Mitre-Assistant" class="md-nav__button md-logo" aria-label="Mitre-Assistant">
       
@@ -212,13 +236,13 @@
       
     </div>
     
-      <script src="/assets/javascripts/vendor.77e55a48.min.js"></script>
-      <script src="/assets/javascripts/bundle.9554a270.min.js"></script><script id="__lang" type="application/json">{"search.result.term.missing": "Missing", "search.config.lang": "en", "search.result.placeholder": "Type to start searching", "search.result.more.one": "1 more on this page", "search.result.other": "# matching documents", "search.result.more.other": "# more on this page", "search.config.pipeline": "trimmer, stopWordFilter", "search.result.one": "1 matching document", "search.result.none": "No matching documents", "search.config.separator": "[\\s\\-]+", "clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard"}</script>
+      <script src="/assets/javascripts/vendor.a018d6bb.min.js"></script>
+      <script src="/assets/javascripts/bundle.4b42b5e6.min.js"></script><script id="__lang" type="application/json">{"clipboard.copied": "Copied to clipboard", "search.config.separator": "[\\s\\-]+", "search.config.lang": "en", "search.result.placeholder": "Type to start searching", "search.result.other": "# matching documents", "search.placeholder": "Search", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.one": "1 matching document", "search.config.pipeline": "trimmer, stopWordFilter", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "search.result.none": "No matching documents"}</script>
       
       <script>
         app = initialize({
           base: "/",
-          features: [],
+          features: ['navigation.instant', 'navigation.expand', 'navigation.tabs', 'search.highlight'],
           search: Object.assign({
             worker: "/assets/javascripts/worker/search.4ac00218.min.js"
           }, typeof search !== "undefined" && search)
