@@ -1,0 +1,38 @@
+site_name: Mitre-Assistant
+theme:
+  name: material
+  custom_dir: ./theme/mkdocs-material/material
+  repo_name: squidfunk/mkdocs-material
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.instant
+    - navigation.expand
+    - navigation.tabs
+    - search.highlight
+plugins:
+  - search:
+      prebuild_index: true
+markdown_extensions:
+  - toc:
+      toc_depth: 3
+      slugify: !!python/name:pymdownx.slugs.uslugify
+  - admonition
+  - attr_list
+  - def_list
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      linenums: true
+  - pymdownx.tabbed
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: true
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/dfirence/
