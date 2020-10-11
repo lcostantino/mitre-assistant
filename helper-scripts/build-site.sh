@@ -8,3 +8,6 @@ rm -rf ./docs/*
 mv -v ./src-mkdocs-mitre-assistant/site/* ./docs
 
 echo "[+] Preparing Git Commit"
+git add --all
+git commit -m "add new draft"
+git push
