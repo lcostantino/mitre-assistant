@@ -159,6 +159,19 @@
       
         
       
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../Getting_Started/Install_and_Setup/" class="md-tabs__link">
+          Getting Started
+        </a>
+      
+    </li>
+  
+
+      
     </ul>
   </div>
 </nav>
@@ -323,13 +336,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#can-i-contribute-code-to-your-tool" class="md-nav__link">
-    Can I contribute code to your tool?
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -344,15 +350,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#if-i-cant-code-how-can-i-contribute-to-your-tool" class="md-nav__link">
-    If I can't code, how can I contribute to your tool?
+  <a href="#can-i-contribute-code-to-your-tool" class="md-nav__link">
+    Can I contribute code to your tool?
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#can-i-contribute-code-to-your-tool_1" class="md-nav__link">
-    Can I contribute code to your tool?
+  <a href="#if-i-cant-code-how-can-i-contribute-to-your-tool" class="md-nav__link">
+    If I can't code, how can I contribute to your tool?
   </a>
   
 </li>
@@ -410,6 +416,82 @@
     <a href="../licensing/" class="md-nav__link">
       Licensing
     </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Getting Started
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Getting Started" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
+        Getting Started
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Getting_Started/Install_and_Setup/" class="md-nav__link">
+      Install and Setup
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6-2" type="checkbox" id="nav-6-2">
+    
+    <label class="md-nav__link" for="nav-6-2">
+      Searching
+      <span class="md-nav__icon md-icon"></span>
+    </label>
+    <nav class="md-nav" aria-label="Searching" data-md-level="2">
+      <label class="md-nav__title" for="nav-6-2">
+        <span class="md-nav__icon md-icon"></span>
+        Searching
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../Getting_Started/Searching/Search_Terms_Glossary/" class="md-nav__link">
+      Search Terms Glossary
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -513,13 +595,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#can-i-contribute-code-to-your-tool" class="md-nav__link">
-    Can I contribute code to your tool?
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -534,15 +609,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#if-i-cant-code-how-can-i-contribute-to-your-tool" class="md-nav__link">
-    If I can't code, how can I contribute to your tool?
+  <a href="#can-i-contribute-code-to-your-tool" class="md-nav__link">
+    Can I contribute code to your tool?
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#can-i-contribute-code-to-your-tool_1" class="md-nav__link">
-    Can I contribute code to your tool?
+  <a href="#if-i-cant-code-how-can-i-contribute-to-your-tool" class="md-nav__link">
+    If I can't code, how can I contribute to your tool?
   </a>
   
 </li>
@@ -601,41 +676,58 @@
 <p><br/></p>
 <h3 id="what-language-is-this-tool-created-in"><strong>What Language is this tool created in?</strong></h3>
 <p>The tool in its current form, is a RUST program built across different platforms to support MACOS, LINUX DEBIAN, and WINDOWS.</p>
-<p><br/></p>
+<p><br/>
+<hr/></p>
 <h2 id="tool-usage">Tool Usage</h2>
 <h3 id="is-the-attck-information-easily-updated"><strong>Is the ATT&amp;CK Information Easily Updated?</strong></h3>
 <p><strong><mark>YES.</mark></strong> The information can be updated at any time to keep-up with the Mitre ATT&amp;CK CTI Repository.  However, I put the feature of updating in your hands, I do not run background jobs/tasks for the program to update the information.</p>
 <p>To update the information you use the <code>download</code> and <code>baseline</code> subcommands like this:</p>
 <div class="admonition tip">
 <p class="admonition-title">Updating Information in Mitre-Assistant</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Downloads the most current version</span>
-<span class="c1"># of the ATT&amp;CK CTI Repo</span>
-<span class="c1">#</span>
-mitre-assistant download -m enterprise
+<p>Downloads the most current version of the ATT&amp;CK CTI Repo</p>
+<div class="highlight"><pre><span></span><code>mitre-assistant download -m enterprise
 </code></pre></div>
 
 <p>Then, update the Mitre-Assistant Baseline</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Updates the local baseline</span>
-<span class="c1"># of the ATT&amp;CK CTI Repo</span>
-<span class="c1">#</span>
-mitre-assistant baseline -m enterprise
+<div class="highlight"><pre><span></span><code>mitre-assistant baseline -m enterprise
 </code></pre></div>
 
 </div>
 <p><br/></p>
 <h3 id="how-different-is-your-tool-from-the-attck-cti-repo"><strong>How different is your tool from the ATT&amp;CK CTI Repo?</strong></h3>
-<p><br/></p>
+<p>My tool will give you a better experience consuming the CTI Repo, and you will benefit from the time savings of not having to create base queries for the fundamentals of working with the ATT&amp;CK Matrix.  This includes, scenarios where you may not have someone in your team with the skills to code custom scripts for your reporting or modeling needs.</p>
+<p>The CTI Repo gives you a client to consume its details, <strong><mark>please, go ahead and use that</mark></strong>, and <strong><mark>then use the Mitre-Assistant</mark></strong>, I am confident you will appreciate what I have accomplished and am now sharing with you, <strong><mark>for free.</mark></strong>
+<br/></p>
 <h3 id="if-i-use-your-tool-in-a-commercial-product-do-i-need-to-credit-you"><strong>If I use your tool in a commercial product, do I need to credit you?</strong></h3>
-<p><br/></p>
-<h3 id="can-i-contribute-code-to-your-tool"><strong>Can I contribute code to your tool?</strong></h3>
-<p><br/></p>
+<p><strong><mark>YES.</mark></strong> In return for my passionate commitment to share with the world as others have done with me for my career, I ask that you do the right thing.  Although I understand some people are absent-minded or in some cases selfish, don't be deuche, do the right thing for others.</p>
+<p><br/>
+<hr/></p>
 <h2 id="contributing">Contributing</h2>
+<h3 id="can-i-contribute-code-to-your-tool"><strong>Can I contribute code to your tool?</strong></h3>
+<p>*<em><mark>YES.</mark></em> I welcome anyone understanding the benefit of contributing to this tool, go ahead and get your GitHub PR reviewed :)</p>
+<p><br/></p>
 <h3 id="if-i-cant-code-how-can-i-contribute-to-your-tool"><strong>If I can't code, how can I contribute to your tool?</strong></h3>
-<p><br/></p>
-<h3 id="can-i-contribute-code-to-your-tool_1"><strong>Can I contribute code to your tool?</strong></h3>
-<p><br/></p>
+<p><strong><mark>NO PROBLEM!! I WELCOME YOU!!</mark></strong> If you find yourself in any of the roles below, I am suggesting ways for you to get involved and be credited for your ideas, suggestions and efforts.</p>
+<div class="tabbed-set" data-tabs="1:4"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Business Leader</label><div class="tabbed-content">
+<p><mark>If you have a need for leading metrics</mark>, or business communication messaging stemming from the usage of the ATT&amp;CK Matrix, I will gladly develop the logic so you and your team can have the data formatted and presented to you easily so you can pursue better business and security outcomes.</p>
+<p>Have your team submit a GitHub issue describing the need, and you can follow my progress on GitHub.</p>
+</div>
+<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Business Analyst</label><div class="tabbed-content">
+<p><mark>If you have a need for easy data access</mark> so you can integrate with other reporting tools, feel free to submit a GitHub issue, I will help you as much as I can.</p>
+</div>
+<input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><label for="__tabbed_1_3">Student</label><div class="tabbed-content">
+<p><mark>If you are in need of learning</mark> about the ATT&amp;CK Matrix, and you feel there aren't many tutorials covering good learning needs for you or your fellow students, feel free to submit a GitHub issue suggesting the learning format or knowledge goal.</p>
+<p>Or, if you already have a great way to learn, share it with others so we can teach the world together :)</p>
+</div>
+<input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><label for="__tabbed_1_4">Consultant</label><div class="tabbed-content">
+<p><mark>If you are developing</mark> methodologies for others to use in your engagements, and you cannot code, feel free to submit a request to have your workflow automated.</p>
+</div>
+</div>
+<p><br/>
+<hr/></p>
 <h2 id="security">Security</h2>
 <h3 id="how-do-i-report-a-security-vulnerability-with-your-tool"><strong>How do I report a <mark>Security Vulnerability</mark> with your tool?</strong></h3>
+<p>If you find a security vulnerability with my software, I <strong><mark>urge you to quickly report it via github</mark></strong>.  Please follow the security template approach so I can prioritize the security triage and reproduceability of the issue being presented.</p>
                 
               
               
@@ -721,7 +813,7 @@ mitre-assistant baseline -m enterprise
       <script>
         app = initialize({
           base: "..",
-          features: ['navigation.instant', 'navigation.expand', 'navigation.tabs', 'search.highlight'],
+          features: ['navigation.instant', 'navigation.expand', 'navigation.tabs', 'search.highlight', 'search.suggest'],
           search: Object.assign({
             worker: "../assets/javascripts/worker/search.4ac00218.min.js"
           }, typeof search !== "undefined" && search)
