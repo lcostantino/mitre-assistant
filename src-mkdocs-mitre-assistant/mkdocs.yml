@@ -1,7 +1,10 @@
 site_name: Mitre-Assistant
 theme:
+  palette:
+    primary: indigo
+    accent: pink
   name: material
-  custom_dir: ./theme/mkdocs-material/material
+  custom_dir: theme/mkdocs-material/material
   repo_name: squidfunk/mkdocs-material
   icon:
     repo: fontawesome/brands/github
@@ -23,7 +26,7 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.highlight:
-      linenums: true
+      linenums: false
   - pymdownx.tabbed
   - pymdownx.critic
   - pymdownx.caret
