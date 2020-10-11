@@ -33,7 +33,7 @@ The tool offers a flexible set of features to allow for the quick extraction of 
     mitre-assistant search -m enterprise -t "api-monitoring" | grep -i "lateral-movement"
     ```
 
-For a complete listing of the features or capabilities offered in Mitre-Assistant, please refer to the <a href="/features/" target="_blank" norelopener><strong>Features Section</strong></a>
+For a complete listing of the features or capabilities offered in Mitre-Assistant, please refer to the <a href="./features/" target="_blank" norelopener><strong>Features Section</strong></a>
 
 <br/>
 
@@ -42,9 +42,11 @@ For a complete listing of the features or capabilities offered in Mitre-Assistan
 <hr/>
 
 !!! tip "For Both Strategic and Tactical Planning"
-    If you are practitioner in charge of managing a technical security program, you will need to model and design detection coverage programs based on the ATT&CK Matrix.  This utility will save tons of time, I guarantee it.  You will be able to **==slice & dice==** the matrix by different views, criteria as you share information with your team and external partners.
+    If you are practitioner in charge of managing a technical security program, you will need to model and design detection coverage programs based on the ATT&CK Matrix.  This utility will save tons of time, I guarantee it.<br/>
+    
+    You will be able to **==slice & dice==** the matrix by different views or criteria you are interested in so you can rapidly share information with your team and external partners.
 
-    You are able to export your queries to **JSON** and **CSV**.
+    You are also able to export your queries to **JSON** and **CSV**.
 
 !!! tip "For Threat Modeling"
     If you are in a particular industry, for example in Finance, and you need to quickly know all of the `FIN` adversaries according to the
@@ -65,7 +67,7 @@ For a complete listing of the features or capabilities offered in Mitre-Assistan
 
 ## **Where can I get it?**
 <hr/>
-The utility can obtained from the <a href="https://github.com/dfirence/mitre-assistant/releases" target="_blank" norelopener><strong>releases section</strong></a> of the Github repo where it is being actively developed, or if you are a `rustlang` user, you can just install via the cargo package manager.
+The utility can be obtained from the <a href="https://github.com/dfirence/mitre-assistant/releases" target="_blank" norelopener><strong>releases section</strong></a> of the Github repo where it is being actively developed, or if you are a `rustlang` user, you can just install via the cargo package manager.
 
 !!! tip "Installing via Cargo"
 
