@@ -4,7 +4,8 @@
 #[macro_use] extern crate prettytable;
 
 
-extern crate reqwest;
+//extern crate reqwest;
+extern crate ureq;
 extern crate regex;
 extern crate serde_json;
 extern crate serde_derive;

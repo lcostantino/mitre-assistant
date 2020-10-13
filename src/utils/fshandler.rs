@@ -4,7 +4,7 @@ use std::io::prelude::*;
 use std::io::{ self, BufRead, BufReader, BufWriter, Read, Write };
 
 // 3rd Party
-use fs2::{ self, FileExt };
+//use fs2::{ self, FileExt };
 //use walkdir::{ DirEntry, WalkDir };
 
 
@@ -194,10 +194,8 @@ impl FileHandler {
      /// ```
      pub fn write(&mut self, _content: &String) -> Result<(), Box<dyn std::error::Error>>
      {
-        self.handle.lock_exclusive()?;
         self.handle.write_all(_content.as_bytes())?;
         self.handle.flush()?;
-        self.handle.unlock()?;
         Ok(())
      }
      /// # FileHandler - ReadAsVecBytes

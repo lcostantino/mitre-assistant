@@ -1,4 +1,5 @@
-use reqwest;
+//use reqwest;
+use ureq;
 use serde_json;
 
 
@@ -55,7 +56,11 @@ impl WebClient {
         println!("{}", _dashes);
         println!("\nDownlading Matrix : {}\nDownloading From  : {}\n", matrix_type, _url);
         println!("{}", _dashes);
-        let _json = reqwest::blocking::get(_url)?.text()?;
+        //let _json = reqwest::blocking::get(_url)?.text()?;
+        let _json = ureq::get(_url)
+                        .timeout_connect(10_000)
+                        .call();
+        let _json = _json.into_string().unwrap();
         let _filename = format!("{}.json", matrix_type);
         if FileHandler::check_for_config_folder().unwrap() {
             FileHandler::write_download(_filename.as_str(), &_json)?;
