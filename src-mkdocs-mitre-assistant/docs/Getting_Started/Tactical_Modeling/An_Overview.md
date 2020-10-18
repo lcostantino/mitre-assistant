@@ -31,4 +31,6 @@ The above example demonstrates the incompleteness of the information offered in 
 
 ## Incomplete Datasource Context
 
-Working with suggested datasources from the Matrix has signficant value
+Working with suggested datasources from the Matrix has signficant value, **==however==**, it is important to note that as of the time of this writing the current datasources are loosely defined, as such, a practitioner or external security team must carefully consider what the meaning of the datasource is, and how should they be used to assess the way a technique **could** potentially be detected by the offered guidance in the ATT&CK Matrix.
+
+!!! info  "Observation: Unclear Datasource Definition For DLL Telemetry"
