@@ -1,6 +1,6 @@
 # Overview
 
-A more flexible, useful, and cooler ATT&CK CTI with team-wide collaboration in-mind has arrived!
+A more **==flexible==**, **==useful==**, and **==cooler==** ATT&CK CTI utility with team-wide collaboration is here!
 
 The Mitre-Assistant surfaced as a collaboration tool amongst many people and skillsets that needed to work with The Mitre Corporation's ATT&CK Matrix.
 
