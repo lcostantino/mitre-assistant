@@ -19,8 +19,8 @@ The ATT&CK Matrix as published, derives its structure from many contributions of
 
     <a href="https://us-cert.cisa.gov/ncas/analysis-reports/ar20-216a" target="_blank" norelopener>US_CERT_TAIDOOR</a>
 
-    <a href="https://www.securitymagazine.com/articles/92984-cisa-fbi-and-dod-issue-alert-on-taidoor-new-chinese-malware-variant"
-       target="_blank" norelopener>SECURITY_MAGAZINE_TAIDOOR</a>
+    <a href="https://malpedia.caad.fkie.fraunhofer.de/actor/taidoor"
+       target="_blank" norelopener>MALPEDIA_TAIDOOR_ADVERSARY</a>
 
 <br/>
 
