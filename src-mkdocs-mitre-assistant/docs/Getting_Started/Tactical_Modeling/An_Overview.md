@@ -25,3 +25,6 @@ The ATT&CK Matrix as published, derives its structure from many contributions of
 <br/>
 
 The above example demonstrates the incompleteness of the information offered in the Matrix, therefore, **==this is not a criticism==** it is a factual observation for practitioners or security leaders to have present when working with the Matrix to pursue security outcomes.  Therefore, you must not follow the matrix blindly, instead you have to encourage your team(s) to scavenge or produce complementary information that can afford you the insights you are in need of when working with the approach suggested by the Mitre Corporation - i.e., emulate behaviors, record them, and formulate your own tactical plans based on the exhibited techniques of the adversary of malware you are investigating.
+
+<br/>
+<br/>
