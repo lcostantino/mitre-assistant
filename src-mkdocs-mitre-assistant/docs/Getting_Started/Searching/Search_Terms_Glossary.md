@@ -4,7 +4,6 @@ This section provides a complete listing of the built-in search terms available 
 
 | SEARCH TERM | PURPOSE |
 |:------------|:--------|
-<<<<<<< HEAD
 |`{{ _platform_ }}`|**==Single Context and Multiple Input==**<br/>Search for techniques or subtechniques by platform type<br/></br/>Example:</br/>`search -m enterprise -t "linux"`<br/>Or<br/>`search -m enterprise -t "linux,macos"`|
 |`{{ _datasource_ }}`|**==Single Context and Multiple Input==**<br/>Search for techniques or subtechniques by datasource type<br/></br/>Example:</br/>`search -m enterprise -t "windows-registry"`<br/>Or<br/>`search -m enterprise -t "wmi-objects,windows-registry"`|
 |`{{ _tactic_ }}`|**==Single Context and Multiple Input==**<br/>Search for techniques or subtechniques by tactic/killchain<br/></br/>Example:</br/>`search -m enterprise -t "defense-evasion"`<br/>Or<br/>`search -m enterprise -t "defense-evasion,lateral-movement"`|
@@ -36,9 +35,6 @@ This section provides a complete listing of the built-in search terms available 
 |`stats:tools`|Density of Techniques & Subtechniques By Assigned Tool|
 |`xref:datasources:platforms`|**==Experiimental==**<br/>2D Table Listing of datasources mapped to platforms<br/>|
 |`xref:datasources:tactics`|**==Experiimental==**<br/>2D Table Listing of datasources mapped to tactics<br/>|
-
-
-=======
 |`stats`|Summarizes an Overview of Uniques and Totals for specific categories|
 |`stats:platforms`|Summarizes the density of techniques assigned to platforms|
 |`stats:datasources`|Summarizes the density of techniques assigned to datasources|
@@ -66,4 +62,3 @@ This section provides a complete listing of the built-in search terms available 
 |`{{ _ADVERSARY_ }}`||
 |`{{ _MALWARE_ }}`||
 |`{{ _TOOL_ }}`||
->>>>>>> 4ae77997970e94acb92e97db14eee105c7d9f5c6

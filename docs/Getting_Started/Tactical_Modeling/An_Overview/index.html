@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#empirical-context-from-external-contributions" class="md-skip">
+        <a href="#reasons" class="md-skip">
           Skip to content
         </a>
       
@@ -464,16 +464,29 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#reasons" class="md-nav__link">
+    Reasons
+  </a>
+  
+    <nav class="md-nav" aria-label="Reasons">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#empirical-context-from-external-contributions" class="md-nav__link">
     Empirical Context From External Contributions
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#incomplete-datasource-context" class="md-nav__link">
     Incomplete Datasource Context
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -516,16 +529,29 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#reasons" class="md-nav__link">
+    Reasons
+  </a>
+  
+    <nav class="md-nav" aria-label="Reasons">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#empirical-context-from-external-contributions" class="md-nav__link">
     Empirical Context From External Contributions
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#incomplete-datasource-context" class="md-nav__link">
     Incomplete Datasource Context
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -546,10 +572,12 @@
                 
                 <p>Before we dive into the practical tips, <strong><mark>it is critical to understand</mark></strong> the Mitre ATT&amp;CK framework should not be considered the single source of truth, but rather, a source of excellent knowledge that is progressively making strides to bring security practitioners a common-language and possibly, common-sense.</p>
 <p>I will be outlining the reasons why I believe this is the case.</p>
-<h2 id="empirical-context-from-external-contributions">Empirical Context From External Contributions</h2>
+<h2 id="reasons">Reasons</h2>
+<h3 id="empirical-context-from-external-contributions">Empirical Context From External Contributions</h3>
 <p>The ATT&amp;CK Matrix as published, derives its structure from many contributions of external opinions, analysis, and observations of various indviduals and organizations that provide security services, not excluding the independent opinions of qualified individuals.  However, the data is partially incomplete.</p>
+<p><br/></p>
 <div class="admonition info">
-<p class="admonition-title">Observation: Adversary | Tai-Door - G0015</p>
+<p class="admonition-title">Observation: Adversary G0015| a.k.a Taidoor</p>
 <p><br/>
 Run this query in the Mitre-Assistant.</p>
 <div class="highlight"><pre><span></span><code>mitre-assistant search -m enterprise -t <span class="s2">&quot;taidoor&quot;</span> 
@@ -562,13 +590,168 @@ Run this query in the Mitre-Assistant.</p>
    target="_blank" norelopener>MALPEDIA_TAIDOOR_ADVERSARY</a></p>
 </div>
 <p><br/></p>
-<p>The above example demonstrates the incompleteness of the information offered in the Matrix, therefore, <strong><mark>this is not a criticism</mark></strong> it is a factual observation for practitioners or security leaders to have present when working with the Matrix to pursue security outcomes.  Therefore, you <strong><mark>should not follow</mark></strong> the matrix blindly, instead you have to encourage your team(s) to scavenge or produce complementary information that can afford you the insights you are in need of when working with the approach suggested by the Mitre Corporation - i.e., emulate behaviors, record them, and formulate your own tactical plans based on the exhibited techniques of the adversary of malware you are investigating.</p>
-<p><br/>
-<br/></p>
-<h2 id="incomplete-datasource-context">Incomplete Datasource Context</h2>
-<p>Working with suggested datasources from the Matrix has signficant value, <strong><mark>however</mark></strong>, it is important to note that as of the time of this writing the current datasources are loosely defined, as such, a practitioner or external security team must carefully consider what the meaning of the datasource is, and how should they be used to assess the way a technique <strong>could</strong> potentially be detected by the offered guidance in the ATT&amp;CK Matrix.</p>
+<p>The above example demonstrates the incompleteness of the information offered in the Matrix, therefore, <strong><mark>this is not a criticism</mark></strong>, rather it is a factual observation for practitioners or security leaders to have present when working with the Matrix to pursue security outcomes.  Therefore, you <strong><mark>should not follow</mark></strong> the matrix blindly, instead you have to encourage your team(s) to scavenge or produce complementary information that can afford you the insights you are in need of when working with the approach suggested by the Mitre Corporation - i.e., emulate behaviors, record them, and formulate your own tactical plans based on the exhibited techniques of the adversary of malware you are investigating.</p>
+<p><br/></p>
+<h3 id="incomplete-datasource-context">Incomplete Datasource Context</h3>
+<p>Working with suggested datasources from the Matrix has <strong><em>signficant value</em></strong>, <strong><mark>however</mark></strong>, it is important to note that as of the time of this writing the current datasources are loosely defined, as such, a practitioner or external security team must carefully consider what the meaning of the datasource is, and how should they be used to assess the way a technique <strong>could</strong> potentially be detected by the offered guidance in the ATT&amp;CK Matrix.</p>
+<p><br/></p>
 <div class="admonition info">
 <p class="admonition-title">Observation: Unclear Datasource Definition For DLL Telemetry</p>
+<p><br/>
+Run this query in the Mitre-Assistant</p>
+<div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">From Unix</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code>mitre-assistant search -m enterprise -t <span class="s2">&quot;stats:datasources&quot;</span> <span class="p">|</span> grep -i <span class="s2">&quot;dll&quot;</span>
+</code></pre></div>
+
+</div>
+<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">From Windows</label><div class="tabbed-content">
+<div class="highlight"><pre><span></span><code><span class="n">mitre-assistant</span> <span class="n">search</span> <span class="n">-m</span> <span class="n">enterprise</span> <span class="n">-t</span> <span class="s2">&quot;stats:datasources&quot;</span> <span class="p">|</span> <span class="n">findstr</span> <span class="s2">&quot;dll&quot;</span>
+</code></pre></div>
+
+</div>
+</div>
+<p><strong>Notice</strong> the output should give you 2 entries:  1) <strong>dll-monitoring</strong>, and 2) <strong>loaded-dlls</strong></p>
+</div>
+<p><br/></p>
+<p>The seasoned endpoint-security professional will quickly ask for the meaning of each category from the above query.  Because in the context of endpoint-security operations, monitoring DLLs boils down to a couple of things.</p>
+<ul>
+<li><strong>Runtime Context</strong>:  When the DLL Loads into to the memory space of a process being executed</li>
+<li><strong>File IO Context</strong>:  When the DLL structure is flushed and written to disk somewhere in the filesystem of the computer</li>
+</ul>
+<p>Since the datasources provided by the Mitre ATT&amp;CK Matrix are not well defined, then the context from above is unclear, <strong><mark>specifically the dll-monitoring</mark></strong> datasource.  If the Mitre ATT&amp;CK Matrix would be suggesting the <strong><mark>File IO Context</mark></strong> is to be covered by the <strong>dll-monitoring</strong> datasource, then this conflicts with the separate datasource known as <strong><mark>file-monitoring</mark></strong>.</p>
+<p><br/></p>
+<div class="admonition tip">
+<p class="admonition-title">Protip: Working With Datasources in ATT&amp;CK</p>
+<p><br/>
+It is best to dump all of the active datasources in the ATT&amp;CK Matrix and inspect each one of these, <strong><mark>then</mark></strong>, with your security team, conduct a few workshops to translate what Mitre has offered and map your own criteria to where  you find conflicts.</p>
+<p><br/>
+For example:  A team dropped the <strong>dll-monitoring</strong> datasource and replaced it with <strong>file-monitoring</strong> datasource.</p>
+<p>Using Mitre-Assistant to dump all of the active datasources.</p>
+<div class="highlight"><pre><span></span><code>mitre-assistant search -m enterprise -t <span class="s2">&quot;stats:datasources&quot;</span>
+</code></pre></div>
+
+<details class="tldr"><summary>Output</summary><div class="highlight"><pre><span></span><code>+-------+------------------------------------+------------+---------------+--------------+-----------------+
+| INDEX |             DATASOURCE             | TECHNIQUES | SUBTECHNIQUES | % TECHNIQUES | % SUBTECHNIQUES |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 1     | access-tokens                      |     2      |       6       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 2     | anti-virus                         |     6      |       4       |      4%      |       4%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 3     | api-monitoring                     |     42     |      61       |     23%      |       23%       |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 4     | application-logs                   |     9      |       6       |      5%      |       5%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 5     | asset-management                   |     2      |       0       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 6     | authentication-logs                |     29     |      54       |     16%      |       16%       |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 7     | aws-cloudtrail-logs                |     19     |      16       |     11%      |       11%       |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 8     | azure-activity-logs                |     18     |      15       |     10%      |       10%       |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 9     | binary-file-metadata               |     12     |      17       |      7%      |       7%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 10    | bios                               |     4      |       3       |      3%      |       3%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 11    | browser-extensions                 |     1      |       0       |      1%      |       1%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 12    | component-firmware                 |     3      |       3       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 13    | data-loss-prevention               |     7      |       1       |      4%      |       4%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 14    | detonation-chamber                 |     1      |       2       |      1%      |       1%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 15    | digital-certificate-logs           |     0      |       1       |      0%      |       0%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 16    | disk-forensics                     |     2      |       3       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 17    | dll-monitoring                     |     17     |      36       |     10%      |       10%       |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 18    | dns-records                        |     3      |       5       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 19    | efi                                |     2      |       3       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 20    | email-gateway                      |     4      |       4       |      3%      |       3%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 21    | environment-variable               |     5      |       4       |      3%      |       3%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 22    | file-monitoring                    |     76     |      155      |     42%      |       42%       |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 23    | gcp-audit-logs                     |     2      |       5       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 24    | host-network-interface             |     4      |       4       |      3%      |       3%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 25    | kernel-drivers                     |     5      |       2       |      3%      |       3%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 26    | loaded-dlls                        |     10     |      27       |      6%      |       6%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 27    | mail-server                        |     4      |       8       |      3%      |       3%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 28    | malware-reverse-engineering        |     3      |       4       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 29    | mbr                                |     3      |       2       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 30    | named-pipes                        |     2      |       0       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 31    | netflow-enclave-netflow            |     30     |      33       |     17%      |       17%       |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 32    | network-device-logs                |     8      |       7       |      5%      |       5%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 33    | network-intrusion-detection-system |     8      |       7       |      5%      |       5%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 34    | network-protocol-analysis          |     23     |      24       |     13%      |       13%       |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 35    | oauth-audit-logs                   |     4      |       2       |      3%      |       3%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 36    | office-365-account-logs            |     4      |       7       |      3%      |       3%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 37    | office-365-audit-logs              |     3      |       8       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 38    | office-365-trace-logs              |     2      |       2       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 39    | packet-capture                     |     33     |      36       |     18%      |       18%       |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 40    | powershell-logs                    |     9      |      14       |      5%      |       5%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 41    | process-command-line-parameters    |     78     |      164      |     43%      |       43%       |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 42    | process-monitoring                 |    131     |      260      |     72%      |       72%       |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 43    | process-use-of-network             |     35     |      31       |     20%      |       20%       |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 44    | sensor-health-and-status           |     1      |       3       |      1%      |       1%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 45    | services                           |     2      |       7       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 46    | ssl-tls-inspection                 |     10     |      14       |      6%      |       6%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 47    | stackdriver-logs                   |     17     |      15       |     10%      |       10%       |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 48    | system-calls                       |     6      |       6       |      4%      |       4%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 49    | third-party-application-logs       |     4      |       1       |      3%      |       3%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 50    | user-interface                     |     3      |       3       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 51    | vbr                                |     2      |       2       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 52    | web-application-firewall-logs      |     3      |       5       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 53    | web-logs                           |     5      |       5       |      3%      |       3%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 54    | web-proxy                          |     4      |       5       |      3%      |       3%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 55    | windows-error-reporting            |     4      |       0       |      3%      |       3%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 56    | windows-event-logs                 |     29     |      34       |     16%      |       16%       |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 57    | windows-registry                   |     24     |      58       |     14%      |       14%       |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+| 58    | wmi-objects                        |     2      |       2       |      2%      |       2%        |
++-------+------------------------------------+------------+---------------+--------------+-----------------+
+</code></pre></div>
+
+</details>
 </div>
                 
               
@@ -636,7 +819,7 @@ Run this query in the Mitre-Assistant.</p>
     </div>
     
       <script src="../../../assets/javascripts/vendor.a018d6bb.min.js"></script>
-      <script src="../../../assets/javascripts/bundle.4b42b5e6.min.js"></script><script id="__lang" type="application/json">{"search.result.one": "1 matching document", "search.result.placeholder": "Type to start searching", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.placeholder": "Search", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.lang": "en", "clipboard.copied": "Copied to clipboard", "search.result.more.one": "1 more on this page", "search.config.separator": "[\\s\\-]+", "search.result.term.missing": "Missing", "clipboard.copy": "Copy to clipboard", "search.result.other": "# matching documents"}</script>
+      <script src="../../../assets/javascripts/bundle.4b42b5e6.min.js"></script><script id="__lang" type="application/json">{"search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.one": "1 matching document", "search.config.pipeline": "trimmer, stopWordFilter", "search.result.none": "No matching documents", "search.result.term.missing": "Missing", "clipboard.copied": "Copied to clipboard", "search.result.more.other": "# more on this page", "search.config.separator": "[\\s\\-]+", "search.config.lang": "en", "search.result.placeholder": "Type to start searching", "search.result.other": "# matching documents", "clipboard.copy": "Copy to clipboard"}</script>
       
       <script>
         app = initialize({
