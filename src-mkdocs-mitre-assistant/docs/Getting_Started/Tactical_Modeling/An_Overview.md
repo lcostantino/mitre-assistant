@@ -3,7 +3,7 @@ Before we dive into the practical tips, **==it is critical to understand==** the
 I will be outlining the reasons why I believe this is the case.
 
 ## Empirical Context From External Contributions
-The ATT&CK Matrix as published, derives its structure from many contributions of external opinions, analysis, and observations of various indviduals, organizations that provide security services, and likely the opinions of qualified individuals.  However, the data is partially incomplete.
+The ATT&CK Matrix as published, derives its structure from many contributions of external opinions, analysis, and observations of various indviduals and organizations that provide security services, not excluding the independent opinions of qualified individuals.  However, the data is partially incomplete.
 
 !!! info "Observation: Adversary | Tai-Door - G0015"
     <br/>
