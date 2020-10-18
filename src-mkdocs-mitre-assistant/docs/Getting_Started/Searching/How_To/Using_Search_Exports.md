@@ -11,7 +11,7 @@ First, lets review the export guidelines
     Example: Export to CSV
 
     ```bash
-    mitre-assistant search -m enterprise -t "t120" -e csv
+    mitre-assistant search -m enterprise -t "t1210" -e csv
     ```
 
     Example: Export CSV to Custom File
@@ -28,3 +28,10 @@ First, lets review the export guidelines
 
 <br/>
 
+## CSV Data Integrations
+
+For most simple applications, the CSV export format should allow end-users to integrate the data with other existing workflows or approaches of achiving their analysis.
+
+In the upcoming roadmap, the **Mitre-Assistant** will introduce features aligned to my individual approach of using the data to model criteria or searching for patterns.
+
+**Stay Tuned!**
