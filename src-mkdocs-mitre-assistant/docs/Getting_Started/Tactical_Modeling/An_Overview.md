@@ -68,7 +68,7 @@ Since the datasources provided by the Mitre ATT&CK Matrix are not well defined, 
 
 <br/>
 
-!!! tip "Protip: Working With Datasources in ATT&CK"
+!!! tip "Protip: Working With Datasources in Mitre-Assistant"
     <br/>
     It is best to dump all of the active datasources in the ATT&CK Matrix and inspect each one of these, **==then==**, with your security team, conduct a few workshops to translate what Mitre has offered and map your own criteria to where  you find conflicts.
 
@@ -204,8 +204,3 @@ Since the datasources provided by the Mitre ATT&CK Matrix are not well defined, 
         | 58    | wmi-objects                        |     2      |       2       |      2%      |       2%        |
         +-------+------------------------------------+------------+---------------+--------------+-----------------+
         ```
-
-
-    ??? tldr "Visualizing Data Sources in Google Datastudio"
-
-        <iframe width="100%" height="450" src="https://datastudio.google.com/embed/reporting/fe0a2ae0-84f1-4a34-a45a-d46be22fc203/page/NYmkB" frameborder="0" style="border:0" allowfullscreen></iframe>
