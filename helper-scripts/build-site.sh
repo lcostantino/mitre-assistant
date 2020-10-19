@@ -9,6 +9,7 @@ mkdir ./docs
 cp -v -R ./src-mkdocs-mitre-assistant/site/* ./docs
 
 echo "[+] Preparing Git Commit"
-git add --all
-git commit -m "add new draft"
-git push
+DT=$(date)
+git add --all;
+git commit -m "push:$DT";
+git push;

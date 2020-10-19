@@ -44,3 +44,5 @@ This section provides a complete listing of the built-in search terms available 
 |`stats:adversaries`|Summarizes the density of **special** categories by each adversary group|
 |`stats:malware`|Summatizes the density of **special** categories by each malware|
 |`stats:tools`|Summarizes the density of **special** categories by each tool|
+
+<br/>
