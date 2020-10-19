@@ -44,21 +44,3 @@ This section provides a complete listing of the built-in search terms available 
 |`stats:adversaries`|Summarizes the density of **special** categories by each adversary group|
 |`stats:malware`|Summatizes the density of **special** categories by each malware|
 |`stats:tools`|Summarizes the density of **special** categories by each tool|
-|`platforms`||
-|`datasources`||
-|`tactics`||
-|`techniques`||
-|`subtechniques`||
-|`adversaries`||
-|`malware`||
-|`tools`||
-|`deprecated`||
-|`revoked`||
-|`nosub`||
-|`nodatasources`||
-|`{{ _TID_ }}`||
-|`{{ _PLATFORM }}`||
-|`{{ _TACTIC_ }}`||
-|`{{ _ADVERSARY_ }}`||
-|`{{ _MALWARE_ }}`||
-|`{{ _TOOL_ }}`||
