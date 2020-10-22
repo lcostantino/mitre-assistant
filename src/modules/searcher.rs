@@ -1787,12 +1787,14 @@ impl EnterpriseMatrixSearcher {
         for _item in _json.tactics.iter() {
             let mut _stat: EnterpriseStatistic = EnterpriseStatistic::new();
             for _technique in _json.breakdown_techniques.platforms.iter() {
-                if _technique.tactic.contains(_item) {
+                if _technique.tactic.to_lowercase().as_str() == _item {
+                //if _technique.tactic.contains(_item) {
                     _stat.count_techniques += 1;
                 }
             }
             for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
-                if _subtechnique.tactic.contains(_item) {
+                //if _subtechnique.tactic.contains(_item) {
+                if _subtechnique.tactic.to_lowercase().as_str() == _item {
                     _stat.count_subtechniques += 1;
                 }
             }

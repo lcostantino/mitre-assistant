@@ -204,6 +204,7 @@ impl EnterpriseMatrixParser {
         }
         self.new_revoked_techniques.sort();
         self.new_revoked_techniques.dedup();
+        self.details.stats.count_revoked_techniques = self.new_revoked_techniques.len();
         Ok(())
     }
     fn extract_deprecated_techniques(
