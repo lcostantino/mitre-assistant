@@ -2,6 +2,22 @@ Before we dive into the practical tips, **==it is critical to understand==** the
 
 I will be outlining the reasons why I believe this is the case.
 
+But before I dive in with the reasons I personally have today, feel free to consult with the resources from the Mitre Corporation.
+
+!!! tip "ProTip: Read Some of the Mitre Corporation Resources | ATT&CK Matrix"
+
+    <a href="https://medium.com/mitre-attack/att-ck-101-17074d3bc62"
+        target="_blank" norelopener>2018 - Why ATT&CK was created?
+    </a>
+    
+    <a href="https://medium.com/mitre-attack/whats-next-for-mitre-att-ck-7f9506ea1fee"
+        target="_blank"norelopener>2018 - Whats next for Mitre ATT&CK?
+    </a>
+
+    <a href="https://medium.com/mitre-attack/getting-started-with-attack-detection-a8e49e4960d0"
+        target="_blank"norelopener>2019 - Getting Started With ATT&CK Detection
+    </a>
+
 ## Reasons
 
 ### Empirical Context From External Contributions
@@ -9,7 +25,7 @@ The ATT&CK Matrix as published, derives its structure from many contributions of
 
 <br/>
 
-!!! info "Observation: Adversary G0015| a.k.a Taidoor"
+!!! info "Observation: Adversary G0015 | a.k.a Taidoor"
     <br/>
     Run this query in the Mitre-Assistant.
 
@@ -59,6 +75,14 @@ Working with suggested datasources from the Matrix has ***signficant value***, *
     1) **dll-monitoring**
     
     2) **loaded-dlls**
+
+    ??? warning "Mitre Corporation Roadmap: Defining Datasources"
+
+        Read this article for a peak at how the Mitre Corporation is aiming to
+        improve the contextual value of datasources afforded in the ATT&CK Matrix.
+
+        <a href="https://medium.com/mitre-attack/defining-attack-data-sources-part-i-4c39e581454f"
+        target="_blank" norelopener>Defining ATT&CK Datasources - Part 1</a>
 
 
 <br/>
@@ -208,15 +232,6 @@ Since the datasources provided by the Mitre ATT&CK Matrix are not well defined o
         | 58    | wmi-objects                        |     2      |       2       |      2%      |       2%        |
         +-------+------------------------------------+------------+---------------+--------------+-----------------+
         ```
-<br/>
-
-!!! warning "Mitre Corporation Roadmap: Defining Datasources"
-
-    Read this article for a peak at how the Mitre Corporation is aiming to
-    improve the contextual value of datasources afforded in the ATT&CK Matrix.
-
-    <a href="https://medium.com/mitre-attack/defining-attack-data-sources-part-i-4c39e581454f"
-       target="_blank" norelopener>Defining ATT&CK Datasources - Part 1</a>
 
 <br/>
 
@@ -283,4 +298,13 @@ Here's an example:
 ## Conclusion
 
 My conclusion in this overview, is that it is unrealistic to expect the ATT&CK project has to solve all of the education needs and improve the comprehensive consumption of this resource.  I believe the community comprised of both **providers** and **consumers** must have a shared responsibility to improve these observations.  However, to achieve this, I also believe the Mitre Corporation has to improve the sole process of how it accepts input from consumers and providers in progressively molding the ATT&CK matrix for its ambitious goal of becoming the authoritative resource used in computer network defense (CND) strategies and plans across the globe.
+
+I am hoping all of us working with the Mitre Corporation's ATT&CK resource, are invested in making it better and likely, all of us need to pay close attention to their initiative of a **governance** model around the way the matrix grows in the future.
+
+!!! tldr  "Mitre Corporation Governance Plans For ATT&CK"
+
+    <a href="https://user-images.githubusercontent.com/11415591/97117884-fe4ce300-16dc-11eb-9d94-9a0fb58ee8c6.png"
+        target="_blank" norelopener>
+        <img src="https://user-images.githubusercontent.com/11415591/97117884-fe4ce300-16dc-11eb-9d94-9a0fb58ee8c6.png"/>
+    <a>
 

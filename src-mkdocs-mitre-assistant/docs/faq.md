@@ -12,8 +12,16 @@
 
 <br/>
 
+### **Why is the tool named Mitre-Assistant if you are not a member of the Mitre Corporation?**
+
+What drove me to create the tool and name it such way, is/was the absence of having a dedicated resource (person) that could answer all of my questions regarding the ATT&CK Framework.  From the most basic question, to the more complex details of why the ATT&CK framework is the way it is.
+
+I also cannot afford an Assistant from Mitre, so I decided to create one on my own.  That's all.
+
+<br/>
+
 ### **Is this tool commercial or require payment?**
-**==NO.==** This tool is not commercial and it does not require payments from me or anyone else contributing to the code. If you are offered services, software claiming to be the tool named Mitre-Assistant, or using the same capabilities I am offering here as an open-source initiative, **==please report==** these to me via GitHub.
+**==NO.==** This tool is not commercial and it does not require payments to me or anyone else contributing to the code. If you are offered services, software claiming to be the tool named Mitre-Assistant, or using the same capabilities I am offering here as an open-source initiative, **==please report==** these to me via GitHub.
 
 <br/>
 
@@ -52,13 +60,16 @@ To update the information you use the `download` and `baseline` subcommands like
 <br/>
 
 ### **How different is your tool from the ATT&CK CTI Repo?**
+
+My tool consumes the Mitre CTI Repo, they provide the data, I present the data to you.
+ 
 My tool will give you a better experience consuming the CTI Repo, and you will benefit from the time savings of not having to create base queries for the fundamentals of working with the ATT&CK Matrix.  This includes, scenarios where you may not have someone in your team with the skills to code custom scripts for your reporting or modeling needs.
 
 The CTI Repo gives you a client to consume its details, **==please, go ahead and use that==**, and **==then use the Mitre-Assistant==**, I am confident you will appreciate what I have accomplished and am now sharing with you, **==for free.==**
 <br/>
 
 ### **If I use your tool in a commercial product, do I need to credit you?**
-**==YES.==** In return for my passionate commitment to share with the world as others have done with me for my career, I ask that you do the right thing.  Although I understand some people are absent-minded or in some cases selfish, don't be deuche, do the right thing for others.
+**==YES.==** In return for my passionate commitment to share with the world as others have done with me for my career, I ask that you do the right thing.  Although I understand some people are absent-minded or in some cases selfish, don't be **mean**, do the right thing for others.
 
 
 <br/>

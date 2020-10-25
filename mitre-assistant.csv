@@ -1,0 +1,62 @@
+INDEX,STATUS,ADVERSARY,PLATFORMS,TACTIC,TID,TECHNIQUE,DATA SOURCES,MALWARE,TOOLS
+1,Active,apt1,windows,credential-access,T1003.001,LSASS Memory,powershell-logs|process-command-line-parameters|process-monitoring,,lslsass|mimikatz||
+2,Active,apt1,windows,credential-access,T1003.002,Security Account Manager,powershell-logs|process-command-line-parameters|process-monitoring,,gsecdump|mimikatz|pwdump|
+3,Active,apt1,windows,credential-access,T1003.005,Cached Domain Credentials,powershell-logs|process-command-line-parameters|process-monitoring,none,cachedump
+4,Active,apt1,windows,credential-access,T1003.006,DCSync,windows-event-logs,none,mimikatz
+5,Active,apt1,linux|macos|windows,collection,T1005,Data from Local System,file-monitoring|process-command-line-parameters|process-monitoring,poisonivy,none
+6,Active,apt1,windows,discovery,T1007,System Service Discovery,process-command-line-parameters|process-monitoring,,net||tasklist|
+7,Active,apt1,linux|windows|macos,command-and-control,T1008,Fallback Channels,malware-reverse-engineering|netflow-enclave-netflow|packet-capture|process-monitoring|process-use-of-network,biscuit,none
+8,Active,apt1,macos|windows,discovery,T1010,Application Window Discovery,api-monitoring|process-command-line-parameters|process-monitoring,poisonivy,none
+9,Active,apt1,linux|macos|windows,defense-evasion,T1014,Rootkit,bios|mbr|system-calls,poisonivy,none
+10,Active,apt1,linux|macos|windows|gcp|azure|aws,discovery,T1018,Remote System Discovery,aws-cloudtrail-logs|azure-activity-logs|network-protocol-analysis|process-command-line-parameters|process-monitoring|process-use-of-network|stackdriver-logs,none,net
+11,Active,apt1,windows,lateral-movement,T1021.001,Remote Desktop Protocol,authentication-logs|netflow-enclave-netflow|process-monitoring,none,none
+12,Active,apt1,linux|macos|windows,discovery,T1033,System Owner/User Discovery,file-monitoring|process-command-line-parameters|process-monitoring,biscuit,none
+13,Active,apt1,windows|linux,defense-evasion,T1036.004,Masquerade Task or Service,process-command-line-parameters|process-monitoring|windows-event-logs|windows-registry,seasalt,none
+14,Active,apt1,linux|macos|windows,defense-evasion,T1036.005,Match Legitimate Name or Location,binary-file-metadata|file-monitoring|process-command-line-parameters|process-monitoring,none,none
+15,Active,apt1,windows,defense-evasion,T1055.001,Dynamic-link Library Injection,api-monitoring|dll-monitoring|file-monitoring|process-monitoring,poisonivy,none
+16,Active,apt1,windows,privilege-escalation,T1055.001,Dynamic-link Library Injection,api-monitoring|dll-monitoring|file-monitoring|process-monitoring,poisonivy,none
+17,Active,apt1,linux|macos|windows,discovery,T1057,Process Discovery,api-monitoring|process-command-line-parameters|process-monitoring,biscuit||seasalt|,|tasklist|
+18,Active,apt1,windows,execution,T1059.003,Windows Command Shell,process-command-line-parameters|process-monitoring|windows-event-logs,biscuit|calendar||poisonivy|seasalt|webc2|,
+19,Active,apt1,linux|macos|windows,discovery,T1069.001,Local Groups,api-monitoring|process-command-line-parameters|process-monitoring,none,net
+20,Active,apt1,linux|macos|windows,discovery,T1069.002,Domain Groups,api-monitoring|process-command-line-parameters|process-monitoring,none,net
+21,Active,apt1,linux|macos|windows,defense-evasion,T1070.004,File Deletion,binary-file-metadata|file-monitoring|process-command-line-parameters,seasalt,none
+22,Active,apt1,windows,defense-evasion,T1070.005,Network Share Connection Removal,authentication-logs|packet-capture|process-command-line-parameters|process-monitoring,none,net
+23,Active,apt1,linux|macos|windows,command-and-control,T1071.001,Web Protocols,netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network,seasalt,none
+24,Active,apt1,linux|macos|windows,collection,T1074.001,Local Data Staging,file-monitoring|process-command-line-parameters|process-monitoring,poisonivy,none
+25,Active,apt1,linux|macos|windows|aws|gcp|azure,discovery,T1082,System Information Discovery,aws-cloudtrail-logs|azure-activity-logs|process-command-line-parameters|process-monitoring|stackdriver-logs,biscuit,none
+26,Active,apt1,linux|macos|windows,discovery,T1083,File and Directory Discovery,file-monitoring|process-command-line-parameters|process-monitoring,seasalt,none
+27,Active,apt1,linux|macos|windows,discovery,T1087.002,Domain Account,api-monitoring|process-command-line-parameters|process-monitoring,none,net
+28,Active,apt1,windows|office-365|azure|gcp|azure-ad|aws|linux|macos,persistence,T1098,Account Manipulation,authentication-logs|windows-event-logs,none,mimikatz
+29,Active,apt1,linux|macos|windows,command-and-control,T1105,Ingress Tool Transfer,file-monitoring|netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-command-line-parameters|process-monitoring|process-use-of-network,biscuit|poisonivy|seasalt|webc2|,
+30,Active,apt1,windows,defense-evasion,T1112,Modify Registry,file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs|windows-registry,poisonivy,none
+31,Active,apt1,linux|macos|windows,collection,T1113,Screen Capture,api-monitoring|file-monitoring|process-monitoring,biscuit,none
+32,Active,apt1,windows,collection,T1114.001,Local Email Collection,authentication-logs|file-monitoring|mail-server|process-monitoring,none,none
+33,Active,apt1,office-365|windows,collection,T1114.002,Remote Email Collection,authentication-logs|email-gateway|mail-server|office-365-trace-logs,none,none
+34,Active,apt1,linux|macos|windows,collection,T1119,Automated Collection,data-loss-prevention|file-monitoring|process-command-line-parameters,none,none
+35,Active,apt1,windows,discovery,T1124,System Time Discovery,api-monitoring|process-command-line-parameters|process-monitoring,none,net
+36,Active,apt1,windows,defense-evasion,T1134.005,SID-History Injection,api-monitoring|authentication-logs|windows-event-logs,none,mimikatz
+37,Active,apt1,windows,privilege-escalation,T1134.005,SID-History Injection,api-monitoring|authentication-logs|windows-event-logs,none,mimikatz
+38,Active,apt1,linux|macos|windows,persistence,T1136.001,Local Account,authentication-logs|process-command-line-parameters|process-monitoring|windows-event-logs,none,net
+39,Active,apt1,windows|macos|linux,persistence,T1136.002,Domain Account,authentication-logs|process-command-line-parameters|process-monitoring|windows-event-logs,none,net
+40,Active,apt1,windows|linux|macos,discovery,T1201,Password Policy Discovery,process-command-line-parameters|process-monitoring,none,net
+41,Active,apt1,windows,defense-evasion,T1207,Rogue Domain Controller,api-monitoring|authentication-logs|network-protocol-analysis|packet-capture,none,mimikatz
+42,Active,apt1,linux|macos|windows|aws|gcp|azure|office-365|azure-ad|saas,discovery,T1518.001,Security Software Discovery,aws-cloudtrail-logs|azure-activity-logs|file-monitoring|process-command-line-parameters|process-monitoring|stackdriver-logs,none,tasklist
+43,Active,apt1,windows,persistence,T1547.005,Security Support Provider,dll-monitoring|loaded-dlls|windows-registry,none,mimikatz
+44,Active,apt1,windows,privilege-escalation,T1547.005,Security Support Provider,dll-monitoring|loaded-dlls|windows-registry,none,mimikatz
+45,Active,apt1,windows,defense-evasion,T1550.002,Pass the Hash,authentication-logs,,mimikatz||pass-the-hash-toolkit|
+46,Active,apt1,windows,lateral-movement,T1550.002,Pass the Hash,authentication-logs,,mimikatz||pass-the-hash-toolkit|
+47,Active,apt1,windows,defense-evasion,T1550.003,Pass the Ticket,authentication-logs,none,mimikatz
+48,Active,apt1,windows,lateral-movement,T1550.003,Pass the Ticket,authentication-logs,none,mimikatz
+49,Active,apt1,linux|macos|windows,credential-access,T1552.004,Private Keys,file-monitoring,none,mimikatz
+50,Active,apt1,linux|macos|windows,credential-access,T1555,Credentials from Password Stores,api-monitoring|file-monitoring|powershell-logs|process-monitoring|system-calls,none,mimikatz
+51,Active,apt1,linux|macos|windows,credential-access,T1555.003,Credentials from Web Browsers,api-monitoring|file-monitoring|powershell-logs|process-monitoring,none,mimikatz
+52,Active,apt1,windows,credential-access,T1558.001,Golden Ticket,authentication-logs|windows-event-logs,none,mimikatz
+53,Active,apt1,windows,credential-access,T1558.002,Silver Ticket,authentication-logs|windows-event-logs,none,mimikatz
+54,Active,apt1,linux|macos|windows,collection,T1560.001,Archive via Utility,binary-file-metadata|file-monitoring|process-command-line-parameters|process-monitoring,none,none
+55,Active,apt1,windows,execution,T1569.002,Service Execution,process-command-line-parameters|process-monitoring|windows-registry,,net|psexec|xcmd|
+56,Active,apt1,linux|macos|windows,lateral-movement,T1570,Lateral Tool Transfer,file-monitoring|netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-command-line-parameters|process-monitoring|process-use-of-network,none,psexec
+57,Active,apt1,linux|windows|macos,command-and-control,T1573.001,Symmetric Cryptography,malware-reverse-engineering|netflow-enclave-netflow|packet-capture|process-monitoring|process-use-of-network|ssl-tls-inspection,poisonivy,none
+58,Active,apt1,linux|macos|windows,command-and-control,T1573.002,Asymmetric Cryptography,malware-reverse-engineering|netflow-enclave-netflow|packet-capture|process-monitoring|process-use-of-network,biscuit,none
+59,Active,apt1,windows,defense-evasion,T1574.001,DLL Search Order Hijacking,dll-monitoring|file-monitoring|process-command-line-parameters|process-monitoring,webc2,none
+60,Active,apt1,windows,persistence,T1574.001,DLL Search Order Hijacking,dll-monitoring|file-monitoring|process-command-line-parameters|process-monitoring,webc2,none
+61,Active,apt1,windows,privilege-escalation,T1574.001,DLL Search Order Hijacking,dll-monitoring|file-monitoring|process-command-line-parameters|process-monitoring,webc2,none

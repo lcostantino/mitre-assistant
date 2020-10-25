@@ -722,12 +722,25 @@
                 
                 <p>Before we dive into the practical tips, <strong><mark>it is critical to understand</mark></strong> the Mitre ATT&amp;CK framework <mark>should not be considered the single source of truth</mark>, but rather, <mark>a source of excellent knowledge that is progressively making strides</mark> to bring security practitioners a common-language and possibly, common-sense.</p>
 <p>I will be outlining the reasons why I believe this is the case.</p>
+<p>But before I dive in with the reasons I personally have today, feel free to consult with the resources from the Mitre Corporation.</p>
+<div class="admonition tip">
+<p class="admonition-title">ProTip: Read Some of the Mitre Corporation Resources | ATT&amp;CK Matrix</p>
+<p><a href="https://medium.com/mitre-attack/att-ck-101-17074d3bc62"
+    target="_blank" norelopener>2018 - Why ATT&amp;CK was created?
+</a></p>
+<p><a href="https://medium.com/mitre-attack/whats-next-for-mitre-att-ck-7f9506ea1fee"
+    target="_blank"norelopener>2018 - Whats next for Mitre ATT&amp;CK?
+</a></p>
+<p><a href="https://medium.com/mitre-attack/getting-started-with-attack-detection-a8e49e4960d0"
+    target="_blank"norelopener>2019 - Getting Started With ATT&amp;CK Detection
+</a></p>
+</div>
 <h2 id="reasons">Reasons</h2>
 <h3 id="empirical-context-from-external-contributions">Empirical Context From External Contributions</h3>
 <p>The ATT&amp;CK Matrix as published, derives its structure from many contributions of external opinions, analysis, and observations of various indviduals and organizations that provide security services, not excluding the independent opinions of qualified individuals.  However, the data is partially incomplete.</p>
 <p><br/></p>
 <div class="admonition info">
-<p class="admonition-title">Observation: Adversary G0015| a.k.a Taidoor</p>
+<p class="admonition-title">Observation: Adversary G0015 | a.k.a Taidoor</p>
 <p><br/>
 Run this query in the Mitre-Assistant.</p>
 <div class="highlight"><pre><span></span><code>mitre-assistant search -m enterprise -t <span class="s2">&quot;taidoor&quot;</span> 
@@ -763,6 +776,11 @@ Run this query in the Mitre-Assistant</p>
 <p><strong>Notice</strong> the output should give you 2 entries:</p>
 <p>1) <strong>dll-monitoring</strong></p>
 <p>2) <strong>loaded-dlls</strong></p>
+<details class="warning"><summary>Mitre Corporation Roadmap: Defining Datasources</summary><p>Read this article for a peak at how the Mitre Corporation is aiming to
+improve the contextual value of datasources afforded in the ATT&amp;CK Matrix.</p>
+<p><a href="https://medium.com/mitre-attack/defining-attack-data-sources-part-i-4c39e581454f"
+target="_blank" norelopener>Defining ATT&amp;CK Datasources - Part 1</a></p>
+</details>
 </div>
 <p><br/></p>
 <p>The seasoned endpoint-security professional will quickly ask for the meaning of each category from the above query.  Because in the context of endpoint-security operations, monitoring DLLs boils down to a couple of things.</p>
@@ -906,14 +924,6 @@ For example:  A team dropped the <strong>dll-monitoring</strong> datasource and 
 </details>
 </div>
 <p><br/></p>
-<div class="admonition warning">
-<p class="admonition-title">Mitre Corporation Roadmap: Defining Datasources</p>
-<p>Read this article for a peak at how the Mitre Corporation is aiming to
-improve the contextual value of datasources afforded in the ATT&amp;CK Matrix.</p>
-<p><a href="https://medium.com/mitre-attack/defining-attack-data-sources-part-i-4c39e581454f"
-   target="_blank" norelopener>Defining ATT&amp;CK Datasources - Part 1</a></p>
-</div>
-<p><br/></p>
 <h3 id="absent-definition-of-attck-techniques-by-security-enablement-vs-impact">Absent Definition of ATT&amp;CK Techniques By Security Enablement vs Impact</h3>
 <p>As the adoption for the ATT&amp;CK Matrix increases, there are significant education efforts the community and Mitre Corporation <strong><mark>must</mark></strong> aim to close the gap on.</p>
 <p>For example, security product providers bear the responsibility to adjust to market demands which improve the efficacy of the offered solution to better serve market needs, however, in the current aspects, both customers and providers incur an unecessary pressure that <strong>should be</strong> mainly eased by having better guidelines by the relevant owners of the Mitre ATT&amp;CK matrix.</p>
@@ -961,6 +971,14 @@ costs, can suffer negatively by investing on the <mark>dull/wrong</mark> techniq
 </div>
 <h2 id="conclusion">Conclusion</h2>
 <p>My conclusion in this overview, is that it is unrealistic to expect the ATT&amp;CK project has to solve all of the education needs and improve the comprehensive consumption of this resource.  I believe the community comprised of both <strong>providers</strong> and <strong>consumers</strong> must have a shared responsibility to improve these observations.  However, to achieve this, I also believe the Mitre Corporation has to improve the sole process of how it accepts input from consumers and providers in progressively molding the ATT&amp;CK matrix for its ambitious goal of becoming the authoritative resource used in computer network defense (CND) strategies and plans across the globe.</p>
+<p>I am hoping all of us working with the Mitre Corporation's ATT&amp;CK resource, are invested in making it better and likely, all of us need to pay close attention to their initiative of a <strong>governance</strong> model around the way the matrix grows in the future.</p>
+<div class="admonition tldr">
+<p class="admonition-title">Mitre Corporation Governance Plans For ATT&amp;CK</p>
+<p><a href="https://user-images.githubusercontent.com/11415591/97117884-fe4ce300-16dc-11eb-9d94-9a0fb58ee8c6.png"
+    target="_blank" norelopener>
+    <img src="https://user-images.githubusercontent.com/11415591/97117884-fe4ce300-16dc-11eb-9d94-9a0fb58ee8c6.png"/>
+<a></p>
+</div>
                 
               
               
@@ -1041,7 +1059,7 @@ costs, can suffer negatively by investing on the <mark>dull/wrong</mark> techniq
     </div>
     
       <script src="../../../assets/javascripts/vendor.a018d6bb.min.js"></script>
-      <script src="../../../assets/javascripts/bundle.4b42b5e6.min.js"></script><script id="__lang" type="application/json">{"search.config.separator": "[\\s\\-]+", "search.result.other": "# matching documents", "search.result.term.missing": "Missing", "search.result.none": "No matching documents", "search.result.more.one": "1 more on this page", "clipboard.copy": "Copy to clipboard", "search.placeholder": "Search", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.lang": "en", "clipboard.copied": "Copied to clipboard", "search.result.more.other": "# more on this page", "search.result.one": "1 matching document", "search.result.placeholder": "Type to start searching"}</script>
+      <script src="../../../assets/javascripts/bundle.4b42b5e6.min.js"></script><script id="__lang" type="application/json">{"search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.result.one": "1 matching document", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.config.lang": "en", "search.result.more.one": "1 more on this page", "search.result.none": "No matching documents", "search.placeholder": "Search", "search.result.term.missing": "Missing", "search.result.more.other": "# more on this page"}</script>
       
       <script>
         app = initialize({
