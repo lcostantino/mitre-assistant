@@ -1,4 +1,4 @@
-??? tldr "TLDR - Visual Application of Mitre-AssistantAdversaries Output"
+??? tldr "TLDR - Online Application | Mitre-Assistant Adversaries Output"
 
     If you don't want to go through the tutorial, and just use the app, **click on the image**
 
