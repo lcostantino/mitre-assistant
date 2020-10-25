@@ -1,7 +1,7 @@
 site_name: Mitre-Assistant
 theme:
   palette:
-    primary: indigo
+    primary: black
     accent: pink
   name: material
   custom_dir: theme/mkdocs-material/material

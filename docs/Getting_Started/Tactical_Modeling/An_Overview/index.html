@@ -24,7 +24,7 @@
         
           
           
-          <meta name="theme-color" content="#4051b5">
+          <meta name="theme-color" content="#000000">
         
       
     
@@ -51,7 +51,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="indigo" data-md-color-accent="pink">
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="black" data-md-color-accent="pink">
       
   
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -485,8 +485,22 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#absent-definition-of-attck-techniques-by-security-enablement-vs-impact" class="md-nav__link">
+    Absent Definition of ATT&amp;CK Techniques By Security Enablement vs Impact
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
   
 </li>
       
@@ -672,8 +686,22 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#absent-definition-of-attck-techniques-by-security-enablement-vs-impact" class="md-nav__link">
+    Absent Definition of ATT&amp;CK Techniques By Security Enablement vs Impact
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
   
 </li>
       
@@ -692,7 +720,7 @@
                 
                   <h1>An Overview</h1>
                 
-                <p>Before we dive into the practical tips, <strong><mark>it is critical to understand</mark></strong> the Mitre ATT&amp;CK framework should not be considered the single source of truth, but rather, a source of excellent knowledge that is progressively making strides to bring security practitioners a common-language and possibly, common-sense.</p>
+                <p>Before we dive into the practical tips, <strong><mark>it is critical to understand</mark></strong> the Mitre ATT&amp;CK framework <mark>should not be considered the single source of truth</mark>, but rather, <mark>a source of excellent knowledge that is progressively making strides</mark> to bring security practitioners a common-language and possibly, common-sense.</p>
 <p>I will be outlining the reasons why I believe this is the case.</p>
 <h2 id="reasons">Reasons</h2>
 <h3 id="empirical-context-from-external-contributions">Empirical Context From External Contributions</h3>
@@ -712,7 +740,7 @@ Run this query in the Mitre-Assistant.</p>
    target="_blank" norelopener>MALPEDIA_TAIDOOR_ADVERSARY</a></p>
 </div>
 <p><br/></p>
-<p>The above example demonstrates the incompleteness of the information offered in the Matrix, therefore, <strong><mark>this is not a criticism</mark></strong>, rather it is a factual observation for practitioners or security leaders to have present when working with the Matrix to pursue security outcomes.  Therefore, you <strong><mark>should not follow</mark></strong> the matrix blindly, instead you have to encourage your team(s) to scavenge or produce complementary information that can afford you the insights you are in need of when working with the approach suggested by the Mitre Corporation - i.e., emulate behaviors, record them, and formulate your own tactical plans based on the exhibited techniques of the adversary of malware you are investigating.</p>
+<p>The above example demonstrates the incompleteness of the information offered in the Matrix, therefore, <strong><mark>this is not a criticism</mark></strong>, rather it is a factual observation for practitioners or security leaders to have present when working with the Matrix to pursue security outcomes.  Therefore, you <strong><mark>should not follow</mark></strong> the matrix blindly, instead security leaders and practitioners need to encourage your team(s) to scavenge or produce complementary information that can afford you <mark>more complete insights</mark> you are in need of when working with the approach suggested by the Mitre Corporation - i.e., emulate behaviors, record them, and formulate your own tactical plans based on the exhibited techniques of the adversary of malware you are investigating.</p>
 <p><br/></p>
 <h3 id="incomplete-datasource-context">Incomplete Datasource Context</h3>
 <p>Working with suggested datasources from the Matrix has <strong><em>signficant value</em></strong>, <strong><mark>however</mark></strong>, it is important to note that as of the time of this writing the current datasources are loosely defined, as such, a practitioner or external security team must carefully consider what the meaning of the datasource is, and how should they be used to assess the way a technique <strong>could</strong> potentially be detected by the offered guidance in the ATT&amp;CK Matrix.</p>
@@ -732,15 +760,17 @@ Run this query in the Mitre-Assistant</p>
 
 </div>
 </div>
-<p><strong>Notice</strong> the output should give you 2 entries:  1) <strong>dll-monitoring</strong>, and 2) <strong>loaded-dlls</strong></p>
+<p><strong>Notice</strong> the output should give you 2 entries:</p>
+<p>1) <strong>dll-monitoring</strong></p>
+<p>2) <strong>loaded-dlls</strong></p>
 </div>
 <p><br/></p>
 <p>The seasoned endpoint-security professional will quickly ask for the meaning of each category from the above query.  Because in the context of endpoint-security operations, monitoring DLLs boils down to a couple of things.</p>
 <ul>
-<li><strong>Runtime Context</strong>:  When the DLL Loads into to the memory space of a process being executed</li>
+<li><strong>Runtime Context</strong>:  When the DLL Loads into the memory space of a process being executed</li>
 <li><strong>File IO Context</strong>:  When the DLL structure is flushed and written to disk somewhere in the filesystem of the computer</li>
 </ul>
-<p>Since the datasources provided by the Mitre ATT&amp;CK Matrix are not well defined, then the context from above is unclear, <strong><mark>specifically the dll-monitoring</mark></strong> datasource.  If the Mitre ATT&amp;CK Matrix would be suggesting the <strong><mark>File IO Context</mark></strong> is to be covered by the <strong>dll-monitoring</strong> datasource, then this conflicts with the separate datasource known as <strong><mark>file-monitoring</mark></strong>.</p>
+<p>Since the datasources provided by the Mitre ATT&amp;CK Matrix are not well defined or contain overlap like the example above, then the context from above is unclear, <strong><mark>specifically the dll-monitoring</mark></strong> datasource.  If the Mitre ATT&amp;CK Matrix would be suggesting the <strong><mark>File IO Context</mark></strong> is to be covered by the <strong>dll-monitoring</strong> datasource, then this conflicts with the separate datasource known as <strong><mark>file-monitoring</mark></strong>.</p>
 <p><br/></p>
 <div class="admonition tip">
 <p class="admonition-title">Protip: Working With Datasources in Mitre-Assistant</p>
@@ -875,6 +905,62 @@ For example:  A team dropped the <strong>dll-monitoring</strong> datasource and 
 
 </details>
 </div>
+<p><br/></p>
+<div class="admonition warning">
+<p class="admonition-title">Mitre Corporation Roadmap: Defining Datasources</p>
+<p>Read this article for a peak at how the Mitre Corporation is aiming to
+improve the contextual value of datasources afforded in the ATT&amp;CK Matrix.</p>
+<p><a href="https://medium.com/mitre-attack/defining-attack-data-sources-part-i-4c39e581454f"
+   target="_blank" norelopener>Defining ATT&amp;CK Datasources - Part 1</a></p>
+</div>
+<p><br/></p>
+<h3 id="absent-definition-of-attck-techniques-by-security-enablement-vs-impact">Absent Definition of ATT&amp;CK Techniques By Security Enablement vs Impact</h3>
+<p>As the adoption for the ATT&amp;CK Matrix increases, there are significant education efforts the community and Mitre Corporation <strong><mark>must</mark></strong> aim to close the gap on.</p>
+<p>For example, security product providers bear the responsibility to adjust to market demands which improve the efficacy of the offered solution to better serve market needs, however, in the current aspects, both customers and providers incur an unecessary pressure that <strong>should be</strong> mainly eased by having better guidelines by the relevant owners of the Mitre ATT&amp;CK matrix.</p>
+<p>The primary need here I have observed from being on both sides of the pond, is to outline:</p>
+<p>1) What are techniques that result in <mark><strong>security impact</strong></mark></p>
+<p>2) Or, what are the techniques that <mark>act as a <strong>precursor</strong>, or an <strong>enabler of</strong></mark> to the techniques that result in <strong>security impact</strong></p>
+<p>The astute observer, may note, this is what <strong>CAPEC</strong> resources are for, unfortunately, if intended to be so, not clearly understood in the field as such, actually, very few people are aware of CAPEC and its practical usage.  Hence my emphasis on <strong>closing the gap on education needs between consumers, providers, and resources from the Mitre Corporation</strong> for practical implementations.</p>
+<p><br/></p>
+<p>Here's an example:</p>
+<details class="tldr"><summary>Citation: Technique T1124 | System Time Discovery</summary><p><a href="https://user-images.githubusercontent.com/11415591/97110905-12c7b600-16b2-11eb-895e-c5c45a2cdf1f.png"
+    target="_blank" norelopener>
+    <img src="https://user-images.githubusercontent.com/11415591/97110905-12c7b600-16b2-11eb-895e-c5c45a2cdf1f.png" />
+</a></p>
+</details>
+<div class="admonition tldr">
+<p class="admonition-title">Technique T1124 | System Time Discovery</p>
+<p>Without clearer definition from the Mitre Corporation, the demand for full coverage of techniques with
+pervasive usage in real-world scenarios is unrealistic.</p>
+<p><mark><a href="https://attack.mitre.org/techniques/T1124/" target="_blank" norelopener><strong>T1124</strong></a></mark> results in a program obtaining the system time.  While it is a precursor perhaps to the objective of an adversary as described in the citation of the technique, the pervasive amount of legitimate programs, as well as, features an end-user has available to them by other desktop gadgets and utilities, makes this a <strong>small gain</strong> from an investment effort to provide coverage for this technique.</p>
+<div class="highlight"><pre><span></span><code>                Investment Efforts = CAPEX_COST + OPEX_COST / Available_Resources
+</code></pre></div>
+
+<p><br/></p>
+<div class="admonition danger">
+<p class="admonition-title">Investment Efforts To Provide Coverage: By Industry Ecosystem</p>
+<div class="tabbed-set" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Security Product Providers</label><div class="tabbed-content">
+<ul>
+<li>Increased Cloud Costs for computation and storage</li>
+<li>Increased OPEX Costs resulting from implementations that can result in support channel overhead</li>
+</ul>
+<p>Providers have to implement features and access to telemetry stemming from ATT&amp;CK Techniques.</p>
+<p>Costs for techniques in the Matrix, while cited/present in the matrix, but do not have clear value to sustain a product
+costs, can suffer negatively by investing on the <mark>dull/wrong</mark> techniques.</p>
+</div>
+<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Security Product Consumers</label><div class="tabbed-content">
+<ul>
+<li>Increased On-Premise Costs for computation and storage</li>
+<li>Increased OPEX Costs resulting from implementations that can result in system maintenance overhead</li>
+</ul>
+<p>Consumers who manage their own detection and monitoring capabilities bear the challenge of tuning their systems and telemetry from noisy signals that have low value for the security outcomes they are pursuing.</p>
+<p>Increasing the overhead of their system's processing capabilities unecessarily for techniques cited/present in the matrix, but do not have clear value to sustain the primary objectives of the security outcomes strategy <strong>should not</strong> be overlooked in real-world operations.</p>
+</div>
+</div>
+</div>
+</div>
+<h2 id="conclusion">Conclusion</h2>
+<p>My conclusion in this overview, is that it is unrealistic to expect the ATT&amp;CK project has to solve all of the education needs and improve the comprehensive consumption of this resource.  I believe the community comprised of both <strong>providers</strong> and <strong>consumers</strong> must have a shared responsibility to improve these observations.  However, to achieve this, I also believe the Mitre Corporation has to improve the sole process of how it accepts input from consumers and providers in progressively molding the ATT&amp;CK matrix for its ambitious goal of becoming the authoritative resource used in computer network defense (CND) strategies and plans across the globe.</p>
                 
               
               
@@ -955,7 +1041,7 @@ For example:  A team dropped the <strong>dll-monitoring</strong> datasource and 
     </div>
     
       <script src="../../../assets/javascripts/vendor.a018d6bb.min.js"></script>
-      <script src="../../../assets/javascripts/bundle.4b42b5e6.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      <script src="../../../assets/javascripts/bundle.4b42b5e6.min.js"></script><script id="__lang" type="application/json">{"search.result.placeholder": "Type to start searching", "search.result.more.other": "# more on this page", "search.placeholder": "Search", "search.result.one": "1 matching document", "search.result.none": "No matching documents", "clipboard.copied": "Copied to clipboard", "search.result.term.missing": "Missing", "search.config.lang": "en", "search.config.separator": "[\\s\\-]+", "clipboard.copy": "Copy to clipboard", "search.result.other": "# matching documents", "search.config.pipeline": "trimmer, stopWordFilter", "search.result.more.one": "1 more on this page"}</script>
       
       <script>
         app = initialize({
