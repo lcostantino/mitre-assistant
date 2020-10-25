@@ -922,6 +922,12 @@ For example:  A team dropped the <strong>dll-monitoring</strong> datasource and 
 </code></pre></div>
 
 </details>
+<p><br/></p>
+<p>To get the active techniques based on a specific datasource, you just need to put the name of the datasource in the search query, for example, look at this query:</p>
+<p><strong>Getting all techniques where the <code>windows-registry</code> is cited</strong></p>
+<div class="highlight"><pre><span></span><code>mitre-assistant search -m enterprise -t <span class="s2">&quot;windows-registry&quot;</span>
+</code></pre></div>
+
 </div>
 <p><br/></p>
 <h3 id="absent-definition-of-attck-techniques-by-security-enablement-vs-impact">Absent Definition of ATT&amp;CK Techniques By Security Enablement vs Impact</h3>
@@ -1059,7 +1065,7 @@ costs, can suffer negatively by investing on the <mark>dull/wrong</mark> techniq
     </div>
     
       <script src="../../../assets/javascripts/vendor.a018d6bb.min.js"></script>
-      <script src="../../../assets/javascripts/bundle.4b42b5e6.min.js"></script><script id="__lang" type="application/json">{"search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.result.one": "1 matching document", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.config.lang": "en", "search.result.more.one": "1 more on this page", "search.result.none": "No matching documents", "search.placeholder": "Search", "search.result.term.missing": "Missing", "search.result.more.other": "# more on this page"}</script>
+      <script src="../../../assets/javascripts/bundle.4b42b5e6.min.js"></script><script id="__lang" type="application/json">{"search.config.pipeline": "trimmer, stopWordFilter", "clipboard.copied": "Copied to clipboard", "search.result.term.missing": "Missing", "search.result.placeholder": "Type to start searching", "clipboard.copy": "Copy to clipboard", "search.result.one": "1 matching document", "search.result.more.other": "# more on this page", "search.config.lang": "en", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.other": "# matching documents", "search.result.none": "No matching documents", "search.config.separator": "[\\s\\-]+"}</script>
       
       <script>
         app = initialize({

@@ -232,6 +232,16 @@ Since the datasources provided by the Mitre ATT&CK Matrix are not well defined o
         | 58    | wmi-objects                        |     2      |       2       |      2%      |       2%        |
         +-------+------------------------------------+------------+---------------+--------------+-----------------+
         ```
+    
+    <br/>
+
+    To get the active techniques based on a specific datasource, you just need to put the name of the datasource in the search query, for example, look at this query:
+    
+    **Getting all techniques where the `windows-registry` is cited**
+
+    ```bash
+    mitre-assistant search -m enterprise -t "windows-registry"
+    ```
 
 <br/>
 
