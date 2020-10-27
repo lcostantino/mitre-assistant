@@ -586,7 +586,7 @@ impl EnterpriseMatrixSearcher {
         let mut _temp_results: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..])
                                                           .expect(_err.as_str());
-
+        let mut _group_id = String::from("none");
         for _item in _json.breakdown_adversaries.iter() {
             if _item.name.to_lowercase().as_str() == target {
                 for _x in _item.profile.techniques.items.iter() {
@@ -596,8 +596,10 @@ impl EnterpriseMatrixSearcher {
                             _et.correlation_adversary = _item.name.clone();
                             
                             // Add GID To ET Here
-                            _et.correlation_gid = _item.group_id.clone();
                            
+                            if _group_id.as_str() == "none" {
+                                _et.correlation_gid = _item.group_id.clone();
+                            }
                             
                             for _malware in &_json.breakdown_malware {
                                 for _mt in _malware.profile.adversaries.items.iter() {
