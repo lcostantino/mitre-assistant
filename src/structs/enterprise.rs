@@ -267,6 +267,9 @@ pub struct EnterpriseTechnique {
     pub correlation_adversary: String,
     pub correlation_malware: String,
     pub correlation_tool: String,
+    pub correlation_gid: String,
+    pub correlation_mid: String,
+    pub correlation_tid: String,
 }
 impl EnterpriseTechnique {
     pub fn new() -> Self
@@ -285,7 +288,10 @@ impl EnterpriseTechnique {
             count_subtechniques: 0usize,
             correlation_adversary: "none".to_string(),
             correlation_malware: "none".to_string(),
-            correlation_tool: "none".to_string()
+            correlation_tool: "none".to_string(),
+            correlation_gid: "none".to_string(),
+            correlation_mid: "none".to_string(),
+            correlation_tid: "none".to_string()
         }
     }
     pub fn update(&mut self)
