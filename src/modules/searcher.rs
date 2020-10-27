@@ -598,9 +598,9 @@ impl EnterpriseMatrixSearcher {
                             // Add GID To ET Here
                            
                             if _group_id.as_str() == "none" {
-                                _et.correlation_gid = _item.group_id.clone();
+                                _group_id = _item.group_id.clone();
                             }
-                            
+                            _et.correlation_gid = _group_id.clone();
                             for _malware in &_json.breakdown_malware {
                                 for _mt in _malware.profile.adversaries.items.iter() {
                                     if _mt.as_str() == target {
@@ -626,7 +626,8 @@ impl EnterpriseMatrixSearcher {
                             _et.correlation_adversary = _item.name.clone();
                             
                             // Add GID To ET Here
-                            _et.correlation_gid = _item.group_id.clone();
+                            _et.correlation_gid = _group_id.clone();
+                            //_et.correlation_gid = _item.group_id.clone();
                             //
                             
                             for _malware in &_json.breakdown_malware {
@@ -660,6 +661,7 @@ impl EnterpriseMatrixSearcher {
                                 let mut _et = _technique.clone();
                                 _et.correlation_adversary = target.to_string();
                                 _et.correlation_malware = _malware.name.clone();
+                                _et.correlation_gid = _group_id.clone();
                                 _et.correlation_mid = _malware.malware_id.clone();
                                 _temp_results.push(_et);
                             }
@@ -672,6 +674,7 @@ impl EnterpriseMatrixSearcher {
                                 let mut _et = _subtechnique.clone();
                                 _et.correlation_adversary = target.to_string();
                                 _et.correlation_malware = _malware.name.clone();
+                                _et.correlation_gid = _group_id.clone();
                                 _et.correlation_mid = _malware.malware_id.clone();
                                 _temp_results.push(_et);
                             }
@@ -691,7 +694,7 @@ impl EnterpriseMatrixSearcher {
                                 let mut _et = _technique.clone();
                                 _et.correlation_adversary = target.to_string();
                                 _et.correlation_tool= _tool.name.clone();
-                               
+                                _et.correlation_gid = _group_id.clone();
                                 _et.correlation_mid = _tool.tool_id.clone();
                                 _temp_results.push(_et);
                             }
@@ -703,7 +706,7 @@ impl EnterpriseMatrixSearcher {
                                 let mut _et = _subtechnique.clone();
                                 _et.correlation_adversary = target.to_string();
                                 _et.correlation_tool = _tool.name.clone();
-                               
+                                _et.correlation_gid = _group_id.clone();
                                 _et.correlation_mid = _tool.tool_id.clone();
                                 _temp_results.push(_et);
                             }
