@@ -854,6 +854,13 @@ impl EnterpriseMatrixSearcher {
                             } else {
                                 _results_adversaries.push(_item);
                             }
+                        } else {
+                            let _aliases: Vec<_> = _item.aliases.split(‘|’).collect();
+                            for _alias in _aliases{
+                                if _alias == _term {
+                                    _results_adversaries.push(_item);
+                                }
+                            }
                         }
                     }
                 }
