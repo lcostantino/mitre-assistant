@@ -833,7 +833,7 @@ impl EnterpriseMatrixSearcher {
                         _results_adversaries.push(_item);
                     } else {
                         let _terms: Vec<_> = _item.aliases.split('|').collect();
-                        //if _item.aliases.contains(adversary) {
+                    
                         for _term in _terms {
                             if _term == adversary {
                                 _results_adversaries.push(_item);
@@ -855,7 +855,7 @@ impl EnterpriseMatrixSearcher {
                                 _results_adversaries.push(_item);
                             }
                         } else {
-                            let _aliases: Vec<_> = _item.aliases.split(‘|’).collect();
+                            let _aliases: Vec<_> = _item.aliases.split('|').collect();
                             for _alias in _aliases{
                                 if _alias == _term {
                                     _results_adversaries.push(_item);
