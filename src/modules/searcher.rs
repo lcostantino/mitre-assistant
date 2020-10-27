@@ -832,10 +832,10 @@ impl EnterpriseMatrixSearcher {
                     if _item.name.to_lowercase().as_str() == adversary {
                         _results_adversaries.push(_item);
                     } else {
-                        let _terms: Vec<_> = _item.aliases.split(‘|’).collect();
+                        let _terms: Vec<_> = _item.aliases.split('|').collect();
                         //if _item.aliases.contains(adversary) {
                         for _term in _terms {
-                            if _term.as_str() == adversary {
+                            if _term == adversary {
                                 _results_adversaries.push(_item);
                             }
                         }
