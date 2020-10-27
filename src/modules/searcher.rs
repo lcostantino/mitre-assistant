@@ -596,8 +596,8 @@ impl EnterpriseMatrixSearcher {
                             _et.correlation_adversary = _item.name.clone();
                             
                             // Add GID To ET Here
-                            // _et.correlation_gid = _item.group_id.clone()
-                            //
+                            _et.correlation_gid = _item.group_id.clone()
+                           
                             
                             for _malware in &_json.breakdown_malware {
                                 for _mt in _malware.profile.adversaries.items.iter() {
@@ -607,7 +607,7 @@ impl EnterpriseMatrixSearcher {
                                                 _et.correlation_malware = _malware.name.clone();
                                                 
                                                 // Add MID to ET Here
-                                                // _et.correlation_mid = _item.malware_id.clone();
+                                                _et.correlation_mid = _malware.malware_id.clone();
                                             }
                                         }
                                     }
@@ -624,7 +624,7 @@ impl EnterpriseMatrixSearcher {
                             _et.correlation_adversary = _item.name.clone();
                             
                             // Add GID To ET Here
-                            // _et.correlation_gid = _item.group_id.clone()
+                            _et.correlation_gid = _item.group_id.clone()
                             //
                             
                             for _malware in &_json.breakdown_malware {
@@ -634,7 +634,7 @@ impl EnterpriseMatrixSearcher {
                                             if _subtechnique.tid.as_str() == _behavior.as_str() {
                                                 _et.correlation_malware = _malware.name.clone();
                                                 // Add MID to ET Here
-                                                // _et.correlation_mid = _item.malware_id.clone();
+                                                _et.correlation_mid = _malware.malware_id.clone();
                                             }
                                         }
                                     }
@@ -658,6 +658,8 @@ impl EnterpriseMatrixSearcher {
                                 let mut _et = _technique.clone();
                                 _et.correlation_adversary = target.to_string();
                                 _et.correlation_malware = _malware.name.clone();
+                                _et.correlation_gid = target.group_id.clone();
+                                _et.correlation_mid = _malware.malware_id.clone();
                                 _temp_results.push(_et);
                             }
                         }
@@ -669,6 +671,8 @@ impl EnterpriseMatrixSearcher {
                                 let mut _et = _subtechnique.clone();
                                 _et.correlation_adversary = target.to_string();
                                 _et.correlation_malware = _malware.name.clone();
+                                _et.correlation_gid = target.group_id.clone();
+                                _et.correlation_mid = _malware.malware_id.clone();
                                 _temp_results.push(_et);
                             }
                         }
@@ -687,6 +691,8 @@ impl EnterpriseMatrixSearcher {
                                 let mut _et = _technique.clone();
                                 _et.correlation_adversary = target.to_string();
                                 _et.correlation_tool= _tool.name.clone();
+                                _et.correlation_gid = target.group_id.clone();
+                                _et.correlation_mid = _tool.tool_id.clone();
                                 _temp_results.push(_et);
                             }
                         }
@@ -697,6 +703,8 @@ impl EnterpriseMatrixSearcher {
                                 let mut _et = _subtechnique.clone();
                                 _et.correlation_adversary = target.to_string();
                                 _et.correlation_tool = _tool.name.clone();
+                                _et.correlation_gid = target.group_id.clone();
+                                _et.correlation_mid = _tool.tool_id.clone();
                                 _temp_results.push(_et);
                             }
                         }
