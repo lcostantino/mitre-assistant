@@ -436,7 +436,7 @@ impl EnterpriseMatrixParser {
         let mut _saas: HashSet<String> = HashSet::new();
         // V8 Additions
         let mut _pre: HashSet<String> = HashSet::new();
-        Let mut _network: HashSet<String> = HashSet::new();
+        let mut _network: HashSet<String> = HashSet::new();
         
         // Setup the Iterables that has techniques by Type
         let mut _iterable: &Vec<EnterpriseTechnique>;
