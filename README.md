@@ -95,20 +95,23 @@ It supports both the `V6` and `V7` versions of the Mitre ATT&CK STIX CTI, as wel
 ## W.I.P - Status
 - [x] Mitre Enterprise Matrix
     - [x] V6 CTI Legacy Support
+    - [x] V7 CTI Beta
+    - [x] V8 CTI Merge With PRE ATT&CK
 - [ ] Mitre Mobile Matrix
-- [ ] Mitre Pre-Attack Matrix
 - [ ] Mitre Navigator JSON
-    - [ ] Legacy Version
-    - [ ] Modern Version with Subtechniques
+    - [x] Legacy Version
+    - [x] Modern Version with Subtechniques
+    - [x] Ingestion
+    - [ ] Exports to Navigator Format
 - [x] Linux - 64bit
 - [x] MacOS - 64bit
 - [x] Windows - 64bit
-- [ ] Data Interchange Format
+- [x] Data Interchange Format
    - [x] CSV
-   - [ ] JSON
+   - [x] JSON
 - [ ] Exports
    - [x] CSV
-   - [ ] JSON
+   - [x] JSON
    - [ ] Rich Web
 
 <hr>
