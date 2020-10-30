@@ -434,6 +434,10 @@ impl EnterpriseMatrixParser {
         let mut _gcp: HashSet<String> = HashSet::new();
         let mut _office365: HashSet<String> = HashSet::new();
         let mut _saas: HashSet<String> = HashSet::new();
+        // V8 Additions
+        let mut _pre: HashSet<String> = HashSet::new();
+        Let mut _network: HashSet<String> = HashSet::new();
+        
         // Setup the Iterables that has techniques by Type
         let mut _iterable: &Vec<EnterpriseTechnique>;
         if _wants_subtechniques {
@@ -468,6 +472,10 @@ impl EnterpriseMatrixParser {
                         _saas.insert(_stub);
                     } else if _os == "windows" {
                         _windows.insert(_stub);
+                    } else if _os == "pre" {
+                        _pre.insert(_stub);
+                    } else if _os == "network" {
+                        _network.insert(_stub);
                     }
                 }
             }
