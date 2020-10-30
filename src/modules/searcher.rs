@@ -2792,7 +2792,7 @@ impl EnterpriseMatrixSearcher {
             _table_headers = Row::new(vec![
                 Cell::new("INDEX").style_spec("c"),
                 Cell::new("STATUS").style_spec("c"),
-                //Cell::new("GID").style_spec("cFW"),
+                Cell::new("GID").style_spec("cFW"),
                 Cell::new("ADVERSARY").style_spec("cFW"),
                 //Cell::new("ALIASES").style_spec("c"),
                 Cell::new("PLATFORMS"),
@@ -2877,6 +2877,7 @@ impl EnterpriseMatrixSearcher {
                     _csv_table.add_row(Row::new(vec![
                         Cell::new((_idx + 1).to_string().as_str()),
                         _status,
+                        Cell::new(_row.correlation_gid.as_str()),
                         Cell::new(_row.correlation_adversary.as_str()),
                         Cell::new(_row.platform.as_str()),
                         Cell::new(_row.tactic.as_str()),
@@ -2891,6 +2892,7 @@ impl EnterpriseMatrixSearcher {
                     _table.add_row(Row::new(vec![
                         Cell::new((_idx + 1).to_string().as_str()),
                         _status,
+                        Cell::new(_row.correlation_gid.as_str()),
                         Cell::new(_row.correlation_adversary.as_str()).style_spec("FW"),
                         Cell::new(_row.platform.replace("|", "\n").as_str()),
                         Cell::new(_row.tactic.as_str()).style_spec("FW"),
