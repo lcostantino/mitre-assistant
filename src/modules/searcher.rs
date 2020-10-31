@@ -244,6 +244,24 @@ impl EnterpriseMatrixSearcher {
             _wants_all_tools = true;
             _wants_summary = true;
         }
+         // Adversaries
+        else if _scanner_ad.pattern.is_match(_st) {
+            _matches_many = _scanner_ad.pattern.matches(_st).into_iter().collect();
+            _valid.push((_st, 38usize));
+            _wants_adversary = true;
+        }
+        // Malware
+        else if _scanner_mw.pattern.is_match(_st) {
+            _matches_many = _scanner_mw.pattern.matches(_st).into_iter().collect();
+            _valid.push((_st, 39usize));
+            _wants_malware = true;
+        }
+        // Tools
+        else if _scanner_to.pattern.is_match(_st) {
+            _matches_many = _scanner_to.pattern.matches(_st).into_iter().collect();
+            _valid.push((_st, 40usize));
+            _wants_tool = true;
+        }
         else if _scanner_ta.pattern.is_match(_st) {
             _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 44usize));
@@ -266,24 +284,6 @@ impl EnterpriseMatrixSearcher {
         else if _st == "xref:datasources:tactics" {
             _valid.push((_st, 36usize));
             _wants_xref_datasources_tactics = true;
-        }
-        // Adversaries
-        else if _scanner_ad.pattern.is_match(_st) {
-            _matches_many = _scanner_ad.pattern.matches(_st).into_iter().collect();
-            _valid.push((_st, 38usize));
-            _wants_adversary = true;
-        }
-        // Malware
-        else if _scanner_mw.pattern.is_match(_st) {
-            _matches_many = _scanner_mw.pattern.matches(_st).into_iter().collect();
-            _valid.push((_st, 39usize));
-            _wants_malware = true;
-        }
-        // Tools
-        else if _scanner_to.pattern.is_match(_st) {
-            _matches_many = _scanner_to.pattern.matches(_st).into_iter().collect();
-            _valid.push((_st, 40usize));
-            _wants_tool = true;
         }
         else if _st == "adversaries" {
             _valid.push((_st, 41usize));
