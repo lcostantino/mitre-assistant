@@ -830,7 +830,6 @@ impl EnterpriseMatrixSearcher {
             
         // Check If CrossReference Context is Needed
         if adversary.contains(":") {
-	    println!("Found: {}", adversary);
             let _tactics: HashSet<String> = _json.tactics;
             let _xrefs: Vec<_> = adversary.split(':').collect();
             _search_term = _xrefs[0].to_string();
@@ -844,10 +843,10 @@ impl EnterpriseMatrixSearcher {
         }
         if many.len() == 1 {
             if _wants_correlation {
-                self.correlate_adversary(adversary, &mut _results_correlation);
+                self.correlate_adversary(_search_term.as_str(), &mut _results_correlation);
             } else {
                 for _item in _json.breakdown_adversaries.iter() {
-                    if _item.name.to_lowercase().as_str() == _search_term.as_str() {
+                    if _item.name.to_lowercase().as_str() == adversary {
                         _results_adversaries.push(_item);
                     } else {
                         let _terms: Vec<_> = _item.aliases.split('|').collect();
@@ -894,7 +893,7 @@ impl EnterpriseMatrixSearcher {
                 let mut _filtered_results: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
                 for _correlation in _results_correlation {
                     for _tactic in _xref_filter.iter() {
-                        if _correlation.tactic.as_str() == _tactic.as_str() {
+                        if &_correlation.tactic == _tactic {
                             _filtered_results.push(_correlation.clone());
                         }
                     }
@@ -922,18 +921,29 @@ impl EnterpriseMatrixSearcher {
         let malware = malware.to_lowercase();
         let malware = malware.replace("_","");
         let malware = malware.as_str();
+        let mut _xref_filter: Vec<String> = vec![];
+        let mut _search_term = String::from("");
         let _err = format!(
             "(?) Error: Unable To Deserialize String of All Techniques by malware: {}",
             malware
         );
-        if malware.contains(":") {
-            println!("{}", malware);
-        }
         let _json: EnterpriseMatrixBreakdown =
             serde_json::from_slice(&self.content[..]).expect(_err.as_str());
+        if malware.contains(":") {
+            let _tactics: HashSet<String> = _json.tactics;
+            let _xrefs: Vec<_> = malware.split(':').collect();
+            _search_term = _xrefs[0].to_string();
+            for _tactic in _tactics {
+                for _term in &_xrefs {
+                    if &_tactic.as_str() == _term {
+                        _xref_filter.push(_tactic.clone());
+                    }
+                }
+            }
+        }            
         if many.len() == 1 {
             if _wants_correlation {
-                self.correlate_malware(malware, &mut _results_correlation);
+                self.correlate_malware(_search_term.as_str(), &mut _results_correlation);
             } else {
                 for _item in _json.breakdown_malware.iter() {
                     if _item.name.to_lowercase().as_str() == malware {
@@ -962,7 +972,19 @@ impl EnterpriseMatrixSearcher {
             malware
         );
         if _wants_correlation {
-            serde_json::to_string(&_results_correlation).expect(_err.as_str())
+            if _xref_filter.len() >= 1usize {
+                let mut _filtered_results: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
+                for _correlation in _results_correlation {
+                    for _tactic in _xref_filter.iter() {
+                        if &_correlation.tactic == _tactic {
+                            _filtered_results.push(_correlation.clone());
+                        }
+                    }
+                }
+                serde_json::to_string(&_filtered_results).expect(_err.as_str())
+            } else {
+                serde_json::to_string(&_results_correlation).expect(_err.as_str())
+            }
         } else {
             serde_json::to_string(&_results).expect(_err.as_str())
         }
