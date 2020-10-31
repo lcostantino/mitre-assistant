@@ -816,20 +816,37 @@ impl EnterpriseMatrixSearcher {
     ) -> String {
         let mut _results_correlation: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
         let mut _results_adversaries: Vec<_> = vec![];
+        let mut _xref_filter: Vec<String> = vec![];
+        // Normalize Input Search Term
         let adversary = adversary.to_lowercase();
         let adversary = adversary.as_str();
+        let _search_term = String::from("");
         let _err = format!(
-            "(?) Error: Unable To Deserialize String of All Techniques by Adversary: {}",
+            “(?) Error: Unable To Deserialize String of All Techniques by Adversary: {}”,
             adversary
         );
         let _json: EnterpriseMatrixBreakdown =
             serde_json::from_slice(&self.content[..]).expect(_err.as_str());
+            
+        // Check If CrossReference Context is Needed
+        if adversary.contains(":") {
+            let _tactics: Vec<String> = _json.tactics;
+            let _xrefs: Vec<_> = adversary.split(‘:’).collect();
+            _search_term = _xrefs[0].to_string();
+            for _tactic in _tactics {
+                for _term in _xrefs {
+                    if _tactic == _term {
+                        _xref_filter.push(_tactic);
+                    }
+                }
+            }
+        }
         if many.len() == 1 {
             if _wants_correlation {
                 self.correlate_adversary(adversary, &mut _results_correlation);
             } else {
                 for _item in _json.breakdown_adversaries.iter() {
-                    if _item.name.to_lowercase().as_str() == adversary {
+                    if _item.name.to_lowercase().as_str() == _search_term.as_str() {
                         _results_adversaries.push(_item);
                     } else {
                         let _terms: Vec<_> = _item.aliases.split('|').collect();
@@ -872,7 +889,19 @@ impl EnterpriseMatrixSearcher {
         );
 
         if _wants_correlation {
-            serde_json::to_string(&_results_correlation).expect(_err.as_str())
+            if _xref_filter.len() >= 1usize {
+                let mut _filtered_results: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
+                for _correlation in _results_correlation {
+                    for _tactic in _xref_filter.iter() {
+                        if _correlation.tactic.as_str() == _tactic.as_str() {
+                            _filtered_results.push(_correlation);
+                        }
+                    }
+                }
+                serde_json::to_string(&_results_correlation).expect(_err.as_str())
+            } else {
+                serde_json::to_string(&_results_correlation).expect(_err.as_str())
+            }
         } else {
             serde_json::to_string(&_results_adversaries).expect(_err.as_str())
         }
