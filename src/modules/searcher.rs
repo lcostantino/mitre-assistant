@@ -830,6 +830,7 @@ impl EnterpriseMatrixSearcher {
             
         // Check If CrossReference Context is Needed
         if adversary.contains(":") {
+	    println!("Found: {}", adversary);
             let _tactics: HashSet<String> = _json.tactics;
             let _xrefs: Vec<_> = adversary.split(':').collect();
             _search_term = _xrefs[0].to_string();
