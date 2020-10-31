@@ -820,9 +820,9 @@ impl EnterpriseMatrixSearcher {
         // Normalize Input Search Term
         let adversary = adversary.to_lowercase();
         let adversary = adversary.as_str();
-        let _search_term = String::from("");
+        let mut _search_term = String::from("");
         let _err = format!(
-            “(?) Error: Unable To Deserialize String of All Techniques by Adversary: {}”,
+            "(?) Error: Unable To Deserialize String of All Techniques by Adversary: {}",
             adversary
         );
         let _json: EnterpriseMatrixBreakdown =
@@ -830,13 +830,13 @@ impl EnterpriseMatrixSearcher {
             
         // Check If CrossReference Context is Needed
         if adversary.contains(":") {
-            let _tactics: Vec<String> = _json.tactics;
-            let _xrefs: Vec<_> = adversary.split(‘:’).collect();
+            let _tactics: HashSet<String> = _json.tactics;
+            let _xrefs: Vec<_> = adversary.split(':').collect();
             _search_term = _xrefs[0].to_string();
             for _tactic in _tactics {
-                for _term in _xrefs {
-                    if _tactic == _term {
-                        _xref_filter.push(_tactic);
+                for _term in &_xrefs {
+                    if &_tactic.as_str() == _term {
+                        _xref_filter.push(_tactic.clone());
                     }
                 }
             }
@@ -894,11 +894,11 @@ impl EnterpriseMatrixSearcher {
                 for _correlation in _results_correlation {
                     for _tactic in _xref_filter.iter() {
                         if _correlation.tactic.as_str() == _tactic.as_str() {
-                            _filtered_results.push(_correlation);
+                            _filtered_results.push(_correlation.clone());
                         }
                     }
                 }
-                serde_json::to_string(&_results_correlation).expect(_err.as_str())
+                serde_json::to_string(&_filtered_results).expect(_err.as_str())
             } else {
                 serde_json::to_string(&_results_correlation).expect(_err.as_str())
             }
