@@ -107,7 +107,7 @@ access the relationships. The current built-in queries map the following relatio
 		Tool <--- TO ---> Adversary
 		```
 <br/>
-The relationships above are made available to and user by launching queries based on either of the **adversary**, **malware**, **tool** entities, like this.
+The relationships above are made available to an end-user by launching queries based on either of the **adversary**, **malware**, **tool** entities, like this.
 
 !!! info "Getting Relationships"
 
@@ -139,4 +139,16 @@ The relationships above are made available to and user by launching queries base
 		```
 
 		??? tip "Output"
+
 <br/>
+
+## **Cross Referencing Weapons and Adversaries**
+
+As you explore the aforementioned datasets from ATT&CK closer, an astute observation that is **critical** to be aware of in your models begins with how
+the ATT&CK matrix assigns techniques/subtechniques to the entities from above.  **However**, notice that in the website, under the griups page, you will have subsections where techniques are assigned to the adversary, and at the bottom of each adversary page, there are subsections for **software**.
+
+When you closely inspect the techniques assigned for a software entity (i.e., malware or tools), the top of the page's techniques for the adversary differ.
+
+These instances are questin marks for me, however, I am interpreting the website as if the logic is:
+
+

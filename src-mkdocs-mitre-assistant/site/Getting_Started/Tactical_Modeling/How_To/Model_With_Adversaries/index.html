@@ -550,6 +550,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#cross-referencing-weapons-and-adversaries" class="md-nav__link">
+    Cross Referencing Weapons and Adversaries
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -603,6 +610,13 @@
         <li class="md-nav__item">
   <a href="#working-with-attck-adversary-datasets" class="md-nav__link">
     Working With ATT&amp;CK Adversary Datasets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cross-referencing-weapons-and-adversaries" class="md-nav__link">
+    Cross Referencing Weapons and Adversaries
   </a>
   
 </li>
@@ -713,7 +727,7 @@ Tool &lt;--- TO ---&gt; Adversary
 </div>
 </div>
 <p><br/>
-The relationships above are made available to and user by launching queries based on either of the <strong>adversary</strong>, <strong>malware</strong>, <strong>tool</strong> entities, like this.</p>
+The relationships above are made available to an end-user by launching queries based on either of the <strong>adversary</strong>, <strong>malware</strong>, <strong>tool</strong> entities, like this.</p>
 <div class="admonition info">
 <p class="admonition-title">Getting Relationships</p>
 <div class="tabbed-set" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><label for="__tabbed_3_1">By Adversary</label><div class="tabbed-content">
@@ -741,6 +755,11 @@ adversary of interest.</p>
 </div>
 </div>
 <p><br/></p>
+<h2 id="cross-referencing-weapons-and-adversaries"><strong>Cross Referencing Weapons and Adversaries</strong></h2>
+<p>As you explore the aforementioned datasets from ATT&amp;CK closer, an astute observation that is <strong>critical</strong> to be aware of in your models begins with how
+the ATT&amp;CK matrix assigns techniques/subtechniques to the entities from above.  <strong>However</strong>, notice that in the website, under the griups page, you will have subsections where techniques are assigned to the adversary, and at the bottom of each adversary page, there are subsections for <strong>software</strong>.</p>
+<p>When you closely inspect the techniques assigned for a software entity (i.e., malware or tools), the top of the page's techniques for the adversary differ.</p>
+<p>These instances are questin marks for me, however, I am interpreting the website as if the logic is:</p>
                 
               
               
@@ -807,7 +826,7 @@ adversary of interest.</p>
     </div>
     
       <script src="../../../../assets/javascripts/vendor.fd16492e.min.js"></script>
-      <script src="../../../../assets/javascripts/bundle.00f9b4e0.min.js"></script><script id="__lang" type="application/json">{"search.result.term.missing": "Missing", "search.result.none": "No matching documents", "search.config.pipeline": "trimmer, stopWordFilter", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "clipboard.copy": "Copy to clipboard", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "clipboard.copied": "Copied to clipboard", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.config.lang": "en", "search.placeholder": "Search"}</script>
+      <script src="../../../../assets/javascripts/bundle.00f9b4e0.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "search.result.term.missing": "Missing", "search.config.pipeline": "trimmer, stopWordFilter", "search.result.more.one": "1 more on this page", "search.result.one": "1 matching document", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.more.other": "# more on this page", "search.config.separator": "[\\s\\-]+", "search.result.other": "# matching documents"}</script>
       
       <script>
         app = initialize({
