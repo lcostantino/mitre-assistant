@@ -829,6 +829,7 @@ impl EnterpriseMatrixSearcher {
             serde_json::from_slice(&self.content[..]).expect(_err.as_str());
             
         // Check If CrossReference Context is Needed
+        // Allows querying by Tactics for the adversary
         if adversary.contains(":") {
             let _tactics: HashSet<String> = _json.tactics;
             let _xrefs: Vec<_> = adversary.split(':').collect();
