@@ -86,21 +86,26 @@ access the relationships. The current built-in queries map the following relatio
 !!! info "Mapping ATT&CK CTI Relationships"
 
 	=== "Adversary Relationships"
+		```text
 		Adversary <--- TO ---> Technique
 		Adversary <--- TO ---> Subtechnique
 		Adversary <--- TO ---> Malware
 		Adversary <--- TO ---> Tool
+		```
 
 	=== "Malware Relationships"
+		```text
 		Malware <--- TO ---> Technique
 		Malware <--- TO ---> Subtechnique
 		Malware <--- TO ---> Adversary
+		```
 
 	=== "Tool Relationships"
+		```text
 		Tool <--- TO ---> Technique
 		Tool <--- TO ---> Subtechnique
 		Tool <--- TO ---> Adversary
-
+		```
 <br/>
 The relationships above are made available to and user by launching queries based on either of the **adversary**, **malware**, **tool** entities, like this.
 
