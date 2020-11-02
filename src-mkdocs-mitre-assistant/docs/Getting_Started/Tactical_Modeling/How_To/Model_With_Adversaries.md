@@ -6,6 +6,7 @@
         <img src="https://user-images.githubusercontent.com/11415591/96391451-af57f880-1186-11eb-9e21-a8795128d78d.png" />
     </a>
 
+
 <br/>
 
 ## What you can build with Mitre-Assistant
@@ -71,3 +72,62 @@ In other words, Mitre-Assistant gives you the ability to ask the questions you w
             norelopener>
             <img src="https://user-images.githubusercontent.com/11415591/96588367-9009ba00-12b1-11eb-82b4-5902f6050053.png" />
         </a>        
+
+<br/>
+
+## **Working With ATT&CK Adversary Datasets**
+The ATT&CK enterprise CTI repository provides in its STIX JSON file specific keys that are called **relationships**.
+
+As you begin to work with it, you will quickly understand there are releationships amongst ==adversaries== and ==techniques==, as well as relationships for the ==malware== and ==tools== objects.
+
+The **Mitre-Assistant** streamlines your need for correlating these relationships yourself by hand, and it provides built-in queries for you to quickly
+access the relationships. The current built-in queries map the following relationships.
+
+!!! info "Mapping ATT&CK CTI Relationships"
+
+	=== Adversary Relationships ===
+		Adversary <--- TO ---> Technique
+		Adversary <--- TO ---> Subtechnique
+		Adversary <--- TO ---> Malware
+		Adversary <--- TO ---> Tool
+
+	=== Malware Relationships ===
+		Malware <--- TO ---> Technique
+		Malware <--- TO ---> Subtechnique
+		Malware <--- TO ---> Adversary
+
+	=== Tool Relationships ===
+		Tool <--- TO ---> Technique
+		Tool <--- TO ---> Subtechnique
+		Tool <--- TO ---> Adversary
+
+<br/>
+The relationships above are made available to and user by launching queries based on either of the **adversary**, **malware**, **tool** entities, like this.
+
+!!! info "Getting Relationships"
+
+	=== By Adversary ===
+		You can query by an adversary's name and you will see the entities of techniques, subtechniques, malware, and tools mapped for the
+		adversary of interest.
+
+		```bash
+		mitre-assistant search -m enterprise -t "fin7"
+		```
+
+		??? tip "Output"
+
+	=== By Malware ===
+		You can query by a malware's name and you will also get the entities of techniques, subtechniques, and adversaries
+
+		```bash
+		mitre-assistant search -m enterprise -t "boostwrite"
+		```
+
+	=== By Tool ===
+		You can query by a tool's name and you will also get the entiyies of techniques, subtechniques, and adversaries
+
+		```bash
+		mitre-assistant search -m enterprise -t "psexec"
+		```
+
+<br/>
