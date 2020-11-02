@@ -10,21 +10,25 @@
 <br/>
 
 <div id="docs" align="center">
-    <a href="https://dfirence.github.io/mitre-assistant/" target="_blank” norelopener><strong>docs-wiki-mitre-assistant</strong></a>
+    <a href="https://dfirence.github.io/mitre-assistant/" target="_blank" norelopener><strong>docs-wiki-mitre-assistant</strong></a>
 </div>
 
 <br/>
 
 <img src="https://user-images.githubusercontent.com/11415591/97825504-d802e680-1c8c-11eb-890a-bbee6e00e1a2.jpeg" />
+
 <hr/>
 
 <img src="https://user-images.githubusercontent.com/11415591/97825506-d802e680-1c8c-11eb-8ef4-001673a59529.jpeg" />
+
 <hr/>
 
 <img src="https://user-images.githubusercontent.com/11415591/90009693-8a1daa00-dc6c-11ea-87c7-968da8f400e8.png" />
+
 <hr />
 
 <img src="https://user-images.githubusercontent.com/11415591/93018273-839c8e00-f59c-11ea-9ee0-2490b870fbf0.png" />
+
 <hr />
 
 <br/>
