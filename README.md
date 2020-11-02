@@ -5,9 +5,15 @@
 <div id="title"align="center">
     <h1>#MITRE-ASSISTANT</h1>
     <p>A More Flexible, Useful and Cooler Mitre ATT&CK Client</p>
-    <a href="https://dfirence.github.io/mitre-assistant/" target="_blank” norelopener><strong>docs-wiki-mitre-assistant</strong></a>
 </div>
-<br/><br/>
+
+<br/>
+
+<div id="docs" align="center">
+    <a href=“https://dfirence.github.io/mitre-assistant/“ target=“_blank” norelopener><strong>docs-wiki-mitre-assistant</strong></a>
+</div>
+
+<br/>
 
 <img src="https://user-images.githubusercontent.com/11415591/97825504-d802e680-1c8c-11eb-890a-bbee6e00e1a2.jpeg" />
 <hr/>
