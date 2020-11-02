@@ -85,18 +85,18 @@ access the relationships. The current built-in queries map the following relatio
 
 !!! info "Mapping ATT&CK CTI Relationships"
 
-	=== Adversary Relationships ===
+	=== "Adversary Relationships"
 		Adversary <--- TO ---> Technique
 		Adversary <--- TO ---> Subtechnique
 		Adversary <--- TO ---> Malware
 		Adversary <--- TO ---> Tool
 
-	=== Malware Relationships ===
+	=== "Malware Relationships"
 		Malware <--- TO ---> Technique
 		Malware <--- TO ---> Subtechnique
 		Malware <--- TO ---> Adversary
 
-	=== Tool Relationships ===
+	=== "Tool Relationships"
 		Tool <--- TO ---> Technique
 		Tool <--- TO ---> Subtechnique
 		Tool <--- TO ---> Adversary
@@ -106,7 +106,7 @@ The relationships above are made available to and user by launching queries base
 
 !!! info "Getting Relationships"
 
-	=== By Adversary ===
+	=== "By Adversary"
 		You can query by an adversary's name and you will see the entities of techniques, subtechniques, malware, and tools mapped for the
 		adversary of interest.
 
@@ -116,18 +116,22 @@ The relationships above are made available to and user by launching queries base
 
 		??? tip "Output"
 
-	=== By Malware ===
+	=== "By Malware"
 		You can query by a malware's name and you will also get the entities of techniques, subtechniques, and adversaries
 
 		```bash
 		mitre-assistant search -m enterprise -t "boostwrite"
 		```
 
-	=== By Tool ===
+		??? tip "Output"
+
+
+	=== "By Tool"
 		You can query by a tool's name and you will also get the entiyies of techniques, subtechniques, and adversaries
 
 		```bash
 		mitre-assistant search -m enterprise -t "psexec"
 		```
 
+		??? tip "Output"
 <br/>

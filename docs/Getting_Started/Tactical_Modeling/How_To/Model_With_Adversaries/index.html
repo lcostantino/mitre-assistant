@@ -688,48 +688,51 @@
 access the relationships. The current built-in queries map the following relationships.</p>
 <div class="admonition info">
 <p class="admonition-title">Mapping ATT&amp;CK CTI Relationships</p>
-<p>=== Adversary Relationships ===
-    Adversary &lt;--- TO ---&gt; Technique
-    Adversary &lt;--- TO ---&gt; Subtechnique
-    Adversary &lt;--- TO ---&gt; Malware
-    Adversary &lt;--- TO ---&gt; Tool</p>
-<p>=== Malware Relationships ===
-    Malware &lt;--- TO ---&gt; Technique
-    Malware &lt;--- TO ---&gt; Subtechnique
-    Malware &lt;--- TO ---&gt; Adversary</p>
-<p>=== Tool Relationships ===
-    Tool &lt;--- TO ---&gt; Technique
-    Tool &lt;--- TO ---&gt; Subtechnique
-    Tool &lt;--- TO ---&gt; Adversary</p>
+<div class="tabbed-set" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Adversary Relationships</label><div class="tabbed-content">
+<p>Adversary &lt;--- TO ---&gt; Technique
+Adversary &lt;--- TO ---&gt; Subtechnique
+Adversary &lt;--- TO ---&gt; Malware
+Adversary &lt;--- TO ---&gt; Tool</p>
+</div>
+<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Malware Relationships</label><div class="tabbed-content">
+<p>Malware &lt;--- TO ---&gt; Technique
+Malware &lt;--- TO ---&gt; Subtechnique
+Malware &lt;--- TO ---&gt; Adversary</p>
+</div>
+<input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><label for="__tabbed_2_3">Tool Relationships</label><div class="tabbed-content">
+<p>Tool &lt;--- TO ---&gt; Technique
+Tool &lt;--- TO ---&gt; Subtechnique
+Tool &lt;--- TO ---&gt; Adversary</p>
+</div>
+</div>
 </div>
 <p><br/>
 The relationships above are made available to and user by launching queries based on either of the <strong>adversary</strong>, <strong>malware</strong>, <strong>tool</strong> entities, like this.</p>
 <div class="admonition info">
 <p class="admonition-title">Getting Relationships</p>
-<p>=== By Adversary ===
-    You can query by an adversary's name and you will see the entities of techniques, subtechniques, malware, and tools mapped for the
-    adversary of interest.</p>
-<div class="highlight"><pre><span></span><code>```bash
-mitre-assistant search -m enterprise -t &quot;fin7&quot;
-```
-
-??? tip &quot;Output&quot;
+<div class="tabbed-set" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><label for="__tabbed_3_1">By Adversary</label><div class="tabbed-content">
+<p>You can query by an adversary's name and you will see the entities of techniques, subtechniques, malware, and tools mapped for the
+adversary of interest.</p>
+<div class="highlight"><pre><span></span><code>mitre-assistant search -m enterprise -t <span class="s2">&quot;fin7&quot;</span>
 </code></pre></div>
 
-<p>=== By Malware ===
-    You can query by a malware's name and you will also get the entities of techniques, subtechniques, and adversaries</p>
-<div class="highlight"><pre><span></span><code>```bash
-mitre-assistant search -m enterprise -t &quot;boostwrite&quot;
-```
+<details class="tip"><summary>Output</summary></details>
+</div>
+<input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><label for="__tabbed_3_2">By Malware</label><div class="tabbed-content">
+<p>You can query by a malware's name and you will also get the entities of techniques, subtechniques, and adversaries</p>
+<div class="highlight"><pre><span></span><code>mitre-assistant search -m enterprise -t <span class="s2">&quot;boostwrite&quot;</span>
 </code></pre></div>
 
-<p>=== By Tool ===
-    You can query by a tool's name and you will also get the entiyies of techniques, subtechniques, and adversaries</p>
-<div class="highlight"><pre><span></span><code>```bash
-mitre-assistant search -m enterprise -t &quot;psexec&quot;
-```
+<details class="tip"><summary>Output</summary></details>
+</div>
+<input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><label for="__tabbed_3_3">By Tool</label><div class="tabbed-content">
+<p>You can query by a tool's name and you will also get the entiyies of techniques, subtechniques, and adversaries</p>
+<div class="highlight"><pre><span></span><code>mitre-assistant search -m enterprise -t <span class="s2">&quot;psexec&quot;</span>
 </code></pre></div>
 
+<details class="tip"><summary>Output</summary></details>
+</div>
+</div>
 </div>
 <p><br/></p>
                 
@@ -798,7 +801,7 @@ mitre-assistant search -m enterprise -t &quot;psexec&quot;
     </div>
     
       <script src="../../../../assets/javascripts/vendor.fd16492e.min.js"></script>
-      <script src="../../../../assets/javascripts/bundle.00f9b4e0.min.js"></script><script id="__lang" type="application/json">{"search.config.pipeline": "trimmer, stopWordFilter", "search.placeholder": "Search", "search.result.none": "No matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.config.separator": "[\\s\\-]+", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "clipboard.copy": "Copy to clipboard", "search.result.term.missing": "Missing"}</script>
+      <script src="../../../../assets/javascripts/bundle.00f9b4e0.min.js"></script><script id="__lang" type="application/json">{"search.result.more.other": "# more on this page", "search.result.other": "# matching documents", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.config.separator": "[\\s\\-]+", "search.result.one": "1 matching document", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.lang": "en", "search.result.term.missing": "Missing", "search.result.placeholder": "Type to start searching", "clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.result.none": "No matching documents"}</script>
       
       <script>
         app = initialize({
