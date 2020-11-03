@@ -244,6 +244,10 @@ impl EnterpriseMatrixSearcher {
             _wants_all_tools = true;
             _wants_summary = true;
         }
+        else if _scanner_ds.pattern.is_match(_st) {
+            _matches_many = _scanner_ds.pattern.matches(_st).into_iter().collect();
+            _valid.push((_st, 37usize));
+        }
          // Adversaries
         else if _scanner_ad.pattern.is_match(_st) {
             _matches_many = _scanner_ad.pattern.matches(_st).into_iter().collect();
@@ -265,10 +269,6 @@ impl EnterpriseMatrixSearcher {
         else if _scanner_ta.pattern.is_match(_st) {
             _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 44usize));
-        }
-        else if _scanner_ds.pattern.is_match(_st) {
-            _matches_many = _scanner_ds.pattern.matches(_st).into_iter().collect();
-            _valid.push((_st, 37usize));
         }
         else if _scanner_pl.pattern.is_match(_st) && !_st.contains("-") {
             _matches_many = _scanner_pl.pattern.matches(_st).into_iter().collect();
