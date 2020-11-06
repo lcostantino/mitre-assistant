@@ -772,6 +772,14 @@ impl EnterpriseMatrixSearcher {
                         _malware_string.push_str(format!("{}|", _string.as_str()).as_str());
                     }
                 }
+                // Clean String Trailing Pipes
+                if _malware_string.ends_with("||") { _malware_string = _malware_string.replace("||", ""); }
+                else if _malware_string.ends_with("|") { _malware_string.pop(); }
+                // Clean String Leading Pipes
+                if _malware_string.contains("||") { _malware_string = _malware_string.replace("||", "|"); }
+                if _malware_string.starts_with("|") { _malware_string = _malware_string[1..].to_string(); }
+
+
                 for _string in &_tools_strings {
                     let _string = _string.replace("none","");
                     if _string.as_str() != "none" || _string.as_str() != ""
@@ -780,6 +788,14 @@ impl EnterpriseMatrixSearcher {
                         _tool_string.push_str(format!("{}|", _string.as_str()).as_str());
                     }
                 }
+                // Clean String Trailing Pipes
+                if _tool_string.ends_with("||") { _tool_string = _tool_string.replace("||", ""); }
+                else if _tool_string.ends_with("|") { _tool_string.pop(); }
+                // Clean String Leading Pipes
+                if _tool_string.contains("||") { _tool_string = _tool_string.replace("||", "|"); }
+                if _tool_string.starts_with("|") { _tool_string = _tool_string[1..].to_string(); }
+
+                // Finalize Results of Malware and Tools
                 _target_result.correlation_malware = _malware_string.clone();
                 _target_result.correlation_tool = _tool_string.clone();
                 _duplicates.push(_target_result.clone());
