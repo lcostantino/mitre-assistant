@@ -841,13 +841,15 @@ impl EnterpriseMatrixSearcher {
                     }
                 }
             }
+        } else {
+            _search_term = adversary.to_string();
         }
         if many.len() == 1 {
             if _wants_correlation {
                 self.correlate_adversary(_search_term.as_str(), &mut _results_correlation);
             } else {
                 for _item in _json.breakdown_adversaries.iter() {
-                    if _item.name.to_lowercase().as_str() == adversary {
+                    if _item.name.to_lowercase().as_str() == _search_term {
                         _results_adversaries.push(_item);
                     } else {
                         let _terms: Vec<_> = _item.aliases.split('|').collect();
@@ -941,6 +943,8 @@ impl EnterpriseMatrixSearcher {
                     }
                 }
             }
+        } else {
+            _search_term = malware.to_string();
         }            
         if many.len() == 1 {
             if _wants_correlation {

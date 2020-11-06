@@ -76,9 +76,6 @@ impl PatternManager {
             else if _item.starts_with("detonation-chamber") {
                 _patterns.push(format!(r"\b{}\b", "sandboxing"));
             }
-            else if _item.starts_with("windows-registry") {
-                _patterns.push(format!(r"\b{}\b", "registry"));
-            }
             else if _item.starts_with("windows-event-logs") {
                 _patterns.push(format!(r"\b{}\b", "eventlogs"));
                 _patterns.push(format!(r"\b{}\b", "evtx"));
