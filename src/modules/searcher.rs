@@ -49,8 +49,9 @@ impl EnterpriseMatrixSearcher {
             _content = FileHandler::load_baseline("baselines", "baseline-enterprise-legacy.json");
         }
         else if _input.as_str() == "enterprise" && navigator_path != "None"
-	  || _input.as_str() == "enterprise-legacy" && navigator_path != "None"
-	{
+	        || _input.as_str() == “enterprise-legacy” && navigator_path != "None"
+	        || _input.as_str() == "ics" && navigator_path != "None"
+	    {
             let _fp = FileHandler::open(navigator_path, "r");
             _content = _fp.read_as_vecbytes(_fp.size).unwrap();
         }
@@ -92,6 +93,9 @@ impl EnterpriseMatrixSearcher {
         }
         else if self.matrix.as_str() == "enterprise-legacy" {
             _content = FileHandler::load_baseline("baselines", "baseline-enterprise-legacy.json");
+        }
+        else if self.matrix.as_str() == "ics" {
+            _content = FileHandler::load_baseline("baselines", "baseline-ics.json");
         }
 	    self.content = _content;
 	    let _err = "(?) Error: Unable to Serialize Matrix Breakdown For Navigator";

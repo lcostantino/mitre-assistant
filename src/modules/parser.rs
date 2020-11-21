@@ -1,7 +1,7 @@
 //use std::thread;
 //use std::sync::{Arc};
 use std::collections::HashSet;
-use std::sync::mpsc;
+//use std::sync::mpsc;
 //use std::borrow::Cow;
 
 use serde_derive::{Deserialize, Serialize};
@@ -95,7 +95,7 @@ impl EnterpriseMatrixParser {
     pub fn baseline(&mut self, matrix_type: &str) -> Result<(), Box<dyn std::error::Error>> {
         if FileHandler::check_for_config_folder().unwrap() {
             match matrix_type {
-                "enterprise" | "enterprise-legacy" => self.baseline_enterprise()?,
+                "enterprise" | "enterprise-legacy" | "ics" => self.baseline_enterprise()?,
                 _ => (),
             }
         }
@@ -118,6 +118,7 @@ impl EnterpriseMatrixParser {
         let _target_matrix = match self.matrix_type.as_str() {
             "enterprise-legacy" => "enterprise-legacy.json",
             "enterprise" => "enterprise.json",
+            "ics" => "ics-attack.json",
             _ => "None"
         };
         if _target_matrix == "None" {

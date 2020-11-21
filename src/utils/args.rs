@@ -58,7 +58,7 @@ impl ArgumentsParser<'_> {
                                                 .long("matrix")
                                                 .value_name("matrix_name")
                                                 .takes_value(true)
-                                                .help("Load a Matrix From ATT&CK: (Enterprise|Enterprise-Legacy|Mobile|Pre-Attack)")
+                                                .help("Load a Matrix From ATT&CK: (Enterprise|Enterprise-Legacy|Mobile|ICS)")
                                         )
                         )
                         .subcommand(
@@ -72,7 +72,7 @@ impl ArgumentsParser<'_> {
                                      .long("matrix")
                                      .value_name("matrix_name")
                                      .takes_value(true)
-                                     .help("Load a Matrix From ATT&CK: (Enterprise|Mobile|Pre-Attack)")
+                                     .help("Load a Matrix From ATT&CK: (Enterprise|Mobile|ICS)")
                              )
                         )
                         .subcommand(
@@ -86,7 +86,7 @@ impl ArgumentsParser<'_> {
                                      .long("matrix")
                                      .value_name("matrix_name")
                                      .takes_value(true)
-                                     .help("Load a Matrix From ATT&CK: (Enterprise|Mobile|Pre-Attack)")
+                                     .help("Load a Matrix From ATT&CK: (Enterprise|Mobile|ICS)")
                              )
                              .arg(
                                 Arg::with_name("term_search")
@@ -175,7 +175,7 @@ impl ArgumentsParser<'_> {
             let _mx = match _matrix {
                 "enterprise" => _wc.download("enterprise")?,
                 "enterprise-legacy" => _wc.download("enterprise-legacy")?,
-                "pre-attack" => _wc.download("pre-attack")?,
+                "ics" => _wc.download("ics")?,
                 "mobile" => _wc.download("mobile")?,
                 _ => "None".to_string()
             };
