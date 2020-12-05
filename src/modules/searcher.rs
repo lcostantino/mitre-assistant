@@ -3434,7 +3434,7 @@ impl EnterpriseMatrixSearcher {
                     Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
                     Cell::new(_row.item.as_str()).style_spec("FW"),
                     Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
-                    Cell::new(_row.percent_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_subtechniques.to_string().as_str()).style_spec("cFW"),
                 ]));
             } else {
                 _table.add_row(Row::new(vec![
@@ -3443,7 +3443,7 @@ impl EnterpriseMatrixSearcher {
                     Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
                     Cell::new(_row.count_subtechniques.to_string().as_str()).style_spec("cFW"),
                     Cell::new(_row.percent_techniques.to_string().as_str()).style_spec("cFW"),
-                    Cell::new(_row.percent_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_subtechniques.to_string().as_str()).style_spec("cFW"),
                 ]));
             }
         }
