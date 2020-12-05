@@ -49,7 +49,7 @@ impl EnterpriseMatrixSearcher {
             _content = FileHandler::load_baseline("baselines", "baseline-enterprise-legacy.json");
         }
         else if _input.as_str() == "enterprise" && navigator_path != "None"
-	        || _input.as_str() == “enterprise-legacy” && navigator_path != "None"
+	        || _input.as_str() == "enterprise-legacy" && navigator_path != "None"
 	        || _input.as_str() == "ics" && navigator_path != "None"
 	    {
             let _fp = FileHandler::open(navigator_path, "r");
