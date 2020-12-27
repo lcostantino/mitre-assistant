@@ -1,0 +1,40 @@
+[
+  {
+    "id": "attack-pattern--2db31dcd-54da-405d-acef-b9129b816ed6",
+    "platform": "linux|macos",
+    "tid": "T1021.004",
+    "technique": "SSH",
+    "tactic": "lateral-movement",
+    "datasources": "authentication-logs|netflow-enclave-netflow|network-protocol-analysis|process-use-of-network",
+    "has_subtechniques": false,
+    "is_deprecated": false,
+    "is_revoked": false,
+    "subtechniques": [],
+    "count_subtechniques": 0,
+    "correlation_adversary": "gcman",
+    "correlation_malware": "none",
+    "correlation_tool": "none",
+    "correlation_gid": "none",
+    "correlation_mid": "none",
+    "correlation_tid": "none"
+  },
+  {
+    "id": "attack-pattern--01327cde-66c4-4123-bf34-5f258d59457b",
+    "platform": "linux|macos|windows",
+    "tid": "T1021.005",
+    "technique": "VNC",
+    "tactic": "lateral-movement",
+    "datasources": "netflow-enclave-netflow|network-protocol-analysis|process-use-of-network",
+    "has_subtechniques": false,
+    "is_deprecated": false,
+    "is_revoked": false,
+    "subtechniques": [],
+    "count_subtechniques": 0,
+    "correlation_adversary": "gcman",
+    "correlation_malware": "none",
+    "correlation_tool": "none",
+    "correlation_gid": "none",
+    "correlation_mid": "none",
+    "correlation_tid": "none"
+  }
+]
