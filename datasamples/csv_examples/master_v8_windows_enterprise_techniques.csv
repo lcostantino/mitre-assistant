@@ -1,0 +1,485 @@
+Active,windows,collection,T1005,Data from Local System,n_a,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,collection,T1025,Data from Removable Media,n_a,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,collection,T1039,Data from Network Shared Drive,n_a,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,collection,T1056,Input Capture,T1056.001|T1056.002|T1056.003|T1056.004|,api-monitoring|binary-file-metadata|dll-monitoring|kernel-drivers|loaded-dlls|powershell-logs|process-command-line-parameters|process-monitoring|user-interface|windows-event-logs|windows-registry
+Active,windows,collection,T1056.001,Keylogging,n_a,api-monitoring|process-monitoring|windows-registry
+Active,windows,collection,T1056.002,GUI Input Capture,n_a,powershell-logs|process-command-line-parameters|process-monitoring|user-interface
+Active,windows,collection,T1056.003,Web Portal Capture,n_a,file-monitoring
+Active,windows,collection,T1056.004,Credential API Hooking,n_a,api-monitoring|binary-file-metadata|dll-monitoring|loaded-dlls|process-monitoring|windows-event-logs
+Active,windows,collection,T1074,Data Staged,T1074.001|T1074.002|,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,collection,T1074.001,Local Data Staging,n_a,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,collection,T1074.002,Remote Data Staging,n_a,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,collection,T1113,Screen Capture,n_a,api-monitoring|file-monitoring|process-monitoring
+Active,windows,collection,T1114,Email Collection,T1114.001|T1114.002|T1114.003|,authentication-logs|email-gateway|file-monitoring|mail-server|office-365-trace-logs|process-monitoring|process-use-of-network
+Active,windows,collection,T1114.001,Local Email Collection,n_a,authentication-logs|file-monitoring|mail-server|process-monitoring
+Active,windows,collection,T1114.002,Remote Email Collection,n_a,authentication-logs|email-gateway|mail-server|office-365-trace-logs
+Active,windows,collection,T1114.003,Email Forwarding Rule,n_a,email-gateway|mail-server|office-365-trace-logs|process-monitoring|process-use-of-network
+Active,windows,collection,T1115,Clipboard Data,n_a,api-monitoring
+Active,windows,collection,T1119,Automated Collection,n_a,data-loss-prevention|file-monitoring|process-command-line-parameters
+Active,windows,collection,T1123,Audio Capture,n_a,api-monitoring|file-monitoring|process-monitoring
+Active,windows,collection,T1125,Video Capture,n_a,api-monitoring|file-monitoring|process-monitoring
+Active,windows,collection,T1185,Man in the Browser,n_a,api-monitoring|authentication-logs|packet-capture|process-monitoring
+Active,windows,collection,T1213,Data from Information Repositories,T1213.001|T1213.002|,application-logs|authentication-logs|data-loss-prevention|oauth-audit-logs|third-party-application-logs
+Active,windows,collection,T1213.002,Sharepoint,n_a,application-logs|authentication-logs|office-365-audit-logs
+Active,windows,collection,T1557,Man-in-the-Middle,T1557.001|T1557.002|,file-monitoring|netflow-enclave-netflow|packet-capture
+Active,windows,collection,T1557.001,LLMNR/NBT-NS Poisoning and SMB Relay,n_a,netflow-enclave-netflow|packet-capture|windows-event-logs|windows-registry
+Active,windows,collection,T1557.002,ARP Cache Poisoning,n_a,netflow-enclave-netflow|packet-capture
+Active,windows,collection,T1560,Archive Collected Data,T1560.001|T1560.002|T1560.003|,binary-file-metadata|file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,collection,T1560.001,Archive via Utility,n_a,binary-file-metadata|file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,collection,T1560.002,Archive via Library,n_a,process-command-line-parameters|process-monitoring
+Active,windows,collection,T1560.003,Archive via Custom Method,n_a,none
+Active,windows,command-and-control,T1001,Data Obfuscation,T1001.001|T1001.002|T1001.003|,network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1001.001,Junk Data,n_a,network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1001.002,Steganography,n_a,network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1001.003,Protocol Impersonation,n_a,network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1008,Fallback Channels,n_a,malware-reverse-engineering|netflow-enclave-netflow|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1071,Application Layer Protocol,T1071.001|T1071.002|T1071.003|T1071.004|,dns-records|netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1071.001,Web Protocols,n_a,netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1071.002,File Transfer Protocols,n_a,netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1071.003,Mail Protocols,n_a,netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1071.004,DNS,n_a,dns-records|netflow-enclave-netflow|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1090,Proxy,T1090.001|T1090.002|T1090.003|T1090.004|,netflow-enclave-netflow|packet-capture|process-monitoring|process-use-of-network|ssl-tls-inspection
+Active,windows,command-and-control,T1090.001,Internal Proxy,n_a,netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1090.002,External Proxy,n_a,netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1090.003,Multi-hop Proxy,n_a,netflow-enclave-netflow|network-protocol-analysis|packet-capture
+Active,windows,command-and-control,T1090.004,Domain Fronting,n_a,packet-capture|ssl-tls-inspection
+Active,windows,command-and-control,T1092,Communication Through Removable Media,n_a,data-loss-prevention|file-monitoring
+Active,windows,command-and-control,T1095,Non-Application Layer Protocol,n_a,host-network-interface|netflow-enclave-netflow|network-intrusion-detection-system|network-protocol-analysis|packet-capture|process-use-of-network
+Active,windows,command-and-control,T1102,Web Service,T1102.001|T1102.002|T1102.003|,host-network-interface|netflow-enclave-netflow|network-protocol-analysis|packet-capture|ssl-tls-inspection
+Active,windows,command-and-control,T1102.001,Dead Drop Resolver,n_a,host-network-interface|netflow-enclave-netflow|network-protocol-analysis|packet-capture|ssl-tls-inspection
+Active,windows,command-and-control,T1102.002,Bidirectional Communication,n_a,host-network-interface|netflow-enclave-netflow|network-protocol-analysis|packet-capture|ssl-tls-inspection
+Active,windows,command-and-control,T1102.003,One-Way Communication,n_a,host-network-interface|netflow-enclave-netflow|network-protocol-analysis|packet-capture|ssl-tls-inspection
+Active,windows,command-and-control,T1104,Multi-Stage Channels,n_a,netflow-enclave-netflow|network-device-logs|network-protocol-analysis|packet-capture|process-use-of-network
+Active,windows,command-and-control,T1105,Ingress Tool Transfer,n_a,file-monitoring|netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-command-line-parameters|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1132,Data Encoding,T1132.001|T1132.002|,network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1132.001,Standard Encoding,n_a,network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1132.002,Non-Standard Encoding,n_a,network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1205,Traffic Signaling,T1205.001|,netflow-enclave-netflow|packet-capture
+Active,windows,command-and-control,T1205.001,Port Knocking,n_a,netflow-enclave-netflow|packet-capture
+Active,windows,command-and-control,T1219,Remote Access Software,n_a,network-intrusion-detection-system|network-protocol-analysis|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1568,Dynamic Resolution,T1568.001|T1568.002|T1568.003|,dns-records|ssl-tls-inspection|web-logs
+Active,windows,command-and-control,T1568.001,Fast Flux DNS,n_a,dns-records
+Active,windows,command-and-control,T1568.002,Domain Generation Algorithms,n_a,dns-records|netflow-enclave-netflow|network-device-logs|packet-capture|process-use-of-network
+Active,windows,command-and-control,T1568.003,DNS Calculation,n_a,dns-records
+Active,windows,command-and-control,T1571,Non-Standard Port,n_a,netflow-enclave-netflow|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1572,Protocol Tunneling,n_a,netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network
+Active,windows,command-and-control,T1573,Encrypted Channel,T1573.001|T1573.002|,malware-reverse-engineering|netflow-enclave-netflow|packet-capture|process-monitoring|process-use-of-network|ssl-tls-inspection
+Active,windows,command-and-control,T1573.001,Symmetric Cryptography,n_a,malware-reverse-engineering|netflow-enclave-netflow|packet-capture|process-monitoring|process-use-of-network|ssl-tls-inspection
+Active,windows,command-and-control,T1573.002,Asymmetric Cryptography,n_a,malware-reverse-engineering|netflow-enclave-netflow|packet-capture|process-monitoring|process-use-of-network
+Active,windows,credential-access,T1003,OS Credential Dumping,T1003.001|T1003.002|T1003.003|T1003.004|T1003.005|T1003.006|T1003.007|T1003.008|,api-monitoring|powershell-logs|process-command-line-parameters|process-monitoring
+Active,windows,credential-access,T1003.001,LSASS Memory,n_a,powershell-logs|process-command-line-parameters|process-monitoring
+Active,windows,credential-access,T1003.002,Security Account Manager,n_a,powershell-logs|process-command-line-parameters|process-monitoring
+Active,windows,credential-access,T1003.003,NTDS,n_a,powershell-logs|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,credential-access,T1003.004,LSA Secrets,n_a,powershell-logs|process-command-line-parameters|process-monitoring
+Active,windows,credential-access,T1003.005,Cached Domain Credentials,n_a,powershell-logs|process-command-line-parameters|process-monitoring
+Active,windows,credential-access,T1003.006,DCSync,n_a,windows-event-logs
+Active,windows,credential-access,T1040,Network Sniffing,n_a,host-network-interface|netflow-enclave-netflow|network-device-logs|process-monitoring
+Active,windows,credential-access,T1056,Input Capture,T1056.001|T1056.002|T1056.003|T1056.004|,api-monitoring|binary-file-metadata|dll-monitoring|kernel-drivers|loaded-dlls|powershell-logs|process-command-line-parameters|process-monitoring|user-interface|windows-event-logs|windows-registry
+Active,windows,credential-access,T1056.001,Keylogging,n_a,api-monitoring|process-monitoring|windows-registry
+Active,windows,credential-access,T1056.002,GUI Input Capture,n_a,powershell-logs|process-command-line-parameters|process-monitoring|user-interface
+Active,windows,credential-access,T1056.003,Web Portal Capture,n_a,file-monitoring
+Active,windows,credential-access,T1056.004,Credential API Hooking,n_a,api-monitoring|binary-file-metadata|dll-monitoring|loaded-dlls|process-monitoring|windows-event-logs
+Active,windows,credential-access,T1110,Brute Force,T1110.001|T1110.002|T1110.003|T1110.004|,authentication-logs|office-365-account-logs
+Active,windows,credential-access,T1110.001,Password Guessing,n_a,authentication-logs|office-365-account-logs
+Active,windows,credential-access,T1110.002,Password Cracking,n_a,authentication-logs|office-365-account-logs
+Active,windows,credential-access,T1110.003,Password Spraying,n_a,authentication-logs|office-365-account-logs
+Active,windows,credential-access,T1110.004,Credential Stuffing,n_a,authentication-logs|office-365-account-logs
+Active,windows,credential-access,T1111,Two-Factor Authentication Interception,n_a,api-monitoring|kernel-drivers|process-monitoring
+Active,windows,credential-access,T1187,Forced Authentication,n_a,file-monitoring|network-device-logs|network-protocol-analysis|process-use-of-network
+Active,windows,credential-access,T1212,Exploitation for Credential Access,n_a,authentication-logs|process-monitoring|windows-error-reporting
+Active,windows,credential-access,T1539,Steal Web Session Cookie,n_a,api-monitoring|file-monitoring
+Active,windows,credential-access,T1552,Unsecured Credentials,T1552.001|T1552.002|T1552.003|T1552.004|T1552.005|T1552.006|,authentication-logs|aws-cloudtrail-logs|azure-activity-logs|file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs|windows-registry
+Active,windows,credential-access,T1552.001,Credentials In Files,n_a,file-monitoring|process-command-line-parameters
+Active,windows,credential-access,T1552.002,Credentials in Registry,n_a,process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,credential-access,T1552.004,Private Keys,n_a,file-monitoring
+Active,windows,credential-access,T1552.006,Group Policy Preferences,n_a,process-command-line-parameters|windows-event-logs
+Active,windows,credential-access,T1555,Credentials from Password Stores,T1555.001|T1555.002|T1555.003|,api-monitoring|file-monitoring|powershell-logs|process-monitoring|system-calls
+Active,windows,credential-access,T1555.003,Credentials from Web Browsers,n_a,api-monitoring|file-monitoring|powershell-logs|process-monitoring
+Active,windows,credential-access,T1556,Modify Authentication Process,T1556.001|T1556.002|T1556.003|T1556.004|,api-monitoring|authentication-logs|dll-monitoring|file-monitoring|process-monitoring|windows-registry
+Active,windows,credential-access,T1556.001,Domain Controller Authentication,n_a,api-monitoring|authentication-logs|dll-monitoring
+Active,windows,credential-access,T1556.002,Password Filter DLL,n_a,dll-monitoring|file-monitoring
+Active,windows,credential-access,T1557,Man-in-the-Middle,T1557.001|T1557.002|,file-monitoring|netflow-enclave-netflow|packet-capture
+Active,windows,credential-access,T1557.001,LLMNR/NBT-NS Poisoning and SMB Relay,n_a,netflow-enclave-netflow|packet-capture|windows-event-logs|windows-registry
+Active,windows,credential-access,T1557.002,ARP Cache Poisoning,n_a,netflow-enclave-netflow|packet-capture
+Active,windows,credential-access,T1558,Steal or Forge Kerberos Tickets,T1558.001|T1558.002|T1558.003|T1558.004|,authentication-logs|windows-event-logs
+Active,windows,credential-access,T1558.001,Golden Ticket,n_a,authentication-logs|windows-event-logs
+Active,windows,credential-access,T1558.002,Silver Ticket,n_a,authentication-logs|windows-event-logs
+Active,windows,credential-access,T1558.003,Kerberoasting,n_a,authentication-logs|windows-event-logs
+Active,windows,credential-access,T1558.004,AS-REP Roasting,n_a,authentication-logs|windows-event-logs
+Active,windows,defense-evasion,T1006,Direct Volume Access,n_a,api-monitoring
+Active,windows,defense-evasion,T1014,Rootkit,n_a,bios|mbr|system-calls
+Active,windows,defense-evasion,T1027,Obfuscated Files or Information,T1027.001|T1027.002|T1027.003|T1027.004|T1027.005|,binary-file-metadata|email-gateway|environment-variable|file-monitoring|malware-reverse-engineering|network-intrusion-detection-system|network-protocol-analysis|process-command-line-parameters|process-monitoring|process-use-of-network|ssl-tls-inspection|windows-event-logs
+Active,windows,defense-evasion,T1027.001,Binary Padding,n_a,binary-file-metadata|file-monitoring|malware-reverse-engineering|process-monitoring
+Active,windows,defense-evasion,T1027.002,Software Packing,n_a,binary-file-metadata
+Active,windows,defense-evasion,T1027.003,Steganography,n_a,binary-file-metadata
+Active,windows,defense-evasion,T1027.004,Compile After Delivery,n_a,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1027.005,Indicator Removal from Tools,n_a,anti-virus|binary-file-metadata|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1036,Masquerading,T1036.001|T1036.002|T1036.003|T1036.004|T1036.005|T1036.006|,binary-file-metadata|file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1036.001,Invalid Code Signature,n_a,binary-file-metadata|file-monitoring|process-monitoring
+Active,windows,defense-evasion,T1036.002,Right-to-Left Override,n_a,file-monitoring
+Active,windows,defense-evasion,T1036.003,Rename System Utilities,n_a,binary-file-metadata|file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1036.004,Masquerade Task or Service,n_a,process-command-line-parameters|process-monitoring|windows-event-logs|windows-registry
+Active,windows,defense-evasion,T1036.005,Match Legitimate Name or Location,n_a,binary-file-metadata|file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1055,Process Injection,T1055.001|T1055.002|T1055.003|T1055.004|T1055.005|T1055.008|T1055.009|T1055.011|T1055.012|T1055.013|T1055.014|,api-monitoring|dll-monitoring|file-monitoring|named-pipes|process-monitoring
+Active,windows,defense-evasion,T1055.001,Dynamic-link Library Injection,n_a,api-monitoring|dll-monitoring|file-monitoring|process-monitoring
+Active,windows,defense-evasion,T1055.002,Portable Executable Injection,n_a,api-monitoring|process-monitoring
+Active,windows,defense-evasion,T1055.003,Thread Execution Hijacking,n_a,api-monitoring|process-monitoring
+Active,windows,defense-evasion,T1055.004,Asynchronous Procedure Call,n_a,api-monitoring|process-monitoring
+Active,windows,defense-evasion,T1055.005,Thread Local Storage,n_a,api-monitoring|process-monitoring
+Active,windows,defense-evasion,T1055.011,Extra Window Memory Injection,n_a,api-monitoring|process-monitoring
+Active,windows,defense-evasion,T1055.012,Process Hollowing,n_a,api-monitoring|process-monitoring
+Active,windows,defense-evasion,T1055.013,Process Doppelgänging,n_a,api-monitoring|file-monitoring|process-monitoring
+Active,windows,defense-evasion,T1070,Indicator Removal on Host,T1070.001|T1070.002|T1070.003|T1070.004|T1070.005|T1070.006|,api-monitoring|file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,defense-evasion,T1070.001,Clear Windows Event Logs,n_a,api-monitoring|file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1070.003,Clear Command History,n_a,authentication-logs|file-monitoring|powershell-logs|process-command-line-parameters
+Active,windows,defense-evasion,T1070.004,File Deletion,n_a,binary-file-metadata|file-monitoring|process-command-line-parameters
+Active,windows,defense-evasion,T1070.005,Network Share Connection Removal,n_a,authentication-logs|packet-capture|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1070.006,Timestomp,n_a,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1078,Valid Accounts,T1078.001|T1078.002|T1078.003|T1078.004|,authentication-logs|aws-cloudtrail-logs|process-monitoring|stackdriver-logs
+Active,windows,defense-evasion,T1078.001,Default Accounts,n_a,authentication-logs|aws-cloudtrail-logs|process-monitoring|stackdriver-logs
+Active,windows,defense-evasion,T1078.002,Domain Accounts,n_a,authentication-logs|process-monitoring
+Active,windows,defense-evasion,T1078.003,Local Accounts,n_a,authentication-logs
+Active,windows,defense-evasion,T1112,Modify Registry,n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs|windows-registry
+Active,windows,defense-evasion,T1127,Trusted Developer Utilities Proxy Execution,T1127.001|,file-monitoring|process-monitoring
+Active,windows,defense-evasion,T1127.001,MSBuild,n_a,process-monitoring
+Active,windows,defense-evasion,T1134,Access Token Manipulation,T1134.001|T1134.002|T1134.003|T1134.004|T1134.005|,access-tokens|api-monitoring|authentication-logs|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,defense-evasion,T1134.001,Token Impersonation/Theft,n_a,access-tokens|api-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1134.002,Create Process with Token,n_a,access-tokens|api-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1134.003,Make and Impersonate Token,n_a,access-tokens|api-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1134.004,Parent PID Spoofing,n_a,api-monitoring|process-monitoring|windows-event-logs
+Active,windows,defense-evasion,T1134.005,SID-History Injection,n_a,api-monitoring|authentication-logs|windows-event-logs
+Active,windows,defense-evasion,T1140,Deobfuscate/Decode Files or Information,n_a,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1197,BITS Jobs,n_a,packet-capture|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,defense-evasion,T1202,Indirect Command Execution,n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,defense-evasion,T1205,Traffic Signaling,T1205.001|,netflow-enclave-netflow|packet-capture
+Active,windows,defense-evasion,T1205.001,Port Knocking,n_a,netflow-enclave-netflow|packet-capture
+Active,windows,defense-evasion,T1207,Rogue Domain Controller,n_a,api-monitoring|authentication-logs|network-protocol-analysis|packet-capture
+Active,windows,defense-evasion,T1211,Exploitation for Defense Evasion,n_a,file-monitoring|process-monitoring|windows-error-reporting
+Active,windows,defense-evasion,T1216,Signed Script Proxy Execution,T1216.001|,process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1216.001,PubPrn,n_a,process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1218,Signed Binary Proxy Execution,T1218.001|T1218.002|T1218.003|T1218.004|T1218.005|T1218.007|T1218.008|T1218.009|T1218.010|T1218.011|T1218.012|,api-monitoring|binary-file-metadata|dll-monitoring|file-monitoring|loaded-dlls|process-command-line-parameters|process-monitoring|process-use-of-network|windows-registry
+Active,windows,defense-evasion,T1218.001,Compiled HTML File,n_a,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1218.002,Control Panel,n_a,api-monitoring|binary-file-metadata|dll-monitoring|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,defense-evasion,T1218.003,CMSTP,n_a,process-command-line-parameters|process-monitoring|process-use-of-network|windows-event-logs
+Active,windows,defense-evasion,T1218.004,InstallUtil,n_a,process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1218.005,Mshta,n_a,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1218.007,Msiexec,n_a,dll-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1218.008,Odbcconf,n_a,loaded-dlls|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1218.009,Regsvcs/Regasm,n_a,process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1218.010,Regsvr32,n_a,loaded-dlls|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,defense-evasion,T1218.011,Rundll32,n_a,dll-monitoring|loaded-dlls|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1218.012,Verclsid,n_a,file-monitoring|process-command-line-parameters|process-monitoring|process-use-of-network
+Active,windows,defense-evasion,T1220,XSL Script Processing,n_a,dll-monitoring|process-command-line-parameters|process-monitoring|process-use-of-network
+Active,windows,defense-evasion,T1221,Template Injection,n_a,anti-virus|email-gateway|network-intrusion-detection-system|web-logs
+Active,windows,defense-evasion,T1222,File and Directory Permissions Modification,T1222.001|T1222.002|,file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,defense-evasion,T1222.001,Windows File and Directory Permissions Modification,n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,defense-evasion,T1480,Execution Guardrails,T1480.001|,process-monitoring
+Active,windows,defense-evasion,T1480.001,Environmental Keying,n_a,process-monitoring
+Active,windows,defense-evasion,T1484,Group Policy Modification,n_a,windows-event-logs
+Active,windows,defense-evasion,T1497,Virtualization/Sandbox Evasion,T1497.001|T1497.002|T1497.003|,process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1497.001,System Checks,n_a,process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1497.002,User Activity Based Checks,n_a,process-command-line-parameters|process-use-of-network
+Active,windows,defense-evasion,T1497.003,Time Based Evasion,n_a,process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1542,Pre-OS Boot,T1542.001|T1542.002|T1542.003|T1542.004|T1542.005|,api-monitoring|bios|component-firmware|disk-forensics|efi|mbr|process-monitoring|vbr
+Active,windows,defense-evasion,T1542.001,System Firmware,n_a,api-monitoring|bios|efi
+Active,windows,defense-evasion,T1542.002,Component Firmware,n_a,api-monitoring|component-firmware|disk-forensics|process-monitoring
+Active,windows,defense-evasion,T1542.003,Bootkit,n_a,api-monitoring|mbr|vbr
+Active,windows,defense-evasion,T1548,Abuse Elevation Control Mechanism,T1548.001|T1548.002|T1548.003|T1548.004|,api-monitoring|file-monitoring|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,defense-evasion,T1548.002,Bypass User Account Control,n_a,process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,defense-evasion,T1550,Use Alternate Authentication Material,T1550.001|T1550.002|T1550.003|T1550.004|,authentication-logs|oauth-audit-logs|office-365-audit-logs
+Active,windows,defense-evasion,T1550.002,Pass the Hash,n_a,authentication-logs
+Active,windows,defense-evasion,T1550.003,Pass the Ticket,n_a,authentication-logs
+Active,windows,defense-evasion,T1553,Subvert Trust Controls,T1553.001|T1553.002|T1553.003|T1553.004|,api-monitoring|application-logs|binary-file-metadata|dll-monitoring|file-monitoring|loaded-dlls|process-command-line-parameters|process-monitoring|windows-event-logs|windows-registry
+Active,windows,defense-evasion,T1553.002,Code Signing,n_a,binary-file-metadata
+Active,windows,defense-evasion,T1553.003,SIP and Trust Provider Hijacking,n_a,api-monitoring|application-logs|dll-monitoring|loaded-dlls|process-monitoring|windows-event-logs|windows-registry
+Active,windows,defense-evasion,T1553.004,Install Root Certificate,n_a,digital-certificate-logs|ssl-tls-inspection
+Active,windows,defense-evasion,T1556,Modify Authentication Process,T1556.001|T1556.002|T1556.003|T1556.004|,api-monitoring|authentication-logs|dll-monitoring|file-monitoring|process-monitoring|windows-registry
+Active,windows,defense-evasion,T1556.001,Domain Controller Authentication,n_a,api-monitoring|authentication-logs|dll-monitoring
+Active,windows,defense-evasion,T1556.002,Password Filter DLL,n_a,dll-monitoring|file-monitoring
+Active,windows,defense-evasion,T1562,Impair Defenses,T1562.001|T1562.002|T1562.003|T1562.004|T1562.006|T1562.007|T1562.008|,anti-virus|api-monitoring|authentication-logs|aws-cloudtrail-logs|azure-activity-logs|environment-variable|file-monitoring|gcp-audit-logs|process-command-line-parameters|process-monitoring|services|windows-registry
+Active,windows,defense-evasion,T1562.001,Disable or Modify Tools,n_a,file-monitoring|process-command-line-parameters|services|windows-registry
+Active,windows,defense-evasion,T1562.002,Disable Windows Event Logging,n_a,process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,defense-evasion,T1562.003,Impair Command History Logging,n_a,authentication-logs|environment-variable|file-monitoring|powershell-logs|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1562.004,Disable or Modify System Firewall,n_a,file-monitoring|process-command-line-parameters|windows-registry
+Active,windows,defense-evasion,T1562.006,Indicator Blocking,n_a,process-command-line-parameters|process-monitoring|sensor-health-and-status
+Active,windows,defense-evasion,T1564,Hide Artifacts,T1564.001|T1564.002|T1564.003|T1564.004|T1564.005|T1564.006|T1564.007|,api-monitoring|authentication-logs|file-monitoring|powershell-logs|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1564.001,Hidden Files and Directories,n_a,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1564.003,Hidden Window,n_a,file-monitoring|powershell-logs|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1564.004,NTFS File Attributes,n_a,api-monitoring|file-monitoring|process-command-line-parameters
+Active,windows,defense-evasion,T1564.005,Hidden File System,n_a,file-monitoring|windows-registry
+Active,windows,defense-evasion,T1564.006,Run Virtual Instance,n_a,file-monitoring|host-network-interface|packet-capture|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,defense-evasion,T1564.007,VBA Stomping,n_a,file-monitoring|process-monitoring
+Active,windows,defense-evasion,T1574,Hijack Execution Flow,T1574.001|T1574.002|T1574.004|T1574.005|T1574.006|T1574.007|T1574.008|T1574.009|T1574.010|T1574.011|T1574.012|,dll-monitoring|environment-variable|file-monitoring|loaded-dlls|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1574.001,DLL Search Order Hijacking,n_a,dll-monitoring|file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,defense-evasion,T1574.002,DLL Side-Loading,n_a,loaded-dlls|process-monitoring|process-use-of-network
+Active,windows,defense-evasion,T1574.005,Executable Installer File Permissions Weakness,n_a,file-monitoring|process-command-line-parameters
+Active,windows,defense-evasion,T1574.007,Path Interception by PATH Environment Variable,n_a,file-monitoring|process-monitoring
+Active,windows,defense-evasion,T1574.008,Path Interception by Search Order Hijacking,n_a,file-monitoring|process-monitoring
+Active,windows,defense-evasion,T1574.009,Path Interception by Unquoted Path,n_a,file-monitoring|process-monitoring
+Active,windows,defense-evasion,T1574.010,Services File Permissions Weakness,n_a,file-monitoring|process-command-line-parameters|services
+Active,windows,defense-evasion,T1574.011,Services Registry Permissions Weakness,n_a,process-command-line-parameters|services|windows-registry
+Active,windows,defense-evasion,T1574.012,COR_PROFILER,n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,discovery,T1007,System Service Discovery,n_a,process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1010,Application Window Discovery,n_a,api-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1012,Query Registry,n_a,process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,discovery,T1016,System Network Configuration Discovery,n_a,process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1018,Remote System Discovery,n_a,network-protocol-analysis|process-command-line-parameters|process-monitoring|process-use-of-network
+Active,windows,discovery,T1033,System Owner/User Discovery,n_a,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1040,Network Sniffing,n_a,host-network-interface|netflow-enclave-netflow|network-device-logs|process-monitoring
+Active,windows,discovery,T1046,Network Service Scanning,n_a,netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-command-line-parameters|process-use-of-network
+Active,windows,discovery,T1049,System Network Connections Discovery,n_a,process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1057,Process Discovery,n_a,api-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1069,Permission Groups Discovery,T1069.001|T1069.002|T1069.003|,api-monitoring|aws-cloudtrail-logs|azure-activity-logs|gcp-audit-logs|office-365-account-logs|process-command-line-parameters|process-monitoring|stackdriver-logs
+Active,windows,discovery,T1069.001,Local Groups,n_a,api-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1069.002,Domain Groups,n_a,api-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1082,System Information Discovery,n_a,aws-cloudtrail-logs|azure-activity-logs|process-command-line-parameters|process-monitoring|stackdriver-logs
+Active,windows,discovery,T1083,File and Directory Discovery,n_a,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1087,Account Discovery,T1087.001|T1087.002|T1087.003|T1087.004|,api-monitoring|azure-activity-logs|office-365-account-logs|process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1087.001,Local Account,n_a,api-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1087.002,Domain Account,n_a,api-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1087.003,Email Account,n_a,office-365-account-logs|process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1120,Peripheral Device Discovery,n_a,api-monitoring|powershell-logs|process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1124,System Time Discovery,n_a,api-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1135,Network Share Discovery,n_a,network-protocol-analysis|process-command-line-parameters|process-monitoring|process-use-of-network
+Active,windows,discovery,T1201,Password Policy Discovery,n_a,process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1217,Browser Bookmark Discovery,n_a,api-monitoring|file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1482,Domain Trust Discovery,n_a,api-monitoring|powershell-logs|process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1497,Virtualization/Sandbox Evasion,T1497.001|T1497.002|T1497.003|,process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1497.001,System Checks,n_a,process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1497.002,User Activity Based Checks,n_a,process-command-line-parameters|process-use-of-network
+Active,windows,discovery,T1497.003,Time Based Evasion,n_a,process-command-line-parameters|process-monitoring
+Active,windows,discovery,T1518,Software Discovery,T1518.001|,aws-cloudtrail-logs|azure-activity-logs|file-monitoring|process-command-line-parameters|process-monitoring|stackdriver-logs
+Active,windows,discovery,T1518.001,Security Software Discovery,n_a,aws-cloudtrail-logs|azure-activity-logs|file-monitoring|process-command-line-parameters|process-monitoring|stackdriver-logs
+Active,windows,execution,T1047,Windows Management Instrumentation,n_a,authentication-logs|netflow-enclave-netflow|process-command-line-parameters|process-monitoring
+Active,windows,execution,T1053,Scheduled Task/Job,T1053.001|T1053.002|T1053.003|T1053.004|T1053.005|T1053.006|,file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,execution,T1053.002,At (Windows),n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,execution,T1053.005,Scheduled Task,n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,execution,T1059,Command and Scripting Interpreter,T1059.001|T1059.002|T1059.003|T1059.004|T1059.005|T1059.006|T1059.007|T1059.008|,powershell-logs|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,execution,T1059.001,PowerShell,n_a,dll-monitoring|file-monitoring|loaded-dlls|powershell-logs|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,execution,T1059.003,Windows Command Shell,n_a,process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,execution,T1059.005,Visual Basic,n_a,dll-monitoring|file-monitoring|loaded-dlls|process-command-line-parameters|process-monitoring
+Active,windows,execution,T1059.006,Python,n_a,api-monitoring|process-command-line-parameters|process-monitoring|system-calls
+Active,windows,execution,T1059.007,JavaScript/JScript,n_a,dll-monitoring|file-monitoring|loaded-dlls|process-command-line-parameters|process-monitoring
+Active,windows,execution,T1072,Software Deployment Tools,n_a,authentication-logs|binary-file-metadata|file-monitoring|process-monitoring|process-use-of-network|third-party-application-logs|windows-registry
+Active,windows,execution,T1106,Native API,n_a,api-monitoring|loaded-dlls|process-monitoring|system-calls
+Active,windows,execution,T1129,Shared Modules,n_a,api-monitoring|dll-monitoring|file-monitoring|process-monitoring
+Active,windows,execution,T1203,Exploitation for Client Execution,n_a,anti-virus|process-monitoring|system-calls
+Active,windows,execution,T1204,User Execution,T1204.001|T1204.002|,anti-virus|process-command-line-parameters|process-monitoring
+Active,windows,execution,T1204.001,Malicious Link,n_a,anti-virus|process-monitoring|web-proxy
+Active,windows,execution,T1204.002,Malicious File,n_a,anti-virus|process-command-line-parameters|process-monitoring
+Active,windows,execution,T1559,Inter-Process Communication,T1559.001|T1559.002|,dll-monitoring|file-monitoring|process-monitoring
+Active,windows,execution,T1559.001,Component Object Model,n_a,dll-monitoring|process-monitoring
+Active,windows,execution,T1559.002,Dynamic Data Exchange,n_a,dll-monitoring|file-monitoring|process-monitoring
+Active,windows,execution,T1569,System Services,T1569.001|T1569.002|,file-monitoring|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,execution,T1569.002,Service Execution,n_a,process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,exfiltration,T1011,Exfiltration Over Other Network Medium,T1011.001|,process-monitoring|user-interface
+Active,windows,exfiltration,T1011.001,Exfiltration Over Bluetooth,n_a,process-monitoring|user-interface
+Active,windows,exfiltration,T1020,Automated Exfiltration,T1020.001|,file-monitoring|process-monitoring|process-use-of-network
+Active,windows,exfiltration,T1029,Scheduled Transfer,n_a,netflow-enclave-netflow|process-monitoring|process-use-of-network
+Active,windows,exfiltration,T1030,Data Transfer Size Limits,n_a,netflow-enclave-netflow|packet-capture|process-monitoring|process-use-of-network
+Active,windows,exfiltration,T1041,Exfiltration Over C2 Channel,n_a,netflow-enclave-netflow|packet-capture|process-monitoring|process-use-of-network
+Active,windows,exfiltration,T1048,Exfiltration Over Alternative Protocol,T1048.001|T1048.002|T1048.003|,netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network
+Active,windows,exfiltration,T1048.001,Exfiltration Over Symmetric Encrypted Non-C2 Protocol,n_a,malware-reverse-engineering|netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-use-of-network
+Active,windows,exfiltration,T1048.002,Exfiltration Over Asymmetric Encrypted Non-C2 Protocol,n_a,netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-use-of-network
+Active,windows,exfiltration,T1048.003,Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol,n_a,netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-use-of-network
+Active,windows,exfiltration,T1052,Exfiltration Over Physical Medium,T1052.001|,data-loss-prevention|file-monitoring|process-monitoring
+Active,windows,exfiltration,T1052.001,Exfiltration over USB,n_a,data-loss-prevention|file-monitoring|process-monitoring
+Active,windows,exfiltration,T1567,Exfiltration Over Web Service,T1567.001|T1567.002|,netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network|ssl-tls-inspection
+Active,windows,exfiltration,T1567.001,Exfiltration to Code Repository,n_a,netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network|ssl-tls-inspection
+Active,windows,exfiltration,T1567.002,Exfiltration to Cloud Storage,n_a,netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-monitoring|process-use-of-network|ssl-tls-inspection
+Active,windows,impact,T1485,Data Destruction,n_a,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,impact,T1486,Data Encrypted for Impact,n_a,file-monitoring|kernel-drivers|process-command-line-parameters|process-monitoring
+Active,windows,impact,T1489,Service Stop,n_a,api-monitoring|file-monitoring|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,impact,T1490,Inhibit System Recovery,n_a,process-command-line-parameters|process-monitoring|services|windows-event-logs|windows-registry
+Active,windows,impact,T1491,Defacement,T1491.001|T1491.002|,packet-capture|web-application-firewall-logs|web-logs
+Active,windows,impact,T1491.001,Internal Defacement,n_a,packet-capture|web-application-firewall-logs|web-logs
+Active,windows,impact,T1491.002,External Defacement,n_a,packet-capture|web-application-firewall-logs|web-logs
+Active,windows,impact,T1495,Firmware Corruption,n_a,bios|component-firmware
+Active,windows,impact,T1496,Resource Hijacking,n_a,aws-cloudtrail-logs|azure-activity-logs|network-device-logs|network-protocol-analysis|process-monitoring|process-use-of-network|stackdriver-logs
+Active,windows,impact,T1498,Network Denial of Service,T1498.001|T1498.002|,netflow-enclave-netflow|network-device-logs|network-intrusion-detection-system|network-protocol-analysis|sensor-health-and-status
+Active,windows,impact,T1498.001,Direct Network Flood,n_a,netflow-enclave-netflow|network-device-logs|network-intrusion-detection-system|network-protocol-analysis|sensor-health-and-status
+Active,windows,impact,T1498.002,Reflection Amplification,n_a,netflow-enclave-netflow|network-device-logs|network-intrusion-detection-system|network-protocol-analysis|sensor-health-and-status
+Active,windows,impact,T1499,Endpoint Denial of Service,T1499.001|T1499.002|T1499.003|T1499.004|,netflow-enclave-netflow|network-device-logs|network-intrusion-detection-system|network-protocol-analysis|ssl-tls-inspection|web-application-firewall-logs|web-logs
+Active,windows,impact,T1499.001,OS Exhaustion Flood,n_a,netflow-enclave-netflow|network-device-logs|network-intrusion-detection-system|ssl-tls-inspection
+Active,windows,impact,T1499.002,Service Exhaustion Flood,n_a,netflow-enclave-netflow|network-device-logs|network-intrusion-detection-system|ssl-tls-inspection|web-application-firewall-logs|web-logs
+Active,windows,impact,T1499.003,Application Exhaustion Flood,n_a,network-device-logs|network-intrusion-detection-system|ssl-tls-inspection|web-application-firewall-logs|web-logs
+Active,windows,impact,T1499.004,Application or System Exploitation,n_a,network-device-logs|network-intrusion-detection-system|ssl-tls-inspection|web-application-firewall-logs|web-logs
+Active,windows,impact,T1529,System Shutdown/Reboot,n_a,process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,impact,T1531,Account Access Removal,n_a,process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,impact,T1561,Disk Wipe,T1561.001|T1561.002|,kernel-drivers|process-command-line-parameters|process-monitoring
+Active,windows,impact,T1561.001,Disk Content Wipe,n_a,kernel-drivers|process-command-line-parameters|process-monitoring
+Active,windows,impact,T1561.002,Disk Structure Wipe,n_a,kernel-drivers|process-command-line-parameters|process-monitoring
+Active,windows,impact,T1565,Data Manipulation,T1565.001|T1565.002|T1565.003|,application-logs|file-monitoring|network-protocol-analysis|packet-capture
+Active,windows,impact,T1565.001,Stored Data Manipulation,n_a,application-logs|file-monitoring
+Active,windows,impact,T1565.002,Transmitted Data Manipulation,n_a,network-protocol-analysis|packet-capture
+Active,windows,impact,T1565.003,Runtime Data Manipulation,n_a,file-monitoring|process-monitoring
+Active,windows,initial-access,T1078,Valid Accounts,T1078.001|T1078.002|T1078.003|T1078.004|,authentication-logs|aws-cloudtrail-logs|process-monitoring|stackdriver-logs
+Active,windows,initial-access,T1078.001,Default Accounts,n_a,authentication-logs|aws-cloudtrail-logs|process-monitoring|stackdriver-logs
+Active,windows,initial-access,T1078.002,Domain Accounts,n_a,authentication-logs|process-monitoring
+Active,windows,initial-access,T1078.003,Local Accounts,n_a,authentication-logs
+Active,windows,initial-access,T1091,Replication Through Removable Media,n_a,data-loss-prevention|file-monitoring
+Active,windows,initial-access,T1133,External Remote Services,n_a,authentication-logs
+Active,windows,initial-access,T1189,Drive-by Compromise,n_a,network-device-logs|network-intrusion-detection-system|packet-capture|process-use-of-network|ssl-tls-inspection|web-proxy
+Active,windows,initial-access,T1190,Exploit Public-Facing Application,n_a,application-logs|aws-cloudtrail-logs|azure-activity-logs|packet-capture|stackdriver-logs|web-application-firewall-logs|web-logs
+Active,windows,initial-access,T1195,Supply Chain Compromise,T1195.001|T1195.002|T1195.003|,file-monitoring|web-proxy
+Active,windows,initial-access,T1195.001,Compromise Software Dependencies and Development Tools,n_a,file-monitoring|web-proxy
+Active,windows,initial-access,T1195.002,Compromise Software Supply Chain,n_a,file-monitoring|web-proxy
+Active,windows,initial-access,T1195.003,Compromise Hardware Supply Chain,n_a,bios|component-firmware|disk-forensics|efi
+Active,windows,initial-access,T1199,Trusted Relationship,n_a,application-logs|authentication-logs|aws-cloudtrail-logs|azure-activity-logs|stackdriver-logs|third-party-application-logs
+Active,windows,initial-access,T1200,Hardware Additions,n_a,asset-management|data-loss-prevention
+Active,windows,initial-access,T1566,Phishing,T1566.001|T1566.002|T1566.003|,anti-virus|detonation-chamber|email-gateway|file-monitoring|mail-server|network-intrusion-detection-system|packet-capture|ssl-tls-inspection|web-proxy
+Active,windows,initial-access,T1566.001,Spearphishing Attachment,n_a,detonation-chamber|email-gateway|file-monitoring|mail-server|network-intrusion-detection-system|packet-capture
+Active,windows,initial-access,T1566.002,Spearphishing Link,n_a,detonation-chamber|dns-records|email-gateway|mail-server|packet-capture|ssl-tls-inspection|web-proxy
+Active,windows,initial-access,T1566.003,Spearphishing via Service,n_a,anti-virus|ssl-tls-inspection|web-proxy
+Active,windows,lateral-movement,T1021,Remote Services,T1021.001|T1021.002|T1021.003|T1021.004|T1021.005|T1021.006|,api-monitoring|authentication-logs|dll-monitoring|file-monitoring|netflow-enclave-netflow|network-protocol-analysis|packet-capture|powershell-logs|process-command-line-parameters|process-monitoring|process-use-of-network|windows-event-logs|windows-registry
+Active,windows,lateral-movement,T1021.001,Remote Desktop Protocol,n_a,authentication-logs|netflow-enclave-netflow|process-monitoring
+Active,windows,lateral-movement,T1021.002,SMB/Windows Admin Shares,n_a,authentication-logs|process-command-line-parameters|process-monitoring|process-use-of-network
+Active,windows,lateral-movement,T1021.003,Distributed Component Object Model,n_a,api-monitoring|authentication-logs|dll-monitoring|packet-capture|powershell-logs|process-monitoring|windows-event-logs|windows-registry
+Active,windows,lateral-movement,T1021.005,VNC,n_a,netflow-enclave-netflow|network-protocol-analysis|process-use-of-network
+Active,windows,lateral-movement,T1021.006,Windows Remote Management,n_a,authentication-logs|file-monitoring|netflow-enclave-netflow|process-command-line-parameters|process-monitoring
+Active,windows,lateral-movement,T1072,Software Deployment Tools,n_a,authentication-logs|binary-file-metadata|file-monitoring|process-monitoring|process-use-of-network|third-party-application-logs|windows-registry
+Active,windows,lateral-movement,T1080,Taint Shared Content,n_a,file-monitoring|process-monitoring
+Active,windows,lateral-movement,T1091,Replication Through Removable Media,n_a,data-loss-prevention|file-monitoring
+Active,windows,lateral-movement,T1210,Exploitation of Remote Services,n_a,file-monitoring|process-monitoring|windows-error-reporting
+Active,windows,lateral-movement,T1534,Internal Spearphishing,n_a,anti-virus|dns-records|file-monitoring|mail-server|office-365-trace-logs|ssl-tls-inspection|web-proxy
+Active,windows,lateral-movement,T1550,Use Alternate Authentication Material,T1550.001|T1550.002|T1550.003|T1550.004|,authentication-logs|oauth-audit-logs|office-365-audit-logs
+Active,windows,lateral-movement,T1550.002,Pass the Hash,n_a,authentication-logs
+Active,windows,lateral-movement,T1550.003,Pass the Ticket,n_a,authentication-logs
+Active,windows,lateral-movement,T1563,Remote Service Session Hijacking,T1563.001|T1563.002|,authentication-logs|netflow-enclave-netflow|process-command-line-parameters|process-monitoring
+Active,windows,lateral-movement,T1563.002,RDP Hijacking,n_a,authentication-logs|netflow-enclave-netflow|process-monitoring
+Active,windows,lateral-movement,T1570,Lateral Tool Transfer,n_a,file-monitoring|netflow-enclave-netflow|network-protocol-analysis|packet-capture|process-command-line-parameters|process-monitoring|process-use-of-network
+Active,windows,persistence,T1037,Boot or Logon Initialization Scripts,T1037.001|T1037.002|T1037.003|T1037.004|T1037.005|,file-monitoring|process-monitoring
+Active,windows,persistence,T1037.001,Logon Script (Windows),n_a,process-monitoring|windows-registry
+Active,windows,persistence,T1037.003,Network Logon Script,n_a,file-monitoring|process-monitoring
+Active,windows,persistence,T1053,Scheduled Task/Job,T1053.001|T1053.002|T1053.003|T1053.004|T1053.005|T1053.006|,file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,persistence,T1053.002,At (Windows),n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,persistence,T1053.005,Scheduled Task,n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,persistence,T1078,Valid Accounts,T1078.001|T1078.002|T1078.003|T1078.004|,authentication-logs|aws-cloudtrail-logs|process-monitoring|stackdriver-logs
+Active,windows,persistence,T1078.001,Default Accounts,n_a,authentication-logs|aws-cloudtrail-logs|process-monitoring|stackdriver-logs
+Active,windows,persistence,T1078.002,Domain Accounts,n_a,authentication-logs|process-monitoring
+Active,windows,persistence,T1078.003,Local Accounts,n_a,authentication-logs
+Active,windows,persistence,T1098,Account Manipulation,T1098.001|T1098.002|T1098.003|T1098.004|,authentication-logs|windows-event-logs
+Active,windows,persistence,T1098.002,Exchange Email Delegate Permissions,n_a,office-365-audit-logs
+Active,windows,persistence,T1133,External Remote Services,n_a,authentication-logs
+Active,windows,persistence,T1136,Create Account,T1136.001|T1136.002|T1136.003|,authentication-logs|aws-cloudtrail-logs|azure-activity-logs|office-365-account-logs|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,persistence,T1136.001,Local Account,n_a,authentication-logs|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,persistence,T1136.002,Domain Account,n_a,authentication-logs|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,persistence,T1137,Office Application Startup,T1137.001|T1137.002|T1137.003|T1137.004|T1137.005|T1137.006|,file-monitoring|mail-server|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,persistence,T1137.001,Office Template Macros,n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,persistence,T1137.002,Office Test,n_a,dll-monitoring|file-monitoring|loaded-dlls|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,persistence,T1137.003,Outlook Forms,n_a,mail-server|process-command-line-parameters|process-monitoring
+Active,windows,persistence,T1137.004,Outlook Home Page,n_a,mail-server|process-command-line-parameters|process-monitoring
+Active,windows,persistence,T1137.005,Outlook Rules,n_a,mail-server|process-command-line-parameters|process-monitoring
+Active,windows,persistence,T1137.006,Add-ins,n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,persistence,T1176,Browser Extensions,n_a,browser-extensions|file-monitoring|process-monitoring|process-use-of-network|windows-registry
+Active,windows,persistence,T1197,BITS Jobs,n_a,packet-capture|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,persistence,T1205,Traffic Signaling,T1205.001|,netflow-enclave-netflow|packet-capture
+Active,windows,persistence,T1205.001,Port Knocking,n_a,netflow-enclave-netflow|packet-capture
+Active,windows,persistence,T1505,Server Software Component,T1505.001|T1505.002|T1505.003|,application-logs|file-monitoring|netflow-enclave-netflow|process-monitoring
+Active,windows,persistence,T1505.001,SQL Stored Procedures,n_a,application-logs
+Active,windows,persistence,T1505.002,Transport Agent,n_a,application-logs|file-monitoring
+Active,windows,persistence,T1505.003,Web Shell,n_a,authentication-logs|file-monitoring|netflow-enclave-netflow|process-monitoring
+Active,windows,persistence,T1542,Pre-OS Boot,T1542.001|T1542.002|T1542.003|T1542.004|T1542.005|,api-monitoring|bios|component-firmware|disk-forensics|efi|mbr|process-monitoring|vbr
+Active,windows,persistence,T1542.001,System Firmware,n_a,api-monitoring|bios|efi
+Active,windows,persistence,T1542.002,Component Firmware,n_a,api-monitoring|component-firmware|disk-forensics|process-monitoring
+Active,windows,persistence,T1542.003,Bootkit,n_a,api-monitoring|mbr|vbr
+Active,windows,persistence,T1543,Create or Modify System Process,T1543.001|T1543.002|T1543.003|T1543.004|,file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs|windows-registry
+Active,windows,persistence,T1543.003,Windows Service,n_a,api-monitoring|file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs|windows-registry
+Active,windows,persistence,T1546,Event Triggered Execution,T1546.001|T1546.002|T1546.003|T1546.004|T1546.005|T1546.006|T1546.007|T1546.008|T1546.009|T1546.010|T1546.011|T1546.012|T1546.013|T1546.014|T1546.015|,api-monitoring|binary-file-metadata|dll-monitoring|file-monitoring|loaded-dlls|process-command-line-parameters|process-monitoring|process-use-of-network|system-calls|windows-event-logs|windows-registry|wmi-objects
+Active,windows,persistence,T1546.001,Change Default File Association,n_a,process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,persistence,T1546.002,Screensaver,n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,persistence,T1546.003,Windows Management Instrumentation Event Subscription,n_a,process-command-line-parameters|process-monitoring|wmi-objects
+Active,windows,persistence,T1546.007,Netsh Helper DLL,n_a,dll-monitoring|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,persistence,T1546.008,Accessibility Features,n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,persistence,T1546.009,AppCert DLLs,n_a,loaded-dlls|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,persistence,T1546.010,AppInit DLLs,n_a,loaded-dlls|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,persistence,T1546.011,Application Shimming,n_a,process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,persistence,T1546.012,Image File Execution Options Injection,n_a,api-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs|windows-registry
+Active,windows,persistence,T1546.013,PowerShell Profile,n_a,file-monitoring|powershell-logs|process-command-line-parameters|process-monitoring
+Active,windows,persistence,T1546.015,Component Object Model Hijacking,n_a,dll-monitoring|loaded-dlls|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,persistence,T1547,Boot or Logon Autostart Execution,T1547.001|T1547.002|T1547.003|T1547.004|T1547.005|T1547.006|T1547.007|T1547.008|T1547.009|T1547.010|T1547.011|T1547.012|,none
+Active,windows,persistence,T1547.001,Registry Run Keys / Startup Folder,n_a,file-monitoring|windows-registry
+Active,windows,persistence,T1547.002,Authentication Package,n_a,dll-monitoring|loaded-dlls|windows-registry
+Active,windows,persistence,T1547.003,Time Providers,n_a,api-monitoring|binary-file-metadata|dll-monitoring|file-monitoring|loaded-dlls|process-monitoring
+Active,windows,persistence,T1547.004,Winlogon Helper DLL,n_a,file-monitoring|process-monitoring|windows-registry
+Active,windows,persistence,T1547.005,Security Support Provider,n_a,dll-monitoring|loaded-dlls|windows-registry
+Active,windows,persistence,T1547.008,LSASS Driver,n_a,dll-monitoring|file-monitoring|loaded-dlls|process-monitoring
+Active,windows,persistence,T1547.009,Shortcut Modification,n_a,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,persistence,T1547.010,Port Monitors,n_a,api-monitoring|dll-monitoring|file-monitoring|process-monitoring|windows-registry
+Active,windows,persistence,T1547.012,Print Processors,n_a,api-monitoring|dll-monitoring|file-monitoring|process-monitoring|windows-registry
+Active,windows,persistence,T1554,Compromise Client Software Binary,n_a,binary-file-metadata|process-monitoring
+Active,windows,persistence,T1574,Hijack Execution Flow,T1574.001|T1574.002|T1574.004|T1574.005|T1574.006|T1574.007|T1574.008|T1574.009|T1574.010|T1574.011|T1574.012|,dll-monitoring|environment-variable|file-monitoring|loaded-dlls|process-command-line-parameters|process-monitoring
+Active,windows,persistence,T1574.001,DLL Search Order Hijacking,n_a,dll-monitoring|file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,persistence,T1574.002,DLL Side-Loading,n_a,loaded-dlls|process-monitoring|process-use-of-network
+Active,windows,persistence,T1574.005,Executable Installer File Permissions Weakness,n_a,file-monitoring|process-command-line-parameters
+Active,windows,persistence,T1574.007,Path Interception by PATH Environment Variable,n_a,file-monitoring|process-monitoring
+Active,windows,persistence,T1574.008,Path Interception by Search Order Hijacking,n_a,file-monitoring|process-monitoring
+Active,windows,persistence,T1574.009,Path Interception by Unquoted Path,n_a,file-monitoring|process-monitoring
+Active,windows,persistence,T1574.010,Services File Permissions Weakness,n_a,file-monitoring|process-command-line-parameters|services
+Active,windows,persistence,T1574.011,Services Registry Permissions Weakness,n_a,process-command-line-parameters|services|windows-registry
+Active,windows,persistence,T1574.012,COR_PROFILER,n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,privilege-escalation,T1037,Boot or Logon Initialization Scripts,T1037.001|T1037.002|T1037.003|T1037.004|T1037.005|,file-monitoring|process-monitoring
+Active,windows,privilege-escalation,T1037.001,Logon Script (Windows),n_a,process-monitoring|windows-registry
+Active,windows,privilege-escalation,T1037.003,Network Logon Script,n_a,file-monitoring|process-monitoring
+Active,windows,privilege-escalation,T1053,Scheduled Task/Job,T1053.001|T1053.002|T1053.003|T1053.004|T1053.005|T1053.006|,file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,privilege-escalation,T1053.002,At (Windows),n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,privilege-escalation,T1053.005,Scheduled Task,n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,privilege-escalation,T1055,Process Injection,T1055.001|T1055.002|T1055.003|T1055.004|T1055.005|T1055.008|T1055.009|T1055.011|T1055.012|T1055.013|T1055.014|,api-monitoring|dll-monitoring|file-monitoring|named-pipes|process-monitoring
+Active,windows,privilege-escalation,T1055.001,Dynamic-link Library Injection,n_a,api-monitoring|dll-monitoring|file-monitoring|process-monitoring
+Active,windows,privilege-escalation,T1055.002,Portable Executable Injection,n_a,api-monitoring|process-monitoring
+Active,windows,privilege-escalation,T1055.003,Thread Execution Hijacking,n_a,api-monitoring|process-monitoring
+Active,windows,privilege-escalation,T1055.004,Asynchronous Procedure Call,n_a,api-monitoring|process-monitoring
+Active,windows,privilege-escalation,T1055.005,Thread Local Storage,n_a,api-monitoring|process-monitoring
+Active,windows,privilege-escalation,T1055.011,Extra Window Memory Injection,n_a,api-monitoring|process-monitoring
+Active,windows,privilege-escalation,T1055.012,Process Hollowing,n_a,api-monitoring|process-monitoring
+Active,windows,privilege-escalation,T1055.013,Process Doppelgänging,n_a,api-monitoring|file-monitoring|process-monitoring
+Active,windows,privilege-escalation,T1068,Exploitation for Privilege Escalation,n_a,application-logs|process-monitoring|windows-error-reporting
+Active,windows,privilege-escalation,T1078,Valid Accounts,T1078.001|T1078.002|T1078.003|T1078.004|,authentication-logs|aws-cloudtrail-logs|process-monitoring|stackdriver-logs
+Active,windows,privilege-escalation,T1078.001,Default Accounts,n_a,authentication-logs|aws-cloudtrail-logs|process-monitoring|stackdriver-logs
+Active,windows,privilege-escalation,T1078.002,Domain Accounts,n_a,authentication-logs|process-monitoring
+Active,windows,privilege-escalation,T1078.003,Local Accounts,n_a,authentication-logs
+Active,windows,privilege-escalation,T1134,Access Token Manipulation,T1134.001|T1134.002|T1134.003|T1134.004|T1134.005|,access-tokens|api-monitoring|authentication-logs|process-command-line-parameters|process-monitoring|windows-event-logs
+Active,windows,privilege-escalation,T1134.001,Token Impersonation/Theft,n_a,access-tokens|api-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,privilege-escalation,T1134.002,Create Process with Token,n_a,access-tokens|api-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,privilege-escalation,T1134.003,Make and Impersonate Token,n_a,access-tokens|api-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,privilege-escalation,T1134.004,Parent PID Spoofing,n_a,api-monitoring|process-monitoring|windows-event-logs
+Active,windows,privilege-escalation,T1134.005,SID-History Injection,n_a,api-monitoring|authentication-logs|windows-event-logs
+Active,windows,privilege-escalation,T1484,Group Policy Modification,n_a,windows-event-logs
+Active,windows,privilege-escalation,T1543,Create or Modify System Process,T1543.001|T1543.002|T1543.003|T1543.004|,file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs|windows-registry
+Active,windows,privilege-escalation,T1543.003,Windows Service,n_a,api-monitoring|file-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs|windows-registry
+Active,windows,privilege-escalation,T1546,Event Triggered Execution,T1546.001|T1546.002|T1546.003|T1546.004|T1546.005|T1546.006|T1546.007|T1546.008|T1546.009|T1546.010|T1546.011|T1546.012|T1546.013|T1546.014|T1546.015|,api-monitoring|binary-file-metadata|dll-monitoring|file-monitoring|loaded-dlls|process-command-line-parameters|process-monitoring|process-use-of-network|system-calls|windows-event-logs|windows-registry|wmi-objects
+Active,windows,privilege-escalation,T1546.001,Change Default File Association,n_a,process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,privilege-escalation,T1546.002,Screensaver,n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,privilege-escalation,T1546.003,Windows Management Instrumentation Event Subscription,n_a,process-command-line-parameters|process-monitoring|wmi-objects
+Active,windows,privilege-escalation,T1546.007,Netsh Helper DLL,n_a,dll-monitoring|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,privilege-escalation,T1546.008,Accessibility Features,n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,privilege-escalation,T1546.009,AppCert DLLs,n_a,loaded-dlls|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,privilege-escalation,T1546.010,AppInit DLLs,n_a,loaded-dlls|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,privilege-escalation,T1546.011,Application Shimming,n_a,process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,privilege-escalation,T1546.012,Image File Execution Options Injection,n_a,api-monitoring|process-command-line-parameters|process-monitoring|windows-event-logs|windows-registry
+Active,windows,privilege-escalation,T1546.013,PowerShell Profile,n_a,file-monitoring|powershell-logs|process-command-line-parameters|process-monitoring
+Active,windows,privilege-escalation,T1546.015,Component Object Model Hijacking,n_a,dll-monitoring|loaded-dlls|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,privilege-escalation,T1547,Boot or Logon Autostart Execution,T1547.001|T1547.002|T1547.003|T1547.004|T1547.005|T1547.006|T1547.007|T1547.008|T1547.009|T1547.010|T1547.011|T1547.012|,none
+Active,windows,privilege-escalation,T1547.001,Registry Run Keys / Startup Folder,n_a,file-monitoring|windows-registry
+Active,windows,privilege-escalation,T1547.002,Authentication Package,n_a,dll-monitoring|loaded-dlls|windows-registry
+Active,windows,privilege-escalation,T1547.003,Time Providers,n_a,api-monitoring|binary-file-metadata|dll-monitoring|file-monitoring|loaded-dlls|process-monitoring
+Active,windows,privilege-escalation,T1547.004,Winlogon Helper DLL,n_a,file-monitoring|process-monitoring|windows-registry
+Active,windows,privilege-escalation,T1547.005,Security Support Provider,n_a,dll-monitoring|loaded-dlls|windows-registry
+Active,windows,privilege-escalation,T1547.008,LSASS Driver,n_a,dll-monitoring|file-monitoring|loaded-dlls|process-monitoring
+Active,windows,privilege-escalation,T1547.009,Shortcut Modification,n_a,file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,privilege-escalation,T1547.010,Port Monitors,n_a,api-monitoring|dll-monitoring|file-monitoring|process-monitoring|windows-registry
+Active,windows,privilege-escalation,T1547.012,Print Processors,n_a,api-monitoring|dll-monitoring|file-monitoring|process-monitoring|windows-registry
+Active,windows,privilege-escalation,T1548,Abuse Elevation Control Mechanism,T1548.001|T1548.002|T1548.003|T1548.004|,api-monitoring|file-monitoring|process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,privilege-escalation,T1548.002,Bypass User Account Control,n_a,process-command-line-parameters|process-monitoring|windows-registry
+Active,windows,privilege-escalation,T1574,Hijack Execution Flow,T1574.001|T1574.002|T1574.004|T1574.005|T1574.006|T1574.007|T1574.008|T1574.009|T1574.010|T1574.011|T1574.012|,dll-monitoring|environment-variable|file-monitoring|loaded-dlls|process-command-line-parameters|process-monitoring
+Active,windows,privilege-escalation,T1574.001,DLL Search Order Hijacking,n_a,dll-monitoring|file-monitoring|process-command-line-parameters|process-monitoring
+Active,windows,privilege-escalation,T1574.002,DLL Side-Loading,n_a,loaded-dlls|process-monitoring|process-use-of-network
+Active,windows,privilege-escalation,T1574.005,Executable Installer File Permissions Weakness,n_a,file-monitoring|process-command-line-parameters
+Active,windows,privilege-escalation,T1574.007,Path Interception by PATH Environment Variable,n_a,file-monitoring|process-monitoring
+Active,windows,privilege-escalation,T1574.008,Path Interception by Search Order Hijacking,n_a,file-monitoring|process-monitoring
+Active,windows,privilege-escalation,T1574.009,Path Interception by Unquoted Path,n_a,file-monitoring|process-monitoring
+Active,windows,privilege-escalation,T1574.010,Services File Permissions Weakness,n_a,file-monitoring|process-command-line-parameters|services
+Active,windows,privilege-escalation,T1574.011,Services Registry Permissions Weakness,n_a,process-command-line-parameters|services|windows-registry
+Active,windows,privilege-escalation,T1574.012,COR_PROFILER,n_a,file-monitoring|process-command-line-parameters|process-monitoring|windows-registry
+STATUS,PLATFORMS,TACTIC,TID,TECHNIQUE,SUBTECHNIQUES,DATA SOURCES
+STATUS,PLATFORMS,TACTIC,TID,TECHNIQUE,SUBTECHNIQUES,DATA SOURCES
