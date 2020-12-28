@@ -10,7 +10,7 @@
 <br/>
 
 <div id="docs" align="center">
-    <a href="https://dfirence.github.io/mitre-assistant/" target="_blank" norelopener><strong>docs-wiki-mitre-assistant</strong></a>
+    <h1><a href="https://dfirence.github.io/mitre-assistant/" target="_blank" norelopener><strong>docs-wiki-mitre-assistant</strong></a></h1>
 </div>
 
 <br/>
