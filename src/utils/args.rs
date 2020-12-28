@@ -19,7 +19,7 @@ use searcher::EnterpriseMatrixSearcher;
 /// # Globals
 /// Represent global variables used throughout this source file.
 //static _URL: &str = "https://github.com/dfirence/mitre-assistant";
-static _VERSION: &str = "v.0.0.15"; 
+static _VERSION: &str = "v.0.0.16"; 
 static _AUTHOR: &str = "carlos diaz | @dfirence\n\n";
 static _ABOUT: &str = "Mitre Attack Assistant\n\n\tA more useful utility for the ATT&CK Matrix";
 
@@ -58,7 +58,7 @@ impl ArgumentsParser<'_> {
                                                 .long("matrix")
                                                 .value_name("matrix_name")
                                                 .takes_value(true)
-                                                .help("Load a Matrix From ATT&CK: (Enterprise|Enterprise-Legacy|Mobile|ICS)")
+                                                .help("Load a Matrix From ATT&CK: (Enterprise|Enterprise-Legacy)")
                                         )
                         )
                         .subcommand(
@@ -72,7 +72,7 @@ impl ArgumentsParser<'_> {
                                      .long("matrix")
                                      .value_name("matrix_name")
                                      .takes_value(true)
-                                     .help("Load a Matrix From ATT&CK: (Enterprise|Mobile|ICS)")
+                                     .help("Load a Matrix From ATT&CK: (Enterprise|Enterprise-Legacy)")
                              )
                         )
                         .subcommand(
@@ -86,7 +86,7 @@ impl ArgumentsParser<'_> {
                                      .long("matrix")
                                      .value_name("matrix_name")
                                      .takes_value(true)
-                                     .help("Load a Matrix From ATT&CK: (Enterprise|Mobile|ICS)")
+                                     .help("Load a Matrix From ATT&CK: (Enterprise|Enterprise-Legacy)")
                              )
                              .arg(
                                 Arg::with_name("term_search")

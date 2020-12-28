@@ -595,25 +595,17 @@ impl EnterpriseMatrixSearcher {
             if _item.name.to_lowercase().as_str() == target {
                 for _x in _item.profile.techniques.items.iter() {
                     for _technique in _json.breakdown_techniques.platforms.iter() {
-                        if _technique.tid.as_str() == _x {
+                        if _technique.tid.as_str() == _x.as_str() {
                             let mut _et = _technique.clone();
                             _et.correlation_adversary = _item.name.clone();
-                            
-                            // Add GID To ET Here
-                           
-                            if _group_id.as_str() == "none" {
-                                _group_id = _item.group_id.clone();
-                            }
-                            _et.correlation_gid = _group_id.clone();
+                            _group_id = _item.group_id.clone();
+                            _et.correlation_gid = _group_id.clone();   
                             for _malware in &_json.breakdown_malware {
                                 for _mt in _malware.profile.adversaries.items.iter() {
                                     if _mt.as_str() == target {
                                         for _behavior in _malware.profile.techniques.items.iter() {
                                             if _technique.tid.as_str() == _behavior.as_str() {
                                                 _et.correlation_malware = _malware.name.clone();
-                                                
-                                                // Add MID to ET Here
-                                                _et.correlation_mid = _malware.malware_id.clone();
                                             }
                                         }
                                     }
@@ -626,22 +618,15 @@ impl EnterpriseMatrixSearcher {
                 for _x in _item.profile.subtechniques.items.iter() {
                     for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
                         if _subtechnique.tid.as_str() == _x {
-                            let mut _et = _subtechnique.clone();
+                            let mut _et = _subtechnique.clone();                            
                             _et.correlation_adversary = _item.name.clone();
-                            
-                            // Add GID To ET Here
-                            _et.correlation_gid = _group_id.clone();
-                            //_et.correlation_gid = _item.group_id.clone();
-                            //
-                            
+                            _et.correlation_gid = _group_id.clone();                           
                             for _malware in &_json.breakdown_malware {
                                 for _mt in _malware.profile.adversaries.items.iter() {
                                     if _mt.as_str() == target {
                                         for _behavior in _malware.profile.techniques.items.iter() {
                                             if _subtechnique.tid.as_str() == _behavior.as_str() {
                                                 _et.correlation_malware = _malware.name.clone();
-                                                // Add MID to ET Here
-                                                _et.correlation_mid = _malware.malware_id.clone();
                                             }
                                         }
                                     }
@@ -666,7 +651,6 @@ impl EnterpriseMatrixSearcher {
                                 _et.correlation_adversary = target.to_string();
                                 _et.correlation_malware = _malware.name.clone();
                                 _et.correlation_gid = _group_id.clone();
-                                _et.correlation_mid = _malware.malware_id.clone();
                                 _temp_results.push(_et);
                             }
                         }
@@ -679,7 +663,6 @@ impl EnterpriseMatrixSearcher {
                                 _et.correlation_adversary = target.to_string();
                                 _et.correlation_malware = _malware.name.clone();
                                 _et.correlation_gid = _group_id.clone();
-                                _et.correlation_mid = _malware.malware_id.clone();
                                 _temp_results.push(_et);
                             }
                         }
@@ -699,7 +682,6 @@ impl EnterpriseMatrixSearcher {
                                 _et.correlation_adversary = target.to_string();
                                 _et.correlation_tool= _tool.name.clone();
                                 _et.correlation_gid = _group_id.clone();
-                                _et.correlation_mid = _tool.tool_id.clone();
                                 _temp_results.push(_et);
                             }
                         }
@@ -711,7 +693,6 @@ impl EnterpriseMatrixSearcher {
                                 _et.correlation_adversary = target.to_string();
                                 _et.correlation_tool = _tool.name.clone();
                                 _et.correlation_gid = _group_id.clone();
-                                _et.correlation_mid = _tool.tool_id.clone();
                                 _temp_results.push(_et);
                             }
                         }
@@ -746,6 +727,7 @@ impl EnterpriseMatrixSearcher {
                     }
                     _count += 1;
                 }
+               _malware_strings.sort();
                 if _result.tid.as_str() == _copy.tid.as_str()
                     && _result.tactic.as_str() == _copy.tactic.as_str()
                     && _result.correlation_tool.as_str() != _copy.correlation_tool.as_str()
@@ -777,12 +759,12 @@ impl EnterpriseMatrixSearcher {
                     }
                 }
                 // Clean String Trailing Pipes
+                if _malware_string.starts_with("none") { _malware_string = _malware_string.replace("none","") }
                 if _malware_string.ends_with("||") { _malware_string = _malware_string.replace("||", ""); }
                 else if _malware_string.ends_with("|") { _malware_string.pop(); }
                 // Clean String Leading Pipes
                 if _malware_string.contains("||") { _malware_string = _malware_string.replace("||", "|"); }
                 if _malware_string.starts_with("|") { _malware_string = _malware_string[1..].to_string(); }
-
 
                 for _string in &_tools_strings {
                     let _string = _string.replace("none","");
@@ -793,13 +775,12 @@ impl EnterpriseMatrixSearcher {
                     }
                 }
                 // Clean String Trailing Pipes
+                if _tool_string.starts_with("none") { _tool_string = _tool_string.replace("none","") }
                 if _tool_string.ends_with("||") { _tool_string = _tool_string.replace("||", ""); }
                 else if _tool_string.ends_with("|") { _tool_string.pop(); }
                 // Clean String Leading Pipes
                 if _tool_string.contains("||") { _tool_string = _tool_string.replace("||", "|"); }
                 if _tool_string.starts_with("|") { _tool_string = _tool_string[1..].to_string(); }
-
-                // Finalize Results of Malware and Tools
                 _target_result.correlation_malware = _malware_string.clone();
                 _target_result.correlation_tool = _tool_string.clone();
                 _duplicates.push(_target_result.clone());
@@ -819,7 +800,6 @@ impl EnterpriseMatrixSearcher {
                 if _item.tid.as_str() == _duplicate.tid.as_str()
                     && _item.tactic.as_str() == _duplicate.tactic.as_str()
                 {
-                    //if _item.correlation_malware.as_str() == "none"
                     _results.push(_duplicate.clone());
                 }
             }
@@ -840,29 +820,55 @@ impl EnterpriseMatrixSearcher {
     ) -> String {
         let mut _results_correlation: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
         let mut _results_adversaries: Vec<_> = vec![];
+        let mut _xref_filter: Vec<String> = vec![];
+        // Normalize Input Search Term
         let adversary = adversary.to_lowercase();
         let adversary = adversary.as_str();
+        let mut _search_term = String::from("");
         let _err = format!(
             "(?) Error: Unable To Deserialize String of All Techniques by Adversary: {}",
             adversary
         );
         let _json: EnterpriseMatrixBreakdown =
             serde_json::from_slice(&self.content[..]).expect(_err.as_str());
+            
+        // Check If CrossReference Context is Needed
+        // Allows querying by Tactics for the adversary
+        if adversary.contains(":") {
+            let _tactics: HashSet<String> = _json.tactics;
+            let _xrefs: Vec<_> = adversary.split(':').collect();
+            _search_term = _xrefs[0].to_string();
+            for _tactic in _tactics {
+                for _term in &_xrefs {
+                    if &_tactic.as_str() == _term {
+                        _xref_filter.push(_tactic.clone());
+                    }
+                }
+            }
+        } else {
+            _search_term = adversary.to_string();
+        }
         if many.len() == 1 {
             if _wants_correlation {
-                self.correlate_adversary(adversary, &mut _results_correlation);
+                self.correlate_adversary(_search_term.as_str(), &mut _results_correlation);
             } else {
                 for _item in _json.breakdown_adversaries.iter() {
-                    if _item.name.to_lowercase().as_str() == adversary {
+                    if _item.name.to_lowercase().as_str() == _search_term {
                         _results_adversaries.push(_item);
-                    } else if _item.aliases.contains(adversary) {
-                        _results_adversaries.push(_item);
+                    } else {
+                        let _terms: Vec<_> = _item.aliases.split('|').collect();
+                    
+                        for _term in _terms {
+                            if _term == adversary {
+                                _results_adversaries.push(_item);
+                            }
+                        }
                     }
                 }
             }
         } else if many.len() > 1 {
             if adversary.contains(",") {
-                let _terms: Vec<_> = adversary.split(‘,’).collect();
+                let _terms: Vec<_> = adversary.split(',').collect();
                 for _term in _terms {
                     for _item in _json.breakdown_adversaries.iter() {
                         if _item.name.to_lowercase().as_str() == _term
@@ -871,6 +877,13 @@ impl EnterpriseMatrixSearcher {
                                 self.correlate_adversary(_term, &mut _results_correlation);
                             } else {
                                 _results_adversaries.push(_item);
+                            }
+                        } else {
+                            let _aliases: Vec<_> = _item.aliases.split('|').collect();
+                            for _alias in _aliases{
+                                if _alias == _term {
+                                    _results_adversaries.push(_item);
+                                }
                             }
                         }
                     }
@@ -883,7 +896,19 @@ impl EnterpriseMatrixSearcher {
         );
 
         if _wants_correlation {
-            serde_json::to_string(&_results_correlation).expect(_err.as_str())
+            if _xref_filter.len() >= 1usize {
+                let mut _filtered_results: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
+                for _correlation in _results_correlation {
+                    for _tactic in _xref_filter.iter() {
+                        if &_correlation.tactic == _tactic {
+                            _filtered_results.push(_correlation.clone());
+                        }
+                    }
+                }
+                serde_json::to_string(&_filtered_results).expect(_err.as_str())
+            } else {
+                serde_json::to_string(&_results_correlation).expect(_err.as_str())
+            }
         } else {
             serde_json::to_string(&_results_adversaries).expect(_err.as_str())
         }
