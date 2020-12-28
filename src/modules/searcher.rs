@@ -843,7 +843,7 @@ impl EnterpriseMatrixSearcher {
         let adversary = adversary.to_lowercase();
         let adversary = adversary.as_str();
         let _err = format!(
-            “(?) Error: Unable To Deserialize String of All Techniques by Adversary: {}”,
+            "(?) Error: Unable To Deserialize String of All Techniques by Adversary: {}",
             adversary
         );
         let _json: EnterpriseMatrixBreakdown =
@@ -861,7 +861,7 @@ impl EnterpriseMatrixSearcher {
                 }
             }
         } else if many.len() > 1 {
-            if adversary.contains(“,”) {
+            if adversary.contains(",") {
                 let _terms: Vec<_> = adversary.split(‘,’).collect();
                 for _term in _terms {
                     for _item in _json.breakdown_adversaries.iter() {
@@ -878,7 +878,7 @@ impl EnterpriseMatrixSearcher {
             }
         }
         let _err = format!(
-            “(?) Error: Unable To Convert String of All Techniques by Adversary: {}”,
+            "(?) Error: Unable To Convert String of All Techniques by Adversary: {}",
             adversary
         );
 
