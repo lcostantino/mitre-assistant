@@ -828,6 +828,10 @@ impl EnterpriseMatrixSearcher {
         _results.dedup();
         _results.sort();
     }
+    ///
+    ///
+    ///
+    ///
     fn search_by_adversary(
         &self, 
         adversary: &str,
@@ -836,55 +840,29 @@ impl EnterpriseMatrixSearcher {
     ) -> String {
         let mut _results_correlation: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
         let mut _results_adversaries: Vec<_> = vec![];
-        let mut _xref_filter: Vec<String> = vec![];
-        // Normalize Input Search Term
         let adversary = adversary.to_lowercase();
         let adversary = adversary.as_str();
-        let mut _search_term = String::from("");
         let _err = format!(
-            "(?) Error: Unable To Deserialize String of All Techniques by Adversary: {}",
+            “(?) Error: Unable To Deserialize String of All Techniques by Adversary: {}”,
             adversary
         );
         let _json: EnterpriseMatrixBreakdown =
             serde_json::from_slice(&self.content[..]).expect(_err.as_str());
-            
-        // Check If CrossReference Context is Needed
-        // Allows querying by Tactics for the adversary
-        if adversary.contains(":") {
-            let _tactics: HashSet<String> = _json.tactics;
-            let _xrefs: Vec<_> = adversary.split(':').collect();
-            _search_term = _xrefs[0].to_string();
-            for _tactic in _tactics {
-                for _term in &_xrefs {
-                    if &_tactic.as_str() == _term {
-                        _xref_filter.push(_tactic.clone());
-                    }
-                }
-            }
-        } else {
-            _search_term = adversary.to_string();
-        }
         if many.len() == 1 {
             if _wants_correlation {
-                self.correlate_adversary(_search_term.as_str(), &mut _results_correlation);
+                self.correlate_adversary(adversary, &mut _results_correlation);
             } else {
                 for _item in _json.breakdown_adversaries.iter() {
-                    if _item.name.to_lowercase().as_str() == _search_term {
+                    if _item.name.to_lowercase().as_str() == adversary {
                         _results_adversaries.push(_item);
-                    } else {
-                        let _terms: Vec<_> = _item.aliases.split('|').collect();
-                    
-                        for _term in _terms {
-                            if _term == adversary {
-                                _results_adversaries.push(_item);
-                            }
-                        }
+                    } else if _item.aliases.contains(adversary) {
+                        _results_adversaries.push(_item);
                     }
                 }
             }
         } else if many.len() > 1 {
-            if adversary.contains(",") {
-                let _terms: Vec<_> = adversary.split(',').collect();
+            if adversary.contains(“,”) {
+                let _terms: Vec<_> = adversary.split(‘,’).collect();
                 for _term in _terms {
                     for _item in _json.breakdown_adversaries.iter() {
                         if _item.name.to_lowercase().as_str() == _term
@@ -894,37 +872,18 @@ impl EnterpriseMatrixSearcher {
                             } else {
                                 _results_adversaries.push(_item);
                             }
-                        } else {
-                            let _aliases: Vec<_> = _item.aliases.split('|').collect();
-                            for _alias in _aliases{
-                                if _alias == _term {
-                                    _results_adversaries.push(_item);
-                                }
-                            }
                         }
                     }
                 }
             }
         }
         let _err = format!(
-            "(?) Error: Unable To Convert String of All Techniques by Adversary: {}",
+            “(?) Error: Unable To Convert String of All Techniques by Adversary: {}”,
             adversary
         );
 
         if _wants_correlation {
-            if _xref_filter.len() >= 1usize {
-                let mut _filtered_results: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
-                for _correlation in _results_correlation {
-                    for _tactic in _xref_filter.iter() {
-                        if &_correlation.tactic == _tactic {
-                            _filtered_results.push(_correlation.clone());
-                        }
-                    }
-                }
-                serde_json::to_string(&_filtered_results).expect(_err.as_str())
-            } else {
-                serde_json::to_string(&_results_correlation).expect(_err.as_str())
-            }
+            serde_json::to_string(&_results_correlation).expect(_err.as_str())
         } else {
             serde_json::to_string(&_results_adversaries).expect(_err.as_str())
         }
