@@ -1,0 +1,81 @@
+[
+  {
+    "id": "intrusion-set--dc6fe6ee-04c2-49be-ba3d-f38d2463c02a",
+    "name": "cobalt-group",
+    "aliases": "cobalt-group|cobalt-gang|cobalt-spider",
+    "group_id": "G0080",
+    "is_revoked": false,
+    "profile": {
+      "malware": {
+        "count": 2,
+        "items": [
+          "cobalt-strike",
+          "more_eggs"
+        ]
+      },
+      "tools": {
+        "count": 3,
+        "items": [
+          "mimikatz",
+          "psexec",
+          "sdelete"
+        ]
+      },
+      "techniques": {
+        "count": 9,
+        "items": [
+          "T1027",
+          "T1046",
+          "T1055",
+          "T1068",
+          "T1105",
+          "T1203",
+          "T1219",
+          "T1220",
+          "T1572"
+        ]
+      },
+      "subtechniques": {
+        "count": 23,
+        "items": [
+          "T1021.001",
+          "T1037.001",
+          "T1053.005",
+          "T1059.001",
+          "T1059.003",
+          "T1059.005",
+          "T1059.007",
+          "T1070.004",
+          "T1071.001",
+          "T1071.004",
+          "T1204.001",
+          "T1204.002",
+          "T1218.003",
+          "T1218.008",
+          "T1218.010",
+          "T1518.001",
+          "T1543.003",
+          "T1547.001",
+          "T1548.002",
+          "T1559.002",
+          "T1566.001",
+          "T1566.002",
+          "T1573.002"
+        ]
+      },
+      "tactics": {
+        "count": 8,
+        "items": [
+          "command-and-control",
+          "defense-evasion",
+          "discovery",
+          "execution",
+          "initial-access",
+          "lateral-movement",
+          "persistence",
+          "privilege-escalation"
+        ]
+      }
+    }
+  }
+]

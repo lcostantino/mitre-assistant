@@ -1,0 +1,65 @@
+[
+  {
+    "id": "intrusion-set--23b6a0f5-fa95-46f9-a6f3-4549c5e45ec8",
+    "name": "night-dragon",
+    "aliases": "night-dragon",
+    "group_id": "G0014",
+    "is_revoked": false,
+    "profile": {
+      "malware": {
+        "count": 2,
+        "items": [
+          "aspxspy",
+          "zwshell"
+        ]
+      },
+      "tools": {
+        "count": 3,
+        "items": [
+          "at",
+          "gsecdump",
+          "psexec"
+        ]
+      },
+      "techniques": {
+        "count": 5,
+        "items": [
+          "T1027",
+          "T1078",
+          "T1133",
+          "T1190",
+          "T1219"
+        ]
+      },
+      "subtechniques": {
+        "count": 9,
+        "items": [
+          "T1003.002",
+          "T1027.002",
+          "T1071.001",
+          "T1074.002",
+          "T1204.001",
+          "T1550.002",
+          "T1562.001",
+          "T1566.002",
+          "T1587.001"
+        ]
+      },
+      "tactics": {
+        "count": 10,
+        "items": [
+          "collection",
+          "command-and-control",
+          "credential-access",
+          "defense-evasion",
+          "execution",
+          "initial-access",
+          "lateral-movement",
+          "persistence",
+          "privilege-escalation",
+          "resource-development"
+        ]
+      }
+    }
+  }
+]

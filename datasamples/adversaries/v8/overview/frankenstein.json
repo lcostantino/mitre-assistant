@@ -1,0 +1,71 @@
+[
+  {
+    "id": "intrusion-set--6b1b551c-d770-4f95-8cfc-3cd253c4c04e",
+    "name": "frankenstein",
+    "aliases": "frankenstein",
+    "group_id": "G0101",
+    "is_revoked": false,
+    "profile": {
+      "malware": {
+        "count": 0,
+        "items": []
+      },
+      "tools": {
+        "count": 1,
+        "items": [
+          "empire"
+        ]
+      },
+      "techniques": {
+        "count": 15,
+        "items": [
+          "T1003",
+          "T1005",
+          "T1016",
+          "T1020",
+          "T1027",
+          "T1033",
+          "T1041",
+          "T1047",
+          "T1057",
+          "T1082",
+          "T1105",
+          "T1119",
+          "T1140",
+          "T1203",
+          "T1221"
+        ]
+      },
+      "subtechniques": {
+        "count": 10,
+        "items": [
+          "T1053.005",
+          "T1059.001",
+          "T1059.003",
+          "T1059.005",
+          "T1127.001",
+          "T1204.002",
+          "T1497.001",
+          "T1518.001",
+          "T1566.001",
+          "T1573.001"
+        ]
+      },
+      "tactics": {
+        "count": 10,
+        "items": [
+          "collection",
+          "command-and-control",
+          "credential-access",
+          "defense-evasion",
+          "discovery",
+          "execution",
+          "exfiltration",
+          "initial-access",
+          "persistence",
+          "privilege-escalation"
+        ]
+      }
+    }
+  }
+]

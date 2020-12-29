@@ -1,0 +1,86 @@
+[
+  {
+    "id": "intrusion-set--7113eaa5-ba79-4fb3-b68a-398ee9cd698e",
+    "name": "leviathan",
+    "aliases": "leviathan|temp.jumper|apt40|temp.periscope",
+    "group_id": "G0065",
+    "is_revoked": false,
+    "profile": {
+      "malware": {
+        "count": 8,
+        "items": [
+          "blackcoffee",
+          "china-chopper",
+          "cobalt-strike",
+          "derusbi",
+          "homefry",
+          "murkytop",
+          "nanhaishu",
+          "orz"
+        ]
+      },
+      "tools": {
+        "count": 4,
+        "items": [
+          "at",
+          "bitsadmin",
+          "net",
+          "windows-credential-editor"
+        ]
+      },
+      "techniques": {
+        "count": 8,
+        "items": [
+          "T1003",
+          "T1027",
+          "T1047",
+          "T1078",
+          "T1105",
+          "T1140",
+          "T1197",
+          "T1203"
+        ]
+      },
+      "subtechniques": {
+        "count": 20,
+        "items": [
+          "T1003.001",
+          "T1021.001",
+          "T1021.004",
+          "T1027.001",
+          "T1059.001",
+          "T1059.003",
+          "T1059.005",
+          "T1074.001",
+          "T1102.003",
+          "T1204.001",
+          "T1204.002",
+          "T1218.010",
+          "T1505.003",
+          "T1546.003",
+          "T1547.001",
+          "T1547.009",
+          "T1553.002",
+          "T1566.001",
+          "T1566.002",
+          "T1567.002"
+        ]
+      },
+      "tactics": {
+        "count": 10,
+        "items": [
+          "collection",
+          "command-and-control",
+          "credential-access",
+          "defense-evasion",
+          "execution",
+          "exfiltration",
+          "initial-access",
+          "lateral-movement",
+          "persistence",
+          "privilege-escalation"
+        ]
+      }
+    }
+  }
+]

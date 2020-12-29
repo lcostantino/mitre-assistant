@@ -1,0 +1,77 @@
+[
+  {
+    "id": "intrusion-set--3753cc21-2dae-4dfb-8481-d004e74502cc",
+    "name": "fin7",
+    "aliases": "fin7",
+    "group_id": "G0046",
+    "is_revoked": false,
+    "profile": {
+      "malware": {
+        "count": 9,
+        "items": [
+          "boostwrite",
+          "carbanak",
+          "griffon",
+          "halfbaked",
+          "pillowmint",
+          "powersource",
+          "rdfsniffer",
+          "sqlrat",
+          "textmate"
+        ]
+      },
+      "tools": {
+        "count": 0,
+        "items": []
+      },
+      "techniques": {
+        "count": 6,
+        "items": [
+          "T1027",
+          "T1059",
+          "T1105",
+          "T1113",
+          "T1125",
+          "T1571"
+        ]
+      },
+      "subtechniques": {
+        "count": 18,
+        "items": [
+          "T1036.004",
+          "T1053.005",
+          "T1059.001",
+          "T1059.003",
+          "T1059.005",
+          "T1059.007",
+          "T1071.004",
+          "T1102.002",
+          "T1204.002",
+          "T1218.005",
+          "T1497.002",
+          "T1543.003",
+          "T1546.011",
+          "T1547.001",
+          "T1553.002",
+          "T1559.002",
+          "T1566.001",
+          "T1587.001"
+        ]
+      },
+      "tactics": {
+        "count": 9,
+        "items": [
+          "collection",
+          "command-and-control",
+          "defense-evasion",
+          "discovery",
+          "execution",
+          "initial-access",
+          "persistence",
+          "privilege-escalation",
+          "resource-development"
+        ]
+      }
+    }
+  }
+]

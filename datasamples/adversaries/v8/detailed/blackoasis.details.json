@@ -1,0 +1,25 @@
+[
+  {
+    "id": "attack-pattern--b3d682b6-98f2-4fb0-aa3b-b4df007ca70a",
+    "platform": "linux|macos|windows",
+    "tid": "T1027",
+    "technique": "Obfuscated Files or Information",
+    "tactic": "defense-evasion",
+    "datasources": "binary-file-metadata|email-gateway|environment-variable|file-monitoring|malware-reverse-engineering|network-intrusion-detection-system|network-protocol-analysis|process-command-line-parameters|process-monitoring|process-use-of-network|ssl-tls-inspection|windows-event-logs",
+    "has_subtechniques": true,
+    "is_deprecated": false,
+    "is_revoked": false,
+    "subtechniques": [
+      "T1027.001",
+      "T1027.002",
+      "T1027.003",
+      "T1027.004",
+      "T1027.005"
+    ],
+    "count_subtechniques": 5,
+    "correlation_adversary": "blackoasis",
+    "correlation_malware": "none",
+    "correlation_tool": "none",
+    "correlation_gid": "G0063"
+  }
+]

@@ -1,0 +1,61 @@
+[
+  {
+    "id": "intrusion-set--2a158b0a-7ef8-43cb-9985-bf34d1e12050",
+    "name": "naikon",
+    "aliases": "naikon",
+    "group_id": "G0019",
+    "is_revoked": false,
+    "profile": {
+      "malware": {
+        "count": 6,
+        "items": [
+          "aria-body",
+          "hdoor",
+          "rarstone",
+          "sslmm",
+          "sys10",
+          "winmm"
+        ]
+      },
+      "tools": {
+        "count": 7,
+        "items": [
+          "ftp",
+          "net",
+          "netsh",
+          "ping",
+          "psexec",
+          "systeminfo",
+          "tasklist"
+        ]
+      },
+      "techniques": {
+        "count": 1,
+        "items": [
+          "T1016"
+        ]
+      },
+      "subtechniques": {
+        "count": 5,
+        "items": [
+          "T1137.006",
+          "T1204.002",
+          "T1518.001",
+          "T1566.001",
+          "T1574.002"
+        ]
+      },
+      "tactics": {
+        "count": 6,
+        "items": [
+          "defense-evasion",
+          "discovery",
+          "execution",
+          "initial-access",
+          "persistence",
+          "privilege-escalation"
+        ]
+      }
+    }
+  }
+]

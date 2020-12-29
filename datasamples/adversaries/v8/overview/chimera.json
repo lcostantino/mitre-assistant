@@ -1,0 +1,64 @@
+[
+  {
+    "id": "intrusion-set--8c1f0187-0826-4320-bddc-5f326cfcfe2c",
+    "name": "chimera",
+    "aliases": "chimera",
+    "group_id": "G0114",
+    "is_revoked": false,
+    "profile": {
+      "malware": {
+        "count": 1,
+        "items": [
+          "cobalt-strike"
+        ]
+      },
+      "tools": {
+        "count": 1,
+        "items": [
+          "mimikatz"
+        ]
+      },
+      "techniques": {
+        "count": 7,
+        "items": [
+          "T1027",
+          "T1047",
+          "T1078",
+          "T1102",
+          "T1105",
+          "T1106",
+          "T1133"
+        ]
+      },
+      "subtechniques": {
+        "count": 9,
+        "items": [
+          "T1003.003",
+          "T1021.001",
+          "T1021.002",
+          "T1036.005",
+          "T1053.005",
+          "T1059.001",
+          "T1087.002",
+          "T1556.001",
+          "T1560.001"
+        ]
+      },
+      "tactics": {
+        "count": 10,
+        "items": [
+          "collection",
+          "command-and-control",
+          "credential-access",
+          "defense-evasion",
+          "discovery",
+          "execution",
+          "initial-access",
+          "lateral-movement",
+          "persistence",
+          "privilege-escalation"
+        ]
+      }
+    }
+  }
+]

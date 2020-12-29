@@ -1,0 +1,97 @@
+[
+  {
+    "id": "intrusion-set--899ce53f-13a0-479b-a0e4-67d46e241542",
+    "name": "apt29",
+    "aliases": "apt29|yttrium|the-dukes|cozy-bear|cozyduke",
+    "group_id": "G0016",
+    "is_revoked": false,
+    "profile": {
+      "malware": {
+        "count": 17,
+        "items": [
+          "cloudduke",
+          "cobalt-strike",
+          "cosmicduke",
+          "cozycar",
+          "geminiduke",
+          "hammertoss",
+          "miniduke",
+          "onionduke",
+          "pinchduke",
+          "polyglotduke",
+          "poshspy",
+          "powerduke",
+          "regduke",
+          "seaduke",
+          "sorefang",
+          "wellmail",
+          "wellmess"
+        ]
+      },
+      "tools": {
+        "count": 9,
+        "items": [
+          "ipconfig",
+          "meek",
+          "mimikatz",
+          "net",
+          "psexec",
+          "sdelete",
+          "systeminfo",
+          "tasklist",
+          "tor"
+        ]
+      },
+      "techniques": {
+        "count": 5,
+        "items": [
+          "T1027",
+          "T1047",
+          "T1095",
+          "T1190",
+          "T1203"
+        ]
+      },
+      "subtechniques": {
+        "count": 22,
+        "items": [
+          "T1001.002",
+          "T1027.002",
+          "T1053.005",
+          "T1059.001",
+          "T1059.006",
+          "T1070.004",
+          "T1078.002",
+          "T1090.003",
+          "T1090.004",
+          "T1102.002",
+          "T1204.002",
+          "T1218.011",
+          "T1546.003",
+          "T1546.008",
+          "T1547.001",
+          "T1547.009",
+          "T1548.002",
+          "T1550.003",
+          "T1566.001",
+          "T1566.002",
+          "T1583.006",
+          "T1587.003"
+        ]
+      },
+      "tactics": {
+        "count": 8,
+        "items": [
+          "command-and-control",
+          "defense-evasion",
+          "execution",
+          "initial-access",
+          "lateral-movement",
+          "persistence",
+          "privilege-escalation",
+          "resource-development"
+        ]
+      }
+    }
+  }
+]

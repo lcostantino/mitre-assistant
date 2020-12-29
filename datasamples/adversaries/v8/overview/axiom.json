@@ -1,0 +1,51 @@
+[
+  {
+    "id": "intrusion-set--a0cb9370-e39b-44d5-9f50-ef78e412b973",
+    "name": "axiom",
+    "aliases": "axiom|group-72",
+    "group_id": "G0001",
+    "is_revoked": false,
+    "profile": {
+      "malware": {
+        "count": 4,
+        "items": [
+          "derusbi",
+          "hikit",
+          "hydraq",
+          "zxshell"
+        ]
+      },
+      "tools": {
+        "count": 0,
+        "items": []
+      },
+      "techniques": {
+        "count": 3,
+        "items": [
+          "T1001",
+          "T1003",
+          "T1190"
+        ]
+      },
+      "subtechniques": {
+        "count": 3,
+        "items": [
+          "T1001.002",
+          "T1021.001",
+          "T1546.008"
+        ]
+      },
+      "tactics": {
+        "count": 6,
+        "items": [
+          "command-and-control",
+          "credential-access",
+          "initial-access",
+          "lateral-movement",
+          "persistence",
+          "privilege-escalation"
+        ]
+      }
+    }
+  }
+]

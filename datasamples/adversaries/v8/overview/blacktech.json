@@ -1,0 +1,48 @@
+[
+  {
+    "id": "intrusion-set--6fe8a2a1-a1b0-4af8-953d-4babd329f8f8",
+    "name": "blacktech",
+    "aliases": "blacktech",
+    "group_id": "G0098",
+    "is_revoked": false,
+    "profile": {
+      "malware": {
+        "count": 3,
+        "items": [
+          "kivars",
+          "plead",
+          "tscookie"
+        ]
+      },
+      "tools": {
+        "count": 0,
+        "items": []
+      },
+      "techniques": {
+        "count": 2,
+        "items": [
+          "T1190",
+          "T1203"
+        ]
+      },
+      "subtechniques": {
+        "count": 5,
+        "items": [
+          "T1036.002",
+          "T1204.001",
+          "T1204.002",
+          "T1566.001",
+          "T1566.002"
+        ]
+      },
+      "tactics": {
+        "count": 3,
+        "items": [
+          "defense-evasion",
+          "execution",
+          "initial-access"
+        ]
+      }
+    }
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "intrusion-set--5e78ae92-3ffd-4b16-bf62-e798529d73f1",
+    "name": "sharpshooter",
+    "aliases": "sharpshooter",
+    "group_id": "G0104",
+    "is_revoked": false,
+    "profile": {
+      "malware": {
+        "count": 1,
+        "items": [
+          "rising-sun"
+        ]
+      },
+      "tools": {
+        "count": 0,
+        "items": []
+      },
+      "techniques": {
+        "count": 3,
+        "items": [
+          "T1055",
+          "T1105",
+          "T1106"
+        ]
+      },
+      "subtechniques": {
+        "count": 5,
+        "items": [
+          "T1059.005",
+          "T1204.002",
+          "T1547.001",
+          "T1559.002",
+          "T1566.001"
+        ]
+      },
+      "tactics": {
+        "count": 6,
+        "items": [
+          "command-and-control",
+          "defense-evasion",
+          "execution",
+          "initial-access",
+          "persistence",
+          "privilege-escalation"
+        ]
+      }
+    }
+  }
+]

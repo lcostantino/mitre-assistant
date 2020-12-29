@@ -1,0 +1,42 @@
+[
+  {
+    "id": "intrusion-set--c5947e1c-1cbc-434c-94b8-27c7e3be0fff",
+    "name": "winnti-group",
+    "aliases": "winnti-group|blackfly",
+    "group_id": "G0044",
+    "is_revoked": false,
+    "profile": {
+      "malware": {
+        "count": 2,
+        "items": [
+          "pipemon",
+          "winnti-for-windows"
+        ]
+      },
+      "tools": {
+        "count": 0,
+        "items": []
+      },
+      "techniques": {
+        "count": 2,
+        "items": [
+          "T1014",
+          "T1057"
+        ]
+      },
+      "subtechniques": {
+        "count": 1,
+        "items": [
+          "T1553.002"
+        ]
+      },
+      "tactics": {
+        "count": 2,
+        "items": [
+          "defense-evasion",
+          "discovery"
+        ]
+      }
+    }
+  }
+]

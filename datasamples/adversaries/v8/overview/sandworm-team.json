@@ -1,0 +1,82 @@
+[
+  {
+    "id": "intrusion-set--381fcf73-60f6-4ab2-9991-6af3cbc35192",
+    "name": "sandworm-team",
+    "aliases": "sandworm-team|electrum|telebots|iron-viking|blackenergy-(group)|quedagh|voodoo-bear",
+    "group_id": "G0034",
+    "is_revoked": false,
+    "profile": {
+      "malware": {
+        "count": 5,
+        "items": [
+          "blackenergy",
+          "exaramel-for-linux",
+          "exaramel-for-windows",
+          "notpetya",
+          "olympic-destroyer"
+        ]
+      },
+      "tools": {
+        "count": 0,
+        "items": []
+      },
+      "techniques": {
+        "count": 15,
+        "items": [
+          "T1016",
+          "T1018",
+          "T1027",
+          "T1040",
+          "T1041",
+          "T1078",
+          "T1082",
+          "T1090",
+          "T1105",
+          "T1133",
+          "T1140",
+          "T1203",
+          "T1219",
+          "T1485",
+          "T1571"
+        ]
+      },
+      "subtechniques": {
+        "count": 16,
+        "items": [
+          "T1003.001",
+          "T1036.005",
+          "T1056.001",
+          "T1059.005",
+          "T1070.004",
+          "T1071.001",
+          "T1087.002",
+          "T1087.003",
+          "T1102.002",
+          "T1132.001",
+          "T1195.002",
+          "T1204.002",
+          "T1218.011",
+          "T1555.003",
+          "T1561.002",
+          "T1566.001"
+        ]
+      },
+      "tactics": {
+        "count": 11,
+        "items": [
+          "collection",
+          "command-and-control",
+          "credential-access",
+          "defense-evasion",
+          "discovery",
+          "execution",
+          "exfiltration",
+          "impact",
+          "initial-access",
+          "persistence",
+          "privilege-escalation"
+        ]
+      }
+    }
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "intrusion-set--1c63d4ec-0a75-4daa-b1df-0d11af3d3cc1",
+    "name": "dragonfly",
+    "aliases": "dragonfly|tg-4192|crouching-yeti|iron-liberty|energetic-bear",
+    "group_id": "G0035",
+    "is_revoked": false,
+    "profile": {
+      "malware": {
+        "count": 2,
+        "items": [
+          "backdoor.oldrea",
+          "trojan.karagany"
+        ]
+      },
+      "tools": {
+        "count": 2,
+        "items": [
+          "mimikatz",
+          "psexec"
+        ]
+      },
+      "techniques": {
+        "count": 2,
+        "items": [
+          "T1189",
+          "T1566"
+        ]
+      },
+      "subtechniques": {
+        "count": 1,
+        "items": [
+          "T1195.002"
+        ]
+      },
+      "tactics": {
+        "count": 1,
+        "items": [
+          "initial-access"
+        ]
+      }
+    }
+  }
+]

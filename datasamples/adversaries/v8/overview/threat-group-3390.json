@@ -1,0 +1,104 @@
+[
+  {
+    "id": "intrusion-set--fb366179-766c-4a4a-afa1-52bff1fd601c",
+    "name": "threat-group-3390",
+    "aliases": "threat-group-3390|tg-3390|emissary-panda|bronze-union|apt27|iron-tiger|luckymouse",
+    "group_id": "G0027",
+    "is_revoked": false,
+    "profile": {
+      "malware": {
+        "count": 8,
+        "items": [
+          "aspxspy",
+          "china-chopper",
+          "gh0st-rat",
+          "httpbrowser",
+          "hyperbro",
+          "owaauth",
+          "plugx",
+          "zxshell"
+        ]
+      },
+      "tools": {
+        "count": 7,
+        "items": [
+          "gsecdump",
+          "impacket",
+          "ipconfig",
+          "mimikatz",
+          "net",
+          "pwdump",
+          "windows-credential-editor"
+        ]
+      },
+      "techniques": {
+        "count": 19,
+        "items": [
+          "T1005",
+          "T1012",
+          "T1016",
+          "T1018",
+          "T1027",
+          "T1030",
+          "T1046",
+          "T1047",
+          "T1049",
+          "T1068",
+          "T1078",
+          "T1105",
+          "T1112",
+          "T1119",
+          "T1133",
+          "T1140",
+          "T1189",
+          "T1203",
+          "T1210"
+        ]
+      },
+      "subtechniques": {
+        "count": 23,
+        "items": [
+          "T1003.001",
+          "T1003.002",
+          "T1003.004",
+          "T1021.006",
+          "T1053.002",
+          "T1055.012",
+          "T1056.001",
+          "T1059.001",
+          "T1059.003",
+          "T1070.004",
+          "T1070.005",
+          "T1071.001",
+          "T1074.001",
+          "T1074.002",
+          "T1087.001",
+          "T1505.003",
+          "T1543.003",
+          "T1547.001",
+          "T1548.002",
+          "T1560.002",
+          "T1562.002",
+          "T1574.001",
+          "T1574.002"
+        ]
+      },
+      "tactics": {
+        "count": 11,
+        "items": [
+          "collection",
+          "command-and-control",
+          "credential-access",
+          "defense-evasion",
+          "discovery",
+          "execution",
+          "exfiltration",
+          "initial-access",
+          "lateral-movement",
+          "persistence",
+          "privilege-escalation"
+        ]
+      }
+    }
+  }
+]

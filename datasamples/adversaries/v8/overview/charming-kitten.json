@@ -1,0 +1,33 @@
+[
+  {
+    "id": "intrusion-set--92d5b3fd-3b39-438e-af68-770e447beada",
+    "name": "charming-kitten",
+    "aliases": "charming-kitten",
+    "group_id": "G0058",
+    "is_revoked": false,
+    "profile": {
+      "malware": {
+        "count": 1,
+        "items": [
+          "downpaper"
+        ]
+      },
+      "tools": {
+        "count": 0,
+        "items": []
+      },
+      "techniques": {
+        "count": 0,
+        "items": []
+      },
+      "subtechniques": {
+        "count": 0,
+        "items": []
+      },
+      "tactics": {
+        "count": 0,
+        "items": []
+      }
+    }
+  }
+]
