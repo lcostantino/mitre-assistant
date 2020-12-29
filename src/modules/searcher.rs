@@ -568,7 +568,6 @@ impl EnterpriseMatrixSearcher {
         _temp_results.sort();
         _temp_results.dedup();
         _temp_results.sort();
-        //println!("{:#?}", _temp_results);
         for _result in _temp_results {
             _results.push(_result);
         }
