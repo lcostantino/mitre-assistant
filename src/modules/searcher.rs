@@ -3190,6 +3190,10 @@ impl EnterpriseMatrixSearcher {
                 Cell::new("TACTICS").style_spec("cFW"),
                 Cell::new("TECHNIQUES").style_spec("cFW"),
                 Cell::new("(%) TECHNIQUES").style_spec("cFY"),
+                Cell::new("MALWARE").style_spec("cFW"),
+                Cell::new("TOOLS").style_spec("cFW"),
+                //Cell::new("(%) MALWARE").style_spec("cFY"),
+                //Cell::new("(%) TOOLS").style_spec("cFY")
             ]));
         } else {
             _table.add_row(Row::new(vec![
@@ -3200,6 +3204,10 @@ impl EnterpriseMatrixSearcher {
                 Cell::new("SUBTECHNIQUES").style_spec("cFW"),
                 Cell::new("(%) TECHNIQUES").style_spec("cFY"),
                 Cell::new("(%) SUBTECHNIQUES").style_spec("cFY"),
+                Cell::new("MALWARE").style_spec("cFW"),
+                Cell::new("TOOLS").style_spec("cFW"),
+                //Cell::new("(%) MALWARE").style_spec("cFY"),
+                //Cell::new("(%) TOOLS").style_spec("cFY")
             ]));
         }
         let _err: &str = "(?) Error: Unable To Deserialize Search Results By Adversaries";
@@ -3213,6 +3221,8 @@ impl EnterpriseMatrixSearcher {
                     Cell::new(_row.count_tactics.to_string().as_str()).style_spec("cFW"),
                     Cell::new(_row.count_techniques.to_string().as_str()).style_spec("c"),
                     Cell::new(_row.percent_techniques.as_str()).style_spec("c"),
+                    Cell::new(_row.count_malware.to_string().as_str()).style_spec("c"),
+                    Cell::new(_row.count_tools.to_string().as_str()).style_spec("c")
                 ]));
             } else {
                 _table.add_row(Row::new(vec![
@@ -3223,6 +3233,8 @@ impl EnterpriseMatrixSearcher {
                     Cell::new(_row.count_subtechniques.to_string().as_str()).style_spec("cFW"),
                     Cell::new(_row.percent_techniques.as_str()).style_spec("cFW"),
                     Cell::new(_row.percent_subtechniques.as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_malware.to_string().as_str()).style_spec("c"),
+                    Cell::new(_row.count_tools.to_string().as_str()).style_spec("c")
                 ]));
             }
         }
