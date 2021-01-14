@@ -2018,6 +2018,9 @@ impl EnterpriseMatrixSearcher {
         let mut _results: Vec<EnterpriseStatistic> = vec![];
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         // Load totals for percentages
+        let _total_tools: f64 = _json.stats.count_tools as f64;
+        let _total_malware: f64 = _json.stats.count_malwares as f64;
+        let _total_tactics: f64 = _json.stats.count_tactics as f64;
         let _total_techniques: f64 = _json.stats.count_active_total_techniques as f64;
         let _total_subtechniques: f64 = _json.stats.count_active_total_subtechniques as f64;
         for _adversary in _json.breakdown_adversaries.iter() {
@@ -2031,12 +2034,22 @@ impl EnterpriseMatrixSearcher {
             if self.matrix.as_str() == "enterprise-legacy" {
                 _stat.is_legacy_matrix = true;
             }
+            let _mp = (_stat.count_malware as f64 / _total_malware) * 100f64;
+            let _wp = (_stat.count_tools as f64 / _total_tools) * 100f64;
+            let _kp = (_stat.count_tactics as f64 / _total_tactics) *100f64;
             let _tp = (_stat.count_techniques as f64 /_total_techniques) *100f64;
             let _sp = (_stat.count_subtechniques as f64 /_total_subtechniques) *100f64;
+            // Populate remaining items for statistic
+            _stat.percent_tools =  format!("{}{}", _wp.ceil().to_string(), "%");
+            _stat.percent_malware =  format!("{}{}", _mp.ceil().to_string(), "%");
+            _stat.percent_tactics = format!("{}{}", _kp.ceil().to_string(), "%");
             _stat.percent_techniques = format!("{}{}", _tp.ceil().to_string(), "%");
             _stat.percent_subtechniques = format!("{}{}", _sp.ceil().to_string(), "%");
+            _stat.from_total_tactics = _total_tactics as usize;
             _stat.from_total_techniques = _total_techniques as usize;
             _stat.from_total_subtechniques = _total_subtechniques as usize;
+            _stat.from_total_malware = _total_malware as usize;
+            _stat.from_total_tools = _total_tools as usize;
             _results.push(_stat);
         }
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Datasources";
@@ -3189,11 +3202,12 @@ impl EnterpriseMatrixSearcher {
                 Cell::new("ADVERSARY").style_spec("cFW"),
                 Cell::new("TACTICS").style_spec("cFW"),
                 Cell::new("TECHNIQUES").style_spec("cFW"),
-                Cell::new("(%) TECHNIQUES").style_spec("cFY"),
                 Cell::new("MALWARE").style_spec("cFW"),
                 Cell::new("TOOLS").style_spec("cFW"),
-                //Cell::new("(%) MALWARE").style_spec("cFY"),
-                //Cell::new("(%) TOOLS").style_spec("cFY")
+                Cell::new("(%) TACTICS").style_spec("cFY"),
+                Cell::new("(%) TECHNIQUES").style_spec("cFY"),                
+                Cell::new("(%) MALWARE").style_spec("cFY"),
+                Cell::new("(%) TOOLS").style_spec("cFY")
             ]));
         } else {
             _table.add_row(Row::new(vec![
@@ -3202,16 +3216,16 @@ impl EnterpriseMatrixSearcher {
                 Cell::new("TACTICS").style_spec("cFW"),
                 Cell::new("TECHNIQUES").style_spec("cFW"),
                 Cell::new("SUBTECHNIQUES").style_spec("cFW"),
-                Cell::new("(%) TECHNIQUES").style_spec("cFY"),
-                Cell::new("(%) SUBTECHNIQUES").style_spec("cFY"),
                 Cell::new("MALWARE").style_spec("cFW"),
                 Cell::new("TOOLS").style_spec("cFW"),
-                //Cell::new("(%) MALWARE").style_spec("cFY"),
-                //Cell::new("(%) TOOLS").style_spec("cFY")
+                Cell::new("(%) TACTICS").style_spec("cFY"),                
+                Cell::new("(%) TECHNIQUES").style_spec("cFY"),
+                Cell::new("(%) SUBTECHNIQUES").style_spec("cFY"),
+                Cell::new("(%) MALWARE").style_spec("cFY"),
+                Cell::new("(%) TOOLS").style_spec("cFY")
             ]));
         }
         let _err: &str = "(?) Error: Unable To Deserialize Search Results By Adversaries";
-        //let _json: Vec<String> = serde_json::from_str(results[0].as_str()).expect(_err);
         let _json: Vec<EnterpriseStatistic> = serde_json::from_str(results[0].as_str()).expect(_err);
         for (_idx, _row) in _json.iter().enumerate() {
             if self.matrix.as_str()  == "enterprise-legacy" {
@@ -3219,10 +3233,13 @@ impl EnterpriseMatrixSearcher {
                     Cell::new((_idx + 1).to_string().as_str()).style_spec("FY"),
                     Cell::new(_row.item.as_str()).style_spec("FW"),
                     Cell::new(_row.count_tactics.to_string().as_str()).style_spec("cFW"),
-                    Cell::new(_row.count_techniques.to_string().as_str()).style_spec("c"),
-                    Cell::new(_row.percent_techniques.as_str()).style_spec("c"),
-                    Cell::new(_row.count_malware.to_string().as_str()).style_spec("c"),
-                    Cell::new(_row.count_tools.to_string().as_str()).style_spec("c")
+                    Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_malware.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_tools.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_tactics.as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_techniques.as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_malware.as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_tools.as_str()).style_spec("cFW"),                    
                 ]));
             } else {
                 _table.add_row(Row::new(vec![
@@ -3231,10 +3248,13 @@ impl EnterpriseMatrixSearcher {
                     Cell::new(_row.count_tactics.to_string().as_str()).style_spec("cFW"),
                     Cell::new(_row.count_techniques.to_string().as_str()).style_spec("cFW"),
                     Cell::new(_row.count_subtechniques.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_malware.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.count_tools.to_string().as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_tactics.as_str()).style_spec("cFW"),
                     Cell::new(_row.percent_techniques.as_str()).style_spec("cFW"),
                     Cell::new(_row.percent_subtechniques.as_str()).style_spec("cFW"),
-                    Cell::new(_row.count_malware.to_string().as_str()).style_spec("c"),
-                    Cell::new(_row.count_tools.to_string().as_str()).style_spec("c")
+                    Cell::new(_row.percent_malware.as_str()).style_spec("cFW"),
+                    Cell::new(_row.percent_tools.as_str()).style_spec("cFW"),                   
                 ]));
             }
         }
@@ -3246,10 +3266,18 @@ impl EnterpriseMatrixSearcher {
             println!("{}", "\n\n");
             let mut _totals_table = Table::new();
             _totals_table.add_row(Row::new(vec![
+                Cell::new("Total Tactics").style_spec("FY"),
+                Cell::new(_json[0].from_total_tactics.to_string().as_str()).style_spec("cFW"),
+                Cell::new(""),
                 Cell::new("Total Techniques").style_spec("FY"),
                 Cell::new(_json[0].from_total_techniques.to_string().as_str()).style_spec("cFW"),
                 Cell::new(_json[0].from_total_subtechniques.to_string().as_str()).style_spec("cFW"),
                 Cell::new("Total Subtechniques").style_spec("FY"),
+                Cell::new(""),
+                Cell::new("Total Malware").style_spec("FY"),
+                Cell::new(_json[0].from_total_malware.to_string().as_str()).style_spec("cFW"),
+                Cell::new(_json[0].from_total_tools.to_string().as_str()).style_spec("cFW"),
+                Cell::new("Total Tools").style_spec("FY"),
             ]));
 
             _totals_table.printstd();

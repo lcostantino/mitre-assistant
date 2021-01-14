@@ -656,10 +656,16 @@ pub struct EnterpriseStatistic {
     pub count_adversaries: usize,
     pub count_malware: usize,
     pub count_tools: usize,
+    pub percent_malware: String,
+    pub percent_tools: String,
+    pub percent_tactics: String,
     pub percent_techniques: String,
     pub percent_subtechniques: String,
+    pub from_total_tactics: usize,
     pub from_total_techniques: usize,
     pub from_total_subtechniques: usize,
+    pub from_total_malware: usize,
+    pub from_total_tools: usize,
     pub is_legacy_matrix: bool,
 }
 impl EnterpriseStatistic {
@@ -676,10 +682,16 @@ impl EnterpriseStatistic {
             count_adversaries: 0,
             count_malware: 0,
             count_tools: 0,
+            percent_malware: "%".to_string(),
+            percent_tools: "%".to_string(),
+            percent_tactics: "%".to_string(),
             percent_techniques: "%".to_string(),
             percent_subtechniques: "%".to_string(),
+            from_total_tactics: 0,
             from_total_techniques: 0,
             from_total_subtechniques: 0,
+            from_total_malware: 0,
+            from_total_tools: 0,
             is_legacy_matrix: false
         }
     }
