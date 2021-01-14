@@ -1009,7 +1009,6 @@ impl EnterpriseMatrixSearcher {
             "(?) Error: Unable To Deserialize String of All Techniques by tool: {}",
             tool
         );
-        //println!("{}", tool);
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..])
                                                                            .expect(_err.as_str());
         if many.len() == 1 {
@@ -1030,7 +1029,6 @@ impl EnterpriseMatrixSearcher {
                 }
             }
         }
-        //println!("{}", serde_json::to_string_pretty(&_results).unwrap());
         let _err = format!(
             "(?) Error: Unable To Convert String of All Techniques by tool: {}",
             tool
@@ -1059,9 +1057,6 @@ impl EnterpriseMatrixSearcher {
         let _datasource = _datasource.as_str();
         // Check for Shorthand Terms
         // Transform to the explicit datasource
-        /*
-
-        */
         let mut _iterable: &Vec<_>;
         if _wants_subtechniques {
             _iterable = &_json.breakdown_subtechniques.platforms;
@@ -1088,7 +1083,6 @@ impl EnterpriseMatrixSearcher {
                 let _terms: Vec<String> = _datasource.split(',')
                                                      .map(|x| self.get_datasource_shorthand(x))
                                                      .collect();
-                //println!("TERMS: {:#?}", _terms);
                 let mut _match_count: usize = 0;
                 let mut _temp_string: String = String::from("");
                 for _item in _iterable {
@@ -1116,7 +1110,7 @@ impl EnterpriseMatrixSearcher {
                         _et.subtechniques = _item.subtechniques.clone();
                         _results.push(_et);
                     }
-                    _match_count = 0;       // Reset
+                    _match_count = 0; // Reset
                     _temp_string.clear();    
                 }
             }
@@ -1220,7 +1214,7 @@ impl EnterpriseMatrixSearcher {
                             _et.subtechniques = _item.subtechniques.clone();
                             _results.push(_et);
                         }
-                        _match_count = 0;       // Reset
+                        _match_count = 0; // Reset
                         _temp_string.clear();    
                     }
                 }
@@ -1372,18 +1366,7 @@ impl EnterpriseMatrixSearcher {
     /// ```ignore
     /// self.search_all_tactics();
     /// ```
-    /*
-    fn search_all_tactics(&self) -> String {
-        let mut _results = vec![];
-        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..])
-            .expect("(?) Error: Unable to Deserialize All Tactics");
-        for _item in _json.tactics {
-            _results.push(_item)
-        }
-        _results.sort();
-        serde_json::to_string(&_results).expect("(?) Error: Unable To Deserialize All Tactics")
-    }
-    */
+    ///
     /// # Query To Get All Overlapped Techniques
     ///
     /// Allows the user to get all of the techniques considered to have an overlap.
@@ -1447,20 +1430,6 @@ impl EnterpriseMatrixSearcher {
         serde_json::to_string(&_json.breakdown_subtechniques.platforms)
             .expect("(?) Error: Unable To Deserialize All Techniques")
     }
-    /// # Query All Platforms
-    ///
-    /// Allows the user to get all the platforms.
-    ///
-    /// ```ignore
-    /// self.search_all_platforms();
-    /// ```
-    /*
-    fn search_all_platforms(&self) -> String {
-        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
-        serde_json::to_string(&_json.platforms)
-            .expect("(?) Error: Unable To Deserialize All Platforms")
-    }
-    */
     /// # Query All Datasources
     ///
     /// Allows the user to get alll the datasources.
@@ -1798,7 +1767,6 @@ impl EnterpriseMatrixSearcher {
                 _tracker.insert(_item.clone());
             }
         }
-        
         for _technique in _uniq_targets.iter() {
             // # of Tactics
             let mut _stat: EnterpriseStatistic = EnterpriseStatistic::new();
@@ -1871,7 +1839,6 @@ impl EnterpriseMatrixSearcher {
 
         // Rollup the Statistic
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Techniques";
-        //println!("{:#?}", _results);
         serde_json::to_string(&_results).expect(_err)
     }      
     ///
@@ -1887,12 +1854,10 @@ impl EnterpriseMatrixSearcher {
             let mut _stat: EnterpriseStatistic = EnterpriseStatistic::new();
             for _technique in _json.breakdown_techniques.platforms.iter() {
                 if _technique.tactic.to_lowercase().as_str() == _item {
-                //if _technique.tactic.contains(_item) {
                     _stat.count_techniques += 1;
                 }
             }
             for _subtechnique in _json.breakdown_subtechniques.platforms.iter() {
-                //if _subtechnique.tactic.contains(_item) {
                 if _subtechnique.tactic.to_lowercase().as_str() == _item {
                     _stat.count_subtechniques += 1;
                 }
@@ -1909,7 +1874,6 @@ impl EnterpriseMatrixSearcher {
             _results.push(_stat);
         }
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Datasources";
-        //println!("{:#?}", _results);
         serde_json::to_string(&_results).expect(_err)
     }    
     ///
@@ -1943,7 +1907,6 @@ impl EnterpriseMatrixSearcher {
             _results.push(_stat);
         }
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Datasources";
-        //println!("{:#?}", _results);
         serde_json::to_string(&_results).expect(_err)
     }     
     ///
@@ -1975,7 +1938,6 @@ impl EnterpriseMatrixSearcher {
             _results.push(_stat);
         }
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Datasources";
-        //println!("{:#?}", _results);
         serde_json::to_string(&_results).expect(_err)
     }    
     ///
@@ -2007,7 +1969,6 @@ impl EnterpriseMatrixSearcher {
             _results.push(_stat);
         }
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Malware";
-        //println!("{:#?}", _results);
         serde_json::to_string(&_results).expect(_err)
     }    
     ///
@@ -2053,9 +2014,12 @@ impl EnterpriseMatrixSearcher {
             _results.push(_stat);
         }
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Datasources";
-        //println!("{:#?}", _results);
         serde_json::to_string(&_results).expect(_err)
     }
+    ///
+    ///
+    ///
+    ///
     fn search_stats(&self) -> String {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         serde_json::to_string_pretty(&_json.stats)
@@ -2097,7 +2061,6 @@ impl EnterpriseMatrixSearcher {
             _results.push(_stat);
         }
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Datasources";
-        //println!("{:#?}", _results);
         serde_json::to_string(&_results).expect(_err)
     }
     /// # Query For All Subtechniques
@@ -3313,7 +3276,6 @@ impl EnterpriseMatrixSearcher {
             ]));
         }
         let _err: &str = "(?) Error: Unable To Deserialize Search Results By DataSources";
-        //let _json: Vec<String> = serde_json::from_str(results[0].as_str()).expect(_err);
         let _json: Vec<EnterpriseStatistic> = serde_json::from_str(results[0].as_str()).expect(_err);
         for (_idx, _row) in _json.iter().enumerate() {
             if self.matrix.as_str()  == "enterprise-legacy" {
@@ -3381,7 +3343,6 @@ impl EnterpriseMatrixSearcher {
             ]));
         }
         let _err: &str = "(?) Error: Unable To Deserialize Search Results By DataSources";
-        //let _json: Vec<String> = serde_json::from_str(results[0].as_str()).expect(_err);
         let _json: Vec<EnterpriseStatistic> = serde_json::from_str(results[0].as_str()).expect(_err);
         for (_idx, _row) in _json.iter().enumerate() {
             if self.matrix.as_str()  == "enterprise-legacy" {
@@ -3449,7 +3410,6 @@ impl EnterpriseMatrixSearcher {
             ]));
         }
         let _err: &str = "(?) Error: Unable To Deserialize Search Results By DataSources";
-        //let _json: Vec<String> = serde_json::from_str(results[0].as_str()).expect(_err);
         let _json: Vec<EnterpriseStatistic> = serde_json::from_str(results[0].as_str()).expect(_err);
         for (_idx, _row) in _json.iter().enumerate() {
             if self.matrix.as_str()  == "enterprise-legacy" {
