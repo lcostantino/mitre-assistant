@@ -218,13 +218,13 @@ impl EnterpriseMatrixSearcher {
             _valid.push((_st, 12usize));
             _wants_deprecated = true;
         }
-        else if _st == "stats:techniques" {
+        else if _st.starts_with("stats:techniques") {
             _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 13usize));
             _wants_all_techniques = true;
             _wants_summary = true;
         }
-        else if _st == "stats:subtechniques" {
+        else if _st.starts_with("stats:subtechniques") {
             _matches_many = _scanner_ta.pattern.matches(_st).into_iter().collect();
             _valid.push((_st, 14usize));
             _wants_all_subtechniques = true;
@@ -368,11 +368,13 @@ impl EnterpriseMatrixSearcher {
                 else if _pattern == &12usize {
                     _results.push(self.search_by_deprecated());
                 }
-                else if _pattern == &13usize { 
-                    _results.push(self.search_stats_by_techniques());
+                else if _pattern == &13usize {
+                    let _search_term = _term.to_string();
+                    _results.push(self.search_stats_by_techniques(_search_term));
                 }
                 else if _pattern == &14usize { 
-                    _results.push(self.search_stats_by_subtechniques());
+                    let _search_term = _term.to_string();
+                    _results.push(self.search_stats_by_subtechniques(_search_term));
                 }
                 else if _pattern == &15usize { 
                     _results.push(self.search_stats_by_adversaries());
@@ -1637,13 +1639,20 @@ impl EnterpriseMatrixSearcher {
     ///
     /// ```ignore
     /// self.search_stats();
-    fn search_stats_by_subtechniques(&self) -> String
+    fn search_stats_by_subtechniques(&self, search_term: String) -> String
     {
         let mut _results: Vec<EnterpriseStatistic> = vec![];
         let mut _tracker: HashSet<String> = HashSet::new();
         let mut _tracker_tactics: Vec<(String, String)> = vec![];
         let mut _uniq_targets: HashSet<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = HashSet::new();
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
+                // Load search_term
+        let _tactic_search: Vec<&str> = search_term.split(':').collect();
+        let mut _tactic_term: &str = "none";
+        if _tactic_search.len() == 3usize {
+            _tactic_term = _tactic_search[2];
+            println!("Term: Subetechniques: {}", _tactic_term);
+        }
         // Load totals for percentages
         let _total_techniques: usize = _json.stats.count_active_total_techniques;
         let _total_subtechniques: usize = _json.stats.count_active_total_subtechniques;
@@ -1657,8 +1666,12 @@ impl EnterpriseMatrixSearcher {
                     for _technique in _json.breakdown_subtechniques.platforms.iter() {
                         if _technique.tid.as_str() == _item {
                             let mut _et = _technique.clone();
-                            _et.tactic = "stripped".to_string();
-                            _uniq_targets.insert(_et);
+                            if _et.tactic.as_str() == _tactic_term {
+                                _uniq_targets.insert(_et);
+                            } else if _tactic_term == "none" {
+                                _et.tactic = "stripped".to_string();
+                                _uniq_targets.insert(_et);
+                            }
                         }
                     }
                 }
@@ -1761,13 +1774,19 @@ impl EnterpriseMatrixSearcher {
     ///
     ///
     ///
-    fn search_stats_by_techniques(&self) -> String
+    fn search_stats_by_techniques(&self, search_term: String) -> String
     {
         let mut _results: Vec<EnterpriseStatistic> = vec![];
         let mut _tracker: HashSet<String> = HashSet::new();
         let mut _tracker_tactics: Vec<(String, String)> = vec![];
         let mut _uniq_targets: HashSet<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = HashSet::new();
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
+        // Load search_term
+        let _tactic_search: Vec<&str> = search_term.split(':').collect();
+        let mut _tactic_term: &str = "none";
+        if _tactic_search.len() == 3usize {
+            _tactic_term = _tactic_search[2];
+        }
         // Load totals for percentages
         let _total_techniques: usize = _json.stats.count_active_total_techniques;
         let _total_subtechniques: usize = _json.stats.count_active_total_subtechniques;
@@ -1781,8 +1800,12 @@ impl EnterpriseMatrixSearcher {
                     for _technique in _json.breakdown_techniques.platforms.iter() {
                         if _technique.tid.as_str() == _item {
                             let mut _et = _technique.clone();
-                            _et.tactic = "stripped".to_string();
-                            _uniq_targets.insert(_et);
+                            if _et.tactic.as_str() == _tactic_term {
+                                _uniq_targets.insert(_et);
+                            } else if _tactic_term == "none" {
+                                _et.tactic = "stripped".to_string();
+                                _uniq_targets.insert(_et);
+                            }
                         }
                     }
                 }
