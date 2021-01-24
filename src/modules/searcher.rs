@@ -1672,8 +1672,13 @@ impl EnterpriseMatrixSearcher {
             for _killchain in _tracker_tactics.iter() {
                 if _technique.tid.as_str() == _killchain.0.as_str() {
                     _stat.count_tactics += 1;
+                    if _stat.the_tactics.as_str() == "none" {
+                        _stat.the_tactics.clear();
+                    }
+                    _stat.the_tactics.push_str(format!("{}|", &_killchain.1.clone()).as_str());
                 }
             }
+            _stat.the_tactics.pop();
             // # of Platforms
             if _technique.platform.contains("|") {
                 let _x: Vec<&str> = _technique.platform.split("|").collect();
@@ -1683,12 +1688,14 @@ impl EnterpriseMatrixSearcher {
             } else {
                 _stat.count_platforms += 1;
             }
+            _stat.the_platforms = _technique.platform.clone();
             // # of Datasources
             if _technique.datasources.as_str() != "none" {
                 let _x: Vec<&str> = _technique.datasources.as_str().split("|").collect();
                 for _item in _x {
                     _stat.count_datasources += 1;
                 }
+                _stat.the_datasources = _technique.datasources.clone();
             }
             // # of Adversaries
             for _adversary in _json.breakdown_adversaries.iter() {
@@ -1696,30 +1703,45 @@ impl EnterpriseMatrixSearcher {
                     for _at in _adversary.profile.subtechniques.items.iter() {
                         if _at.as_str() == _technique.tid.as_str() {
                             _stat.count_adversaries += 1;
+                            if _stat.the_adversaries.as_str() == "none" {
+                                _stat.the_adversaries.clear();
+                            }
+                            _stat.the_adversaries.push_str(format!("{}|", _adversary.name.clone()).as_str());
                         }
                     }
                 }
             }
+            _stat.the_adversaries.pop();
             // # of Malware
             for _malware in _json.breakdown_malware.iter() {
                 if _malware.profile.subtechniques.items.len() > 0 {
                     for _mt in _malware.profile.subtechniques.items.iter() {
                         if _mt.as_str() == _technique.tid.as_str() {
                             _stat.count_malware += 1;
+                            if _stat.the_malware.as_str() == "none" {
+                                _stat.the_malware.clear();
+                            }
+                            _stat.the_malware.push_str(format!("{}|", _malware.name.clone()).as_str());
                         }
                     }
                 }
             }
+            _stat.the_malware.pop();
             // # of Tools
             for _tool in _json.breakdown_tools.iter() {
                 if _tool.profile.techniques.items.len() > 0 {
                     for _tt in _tool.profile.subtechniques.items.iter() {
                         if _tt.as_str() == _technique.tid.as_str() {
                             _stat.count_tools += 1;
-                        }
+                            if _stat.the_tools.as_str() == "none" {
+                                _stat.the_tools.clear();
+                            }
+                            _stat.the_tools.push_str(format!("{}|", _tool.name.clone()).as_str()); 
+                        }                 
                     }
                 }
             }
+            _stat.the_tools.pop();
             _stat.item = _technique.tid.clone();
             _stat.meta = _technique.technique.clone();
             let _tp = (_stat.count_techniques as f64 /_total_techniques as f64) *100f64;
@@ -1773,8 +1795,13 @@ impl EnterpriseMatrixSearcher {
             for _killchain in _tracker_tactics.iter() {
                 if _technique.tid.as_str() == _killchain.0.as_str() {
                     _stat.count_tactics += 1;
+                    if _stat.the_tactics.as_str() == "none" {
+                        _stat.the_tactics.clear();
+                    }
+                    _stat.the_tactics.push_str(format!("{}|", &_killchain.1.clone()).as_str());
                 }
             }
+            _stat.the_tactics.pop();
             // # of Platforms
             if _technique.platform.contains("|") {
                 let _x: Vec<&str> = _technique.platform.split("|").collect();
@@ -1784,16 +1811,25 @@ impl EnterpriseMatrixSearcher {
             } else {
                 _stat.count_platforms += 1;
             }
+            _stat.the_platforms = _technique.platform.clone();
             // # of Subtechniques
             if _technique.has_subtechniques {
-                _stat.count_subtechniques = _technique.subtechniques.len();
+                _stat.count_subtechniques = _technique.count_subtechniques;
+                for _subtechnique in _technique.subtechniques.iter() {
+                    if _stat.the_subtechniques.as_str() == "none" {
+                        _stat.the_subtechniques.clear();
+                    }
+                    _stat.the_subtechniques.push_str(format!("{}|", _subtechnique.clone()).as_str());
+                }
             }
+            _stat.the_subtechniques.pop();
             // # of Datasources
             if _technique.datasources.as_str() != "none" {
                 let _x: Vec<&str> = _technique.datasources.as_str().split("|").collect();
                 for _item in _x {
                     _stat.count_datasources += 1;
                 }
+                _stat.the_datasources = _technique.datasources.clone();
             }
             // # of Adversaries
             for _adversary in _json.breakdown_adversaries.iter() {
@@ -1801,30 +1837,45 @@ impl EnterpriseMatrixSearcher {
                     for _at in _adversary.profile.techniques.items.iter() {
                         if _at.as_str() == _technique.tid.as_str() {
                             _stat.count_adversaries += 1;
+                            if _stat.the_adversaries.as_str() == "none" {
+                                _stat.the_adversaries.clear();
+                            }
+                            _stat.the_adversaries.push_str(format!("{}|", _adversary.name.clone()).as_str());
                         }
                     }
                 }
             }
+            _stat.the_adversaries.pop();
             // # of Malware
             for _malware in _json.breakdown_malware.iter() {
                 if _malware.profile.techniques.items.len() > 0 {
                     for _mt in _malware.profile.techniques.items.iter() {
                         if _mt.as_str() == _technique.tid.as_str() {
                             _stat.count_malware += 1;
+                            if _stat.the_malware.as_str() == "none" {
+                                _stat.the_malware.clear();
+                            }
+                            _stat.the_malware.push_str(format!("{}|", _malware.name.clone()).as_str());
                         }
                     }
                 }
             }
+            _stat.the_malware.pop();
             // # of Tools
             for _tool in _json.breakdown_tools.iter() {
                 if _tool.profile.techniques.items.len() > 0 {
                     for _tt in _tool.profile.techniques.items.iter() {
                         if _tt.as_str() == _technique.tid.as_str() {
                             _stat.count_tools += 1;
+                            if _stat.the_tools.as_str() == "none" {
+                                _stat.the_tools.clear();
+                            }
+                            _stat.the_tools.push_str(format!("{}|", _tool.name.clone()).as_str());                                
                         }
                     }
                 }
             }
+            _stat.the_tools.pop();
             _stat.item = _technique.tid.clone();
             _stat.meta = _technique.technique.clone();
             let _tp = (_stat.count_techniques as f64 /_total_techniques as f64) *100f64;

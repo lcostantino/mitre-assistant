@@ -667,6 +667,13 @@ pub struct EnterpriseStatistic {
     pub from_total_malware: usize,
     pub from_total_tools: usize,
     pub is_legacy_matrix: bool,
+    pub the_tactics: String,
+    pub the_subtechniques: String,
+    pub the_platforms: String,
+    pub the_adversaries: String,
+    pub the_malware: String,
+    pub the_tools: String,
+    pub the_datasources: String
 }
 impl EnterpriseStatistic {
     pub fn new() -> Self
@@ -692,7 +699,14 @@ impl EnterpriseStatistic {
             from_total_subtechniques: 0,
             from_total_malware: 0,
             from_total_tools: 0,
-            is_legacy_matrix: false
+            is_legacy_matrix: false,
+            the_tactics: "none".to_string(),
+            the_subtechniques: "none".to_string(),
+            the_platforms: "none".to_string(),
+            the_adversaries: "none".to_string(),
+            the_malware: "none".to_string(),
+            the_tools: "none".to_string(),
+            the_datasources: "none".to_string(),        
         }
     }
 }
