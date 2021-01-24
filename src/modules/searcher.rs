@@ -1651,7 +1651,6 @@ impl EnterpriseMatrixSearcher {
         let mut _tactic_term: &str = "none";
         if _tactic_search.len() == 3usize {
             _tactic_term = _tactic_search[2];
-            println!("Term: Subetechniques: {}", _tactic_term);
         }
         // Load totals for percentages
         let _total_techniques: usize = _json.stats.count_active_total_techniques;
