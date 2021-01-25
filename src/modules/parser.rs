@@ -56,7 +56,6 @@ impl EnterpriseMatrixBreakdown {
             tactics: HashSet::new(),
             platforms: HashSet::new(),
             datasources: Vec::new(),
-
             enterprise_revoked_techniques: EnterpriseRevokedTechniques::new(),
             deprecated_techniques: HashSet::new(),
             breakdown_adversaries: vec![],
@@ -118,7 +117,6 @@ impl EnterpriseMatrixParser {
         let _target_matrix = match self.matrix_type.as_str() {
             "enterprise-legacy" => "enterprise-legacy.json",
             "enterprise" => "enterprise.json",
-            "ics" => "ics-attack.json",
             _ => "None"
         };
         if _target_matrix == "None" {
