@@ -267,6 +267,7 @@ impl EnterpriseMatrixParser {
         let _tid = _tid[0]["external_id"]
             .as_str()
             .expect("Problem With External ID");
+        let _technique_description = items["description"].as_str().expect("Problem With Technique Description");
         let _tname = items["name"].as_str().expect("Problem With Technique Name");
         let mut _platforms = String::from("");
         for _os in items["x_mitre_platforms"].as_array().unwrap().iter() {
@@ -287,6 +288,7 @@ impl EnterpriseMatrixParser {
             _et.tid = _tid.to_string();
             _et.tactic = _tactic.to_string();
             _et.technique = _tname.to_string();
+            _et.technique_description = _technique_description.to_string();
             let _d = items
                 .as_object()
                 .expect("Unable to Deserialize into String");

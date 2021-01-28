@@ -268,6 +268,7 @@ pub struct EnterpriseTechnique {
     pub correlation_malware: String,
     pub correlation_tool: String,
     pub correlation_gid: String,
+    pub technique_description: String,
     //pub correlation_mid: String,
     //pub correlation_tid: String,
 }
@@ -290,6 +291,7 @@ impl EnterpriseTechnique {
             correlation_malware: "none".to_string(),
             correlation_tool: "none".to_string(),
             correlation_gid: "none".to_string(),
+            technique_description: "none".to_string(),
             //correlation_mid: "none".to_string(),
            //correlation_tid: "none".to_string()
         }
