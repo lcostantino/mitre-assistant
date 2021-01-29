@@ -40,6 +40,8 @@ pub struct EnterpriseMatrixStatistics {
     pub count_subtechniques_windows:        usize,
     // Count of Techniques by Tactic - KilChain
     // Use these with stats functions
+    pub count_techniques_reconnaissance:     usize,
+    pub count_techniques_resource_development: usize,
     pub count_techniques_initial_access:    usize,
     pub count_techniques_execution:         usize,
     pub count_techniques_persistence:       usize,
@@ -54,6 +56,8 @@ pub struct EnterpriseMatrixStatistics {
     pub count_techniques_impact:            usize,
     // Count of Subechniques by Tactic - KilChain
     // Use these with stats functions
+    pub count_subtechniques_reconnaissance:     usize,
+    pub count_subtechniques_resource_development: usize,
     pub count_subtechniques_initial_access:    usize,
     pub count_subtechniques_execution:         usize,
     pub count_subtechniques_persistence:       usize,
@@ -95,6 +99,8 @@ pub struct EnterpriseMatrixStatistics {
     pub percent_subtechniques_saas:     String,
     pub percent_subtechniques_windows:  String,
     // Percentage Techniques By KillChain/Tactic
+    pub percent_techniques_reconnaissance:           String,
+    pub percent_techniques_resource_development:    String,
     pub percent_techniques_initial_access:          String,
     pub percent_techniques_execution:               String,
     pub percent_techniques_persistence:             String,
@@ -108,6 +114,8 @@ pub struct EnterpriseMatrixStatistics {
     pub percent_techniques_exfiltration:            String,
     pub percent_techniques_impact:                  String,    
     // Percentage Subtechniques By KillChain/Tactic
+    pub percent_subtechniques_reconnaissance:           String,
+    pub percent_subtechniques_resource_development:    String,
     pub percent_subtechniques_initial_access:          String,
     pub percent_subtechniques_execution:               String,
     pub percent_subtechniques_persistence:             String,
@@ -155,6 +163,8 @@ impl EnterpriseMatrixStatistics {
             count_subtechniques_office365:      0,
             count_subtechniques_saas:           0,
             count_subtechniques_windows:        0,
+            count_techniques_reconnaissance:     0,
+            count_techniques_resource_development: 0,
             count_techniques_initial_access:    0,
             count_techniques_execution:         0,
             count_techniques_persistence:       0,
@@ -167,6 +177,8 @@ impl EnterpriseMatrixStatistics {
             count_techniques_command_and_control: 0,
             count_techniques_exfiltration:         0,
             count_techniques_impact:               0,
+            count_subtechniques_reconnaissance:        0,
+            count_subtechniques_resource_development: 0,
             count_subtechniques_initial_access:    0,
             count_subtechniques_execution:         0,
             count_subtechniques_persistence:       0,
@@ -201,6 +213,8 @@ impl EnterpriseMatrixStatistics {
             percent_subtechniques_saas:         String::from(""),
             percent_subtechniques_windows:      String::from(""),
             // Percentage Technique By KillChain
+            percent_techniques_reconnaissance:          String::from(""),
+            percent_techniques_resource_development:    String::from(""),
             percent_techniques_initial_access:          String::from(""),
             percent_techniques_execution:               String::from(""),
             percent_techniques_persistence:             String::from(""),
@@ -214,6 +228,8 @@ impl EnterpriseMatrixStatistics {
             percent_techniques_exfiltration:            String::from(""),
             percent_techniques_impact:                  String::from(""),
             // Percentage Subtechniques By KillChain/Tactic
+            percent_subtechniques_reconnaissance:           String::from(""),
+            percent_subtechniques_resource_development:    String::from(""),            
             percent_subtechniques_initial_access:          String::from(""),
             percent_subtechniques_execution:               String::from(""),
             percent_subtechniques_persistence:             String::from(""),

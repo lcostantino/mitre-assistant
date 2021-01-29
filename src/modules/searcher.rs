@@ -4170,6 +4170,16 @@ impl EnterpriseMatrixSearcher {
             Cell::new(""),
         ]));
         _table.add_row(Row::new(vec![
+            Cell::new("Reconnaissance"),
+            Cell::new(_json.count_techniques_reconnaissance.to_string().as_str()),
+            Cell::new(_json.percent_techniques_reconnaissance.as_str()),
+        ]));
+        _table.add_row(Row::new(vec![
+            Cell::new("Resource Development"),
+            Cell::new(_json.count_techniques_resource_development.to_string().as_str()),
+            Cell::new(_json.percent_techniques_resource_development.as_str()),
+        ]));                
+        _table.add_row(Row::new(vec![
             Cell::new("Initial Access"),
             Cell::new(_json.count_techniques_initial_access.to_string().as_str()),
             Cell::new(_json.percent_techniques_initial_access.as_str()),
@@ -4252,6 +4262,16 @@ impl EnterpriseMatrixSearcher {
             Cell::new(""),
             Cell::new(""),
         ]));
+        _table.add_row(Row::new(vec![
+            Cell::new("Reconnaissance"),
+            Cell::new(_json.count_subtechniques_reconnaissance.to_string().as_str()),
+            Cell::new(_json.percent_subtechniques_reconnaissance.as_str()),
+        ]));
+        _table.add_row(Row::new(vec![
+            Cell::new("Resource Development"),
+            Cell::new(_json.count_subtechniques_resource_development.to_string().as_str()),
+            Cell::new(_json.percent_subtechniques_resource_development.as_str()),
+        ]));          
         _table.add_row(Row::new(vec![
             Cell::new("Initial Access"),
             Cell::new(

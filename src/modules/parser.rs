@@ -171,8 +171,6 @@ impl EnterpriseMatrixParser {
         */
         // Now Correlate Relationships
         self.correlate_relationships();
-        //println!("{:#?}", self.relationships.old_to_new_techniques);
-        //println!("{:#?}", self.new_revoked_techniques);
         Ok(())
     }
     /// # Extract Revoked Techniques
@@ -542,6 +540,8 @@ impl EnterpriseMatrixParser {
     fn extract_stats_techniques_by_killchain(&mut self, _wants_subtechniques: bool) {
         // Setup Tactics Hashsets for UNIQ
         // items. then take length of each.
+        let mut _reconnaisance: HashSet<String> = HashSet::new();
+        let mut _resource_development: HashSet<String> = HashSet::new();
         let mut _initial_access: HashSet<String> = HashSet::new();
         let mut _execution: HashSet<String> = HashSet::new();
         let mut _persistence: HashSet<String> = HashSet::new();
@@ -574,7 +574,11 @@ impl EnterpriseMatrixParser {
                     _kill_chain.tactic.items.push(_stub.clone());
                     // Validate which Tactic
                     // Insert Technique into Tactic Hashset
-                    if _kc == "initial-access" {
+                    if _kc == "reconnaissance" {
+                        _reconnaisance.insert(_stub);
+                    } else if _kc == "resource-development" {
+                        _resource_development.insert(_stub);
+                    } else if _kc == "initial-access" {
                         _initial_access.insert(_stub);
                     } else if _kc == "execution" {
                         _execution.insert(_stub);
@@ -610,6 +614,8 @@ impl EnterpriseMatrixParser {
         if _wants_subtechniques {
             // Subtechniques
             let _total = self.details.stats.count_active_total_subtechniques;
+            self.details.stats.count_subtechniques_reconnaissance = _reconnaisance.len();
+            self.details.stats.count_subtechniques_resource_development = _resource_development.len();
             self.details.stats.count_subtechniques_initial_access = _initial_access.len();
             self.details.stats.count_subtechniques_execution = _execution.len();
             self.details.stats.count_subtechniques_persistence = _persistence.len();
@@ -623,15 +629,17 @@ impl EnterpriseMatrixParser {
             self.details.stats.count_subtechniques_exfiltration = _exfiltration.len();
             self.details.stats.count_subtechniques_impact = _impact.len();
             // Percentages
+            self.details.stats.percent_subtechniques_reconnaissance =
+                self.get_percentage(_total, _reconnaisance.len());
+            self.details.stats.percent_subtechniques_resource_development =
+                self.get_percentage(_total, _resource_development.len());
             self.details.stats.percent_subtechniques_initial_access =
                 self.get_percentage(_total, _initial_access.len());
             self.details.stats.percent_subtechniques_execution =
                 self.get_percentage(_total, _execution.len());
             self.details.stats.percent_subtechniques_persistence =
                 self.get_percentage(_total, _persistence.len());
-            self.details
-                .stats
-                .percent_subtechniques_privilege_escalation =
+            self.details.stats.percent_subtechniques_privilege_escalation =
                 self.get_percentage(_total, _priv_escalation.len());
             self.details.stats.percent_subtechniques_defense_evasion =
                 self.get_percentage(_total, _defense_evasion.len());
@@ -654,6 +662,8 @@ impl EnterpriseMatrixParser {
         } else {
             // Techniques
             let _total = self.details.stats.count_active_total_techniques;
+            self.details.stats.count_techniques_reconnaissance = _reconnaisance.len();
+            self.details.stats.count_techniques_resource_development = _resource_development.len();
             self.details.stats.count_techniques_initial_access = _initial_access.len();
             self.details.stats.count_techniques_execution = _execution.len();
             self.details.stats.count_techniques_persistence = _persistence.len();
@@ -667,6 +677,10 @@ impl EnterpriseMatrixParser {
             self.details.stats.count_techniques_exfiltration = _exfiltration.len();
             self.details.stats.count_techniques_impact = _impact.len();
             // Percentages
+            self.details.stats.percent_techniques_reconnaissance =
+                self.get_percentage(_total, _reconnaisance.len());
+            self.details.stats.percent_techniques_resource_development =
+                self.get_percentage(_total, _resource_development.len());
             self.details.stats.percent_techniques_initial_access =
                 self.get_percentage(_total, _initial_access.len());
             self.details.stats.percent_techniques_execution =
