@@ -1,3 +1,4 @@
+use comrak::{ComrakOptions, markdown_to_html};
 use prettytable::{Cell, Row, Table};
 use serde_json;
 
@@ -19,6 +20,7 @@ use enterprise::{
     EnterpriseMatrixStatistics,
     EnterpriseTool,
     EnterpriseTechnique,
+    EnterpriseTechniqueReference,
     EnterpriseRevokedItem,
     EnterpriseRevokedTechniques,
     EnterpriseStatistics,
@@ -128,6 +130,25 @@ impl EnterpriseMatrixSearcher {
 	    let _data: Vec<String> = vec![_results];
 	    self.render_techniques_details_table(&_data, _wants_export, _wants_outfile);
     }
+    /// # Transformer Functions
+    /// These functions transform the markup text to html strings.
+    /// These are intended to support the UX/UI Opticae for web-rendering
+    /// where instead of using a direct markup renderer, we simply convert
+    /// the provided markup to a html string.
+    fn transform_description(&self, markdown: String) -> String
+    {
+        let mut options = ComrakOptions::default();
+        options.parse.smart = true;
+        // We need to do a few things in the transformation.
+        //  (1) Look For & replace Unicode Sequences
+        //  (2) Look for the `<code></code>` tags and convert
+        //  (3) Look for the (Citation: ...) blocks and convert
+        //      These typically match the `technique_references`
+        let _string = markdown.replace("\n", "<br />");
+        let html = markdown_to_html(&_string, &options);
+        return html;
+    }
+    ///
     ///
     ///
     ///
@@ -1047,7 +1068,7 @@ impl EnterpriseMatrixSearcher {
         many: Vec<usize>
     ) -> String
     {
-        let mut _results = vec![];
+        let mut _results: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
         let _err = format!(
             "(?) Error: Unable To Deserialize String of All Techniques by Datasource: {}",
             datasource
@@ -1069,6 +1090,7 @@ impl EnterpriseMatrixSearcher {
             for _item in _iterable {
                 let _search_term = self.get_datasource_shorthand(_datasource);
                 if _item.datasources.contains(&_search_term) {
+                    /*
                     let mut _et = EnterpriseTechnique::new();
                     _et.tid = _item.tid.clone();
                     _et.platform = _item.platform.clone();
@@ -1077,7 +1099,10 @@ impl EnterpriseMatrixSearcher {
                     _et.datasources = _search_term;
                     _et.has_subtechniques = _item.has_subtechniques.clone();
                     _et.subtechniques = _item.subtechniques.clone();
+                    _et.technique_description = _item.technique_description.clone();
                     _results.push(_et);
+                    */
+                    _results.push(_item.clone());
                 }
             }
         } else if many.len() > 1 {
@@ -1101,6 +1126,10 @@ impl EnterpriseMatrixSearcher {
                         }
                     }
                     if _match_count >= 1 {
+                        let mut _item_copy = _item.clone();
+                        _item_copy.datasources = _temp_string.clone();
+                        _results.push(_item_copy);
+                        /*
                         //_temp_string.pop();
                         let mut _et = EnterpriseTechnique::new();
                         _et.tid = _item.tid.clone();
@@ -1111,6 +1140,7 @@ impl EnterpriseMatrixSearcher {
                         _et.has_subtechniques = _item.has_subtechniques.clone();
                         _et.subtechniques = _item.subtechniques.clone();
                         _results.push(_et);
+                        */
                     }
                     _match_count = 0; // Reset
                     _temp_string.clear();    
@@ -1155,7 +1185,7 @@ impl EnterpriseMatrixSearcher {
         many: Vec<usize>
     ) -> String 
     {
-        let mut _results = vec![];
+        let mut _results: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
         let _err = format!(
             "(?) Error: Unable To Deserialize String of All Techniques by Platform: {}",
             platform
@@ -1173,6 +1203,7 @@ impl EnterpriseMatrixSearcher {
             if many.len() == 1 {
                 for _item in _iterable {
                     if _item.platform.contains(_platform) {
+                        /*
                         let mut _et = EnterpriseTechnique::new();
                         _et.id = _item.id.clone();
                         _et.platform = _platform.to_string();
@@ -1182,7 +1213,12 @@ impl EnterpriseMatrixSearcher {
                         _et.datasources = _item.datasources.to_string();
                         _et.has_subtechniques = _item.has_subtechniques.clone();
                         _et.subtechniques = _item.subtechniques.clone();
+                        _et.technique_description = _item.technique_description.clone();
+                        _et.technique_references = _item.technique_references.clone();
+                        
                         _results.push(_et);
+                        */
+                        _results.push(_item.clone());
                     }
                 }
             } else if many.len() > 1 {
@@ -1204,6 +1240,10 @@ impl EnterpriseMatrixSearcher {
                             }
                         }
                         if _match_count >= 1 {
+                            let mut _item_copy = _item.clone();
+                            _item_copy.platform = _temp_string.clone();
+                            _results.push(_item_copy);
+                            /*
                             //_temp_string.pop();
                             let mut _et = EnterpriseTechnique::new();
                             _et.id = _item.id.clone();
@@ -1214,7 +1254,10 @@ impl EnterpriseMatrixSearcher {
                             _et.tactic = _item.tactic.clone();
                             _et.has_subtechniques = _item.has_subtechniques.clone();
                             _et.subtechniques = _item.subtechniques.clone();
+                            _et.technique_description = _item.technique_description.clone();
+                            _et.technique_references = _item.technique_references.clone();
                             _results.push(_et);
+                            */
                         }
                         _match_count = 0; // Reset
                         _temp_string.clear();    
@@ -1237,7 +1280,7 @@ impl EnterpriseMatrixSearcher {
         many: Vec<usize>
     ) -> String 
     {
-        let mut _results = vec![];
+        let mut _results: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechnique> = vec![];
         let _err = format!(
             "(?) Error: Unable To Deserialize String of All Techniques by Tactic: {}",
             tactic
@@ -1255,6 +1298,7 @@ impl EnterpriseMatrixSearcher {
             if many.len() == 1 {
                 for _item in _iterable {
                     if _item.tactic.contains(_tactic) {
+                        /*
                         let mut _et = EnterpriseTechnique::new();
                         _et.platform = _item.platform.clone();
                         _et.tid = _item.tid.clone();
@@ -1263,7 +1307,11 @@ impl EnterpriseMatrixSearcher {
                         _et.datasources = _item.datasources.to_string();
                         _et.has_subtechniques = _item.has_subtechniques.clone();
                         _et.subtechniques = _item.subtechniques.clone();
+                        _et.technique_description = _item.technique_description.clone();
+                        _et.technique_references = _item.technique_references.clone();
                         _results.push(_et);
+                        */
+                        _results.push(_item.clone());
                     }
                 }
             } else if many.len() > 1 {
@@ -1272,6 +1320,8 @@ impl EnterpriseMatrixSearcher {
                     for _term in _terms {
                         for _item in _iterable {
                             if _item.tactic.contains(_term) {
+                                _results.push(_item.clone());
+                                /*
                                 let mut _et = EnterpriseTechnique::new();
                                 _et.platform = _item.platform.clone();
                                 _et.tid = _item.tid.clone();
@@ -1281,6 +1331,7 @@ impl EnterpriseMatrixSearcher {
                                 _et.has_subtechniques = _item.has_subtechniques.clone();
                                 _et.subtechniques = _item.subtechniques.clone();
                                 _results.push(_et);
+                                */
                             }
                         }
                     }
@@ -2300,12 +2351,10 @@ impl EnterpriseMatrixSearcher {
                 Cell::new(_json[0].from_total_subtechniques.to_string().as_str()).style_spec("cFW"),
                 Cell::new("Total Subtechniques").style_spec("FY"),
             ]));
-
             _totals_table.printstd();
             println!("{}", "\n\n");
             _table.printstd();
             println!("{}", "\n\n");
-            
         }
     }       
     ///
@@ -2388,12 +2437,10 @@ impl EnterpriseMatrixSearcher {
                 Cell::new(_json[0].from_total_subtechniques.to_string().as_str()).style_spec("cFW"),
                 Cell::new("Total Subtechniques").style_spec("FY"),
             ]));
-
             _totals_table.printstd();
             println!("{}", "\n\n");
             _table.printstd();
             println!("{}", "\n\n");
-            
         }
     }    
     ///
@@ -2637,17 +2684,12 @@ impl EnterpriseMatrixSearcher {
             _table_headers = Row::new(vec![
                 Cell::new("INDEX").style_spec("c"),
                 Cell::new("STATUS").style_spec("c"),
-                //Cell::new("GID").style_spec("cFW"),
                 Cell::new("MALWARE").style_spec("cFW"),
-                //Cell::new("ALIASES").style_spec("c"),
                 Cell::new("PLATFORMS"),
                 Cell::new("TACTIC").style_spec("c"),
                 Cell::new("TID").style_spec("cFG"),
                 Cell::new("TECHNIQUE").style_spec("cFG"),
-                //Cell::new("SUBTECHNIQUES").style_spec("cFW"),
                 Cell::new("DATA SOURCES").style_spec("c"),
-                //Cell::new("MALWARE").style_spec("cFY"),
-                //Cell::new("TOOLS").style_spec("cFY"),
             ]);
         } else {
             _table_headers = Row::new(vec![
@@ -2703,7 +2745,6 @@ impl EnterpriseMatrixSearcher {
                 } else {
                     _st.push_str("n_a");
                 }
-
                 // When a deprecated Technique is part of the result
                 // then create a row for the deprecated technique
                 let mut _status: Cell;
@@ -2727,10 +2768,7 @@ impl EnterpriseMatrixSearcher {
                         Cell::new(_row.tactic.as_str()),
                         _tid,
                         Cell::new(_row.technique.as_str()),
-                        //Cell::new(_st.as_str()),
                         Cell::new(_row.datasources.as_str()),
-                        //Cell::new(_row.correlation_malware.as_str()),
-                        //Cell::new(_row.correlation_tool.as_str()),
                     ]));
                 } else {
                     _table.add_row(Row::new(vec![
@@ -2741,10 +2779,7 @@ impl EnterpriseMatrixSearcher {
                         Cell::new(_row.tactic.as_str()).style_spec("FW"),
                         _tid,
                         Cell::new(_row.technique.as_str()).style_spec("FW"),
-                        //Cell::new(_st.replace("|", "\n").as_str()).style_spec("cFW"),
                         Cell::new(_row.datasources.replace("|", "\n").as_str()),
-                        //Cell::new(_row.correlation_malware.replace("|", "\n").as_str()).style_spec("FW"),
-                        //Cell::new(_row.correlation_tool.replace("|", "\n").as_str()).style_spec("FW"),
                     ]));
                 }
                 _st.clear();
@@ -2903,12 +2938,10 @@ impl EnterpriseMatrixSearcher {
                 Cell::new("STATUS").style_spec("c"),
                 Cell::new("GID").style_spec("cFW"),
                 Cell::new("ADVERSARY").style_spec("cFW"),
-                //Cell::new("ALIASES").style_spec("c"),
                 Cell::new("PLATFORMS"),
                 Cell::new("TACTIC").style_spec("c"),
                 Cell::new("TID").style_spec("cFG"),
                 Cell::new("TECHNIQUE").style_spec("cFG"),
-                //Cell::new("SUBTECHNIQUES").style_spec("cFW"),
                 Cell::new("DATA SOURCES").style_spec("c"),
                 Cell::new("MALWARE").style_spec("cFY"),
                 Cell::new("TOOLS").style_spec("cFY"),
@@ -2992,7 +3025,6 @@ impl EnterpriseMatrixSearcher {
                         Cell::new(_row.tactic.as_str()),
                         _tid,
                         Cell::new(_row.technique.as_str()),
-                        //Cell::new(_st.as_str()),
                         Cell::new(_row.datasources.as_str()),
                         Cell::new(_row.correlation_malware.as_str()),
                         Cell::new(_row.correlation_tool.as_str()),
@@ -3007,7 +3039,6 @@ impl EnterpriseMatrixSearcher {
                         Cell::new(_row.tactic.as_str()).style_spec("FW"),
                         _tid,
                         Cell::new(_row.technique.as_str()).style_spec("FW"),
-                        //Cell::new(_st.replace("|", "\n").as_str()).style_spec("cFW"),
                         Cell::new(_row.datasources.replace("|", "\n").as_str()),
                         Cell::new(_row.correlation_malware.replace("|", "\n").as_str()).style_spec("FW"),
                         Cell::new(_row.correlation_tool.replace("|", "\n").as_str()).style_spec("FW"),
@@ -3639,6 +3670,11 @@ impl EnterpriseMatrixSearcher {
         if _wants_export == "csv" {
             self.save_csv_export(_wants_outfile, &_csv_table);
         } else if _wants_export == "json" {
+            println!("{}", serde_json::to_string_pretty(&_json_out).unwrap());
+        } else if _wants_export == "uxmode" {
+            for _item in _json_out.iter_mut() {
+                _item.technique_description = self.transform_description(_item.technique_description.clone());
+            }
             println!("{}", serde_json::to_string_pretty(&_json_out).unwrap());
         } else {
             println!("{}", "\n\n");
@@ -4389,12 +4425,5 @@ impl EnterpriseMatrixSearcher {
         println!("\n\n");
         _table.printstd();
         println!("\n\n");
-        /*
-        TO DO:
-        if _wants_export == "csv" {
-            _table.remove_row(index: usize)
-            self.save_csv_export(_wants_outfile, &_table);
-        }
-        */
     }
 }
