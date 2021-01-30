@@ -19,7 +19,7 @@ use searcher::EnterpriseMatrixSearcher;
 /// # Globals
 /// Represent global variables used throughout this source file.
 //static _URL: &str = "https://github.com/dfirence/mitre-assistant";
-static _VERSION: &str = "v.0.0.17"; 
+static _VERSION: &str = "v.0.0.18"; 
 static _AUTHOR: &str = "carlos diaz | @dfirence\n\n";
 static _ABOUT: &str = "Mitre Attack Assistant\n\n\tA more useful utility for the ATT&CK Matrix";
 
