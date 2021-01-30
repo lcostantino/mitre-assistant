@@ -285,6 +285,7 @@ pub struct EnterpriseTechnique {
     pub correlation_tool: String,
     pub correlation_gid: String,
     pub technique_description: String,
+    pub technique_references: Vec<EnterpriseTechniqueReference>
     //pub correlation_mid: String,
     //pub correlation_tid: String,
 }
@@ -308,6 +309,7 @@ impl EnterpriseTechnique {
             correlation_tool: "none".to_string(),
             correlation_gid: "none".to_string(),
             technique_description: "none".to_string(),
+            technique_references: vec![]
             //correlation_mid: "none".to_string(),
            //correlation_tid: "none".to_string()
         }
@@ -317,6 +319,27 @@ impl EnterpriseTechnique {
         self.count_subtechniques = self.subtechniques.len();
     }
 }
+
+#[derive(Debug, Deserialize, Serialize, Hash, Eq, PartialEq, Ord, PartialOrd,Clone)]
+pub struct EnterpriseTechniqueReference {
+    pub source_name: Option<String>,
+    pub url: Option<String>,
+    pub description: Option<String>,
+    pub external_id: Option<String>
+}
+impl EnterpriseTechniqueReference {
+    pub fn new() -> Self
+    {
+        EnterpriseTechniqueReference {
+            source_name: Some("none".to_string()),
+            url: Some("none".to_string()),
+            description: Some("none".to_string()),
+            external_id: Some("none".to_string())
+        }
+    }
+}
+
+
 #[derive(Debug, Deserialize, Serialize)]
 pub struct EnterpriseRevokedTechniques {
     pub count: usize,

@@ -18,11 +18,23 @@ use regexes::PatternManager;
 #[path = "../structs/enterprise.rs"]
 pub mod enterprise;
 use enterprise::{
-    EnterpriseAdversary, EnterpriseAdversaryProfile, EnterpriseMalware, EnterpriseMalwareProfile,
-    EnterpriseMatrixStatistics, EnterpriseProfileEntry, EnterpriseRelationship,
-    EnterpriseRelationships, EnterpriseSubtechniquesByPlatform, EnterpriseTechnique,
-    EnterpriseTechniquesByPlatform, EnterpriseTechniquesByTactic, EnterpriseTool,
-    EnterpriseToolProfile, EnterpriseRevokedItem,EnterpriseRevokedTechniques
+    EnterpriseAdversary,
+    EnterpriseAdversaryProfile,
+    EnterpriseMalware,
+    EnterpriseMalwareProfile,
+    EnterpriseMatrixStatistics,
+    EnterpriseProfileEntry,
+    EnterpriseRelationship,
+    EnterpriseRelationships,
+    EnterpriseSubtechniquesByPlatform,
+    EnterpriseTechnique, 
+    EnterpriseTechniqueReference,
+    EnterpriseTechniquesByPlatform,
+    EnterpriseTechniquesByTactic,
+    EnterpriseTool,
+    EnterpriseToolProfile,
+    EnterpriseRevokedItem,
+    EnterpriseRevokedTechniques
 };
 
 #[derive(Debug, Deserialize, Serialize)]
@@ -257,16 +269,40 @@ impl EnterpriseMatrixParser {
         items: &serde_json::Value,
         is_subtechnique: bool,
     ) -> Result<(), Box<dyn std::error::Error>> {
+        let _tname = items["name"].as_str().expect("Problem With Technique Name");
         let _id = items["id"].as_str().expect("Problem With Technique UID");
         let _id = _id.to_string();
-        let _tid = items["external_references"]
+        let _refs = items["external_references"]
             .as_array()
             .expect("Problem With External References");
-        let _tid = _tid[0]["external_id"]
+        let _tid = _refs[0]["external_id"]
             .as_str()
             .expect("Problem With External ID");
-        let _technique_description = items["description"].as_str().expect("Problem With Technique Description");
-        let _tname = items["name"].as_str().expect("Problem With Technique Name");
+        let _technique_description = items["description"]
+            .as_str()
+            .expect("Problem With Technique Description");
+
+        let mut _references: Vec<EnterpriseTechniqueReference> = vec![];
+        for (_idx, _reference) in _refs.iter().enumerate() {
+            if _idx != 0usize {
+                let mut _etr = EnterpriseTechniqueReference::new();
+                let _dict = _reference.as_object().unwrap();
+                
+                if _dict.contains_key("external_id") && _dict["external_id"].as_str().unwrap().starts_with("CAPEC") {
+                    _etr.external_id = Some(_dict["external_id"].as_str().unwrap().to_string());
+                }
+                if _dict.contains_key("description") {
+                    _etr.description = Some(_dict["description"].as_str().unwrap().to_string());
+                }
+                if _dict.contains_key("url") {
+                    _etr.url = Some(_dict["url"].as_str().unwrap().to_string());
+                }
+                if _dict.contains_key("source_name") {
+                    _etr.source_name = Some(_dict["source_name"].as_str().unwrap().to_string());
+                }
+                _references.push(_etr);
+            }
+        }
         let mut _platforms = String::from("");
         for _os in items["x_mitre_platforms"].as_array().unwrap().iter() {
             let _x = _os.as_str().unwrap().to_lowercase().replace(" ", "-");
@@ -287,6 +323,7 @@ impl EnterpriseMatrixParser {
             _et.tactic = _tactic.to_string();
             _et.technique = _tname.to_string();
             _et.technique_description = _technique_description.to_string();
+            _et.technique_references = _references.clone();
             let _d = items
                 .as_object()
                 .expect("Unable to Deserialize into String");
