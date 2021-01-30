@@ -1,6 +1,5 @@
 use serde_derive::{Deserialize, Serialize};
 
-
 /// # Navigator Version 2
 /// These structs accommodate the legacy version of the
 /// navigator application's data format before the new
@@ -39,6 +38,7 @@ use serde_derive::{Deserialize, Serialize};
 /// 
 /// The approach is to write a navigator layer file from
 /// a query.
+
 #[derive(Debug, Deserialize, Serialize)]
 pub struct V2Navigator {
     pub name:                               String,
@@ -70,6 +70,7 @@ pub struct V2Navigator {
     #[serde(rename = "selectTechniquesAcrossTactics")]
     pub select_techniques_across_tactics:   bool,
 }
+
 impl V2Navigator {
     /// # V2 Constructor
     /// 
@@ -109,8 +110,6 @@ impl V2Filters {
         }
     }
 }
-
-
 #[derive(Debug, Deserialize, Serialize, Hash)]
 pub struct V2Technique {
     #[serde(rename = "techniqueID")]
@@ -136,8 +135,6 @@ impl V2Technique {
         }
     }
 }
-
-
 #[derive(Debug, Deserialize, Serialize, Hash)]
 pub struct V2Gradient {
     pub colors:     Vec<String>,
@@ -158,8 +155,6 @@ impl V2Gradient {
         }
     }
 }
-
-
 #[derive(Debug, Deserialize, Serialize, Hash)]
 pub struct V2LegendItem {
     pub color:  String,
@@ -169,6 +164,134 @@ impl V2LegendItem {
     pub fn new() -> Self
     {
         V2LegendItem {
+            color:  "".to_string(),
+            label:  "".to_string()
+        }
+    }
+}
+
+
+/// # Navigator Version 3
+/// Structures for the newer version introduced in 2020
+///
+#[derive(Debug, Deserialize, Serialize)]
+pub struct V3Navigator {
+    pub name:           String,
+    pub versions:       std::collections::HashMap<String, String>,
+    pub domain:         String,
+    pub description:    String,
+    pub filters:        V3Filters,
+    pub sorting:        u16,
+    pub layout:         V3Layout, 
+
+    #[serde(rename = "viewMode")]
+    pub view_mode:      Option<u8>,
+    
+    #[serde(rename = "hideDisabled")]
+    pub hide_disabled:  bool,
+    pub techniques:     Vec<V3Technique>,
+    pub gradient:       V3Gradient,
+
+    #[serde(rename = "legendItems")]
+    pub legend_items: Vec<V3LegendItem>,
+
+    pub metadata: Vec<String>,
+
+    #[serde(rename = "showTacticRowBackground")]
+    pub show_tactic_row_background: bool,
+
+	#[serde(rename = "tacticRowBackground")]
+    pub tactic_row_background: String,
+
+    #[serde(rename = "selectTechniquesAcrossTactics")]
+    pub select_techniques_across_tactics: bool,
+
+    #[serde(rename = "selectSubtechniquesWithParent")]
+    pub select_subtechniques_with_parent: bool
+}
+
+
+#[derive(Debug, Deserialize, Serialize, Hash)]
+pub struct V3Layout {
+    pub layout: String,
+
+    #[serde(rename = "showId")]
+    pub show_id: bool,
+
+    #[serde(rename = "showName")]
+    pub show_name: bool
+}
+impl V3Layout {
+    pub fn new() -> Self
+    {
+        V3Layout {
+            layout: "side".to_string(),
+            show_id: false,
+            show_name: true
+        }
+    }
+}
+
+#[derive(Debug, Deserialize, Serialize, Hash)]
+pub struct V3Technique {
+    #[serde(rename = "techniqueID")]
+    pub technique_id:   String,
+    pub tactic:         String,
+    pub score:          Option<u32>,
+    pub color:          String,
+    pub comment:        String,
+    pub enabled:        bool,
+    pub metadata:       Option<Vec<String>>,
+    
+    #[serde(rename = "showSubtechniques")]
+    pub show_subtechniques: bool,
+}
+
+#[derive(Debug, Deserialize, Serialize, Hash)]
+pub struct V3Filters {
+    pub stages:     Vec<String>,
+    pub platforms:  Vec<String>
+}
+impl V3Filters {
+    pub fn new() -> Self
+    {
+        V3Filters {
+            stages:     vec![],
+            platforms:  vec![]
+        }
+    }
+}
+
+#[derive(Debug, Deserialize, Serialize, Hash)]
+pub struct V3Gradient {
+    pub colors:     Vec<String>,
+    
+    #[serde(rename = "minValue")]
+    pub min_value:  u32,
+    
+    #[serde(rename = "maxValue")]
+    pub max_value:  u32
+}
+impl V3Gradient {
+    pub fn new() -> Self
+    {
+        V3Gradient {
+            colors:     vec![],
+            min_value:  0,
+            max_value:  0
+        }
+    }
+}
+
+#[derive(Debug, Deserialize, Serialize, Hash)]
+pub struct V3LegendItem {
+    pub color:  String,
+    pub label:  String
+}
+impl V3LegendItem {
+    pub fn new() -> Self
+    {
+        V3LegendItem {
             color:  "".to_string(),
             label:  "".to_string()
         }
