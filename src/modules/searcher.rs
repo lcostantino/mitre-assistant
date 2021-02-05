@@ -144,9 +144,17 @@ impl EnterpriseMatrixSearcher {
         //  (2) Look for the `<code></code>` tags and convert
         //  (3) Look for the (Citation: ...) blocks and convert
         //      These typically match the `technique_references`
-        let _string = markdown.replace("\n", "<br />");
-        let html = markdown_to_html(&_string, &options);
-        return html;
+        let _chunks: Vec<&str> = markdown.split('\n').collect();
+
+        let mut _string: String = String::from("");
+        for _chunk in _chunks.iter() {
+            if _chunk != &"" {
+                _string.push_str(_chunk);
+                _string.push_str("<br /><br />");
+            }
+        }
+        _string.pop();
+        return _string;
     }
     ///
     ///
