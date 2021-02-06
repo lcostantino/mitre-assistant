@@ -1,4 +1,4 @@
-use comrak::{ComrakOptions, markdown_to_html};
+
 use prettytable::{Cell, Row, Table};
 use serde_json;
 
@@ -137,13 +137,6 @@ impl EnterpriseMatrixSearcher {
     /// the provided markup to a html string.
     fn transform_description(&self, markdown: String) -> String
     {
-        let mut options = ComrakOptions::default();
-        options.parse.smart = true;
-        // We need to do a few things in the transformation.
-        //  (1) Look For & replace Unicode Sequences
-        //  (2) Look for the `<code></code>` tags and convert
-        //  (3) Look for the (Citation: ...) blocks and convert
-        //      These typically match the `technique_references`
         let _chunks: Vec<&str> = markdown.split('\n').collect();
 
         let mut _string: String = String::from("");
@@ -153,7 +146,6 @@ impl EnterpriseMatrixSearcher {
                 _string.push_str("<br /><br />");
             }
         }
-        _string.pop();
         return _string;
     }
     ///

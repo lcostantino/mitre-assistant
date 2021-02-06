@@ -10,7 +10,6 @@ extern crate regex;
 extern crate serde_json;
 extern crate serde_derive;
 extern crate dirs;
-extern crate comrak;
 
 #[path = "./utils/args.rs"]
 mod args;
