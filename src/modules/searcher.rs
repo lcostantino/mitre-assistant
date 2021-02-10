@@ -1102,7 +1102,9 @@ impl EnterpriseMatrixSearcher {
                     _et.technique_description = _item.technique_description.clone();
                     _results.push(_et);
                     */
-                    _results.push(_item.clone());
+                    let mut _et = _item.clone();
+                    _et.datasources = _search_term;
+                    _results.push(_et);
                 }
             }
         } else if many.len() > 1 {
@@ -1218,7 +1220,9 @@ impl EnterpriseMatrixSearcher {
                         
                         _results.push(_et);
                         */
-                        _results.push(_item.clone());
+                        let mut _et = _item.clone();
+                        _et.platform = _platform.to_string();
+                        _results.push(_et);
                     }
                 }
             } else if many.len() > 1 {
