@@ -322,6 +322,9 @@ impl EnterpriseMatrixSearcher {
             _valid.push((_st, 43usize));
             _wants_all_tools = true;
         }
+        else if _st == "correlation:adversaries" {
+            _valid.push((_st, 46usize));
+        }
         else if !_st.contains(",") {
             if _scanner.pattern.is_match(_st) {
                 let _idx: Vec<usize> = _scanner.pattern.matches(_st).into_iter().collect();
@@ -441,6 +444,9 @@ impl EnterpriseMatrixSearcher {
                 }
                 else if _pattern == &45usize {
                     _results.push(self.search_by_platform(_term, _wants_subtechniques, _matches_many.clone()));
+                }
+                else if _pattern == &46usize {
+                    _results.push(self.search_correlation_matrix_by_adversaries());
                 }
             }
             // Render Query Results
@@ -2099,6 +2105,61 @@ impl EnterpriseMatrixSearcher {
         let _err: &str = "(?) Error: Unable To Deserialize Statistics For Malware";
         serde_json::to_string(&_results).expect(_err)
     }    
+    ///
+    fn search_correlation_matrix_by_adversaries(&self) -> String
+    {
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
+        let mut _results: Vec<Vec<usize>> = vec![];
+        let mut _adversary_vector_techniques: Vec<(String, usize)> = vec![];
+        let mut _adversary_vector_subtechniques: Vec<(String, usize)> = vec![];
+        for _adversary in _json.breakdown_adversaries.iter() {
+            
+            _adversary_vector_techniques.push((_adversary.name.clone(), _adversary.profile.techniques.count));
+        }
+        for _adversary in _json.breakdown_adversaries.iter() {
+            
+            _adversary_vector_subtechniques.push((_adversary.name.clone(), _adversary.profile.subtechniques.count));
+        }
+        _adversary_vector_techniques.sort_by_key(|k| k.1);
+        _adversary_vector_techniques.reverse();
+        _adversary_vector_subtechniques.sort_by_key(|k| k.1);
+        _adversary_vector_subtechniques.reverse();
+        let mut _results: HashMap<String, Vec<usize>> = HashMap::new();
+        for (_idx, _subject) in _adversary_vector_techniques.iter().enumerate() {
+            let mut matched_techniques: Vec<String>: vec![];
+            let mut subject_techniques: Vec<String>: vec![];
+            let mut n_matches: Vec<usize>: vec![];
+            //
+            // Start iteratin the Catalog of Adversaries
+            for _match_partner in _json.breakdown_adversaries.iter() {
+                if _match_partner.name.as_str() == _subject.0.as_str() {
+                    subject_techniques = _match_partner.profile.techniques.items.clone(); // Get the techniques
+                    n_matches.push(9999); // Because we are just loading the initial category, auto fill with 9999
+                }
+                else if subject_techniques.len() != 0usize
+                    && _match_partner.name.as_str() != _subject.0.as_str() {
+                        // Start correlating here
+                        for _partner_technique in _match_partner.profile.techniques.items.iter() {
+                            for subject_technique in subject_techniques.iter() {
+                                if _partner_technique.as_str() == subject_technique.as_str() {
+                                    matched_techniques.push(_partner_technique.clone());
+                                }
+                            }
+                        }
+                    }
+            }
+        }
+
+        println!("=====[ TECHNIQUES ]======");
+        for _adversary in _adversary_vector_techniques.iter() {
+            println!("{:<32}{}", _adversary.0, _adversary.1);
+        }
+        println!("=====[ SUB-TECHNIQUES ]======");
+        for _adversary in _adversary_vector_subtechniques.iter() {
+            println!("{:<32}{}", _adversary.0, _adversary.1);
+        }
+        "Testing".to_string()
+    }
     ///
     ///
     ///
