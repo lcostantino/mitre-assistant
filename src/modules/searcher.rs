@@ -2126,12 +2126,13 @@ impl EnterpriseMatrixSearcher {
         _adversary_vector_subtechniques.reverse();
         let mut _results: HashMap<String, Vec<usize>> = HashMap::new();
         for (_idx, _subject) in _adversary_vector_techniques.iter().enumerate() {
-            let mut matched_techniques: Vec<String>: vec![];
+
             let mut subject_techniques: Vec<String>: vec![];
             let mut n_matches: Vec<usize>: vec![];
             //
             // Start iteratin the Catalog of Adversaries
             for _match_partner in _json.breakdown_adversaries.iter() {
+                let mut matched_techniques: Vec<String>: vec![];
                 if _match_partner.name.as_str() == _subject.0.as_str() {
                     subject_techniques = _match_partner.profile.techniques.items.clone(); // Get the techniques
                     n_matches.push(9999); // Because we are just loading the initial category, auto fill with 9999
