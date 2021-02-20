@@ -266,6 +266,7 @@ impl V3Filters {
 pub struct V3Gradient {
     pub colors:     Vec<String>,
     
+    
     #[serde(rename = "minValue")]
     pub min_value:  u32,
     

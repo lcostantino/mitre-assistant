@@ -3,6 +3,7 @@ use prettytable::{Cell, Row, Table};
 use serde_json;
 
 use std::collections::HashSet;
+use std::collections::HashMap;
 
 #[path = "./parser.rs"]
 mod parser;
@@ -2124,33 +2125,45 @@ impl EnterpriseMatrixSearcher {
         _adversary_vector_techniques.reverse();
         _adversary_vector_subtechniques.sort_by_key(|k| k.1);
         _adversary_vector_subtechniques.reverse();
-        let mut _results: HashMap<String, Vec<usize>> = HashMap::new();
-        for (_idx, _subject) in _adversary_vector_techniques.iter().enumerate() {
 
-            let mut subject_techniques: Vec<String>: vec![];
-            let mut n_matches: Vec<usize>: vec![];
-            //
-            // Start iteratin the Catalog of Adversaries
-            for _match_partner in _json.breakdown_adversaries.iter() {
-                let mut matched_techniques: Vec<String>: vec![];
-                if _match_partner.name.as_str() == _subject.0.as_str() {
-                    subject_techniques = _match_partner.profile.techniques.items.clone(); // Get the techniques
-                    n_matches.push(9999); // Because we are just loading the initial category, auto fill with 9999
-                }
-                else if subject_techniques.len() != 0usize
-                    && _match_partner.name.as_str() != _subject.0.as_str() {
-                        // Start correlating here
-                        for _partner_technique in _match_partner.profile.techniques.items.iter() {
-                            for subject_technique in subject_techniques.iter() {
-                                if _partner_technique.as_str() == subject_technique.as_str() {
-                                    matched_techniques.push(_partner_technique.clone());
-                                }
+
+        // Iterate Adversary Catalog and fill the correlation matrix
+        let mut _results: HashMap<String, Vec<(String, usize)>> = HashMap::new();
+        let mut _subject_techniques: Vec<String> = vec![];
+        //let mut _matched_techniques: Vec<String> = vec![];
+        let mut _counter: usize = 0;
+        for _subject in _adversary_vector_techniques.iter() {
+            let mut _temp_results: Vec<(String, usize)> = vec![];
+            for _adversary in _json.breakdown_adversaries.iter() {
+                if _adversary.name == _subject.0 {
+                    _temp_results.push((_adversary.name.clone(), 99999));
+                    _subject_techniques = _adversary.profile.techniques.items.clone();
+                    break;
+                } else {
+                    for _st in _subject_techniques.iter() {
+                        for _at in _adversary.profile.techniques.items.iter() {
+                            if _st == _at {
+                                _counter += 1;
                             }
                         }
                     }
+                    _temp_results.push((_adversary.name.clone(), _counter));
+                    _counter = 0;
+                }
             }
+            _results.insert(_subject.0.clone(), _temp_results);
         }
+        println!("{:#?}", _results);
+        /*
+        for (_idx, _subject) in _adversary_vector_techniques.iter().enumerate() {
+            println!("{:<6}{}\t{}", _idx, _subject.0, _subject.1);
+        }
+        */
+        // Iterate through the list of adversaries with
+        // most techniques (desc order)
 
+        //println!("{:#?}", _results);
+        /*
         println!("=====[ TECHNIQUES ]======");
         for _adversary in _adversary_vector_techniques.iter() {
             println!("{:<32}{}", _adversary.0, _adversary.1);
@@ -2159,6 +2172,8 @@ impl EnterpriseMatrixSearcher {
         for _adversary in _adversary_vector_subtechniques.iter() {
             println!("{:<32}{}", _adversary.0, _adversary.1);
         }
+        println!("{:#?}", _results);
+        */
         "Testing".to_string()
     }
     ///
