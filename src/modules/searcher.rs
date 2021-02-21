@@ -2114,9 +2114,8 @@ impl EnterpriseMatrixSearcher {
     fn search_correlation_matrix_by_adversaries(&self) -> String
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
-        let mut _results: Vec<Vec<usize>> = vec![];
         let mut _adversary_vector_techniques: Vec<(String, usize, Vec<String>)> = vec![];
-        let mut _adversary_vector_subtechniques: Vec<(String, usize)> = vec![];
+        //let mut _adversary_vector_subtechniques: Vec<(String, usize)> = vec![];
         for _adversary in _json.breakdown_adversaries.iter() {
             _adversary_vector_techniques.push(
                 (_adversary.name.clone(), _adversary.profile.techniques.count, _adversary.profile.techniques.items.clone())
