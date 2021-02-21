@@ -2123,8 +2123,9 @@ impl EnterpriseMatrixSearcher {
         }
         _adversary_vector_techniques.sort_by_key(|k| k.1);
         _adversary_vector_techniques.reverse();
-        _adversary_vector_subtechniques.sort_by_key(|k| k.1);
-        _adversary_vector_subtechniques.reverse();
+        let _copy_vector = _adversary_vector_techniques.clone();
+        //_adversary_vector_subtechniques.sort_by_key(|k| k.1);
+        //_adversary_vector_subtechniques.reverse();
 
 
         // Iterate Adversary Catalog and fill the correlation matrix
@@ -2134,11 +2135,12 @@ impl EnterpriseMatrixSearcher {
         let mut _counter: usize = 0;
         for _subject in _adversary_vector_techniques.iter() {
             let mut _temp_results: Vec<(String, usize)> = vec![];
+            let mut _final_results: Vec<(String, usize)> = vec![];
             for _adversary in _json.breakdown_adversaries.iter() {
                 if _adversary.name == _subject.0 {
                     _temp_results.push((_adversary.name.clone(), 99999));
                     _subject_techniques = _adversary.profile.techniques.items.clone();
-                    break;
+                    _counter = 0;
                 } else {
                     for _st in _subject_techniques.iter() {
                         for _at in _adversary.profile.techniques.items.iter() {
@@ -2151,7 +2153,15 @@ impl EnterpriseMatrixSearcher {
                     _counter = 0;
                 }
             }
-            _results.insert(_subject.0.clone(), _temp_results);
+            // Sort for the correlation_matrix format
+            for _copy in _copy_vector.iter() {
+                for _item in _temp_results.iter() {
+                    if _copy.0 == _item.0 {
+                        _final_results.push((_item.0.clone(), _item.1));
+                    }
+                }
+            }
+            _results.insert(_subject.0.clone(), _final_results);
         }
         println!("{:#?}", _results);
         /*
