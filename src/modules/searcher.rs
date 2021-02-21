@@ -200,6 +200,7 @@ impl EnterpriseMatrixSearcher {
         let mut _wants_all_tools: bool = false;
         let mut _wants_xref_datasources_tactics: bool = false; // Returns The Stats Count XREF of Datasoources By Tactic
         let mut _wants_xref_datasources_platforms: bool = false; // Return The Stats Count XREF of Datasources By Platform
+        let mut _wants_xref_matrix: bool = false;
 
         if _st == "revoked" {
             _valid.push((_st, 3usize));
@@ -325,6 +326,7 @@ impl EnterpriseMatrixSearcher {
         }
         else if _st == "correlation:adversaries" {
             _valid.push((_st, 46usize));
+            _wants_xref_matrix = true;
         }
         else if !_st.contains(",") {
             if _scanner.pattern.is_match(_st) {
@@ -531,6 +533,8 @@ impl EnterpriseMatrixSearcher {
                     _wants_export,
                     _wants_outfile,
                 );
+            } else if _wants_xref_matrix {
+                self.render_correlation_stats(&_results, _wants_export, _wants_outfile);
             } else {
                 self.render_techniques_details_table(&_results, _wants_export, _wants_outfile);
             }
@@ -2114,11 +2118,9 @@ impl EnterpriseMatrixSearcher {
         let mut _adversary_vector_techniques: Vec<(String, usize)> = vec![];
         let mut _adversary_vector_subtechniques: Vec<(String, usize)> = vec![];
         for _adversary in _json.breakdown_adversaries.iter() {
-            
             _adversary_vector_techniques.push((_adversary.name.clone(), _adversary.profile.techniques.count));
         }
         for _adversary in _json.breakdown_adversaries.iter() {
-            
             _adversary_vector_subtechniques.push((_adversary.name.clone(), _adversary.profile.subtechniques.count));
         }
         _adversary_vector_techniques.sort_by_key(|k| k.1);
@@ -2126,8 +2128,7 @@ impl EnterpriseMatrixSearcher {
         let _copy_vector = _adversary_vector_techniques.clone();
         //_adversary_vector_subtechniques.sort_by_key(|k| k.1);
         //_adversary_vector_subtechniques.reverse();
-
-
+        //
         // Iterate Adversary Catalog and fill the correlation matrix
         let mut _results: HashMap<String, Vec<(String, usize)>> = HashMap::new();
         let mut _subject_techniques: Vec<String> = vec![];
@@ -2153,7 +2154,7 @@ impl EnterpriseMatrixSearcher {
                     _counter = 0;
                 }
             }
-            // Sort for the correlation_matrix format
+            // Reverse Sort for the correlation_matrix format
             for _copy in _copy_vector.iter() {
                 for _item in _temp_results.iter() {
                     if _copy.0 == _item.0 {
@@ -2163,28 +2164,9 @@ impl EnterpriseMatrixSearcher {
             }
             _results.insert(_subject.0.clone(), _final_results);
         }
-        println!("{:#?}", _results);
-        /*
-        for (_idx, _subject) in _adversary_vector_techniques.iter().enumerate() {
-            println!("{:<6}{}\t{}", _idx, _subject.0, _subject.1);
-        }
-        */
-        // Iterate through the list of adversaries with
-        // most techniques (desc order)
-
         //println!("{:#?}", _results);
-        /*
-        println!("=====[ TECHNIQUES ]======");
-        for _adversary in _adversary_vector_techniques.iter() {
-            println!("{:<32}{}", _adversary.0, _adversary.1);
-        }
-        println!("=====[ SUB-TECHNIQUES ]======");
-        for _adversary in _adversary_vector_subtechniques.iter() {
-            println!("{:<32}{}", _adversary.0, _adversary.1);
-        }
-        println!("{:#?}", _results);
-        */
-        "Testing".to_string()
+        let _err: &str = "(?) Error: Unable To Deserialize Correlation Matrix";
+        serde_json::to_string(&_results).expect(_err)
     }
     ///
     ///
@@ -4104,6 +4086,18 @@ impl EnterpriseMatrixSearcher {
             _table.printstd();
             println!("{}", "\n\n");
         }
+    }
+    fn render_correlation_stats(
+        &self,
+        results: &Vec<String>,
+        _wants_export: &str,
+        _wants_outfile: &str
+    ) {
+        let mut _table = Table::new();
+        let _item = &results[0];
+        let _err: &str = "(?) Error: Render Table Deserialization Correlation Adversaries";
+        let _json: HashMap<String, Vec<(String, usize)>> = serde_json::from_str(_item.as_str()).expect(_err);
+        println!("{:#?}", _json);
     }
     fn render_stats(
         &self,
