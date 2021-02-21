@@ -4097,7 +4097,25 @@ impl EnterpriseMatrixSearcher {
         let _item = &results[0];
         let _err: &str = "(?) Error: Render Table Deserialization Correlation Adversaries";
         let _json: HashMap<String, Vec<(String, usize)>> = serde_json::from_str(_item.as_str()).expect(_err);
-        println!("{:#?}", _json);
+        let mut _record: Vec<(String, usize)> = vec![];
+        '__check: for _key in _json.keys() {
+            let _k = _key.clone();
+            _record = _json.get(_k.as_str()).unwrap().clone();
+            break;
+        }
+        // Start iterating through HashMap to build table
+        for _item in _record.iter() {
+            // Check if the key exists
+            if _json.contains_key(_item.0.as_str()) {
+                // Now get the values for the key
+                let _values = _json.get_key_value(_item.0.as_str()).unwrap();
+                // Now iterate through the values and build the matrix
+                for _match in _values.1.iter() {
+                    println!("{:#?},{:#?},{:#?}", _item.0, _match.1, _match.0);
+                }
+            }
+        }
+        //println!("{:#?}", _record);
     }
     fn render_stats(
         &self,
