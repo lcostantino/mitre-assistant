@@ -2115,10 +2115,12 @@ impl EnterpriseMatrixSearcher {
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         let mut _results: Vec<Vec<usize>> = vec![];
-        let mut _adversary_vector_techniques: Vec<(String, usize)> = vec![];
+        let mut _adversary_vector_techniques: Vec<(String, usize, Vec<String>)> = vec![];
         let mut _adversary_vector_subtechniques: Vec<(String, usize)> = vec![];
         for _adversary in _json.breakdown_adversaries.iter() {
-            _adversary_vector_techniques.push((_adversary.name.clone(), _adversary.profile.techniques.count));
+            _adversary_vector_techniques.push(
+                (_adversary.name.clone(), _adversary.profile.techniques.count, _adversary.profile.techniques.items.clone())
+            );
         }
         for _adversary in _json.breakdown_adversaries.iter() {
             _adversary_vector_subtechniques.push((_adversary.name.clone(), _adversary.profile.subtechniques.count));
@@ -2131,7 +2133,6 @@ impl EnterpriseMatrixSearcher {
         //
         // Iterate Adversary Catalog and fill the correlation matrix
         let mut _results: HashMap<String, Vec<(String, usize)>> = HashMap::new();
-        let mut _subject_techniques: Vec<String> = vec![];
         //let mut _matched_techniques: Vec<String> = vec![];
         let mut _counter: usize = 0;
         for _subject in _adversary_vector_techniques.iter() {
@@ -2140,10 +2141,8 @@ impl EnterpriseMatrixSearcher {
             for _adversary in _json.breakdown_adversaries.iter() {
                 if _adversary.name == _subject.0 {
                     _temp_results.push((_adversary.name.clone(), 99999));
-                    _subject_techniques = _adversary.profile.techniques.items.clone();
-                    _counter = 0;
                 } else {
-                    for _st in _subject_techniques.iter() {
+                    for _st in _subject.2.iter() {
                         for _at in _adversary.profile.techniques.items.iter() {
                             if _st == _at {
                                 _counter += 1;
@@ -4093,7 +4092,6 @@ impl EnterpriseMatrixSearcher {
         _wants_export: &str,
         _wants_outfile: &str
     ) {
-        let mut _table = Table::new();
         let _item = &results[0];
         let _err: &str = "(?) Error: Render Table Deserialization Correlation Adversaries";
         let _json: HashMap<String, Vec<(String, usize)>> = serde_json::from_str(_item.as_str()).expect(_err);
@@ -4103,17 +4101,35 @@ impl EnterpriseMatrixSearcher {
             _record = _json.get(_k.as_str()).unwrap().clone();
             break;
         }
+        let mut _table = Table::new();
+        let mut _table_headers: Vec<Cell> = vec![];
+        _table_headers.push(Cell::new("X_AXIS"));
+
+        for _item in _record.iter() {
+            let _h = _item.0.clone();
+            _table_headers.push(Cell::new(_h.as_str()));
+        }
+        _table.add_row(Row::new(_table_headers));
         // Start iterating through HashMap to build table
+        
         for _item in _record.iter() {
             // Check if the key exists
+            let mut _table_rows: Vec<Cell> = vec![];
+            _table_rows.push(Cell::new(_item.0.as_str()));
             if _json.contains_key(_item.0.as_str()) {
                 // Now get the values for the key
                 let _values = _json.get_key_value(_item.0.as_str()).unwrap();
                 // Now iterate through the values and build the matrix
                 for _match in _values.1.iter() {
-                    println!("{:#?},{:#?},{:#?}", _item.0, _match.1, _match.0);
+                    //println!("{:#?},{:#?},{:#?}", _item.0, _match.1, _match.0);
+                    let _c = _match.1.to_string();
+                    _table_rows.push(Cell::new(_c.as_str()));
                 }
             }
+            _table.add_row(Row::new(_table_rows.clone()));
+        }
+        if _wants_export == "csv" {
+            self.save_csv_export(_wants_outfile, &_table);
         }
         //println!("{:#?}", _record);
     }
