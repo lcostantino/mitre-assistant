@@ -2133,7 +2133,7 @@ impl EnterpriseMatrixSearcher {
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         let mut _adversary_vector_techniques: Vec<(String, usize, Vec<String>)> = vec![];
-        //let mut _adversary_vector_subtechniques: Vec<(String, usize)> = vec![];
+        
         if _wants_subtechniques {
             for _adversary in _json.breakdown_adversaries.iter() {
                 _adversary_vector_techniques.push(
@@ -2151,16 +2151,21 @@ impl EnterpriseMatrixSearcher {
         _adversary_vector_techniques.reverse();
         let _copy_vector = _adversary_vector_techniques.clone();
         // Iterate Adversary Catalog and fill the correlation matrix
-        let mut _results: HashMap<String, Vec<(String, usize)>> = HashMap::new();
+        let mut _results: HashMap<String, Vec<(String, usize, Vec<String>)>> = HashMap::new();
 
-        //let mut _matched_techniques: Vec<String> = vec![];
         let mut _counter: usize = 0;
         for _subject in _adversary_vector_techniques.iter() {
-            let mut _temp_results: Vec<(String, usize)> = vec![];
-            let mut _final_results: Vec<(String, usize)> = vec![];
+            let mut _temp_results: Vec<(String, usize, Vec<String>)> = vec![];
+            let mut _final_results: Vec<(String, usize, Vec<String>)> = vec![];
             for _adversary in _json.breakdown_adversaries.iter() {
+                let mut _matched_techniques: Vec<String> = vec![];
                 if _adversary.name == _subject.0 {
-                    _temp_results.push((_adversary.name.clone(), 99999));
+                    if _wants_subtechniques {
+                        _matched_techniques = _adversary.profile.subtechniques.items.clone();
+                    } else {
+                        _matched_techniques = _adversary.profile.techniques.items.clone();
+                    }
+                    _temp_results.push((_adversary.name.clone(), 99999, _matched_techniques.clone()));
                 } else {
                     for _st in _subject.2.iter() {
                         let mut _iterable: Vec<String> = vec![];
@@ -2172,10 +2177,11 @@ impl EnterpriseMatrixSearcher {
                         for _at in _iterable.iter() {
                             if _st == _at {
                                 _counter += 1;
+                                _matched_techniques.push(_at.clone());
                             }
                         }
                     }
-                    _temp_results.push((_adversary.name.clone(), _counter));
+                    _temp_results.push((_adversary.name.clone(), _counter, _matched_techniques));
                     _counter = 0;
                 }
             }
@@ -2183,7 +2189,7 @@ impl EnterpriseMatrixSearcher {
             for _copy in _copy_vector.iter() {
                 for _item in _temp_results.iter() {
                     if _copy.0 == _item.0 {
-                        _final_results.push((_item.0.clone(), _item.1));
+                        _final_results.push((_item.0.clone(), _item.1, _item.2.clone()));
                     }
                 }
             }
@@ -2202,7 +2208,7 @@ impl EnterpriseMatrixSearcher {
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         let mut _malware_vector_techniques: Vec<(String, usize, Vec<String>)> = vec![];
-        //let mut _adversary_vector_subtechniques: Vec<(String, usize)> = vec![];
+        
         if _wants_subtechniques {
             for _malware in _json.breakdown_malware.iter() {
                 _malware_vector_techniques.push(
@@ -2272,7 +2278,7 @@ impl EnterpriseMatrixSearcher {
     {
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         let mut _tools_vector_techniques: Vec<(String, usize, Vec<String>)> = vec![];
-        //let mut _adversary_vector_subtechniques: Vec<(String, usize)> = vec![];
+        
         if _wants_subtechniques {
             for _tool in _json.breakdown_tools.iter() {
                 _tools_vector_techniques.push(
@@ -4259,42 +4265,47 @@ impl EnterpriseMatrixSearcher {
     ) {
         let _item = &results[0];
         let _err: &str = "(?) Error: Render Table Deserialization Correlation Adversaries";
-        let _json: HashMap<String, Vec<(String, usize)>> = serde_json::from_str(_item.as_str()).expect(_err);
-        let mut _record: Vec<(String, usize)> = vec![];
-        '__check: for _key in _json.keys() {
-            let _k = _key.clone();
-            _record = _json.get(_k.as_str()).unwrap().clone();
-            break;
-        }
-        let mut _table = Table::new();
-        let mut _table_headers: Vec<Cell> = vec![];
-        _table_headers.push(Cell::new("X_AXIS"));
+        let _json: HashMap<String, Vec<(String, usize, Vec<String>)>> = serde_json::from_str(_item.as_str()).expect(_err);
+        let mut _record: Vec<(String, usize, Vec<String>)> = vec![];
 
-        for _item in _record.iter() {
-            let _h = _item.0.clone();
-            _table_headers.push(Cell::new(_h.as_str()));
-        }
-        _table.add_row(Row::new(_table_headers));
-        // Start iterating through HashMap to build table
-        for _item in _record.iter() {
-            // Check if the key exists
-            let mut _table_rows: Vec<Cell> = vec![];
-            _table_rows.push(Cell::new(_item.0.as_str()));
-            if _json.contains_key(_item.0.as_str()) {
-                // Now get the values for the key
-                let _values = _json.get_key_value(_item.0.as_str()).unwrap();
-                // Now iterate through the values and build the matrix
-                for _match in _values.1.iter() {
-                    let mut _c = _match.1.to_string();
-                    _table_rows.push(Cell::new(_c.as_str()));
-                }
+        if _wants_export == "json" {
+            let _json = serde_json::to_string_pretty(&_json).expect(_err);
+            println!("{}", _json);
+            return;
+        } else if _wants_export == "csv" {
+            '__check: for _key in _json.keys() {
+                let _k = _key.clone();
+                _record = _json.get(_k.as_str()).unwrap().clone();
+                break;
             }
-            _table.add_row(Row::new(_table_rows.clone()));
-        }
-        if _wants_export == "csv" {
+
+            let mut _table = Table::new();
+            let mut _table_headers: Vec<Cell> = vec![];
+            _table_headers.push(Cell::new("X_AXIS"));
+
+            for _item in _record.iter() {
+                let _h = _item.0.clone();
+                _table_headers.push(Cell::new(_h.as_str()));
+            }
+            _table.add_row(Row::new(_table_headers));
+            // Start iterating through HashMap to build table
+            for _item in _record.iter() {
+                // Check if the key exists
+                let mut _table_rows: Vec<Cell> = vec![];
+                _table_rows.push(Cell::new(_item.0.as_str()));
+                if _json.contains_key(_item.0.as_str()) {
+                    // Now get the values for the key
+                    let _values = _json.get_key_value(_item.0.as_str()).unwrap();
+                    // Now iterate through the values and build the matrix
+                    for _match in _values.1.iter() {
+                        let mut _c = _match.1.to_string();
+                        _table_rows.push(Cell::new(_c.as_str()));
+                    }
+                }
+                _table.add_row(Row::new(_table_rows.clone()));
+            }
             self.save_csv_export(_wants_outfile, &_table);
         }
-        //println!("{:#?}", _record);
     }
     fn render_stats(
         &self,
