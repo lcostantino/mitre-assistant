@@ -324,15 +324,15 @@ impl EnterpriseMatrixSearcher {
             _valid.push((_st, 43usize));
             _wants_all_tools = true;
         }
-        else if _st == "correlation:adversaries" {
+        else if _st == "correlation:adversaries" || _st.starts_with("correlation:adversaries:") {
             _valid.push((_st, 46usize));
             _wants_xref_matrix = true;
         }
-        else if _st == "correlation:malware" {
+        else if _st == "correlation:malware" || _st.starts_with("correlation:malware:") {
             _valid.push((_st, 47usize));
             _wants_xref_matrix = true;
         }
-        else if _st == "correlation:tools" {
+        else if _st == "correlation:tools" || _st.starts_with("correlation:tools:") {
             _valid.push((_st, 48usize));
             _wants_xref_matrix = true;
         }
@@ -2131,9 +2131,18 @@ impl EnterpriseMatrixSearcher {
         _wants_subtechniques: bool
     ) -> String
     {
+        // Inspect the `SearchTerm` input param and find if
+        // the user wants `Agg Results` or `Tactics` or `TechniqueId` Mapping
+        /*
+        if search_term == "correlation:adversaries" {
+            println!("Default Search Mode");
+        }
+        */
+        // Load the relevant iterable: Techniques vs SubTechniques
+        // Then extract a tuple of attributes to find DESC order
+        // of adversaries
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         let mut _adversary_vector_techniques: Vec<(String, usize, Vec<String>)> = vec![];
-        
         if _wants_subtechniques {
             for _adversary in _json.breakdown_adversaries.iter() {
                 _adversary_vector_techniques.push(
