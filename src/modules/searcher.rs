@@ -2230,7 +2230,6 @@ impl EnterpriseMatrixSearcher {
         _avt.reverse();
         let _copy_vector = _avt.clone();
         // Now let's start parsing
-        let mut _counter: usize = 0;
         for _subject in _avt.iter() {
             let mut _temp: Vec<(String, usize, Vec<String>)> = vec![];
             let mut _final: Vec<(String, usize, Vec<String>)> = vec![];
@@ -2254,7 +2253,6 @@ impl EnterpriseMatrixSearcher {
                                 // Now we have the matched techniques
                                 // start applying filtering here with the temp results
                                 if _wants_matrix_type == 0 {
-                                    _counter += 1;
                                     _matched_techniques.push(_target_technique.clone());
                                 } else if _wants_matrix_type == 1 {
                                     // Because the user wants tactics we need to iterate through
@@ -2266,7 +2264,7 @@ impl EnterpriseMatrixSearcher {
                                             for _et in _enterprise_technique.tactic.items.iter() {
                                                 if _et.starts_with(_target_technique.as_str()) {
                                                     _matched_techniques.push(_et.clone());
-                                                    _counter += 1;
+
                                                 }
                                             }
                                         }
@@ -2292,15 +2290,12 @@ impl EnterpriseMatrixSearcher {
                                     _matched_techniques.dedup();
                                     _matched_techniques.sort();
                                     // We count after de-duplicating
-                                    _counter += _matched_techniques.len();
-                                    println!("Counter {}", _counter);
                                     println!("Matched Techniques: {:#?}", _matched_techniques);
                                 }
                             }
                         }
                     }
-                    _temp.push((_adversary.name.clone(), _counter, _matched_techniques));
-                    _counter = 0;
+                    _temp.push((_adversary.name.clone(), _matched_techniques.len(), _matched_techniques));
                 }
             }
              // Reverse Sort for the correlation_matrix format
