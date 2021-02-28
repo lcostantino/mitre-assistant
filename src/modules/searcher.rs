@@ -2290,22 +2290,12 @@ impl EnterpriseMatrixSearcher {
                                         println!("Inner Match: {}", _target_technique);
                                         _matched_techniques.push(_target_technique.clone());
                                     }
-                                    /*
-                                    for _enterprise_technique in _all_techniques.iter() {
-                                        for _et in _enterprise_technique.tactic.items.iter() {
-                                            if _et.to_lowercase().contains(_target_technique.as_str()) {
-                                                _matched_techniques.push(_et.clone());
-                                            }
-                                        }
-                                    }
-                                    */
                                     // We count after de-duplicating
                                     _matched_techniques.sort();
                                     _matched_techniques.dedup();
                                     _matched_techniques.sort();
                                     println!("Matched Techniques: {:#?}", _matched_techniques);
                                 }
-                                //*/
                             }
                         }
                     }
@@ -4424,7 +4414,10 @@ impl EnterpriseMatrixSearcher {
                     let _values = _json.get_key_value(_item.0.as_str()).unwrap();
                     // Now iterate through the values and build the matrix
                     for _match in _values.1.iter() {
-                        let mut _c = _match.1.to_string();
+                        let mut _c = "-".to_string();
+                        if _match.1 != 99999usize {
+                            _c = _match.1.to_string();
+                        }
                         _table_rows.push(Cell::new(_c.as_str()));
                     }
                 }
