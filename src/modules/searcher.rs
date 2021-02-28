@@ -2209,12 +2209,11 @@ impl EnterpriseMatrixSearcher {
         } else {
             _all_techniques = _json.rollup_techniques;
         }
+        let mut _baseline_adversaries = _json.breakdown_adversaries.clone();
         // Now we have the adversaries, let prep to inspect/correlate
         // based on the original user input types
         if _wants_matrix_type == 2 {
             _input.sort();
-            let _user_adversary = "ma-user-adversary".to_string();
-            println!("[+] User Adversary Mode: Creating Subject | {}", _user_adversary);
             let mut _user_techniques: Vec<String> = vec![];
             for _user_input in _input.iter() {
                 _user_techniques.push(_user_input.clone());
@@ -2223,9 +2222,21 @@ impl EnterpriseMatrixSearcher {
             _user_techniques.dedup();
             _user_techniques.sort();
             // Now Add the user-adversary
+            let mut _user_adversary: crate::args::searcher::parser::enterprise::EnterpriseAdversary = _baseline_adversaries[0].clone();
+            _user_adversary.id = "intrusion-set--99999".to_string();
+            _user_adversary.name = "ma-user-adversary".to_string();
+            for _user_technique in _user_techniques.iter() {
+                _user_adversary.profile.techniques.items.push(_user_technique.clone());
+            }
+            // Add it to the baseline
+            _baseline_adversaries.push(_user_adversary);
+            // And Add it to the AVT
+            let _user_adversary = "ma-user-adversary".to_string();
+            println!("[+] User Adversary Mode: Creating Subject | {}", _user_adversary);
             _avt.push((_user_adversary, _user_techniques.len(), _user_techniques));
+
         }
-        // Now Resume & Sort Descending
+        // Now Resume & Sort AVT By Descending
         _avt.sort_by_key(|k| k.1);
         _avt.reverse();
         let _copy_vector = _avt.clone();
@@ -2234,7 +2245,7 @@ impl EnterpriseMatrixSearcher {
             let mut _temp: Vec<(String, usize, Vec<String>)> = vec![];
             let mut _final: Vec<(String, usize, Vec<String>)> = vec![];
             
-            for _adversary in _json.breakdown_adversaries.iter() {
+            for _adversary in _baseline_adversaries.iter() {
                 let mut _iterable: Vec<String> = vec![];
                 let mut _matched_techniques: Vec<String> = vec![];
                 if _wants_subtechniques {
@@ -2242,7 +2253,9 @@ impl EnterpriseMatrixSearcher {
                 } else {
                     _iterable = _adversary.profile.techniques.items.clone();
                 }
-
+                // When the user is not using the modeling mode
+                // We continue matching and iterating against the
+                // baseline (ATT&CK database constructed by #MA)
                 if _subject.0.as_str() == _adversary.name.as_str() {
                     // When the cell is the same for subject we add padding with 99999
                     _temp.push((_adversary.name.clone(), 99999, _iterable.clone()));
@@ -2269,29 +2282,30 @@ impl EnterpriseMatrixSearcher {
                                             }
                                         }
                                     }
-                                } else if _wants_matrix_type == 2 {
+                                } 
+                                else if _wants_matrix_type == 2 {
                                     // Iterate through the user input tokens
-                                    for _token in _input.iter() {
-                                        // Match tokens to all rollup techniques
-                                        for _enterprise_technique in _all_techniques.iter() {
-                                            for _et in _enterprise_technique.tactic.items.iter() {
-                                                if _et.to_lowercase().contains(_token.as_str()) {
-                                                    println!("Matched: {} | {} | {:#?}",
-                                                        _token,
-                                                        _adversary.name,
-                                                        _et
-                                                    );
-                                                    _matched_techniques.push(_et.clone());
-                                                }
+                                    // Match tokens to all rollup techniques
+                                    if _input.contains(&_target_technique.to_lowercase()) {
+                                        println!("Inner Match: {}", _target_technique);
+                                        _matched_techniques.push(_target_technique.clone());
+                                    }
+                                    /*
+                                    for _enterprise_technique in _all_techniques.iter() {
+                                        for _et in _enterprise_technique.tactic.items.iter() {
+                                            if _et.to_lowercase().contains(_target_technique.as_str()) {
+                                                _matched_techniques.push(_et.clone());
                                             }
                                         }
                                     }
+                                    */
+                                    // We count after de-duplicating
                                     _matched_techniques.sort();
                                     _matched_techniques.dedup();
                                     _matched_techniques.sort();
-                                    // We count after de-duplicating
                                     println!("Matched Techniques: {:#?}", _matched_techniques);
                                 }
+                                //*/
                             }
                         }
                     }
