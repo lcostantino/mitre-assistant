@@ -1,0 +1,15 @@
+TACTICS
+lateral-movement
+resource-development
+privilege-escalation
+persistence
+exfiltration
+defense-evasion
+execution
+reconnaissance
+collection
+discovery
+initial-access
+command-and-control
+impact
+credential-access
