@@ -324,7 +324,8 @@ impl EnterpriseMatrixSearcher {
             _valid.push((_st, 43usize));
             _wants_all_tools = true;
         }
-        else if _st == "correlation:adversaries" || _st.starts_with("correlation:adversaries:") {
+        else if _st.starts_with("correlation:adversaries") {
+            println!("Input Term At Top is: {}", _st);
             _valid.push((_st, 46usize));
             _wants_xref_matrix = true;
         }
@@ -457,7 +458,7 @@ impl EnterpriseMatrixSearcher {
                     _results.push(self.search_by_platform(_term, _wants_subtechniques, _matches_many.clone()));
                 }
                 else if _pattern == &46usize {
-                    _results.push(self.search_correlation_matrix_by_adversaries(_wants_subtechniques));
+                    _results.push(self.search_correlation_matrix_by_adversaries(_term, _wants_subtechniques));
                 }
                 else if _pattern == &47usize {
                     _results.push(self.search_correlation_matrix_by_malware(_wants_subtechniques));
@@ -2128,20 +2129,60 @@ impl EnterpriseMatrixSearcher {
     ///
     fn search_correlation_matrix_by_adversaries(
         &self,
-        _wants_subtechniques: bool
+        search_term: &str,
+        _wants_subtechniques: bool,
     ) -> String
     {
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
+        let mut _results: HashMap<String, Vec<(String, usize, Vec<String>)>> = HashMap::new();
+        let _err: &str = "(?) Error: Unable To Deserialize Adversaries Correlation Matrix";
         // Inspect the `SearchTerm` input param and find if
         // the user wants `Agg Results` or `Tactics` or `TechniqueId` Mapping
-        /*
-        if search_term == "correlation:adversaries" {
-            println!("Default Search Mode");
+        let mut _input: Vec<String> = vec![];
+        // Matrix Type: 0 = Default, 1 = Tactics, 2 = Techniques
+        let mut _wants_matrix_type: usize = 0; 
+        if search_term == "correlation:adversaries:initial-access" {
+            // When the user wants to produce a correlation matrix focused on the
+            // common techniques focused on tactics, this scanner performs the check
+            // and its input is used to filter the techniques by tactic
+            let _scanner_tactics = PatternManager::load_correlation_tactics(search_term, "adversaries", &_json.tactics);
+            if _scanner_tactics.as_str() != "none" {
+                _input.push(_scanner_tactics.clone());
+                _wants_matrix_type = 1;
+            } else {
+                // When the tactics scanner doesn't match, inspect for techniques
+                // the techniques scanner here provides a profile of the user's
+                // choosing, and adds it to the correlation matrix of the entire
+                // mitre dataset for a comparison of the user's techniques against
+                // the likely adversaries that have closes commonality
+                let _scanner_techniques = PatternManager::load_subtechnique();
+                let _tokens: Vec<&str> = search_term.split(':').collect();
+                for (_idx, _token) in _tokens.iter().enumerate() {
+                    if _idx > 1 {
+                        let _match: Vec<usize> = _scanner_techniques.pattern.matches(_token).into_iter().collect();
+                        if _match.len() > 0 {
+                            _input.push(_token.replace(" ", "").to_lowercase());
+                            _wants_matrix_type = 2;
+                            println!("Token Match For: {}", _token.replace(" ", ""));
+                        }
+                    }
+                }
+            }
         }
-        */
+        if search_term == "correlation:adversaries" {
+            _input.push(String::from(search_term));
+        }
+        println!("Provided Input: {}", search_term);
+        // Perform final validation of scanners parsing inputs
+        // if the _input vector length is zero, we have no matches
+        // let's exit and let the user know they have to adjust
+        if _input.len() == 0 {
+            println!("Your desired Query is not complying to the needed format: {}", search_term);
+            return serde_json::to_string(&_results).expect(_err)
+        }
         // Load the relevant iterable: Techniques vs SubTechniques
         // Then extract a tuple of attributes to find DESC order
         // of adversaries
-        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         let mut _adversary_vector_techniques: Vec<(String, usize, Vec<String>)> = vec![];
         if _wants_subtechniques {
             for _adversary in _json.breakdown_adversaries.iter() {
@@ -2156,17 +2197,35 @@ impl EnterpriseMatrixSearcher {
                 );
             }
         }
+        // Before We sort
+        // Create the User's Adversary when _wants_matrix_type == 2
+        if _wants_matrix_type == 2 {
+            _input.sort();
+            let _user_adversary = "ma-user-adversary".to_string();
+            println!("[+] User Adversary Mode: Creating Subject | {}", _user_adversary);
+            let mut _user_techniques: Vec<String> = vec![];
+            for _user_input in _input.iter() {
+                _user_techniques.push(_user_input.clone());
+            }
+            _user_techniques.sort();
+            _user_techniques.dedup();
+            _user_techniques.sort();
+            // Now Add the adversary
+            _adversary_vector_techniques.push(
+                (_user_adversary, _user_techniques.len(), _user_techniques)
+            );
+        }
+        // Now Resume & Sort Descending
         _adversary_vector_techniques.sort_by_key(|k| k.1);
         _adversary_vector_techniques.reverse();
+        // Create a Copy of the descending list for comparison
         let _copy_vector = _adversary_vector_techniques.clone();
         // Iterate Adversary Catalog and fill the correlation matrix
-        let mut _results: HashMap<String, Vec<(String, usize, Vec<String>)>> = HashMap::new();
-
         let mut _counter: usize = 0;
-        for _subject in _adversary_vector_techniques.iter() {
+        '__load_subject: for  _subject in _adversary_vector_techniques.iter() {
             let mut _temp_results: Vec<(String, usize, Vec<String>)> = vec![];
             let mut _final_results: Vec<(String, usize, Vec<String>)> = vec![];
-            for _adversary in _json.breakdown_adversaries.iter() {
+            '__load_adversary: for _adversary in _json.breakdown_adversaries.iter() {
                 let mut _matched_techniques: Vec<String> = vec![];
                 if _adversary.name == _subject.0 {
                     if _wants_subtechniques {
@@ -2176,6 +2235,7 @@ impl EnterpriseMatrixSearcher {
                     }
                     _temp_results.push((_adversary.name.clone(), 99999, _matched_techniques.clone()));
                 } else {
+                    // Correlation Section: This is where we intersect the techniques
                     for _st in _subject.2.iter() {
                         let mut _iterable: Vec<String> = vec![];
                         if _wants_subtechniques {
@@ -2185,8 +2245,34 @@ impl EnterpriseMatrixSearcher {
                         }
                         for _at in _iterable.iter() {
                             if _st == _at {
-                                _counter += 1;
-                                _matched_techniques.push(_at.clone());
+                                // Filters Here
+                                if _wants_matrix_type == 0 {
+                                    println!("No Filtering Mode: {}", _input[0]);
+                                    _counter += 1;
+                                    _matched_techniques.push(_at.clone());
+                                } else if _wants_matrix_type == 1 {
+                                    println!("Filtering Output By Tactic: {}", _input[0]);
+                                    // Because the user wants tactics we need to iterate through
+                                    // the JSON Techniques Structures
+                                    let mut _all_techniques: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechniquesByTactic> = _json.rollup_techniques.clone();
+                                    if _wants_subtechniques {
+                                        _all_techniques = _json.rollup_subtechniques.clone();
+                                    }
+                                    for _enterprise_technique in _all_techniques.iter() {
+                                        if _enterprise_technique.tactic.name.contains(_at) && _enterprise_technique.tactic.name.ends_with(&_input[0]) {
+                                            _counter += 1;
+                                            _matched_techniques.push(_at.clone());
+                                        }
+                                    }
+                                } else if _wants_matrix_type == 2 {
+                                    println!("Filtering Output By Techniques: {:#?}", _input);
+                                    for _technique in _input.iter() {
+                                        if _at.as_str() == _technique.as_str() {
+                                            _counter += 1;
+                                            _matched_techniques.push(_at.clone());
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -2205,7 +2291,6 @@ impl EnterpriseMatrixSearcher {
             _results.insert(_subject.0.clone(), _final_results);
         }
         //println!("{:#?}", _results);
-        let _err: &str = "(?) Error: Unable To Deserialize Adversaries Correlation Matrix";
         serde_json::to_string(&_results).expect(_err)
     }
     ///

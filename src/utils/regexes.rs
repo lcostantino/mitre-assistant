@@ -8,14 +8,29 @@ pub struct PatternManager {
 impl PatternManager {
     pub fn load_subtechnique() -> Self
     {
+        println!("[+] Loading Subtechnique Scanner");
         PatternManager {
             pattern: RegexSetBuilder::new(&[
-                r#"T\d{4}\.\d{3}"#,
+                r#"T\d{4}\.\d{3}|T\d{4}"#,
             ]).case_insensitive(true)
               .unicode(true)
               .build()
               .expect("(?) Error: PatternManager | Cannot Build Subtechnique Pattern")
         }
+    }
+    pub fn load_correlation_tactics(input: &str, correlation_type: &str, tactics: &HashSet<String>) -> String
+    {
+        let _input = input.to_lowercase().replace(" ", "");
+        let mut _match_result: String = "none".to_string();
+        '__check: for _tactic in tactics.iter() {
+            let _token: String = format!("{}:{}:{}", "correlation", correlation_type, _tactic);
+            if _input.as_str() == _token.as_str() {
+                _match_result = _token.clone();
+                break;
+            }
+        }
+        println!("[+] Loading Tactics Scanner: {}", _match_result);
+        _match_result
     }
     pub fn load_technique() -> Self
     {

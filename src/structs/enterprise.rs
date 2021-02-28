@@ -405,7 +405,7 @@ impl EnterpriseSubtechniquesByPlatform {
 }
 
 
-#[derive(Debug,Deserialize, Serialize)]
+#[derive(Debug,Deserialize, Serialize, Clone)]
 pub struct EnterpriseTechniquesByTactic {
     pub count:  usize,
     pub tactic: EnterpriseTactic  
@@ -421,7 +421,7 @@ impl EnterpriseTechniquesByTactic {
 }
 
 
-#[derive(Debug,Deserialize, Serialize)]
+#[derive(Debug,Deserialize, Serialize, Clone)]
 pub struct EnterpriseTactic {
     pub name:   String,
     pub items:  Vec<String>
