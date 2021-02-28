@@ -201,8 +201,21 @@ impl EnterpriseMatrixSearcher {
         let mut _wants_xref_datasources_tactics: bool = false; // Returns The Stats Count XREF of Datasoources By Tactic
         let mut _wants_xref_datasources_platforms: bool = false; // Return The Stats Count XREF of Datasources By Platform
         let mut _wants_xref_matrix: bool = false;
-
-        if _st == "revoked" {
+        
+        if _st.starts_with("correlation:adversaries") {
+            println!("Input Term At Top is: {}", _st);
+            _valid.push((_st, 46usize));
+            _wants_xref_matrix = true;
+        }
+        else if _st == "correlation:malware" || _st.starts_with("correlation:malware:") {
+            _valid.push((_st, 47usize));
+            _wants_xref_matrix = true;
+        }
+        else if _st == "correlation:tools" || _st.starts_with("correlation:tools:") {
+            _valid.push((_st, 48usize));
+            _wants_xref_matrix = true;
+        }
+        else if _st == "revoked" {
             _valid.push((_st, 3usize));
             _wants_revoked = true;
         }
@@ -323,19 +336,6 @@ impl EnterpriseMatrixSearcher {
         else if _st == "tools" {
             _valid.push((_st, 43usize));
             _wants_all_tools = true;
-        }
-        else if _st.starts_with("correlation:adversaries") {
-            println!("Input Term At Top is: {}", _st);
-            _valid.push((_st, 46usize));
-            _wants_xref_matrix = true;
-        }
-        else if _st == "correlation:malware" || _st.starts_with("correlation:malware:") {
-            _valid.push((_st, 47usize));
-            _wants_xref_matrix = true;
-        }
-        else if _st == "correlation:tools" || _st.starts_with("correlation:tools:") {
-            _valid.push((_st, 48usize));
-            _wants_xref_matrix = true;
         }
         else if !_st.contains(",") {
             if _scanner.pattern.is_match(_st) {
@@ -2133,72 +2133,84 @@ impl EnterpriseMatrixSearcher {
         _wants_subtechniques: bool,
     ) -> String
     {
-        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         let mut _results: HashMap<String, Vec<(String, usize, Vec<String>)>> = HashMap::new();
+        let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         let _err: &str = "(?) Error: Unable To Deserialize Adversaries Correlation Matrix";
-        // Inspect the `SearchTerm` input param and find if
-        // the user wants `Agg Results` or `Tactics` or `TechniqueId` Mapping
+         //*  Setup an input variable and a filtering by matrix type indicator
+         //*  Matrix Types:
+         //*      0   => Default
+         //*      1   => Filter By Tactic Name
+         //*      2   => Filter By Technique IDs
+         //*
         let mut _input: Vec<String> = vec![];
-        // Matrix Type: 0 = Default, 1 = Tactics, 2 = Techniques
         let mut _wants_matrix_type: usize = 0; 
-        if search_term == "correlation:adversaries:initial-access" {
-            // When the user wants to produce a correlation matrix focused on the
-            // common techniques focused on tactics, this scanner performs the check
-            // and its input is used to filter the techniques by tactic
-            let _scanner_tactics = PatternManager::load_correlation_tactics(search_term, "adversaries", &_json.tactics);
-            if _scanner_tactics.as_str() != "none" {
-                _input.push(_scanner_tactics.clone());
+        // Steps:
+        //  (1) Validate the provided input and create the matrix type
+        if search_term == "correlation:adversaries" {
+            println!("First Validation Passed: {}", search_term);
+            _wants_matrix_type = 0;
+            _input.push("correlation:adversaries".to_string());
+        }
+        // (2) Validate if this is an input for tactic filtering
+        else if search_term.starts_with("correlation:adversaries") {
+            let _filter_by_tactic = PatternManager::load_correlation_tactics(search_term,"adversaries", &_json.tactics);
+            if _filter_by_tactic != "none" {
+                println!("Second Validation Passed: {}", _filter_by_tactic);
                 _wants_matrix_type = 1;
+                let _tokens: Vec<&str> = search_term.split(":").collect();
+                _input.push(_tokens[2].replace(" ", ""));
             } else {
-                // When the tactics scanner doesn't match, inspect for techniques
-                // the techniques scanner here provides a profile of the user's
-                // choosing, and adds it to the correlation matrix of the entire
-                // mitre dataset for a comparison of the user's techniques against
-                // the likely adversaries that have closes commonality
-                let _scanner_techniques = PatternManager::load_subtechnique();
-                let _tokens: Vec<&str> = search_term.split(':').collect();
-                for (_idx, _token) in _tokens.iter().enumerate() {
-                    if _idx > 1 {
-                        let _match: Vec<usize> = _scanner_techniques.pattern.matches(_token).into_iter().collect();
-                        if _match.len() > 0 {
-                            _input.push(_token.replace(" ", "").to_lowercase());
-                            _wants_matrix_type = 2;
-                            println!("Token Match For: {}", _token.replace(" ", ""));
+                // (3) Validate if this is an input for technique filtering
+                let _filter_by_technique = PatternManager::load_tid_scanner();
+                let _tokens: Vec<&str> = search_term.split(":").collect();
+                if _tokens.len() == 3usize {
+                    if _tokens[2].contains(",") {
+                        let _terms: Vec<&str> = _tokens[2].split(",").collect();
+                        '__check: for _term in _terms.iter() {
+                            if _filter_by_technique.pattern.is_match(_term) {
+                                _input.push(_term.replace(" ", ""));
+                            }
                         }
+                    }
+                    if _input.len() > 0 {
+                        println!("Third Validation Passed: {:#?}", _input);
+                        _wants_matrix_type = 2;
                     }
                 }
             }
         }
-        if search_term == "correlation:adversaries" {
-            _input.push(String::from(search_term));
-        }
-        println!("Provided Input: {}", search_term);
-        // Perform final validation of scanners parsing inputs
-        // if the _input vector length is zero, we have no matches
-        // let's exit and let the user know they have to adjust
         if _input.len() == 0 {
-            println!("Your desired Query is not complying to the needed format: {}", search_term);
-            return serde_json::to_string(&_results).expect(_err)
+            println!("All Input Validations Failed: {:#?}", _input);
+            return serde_json::to_string(&_results).expect(_err);
         }
-        // Load the relevant iterable: Techniques vs SubTechniques
-        // Then extract a tuple of attributes to find DESC order
-        // of adversaries
-        let mut _adversary_vector_techniques: Vec<(String, usize, Vec<String>)> = vec![];
+        // All input validations succeeded, we now focus on preparing for
+        // parsing data.
+        // (4) Load the relevant iterable: Techniques vs Sub-Techniques
+        let mut _avt: Vec<(String, usize, Vec<String>)> = vec![];
+        for _adversary in _json.breakdown_adversaries.iter() {
+            let mut _items: Vec<String> = vec![];
+            let mut _count: usize = 0;
+            if _wants_subtechniques {
+                _items = _adversary.profile.subtechniques.items.clone();
+                _count = _adversary.profile.subtechniques.count;
+            } else {
+                _items = _adversary.profile.techniques.items.clone();
+                _count = _adversary.profile.techniques.count;
+            }
+            _avt.push((
+                _adversary.name.clone(),
+                _count,
+                _items.clone()
+            ));
+        }
+        let mut _all_techniques: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechniquesByTactic> = vec![];
         if _wants_subtechniques {
-            for _adversary in _json.breakdown_adversaries.iter() {
-                _adversary_vector_techniques.push(
-                    (_adversary.name.clone(), _adversary.profile.subtechniques.count, _adversary.profile.subtechniques.items.clone())
-                );
-            }
+            _all_techniques = _json.rollup_subtechniques;
         } else {
-            for _adversary in _json.breakdown_adversaries.iter() {
-                _adversary_vector_techniques.push(
-                    (_adversary.name.clone(), _adversary.profile.techniques.count, _adversary.profile.techniques.items.clone())
-                );
-            }
+            _all_techniques = _json.rollup_techniques;
         }
-        // Before We sort
-        // Create the User's Adversary when _wants_matrix_type == 2
+        // Now we have the adversaries, let prep to inspect/correlate
+        // based on the original user input types
         if _wants_matrix_type == 2 {
             _input.sort();
             let _user_adversary = "ma-user-adversary".to_string();
@@ -2210,87 +2222,98 @@ impl EnterpriseMatrixSearcher {
             _user_techniques.sort();
             _user_techniques.dedup();
             _user_techniques.sort();
-            // Now Add the adversary
-            _adversary_vector_techniques.push(
-                (_user_adversary, _user_techniques.len(), _user_techniques)
-            );
+            // Now Add the user-adversary
+            _avt.push((_user_adversary, _user_techniques.len(), _user_techniques));
         }
         // Now Resume & Sort Descending
-        _adversary_vector_techniques.sort_by_key(|k| k.1);
-        _adversary_vector_techniques.reverse();
-        // Create a Copy of the descending list for comparison
-        let _copy_vector = _adversary_vector_techniques.clone();
-        // Iterate Adversary Catalog and fill the correlation matrix
+        _avt.sort_by_key(|k| k.1);
+        _avt.reverse();
+        let _copy_vector = _avt.clone();
+        // Now let's start parsing
         let mut _counter: usize = 0;
-        '__load_subject: for  _subject in _adversary_vector_techniques.iter() {
-            let mut _temp_results: Vec<(String, usize, Vec<String>)> = vec![];
-            let mut _final_results: Vec<(String, usize, Vec<String>)> = vec![];
-            '__load_adversary: for _adversary in _json.breakdown_adversaries.iter() {
+        for _subject in _avt.iter() {
+            let mut _temp: Vec<(String, usize, Vec<String>)> = vec![];
+            let mut _final: Vec<(String, usize, Vec<String>)> = vec![];
+            
+            for _adversary in _json.breakdown_adversaries.iter() {
+                let mut _iterable: Vec<String> = vec![];
                 let mut _matched_techniques: Vec<String> = vec![];
-                if _adversary.name == _subject.0 {
-                    if _wants_subtechniques {
-                        _matched_techniques = _adversary.profile.subtechniques.items.clone();
-                    } else {
-                        _matched_techniques = _adversary.profile.techniques.items.clone();
-                    }
-                    _temp_results.push((_adversary.name.clone(), 99999, _matched_techniques.clone()));
+                if _wants_subtechniques {
+                    _iterable = _adversary.profile.subtechniques.items.clone();
                 } else {
-                    // Correlation Section: This is where we intersect the techniques
-                    for _st in _subject.2.iter() {
-                        let mut _iterable: Vec<String> = vec![];
-                        if _wants_subtechniques {
-                            _iterable = _adversary.profile.subtechniques.items.clone();
-                        } else {
-                            _iterable = _adversary.profile.techniques.items.clone(); 
-                        }
-                        for _at in _iterable.iter() {
-                            if _st == _at {
-                                // Filters Here
+                    _iterable = _adversary.profile.techniques.items.clone();
+                }
+
+                if _subject.0.as_str() == _adversary.name.as_str() {
+                    // When the cell is the same for subject we add padding with 99999
+                    _temp.push((_adversary.name.clone(), 99999, _iterable.clone()));
+                } else {
+                    for _source_technique in _subject.2.iter() {
+                        for _target_technique in _iterable.iter() {
+                            if _source_technique.as_str() == _target_technique.as_str() {
+                                // Now we have the matched techniques
+                                // start applying filtering here with the temp results
                                 if _wants_matrix_type == 0 {
-                                    println!("No Filtering Mode: {}", _input[0]);
                                     _counter += 1;
-                                    _matched_techniques.push(_at.clone());
+                                    _matched_techniques.push(_target_technique.clone());
                                 } else if _wants_matrix_type == 1 {
-                                    println!("Filtering Output By Tactic: {}", _input[0]);
                                     // Because the user wants tactics we need to iterate through
                                     // the JSON Techniques Structures
-                                    let mut _all_techniques: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechniquesByTactic> = _json.rollup_techniques.clone();
-                                    if _wants_subtechniques {
-                                        _all_techniques = _json.rollup_subtechniques.clone();
-                                    }
                                     for _enterprise_technique in _all_techniques.iter() {
-                                        if _enterprise_technique.tactic.name.contains(_at) && _enterprise_technique.tactic.name.ends_with(&_input[0]) {
-                                            _counter += 1;
-                                            _matched_techniques.push(_at.clone());
+
+                                        if _enterprise_technique.tactic.name.as_str() == _input[0].as_str() {
+                                            // Finally iterate through the rollup
+                                            for _et in _enterprise_technique.tactic.items.iter() {
+                                                if _et.starts_with(_target_technique.as_str()) {
+                                                    _matched_techniques.push(_et.clone());
+                                                    _counter += 1;
+                                                }
+                                            }
                                         }
                                     }
                                 } else if _wants_matrix_type == 2 {
-                                    println!("Filtering Output By Techniques: {:#?}", _input);
-                                    for _technique in _input.iter() {
-                                        if _at.as_str() == _technique.as_str() {
-                                            _counter += 1;
-                                            _matched_techniques.push(_at.clone());
+                                    // Iterate through the user input tokens
+                                    for _token in _input.iter() {
+                                        // Match tokens to all rollup techniques
+                                        for _enterprise_technique in _all_techniques.iter() {
+                                            for _et in _enterprise_technique.tactic.items.iter() {
+                                                if _et.to_lowercase().contains(_token.as_str()) {
+                                                    println!("Matched: {} | {} | {:#?}",
+                                                        _token,
+                                                        _adversary.name,
+                                                        _et
+                                                    );
+                                                    _matched_techniques.push(_et.clone());
+                                                }
+                                            }
                                         }
                                     }
+                                    _matched_techniques.sort();
+                                    _matched_techniques.dedup();
+                                    _matched_techniques.sort();
+                                    // We count after de-duplicating
+                                    _counter += _matched_techniques.len();
+                                    println!("Counter {}", _counter);
+                                    println!("Matched Techniques: {:#?}", _matched_techniques);
                                 }
                             }
                         }
                     }
-                    _temp_results.push((_adversary.name.clone(), _counter, _matched_techniques));
+                    _temp.push((_adversary.name.clone(), _counter, _matched_techniques));
                     _counter = 0;
                 }
             }
-            // Reverse Sort for the correlation_matrix format
+             // Reverse Sort for the correlation_matrix format
             for _copy in _copy_vector.iter() {
-                for _item in _temp_results.iter() {
+                for _item in _temp.iter() {
                     if _copy.0 == _item.0 {
-                        _final_results.push((_item.0.clone(), _item.1, _item.2.clone()));
+                        _final.push((_item.0.clone(), _item.1, _item.2.clone()));
                     }
                 }
             }
-            _results.insert(_subject.0.clone(), _final_results);
+            _results.insert(_subject.0.clone(), _final);
         }
-        //println!("{:#?}", _results);
+        // Return the results
         serde_json::to_string(&_results).expect(_err)
     }
     ///

@@ -11,7 +11,19 @@ impl PatternManager {
         println!("[+] Loading Subtechnique Scanner");
         PatternManager {
             pattern: RegexSetBuilder::new(&[
-                r#"T\d{4}\.\d{3}|T\d{4}"#,
+                r#"T\d{4}\.\d{3}"#,  // ToDo: Refactor all scanning to this function.
+            ]).case_insensitive(true)
+              .unicode(true)
+              .build()
+              .expect("(?) Error: PatternManager | Cannot Build Subtechnique Pattern")
+        }
+    }
+    pub fn load_tid_scanner() -> Self
+    {
+        println!("[+] Loading Subtechnique Scanner");
+        PatternManager {
+            pattern: RegexSetBuilder::new(&[
+                r#"T\d{4}\.\d{3}|T\d{4}"#,  // ToDo: Refactor all scanning to this function.
             ]).case_insensitive(true)
               .unicode(true)
               .build()
