@@ -2234,7 +2234,6 @@ impl EnterpriseMatrixSearcher {
             let _user_adversary = "ma-user-adversary".to_string();
             println!("[+] User Adversary Mode: Creating Subject | {}", _user_adversary);
             _avt.push((_user_adversary, _user_techniques.len(), _user_techniques));
-
         }
         // Now Resume & Sort AVT By Descending
         _avt.sort_by_key(|k| k.1);
@@ -2248,7 +2247,13 @@ impl EnterpriseMatrixSearcher {
             for _adversary in _baseline_adversaries.iter() {
                 let mut _iterable: Vec<String> = vec![];
                 let mut _matched_techniques: Vec<String> = vec![];
-                if _wants_subtechniques {
+                
+                if _wants_matrix_type == 2 && _adversary.name.as_str() == "ma-user-adversary" {
+                    for _item in _adversary.profile.techniques.items.iter() {
+                        _iterable.push(_item.clone());
+                    }
+                }
+                else if _wants_subtechniques {
                     _iterable = _adversary.profile.subtechniques.items.clone();
                 } else {
                     _iterable = _adversary.profile.techniques.items.clone();
@@ -2262,10 +2267,10 @@ impl EnterpriseMatrixSearcher {
                 } else {
                     for _source_technique in _subject.2.iter() {
                         for _target_technique in _iterable.iter() {
-                            if _source_technique.as_str() == _target_technique.as_str() {
+                            if _source_technique.to_lowercase().as_str() == _target_technique.to_lowercase().as_str() {
                                 // Now we have the matched techniques
                                 // start applying filtering here with the temp results
-                                if _wants_matrix_type == 0 {
+                                if _wants_matrix_type == 0 || _wants_matrix_type == 2 {
                                     _matched_techniques.push(_target_technique.clone());
                                 } else if _wants_matrix_type == 1 {
                                     // Because the user wants tactics we need to iterate through
@@ -2282,7 +2287,8 @@ impl EnterpriseMatrixSearcher {
                                             }
                                         }
                                     }
-                                } 
+                                }
+                                /*
                                 else if _wants_matrix_type == 2 {
                                     // Iterate through the user input tokens
                                     // Match tokens to all rollup techniques
@@ -2296,6 +2302,7 @@ impl EnterpriseMatrixSearcher {
                                     _matched_techniques.sort();
                                     println!("Matched Techniques: {:#?}", _matched_techniques);
                                 }
+                                */
                             }
                         }
                     }
