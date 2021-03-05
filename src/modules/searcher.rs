@@ -2214,6 +2214,8 @@ impl EnterpriseMatrixSearcher {
         // based on the original user input types
         if _wants_matrix_type == 2 {
             _input.sort();
+            _input.dedup();
+            _input.sort();
             let mut _user_techniques: Vec<String> = vec![];
             for _user_input in _input.iter() {
                 _user_techniques.push(_user_input.clone());
@@ -2221,13 +2223,21 @@ impl EnterpriseMatrixSearcher {
             _user_techniques.sort();
             _user_techniques.dedup();
             _user_techniques.sort();
+            println!("Deduped Inputs: {}", _user_techniques.len());
             // Now Add the user-adversary
             let mut _user_adversary: crate::args::searcher::parser::enterprise::EnterpriseAdversary = _baseline_adversaries[0].clone();
             _user_adversary.id = "intrusion-set--99999".to_string();
             _user_adversary.name = "ma-user-adversary".to_string();
-            for _user_technique in _user_techniques.iter() {
-                _user_adversary.profile.techniques.items.push(_user_technique.clone());
+            _user_adversary.profile.techniques.count = 0;
+            _user_adversary.profile.subtechniques.count = 0;
+            _user_adversary.profile.techniques.items.clear();
+            _user_adversary.profile.subtechniques.items.clear();
+            for _ut in _user_techniques.iter() {
+                _user_adversary.profile.techniques.items.push(_ut.clone());
             }
+            _user_adversary.profile.techniques.count = _user_adversary.profile.techniques.items.len();
+            println!("User Adversary Techniques: {}", _user_adversary.profile.techniques.items.len());
+            println!("User Adversary Profile: \n{:#?}", _user_adversary);
             // Add it to the baseline
             _baseline_adversaries.push(_user_adversary);
             // And Add it to the AVT
@@ -2248,8 +2258,11 @@ impl EnterpriseMatrixSearcher {
                 let mut _iterable: Vec<String> = vec![];
                 let mut _matched_techniques: Vec<String> = vec![];
                 
-                if _wants_matrix_type == 2 && _adversary.name.as_str() == "ma-user-adversary" {
+                if _wants_matrix_type == 2 {
                     for _item in _adversary.profile.techniques.items.iter() {
+                        _iterable.push(_item.clone());
+                    }
+                    for _item in _adversary.profile.subtechniques.items.iter() {
                         _iterable.push(_item.clone());
                     }
                 }
@@ -2271,12 +2284,12 @@ impl EnterpriseMatrixSearcher {
                                 // Now we have the matched techniques
                                 // start applying filtering here with the temp results
                                 if _wants_matrix_type == 0 || _wants_matrix_type == 2 {
+                                    println!("Matched Technique: {}", _target_technique);
                                     _matched_techniques.push(_target_technique.clone());
                                 } else if _wants_matrix_type == 1 {
                                     // Because the user wants tactics we need to iterate through
                                     // the JSON Techniques Structures
                                     for _enterprise_technique in _all_techniques.iter() {
-
                                         if _enterprise_technique.tactic.name.as_str() == _input[0].as_str() {
                                             // Finally iterate through the rollup
                                             for _et in _enterprise_technique.tactic.items.iter() {
@@ -2288,21 +2301,6 @@ impl EnterpriseMatrixSearcher {
                                         }
                                     }
                                 }
-                                /*
-                                else if _wants_matrix_type == 2 {
-                                    // Iterate through the user input tokens
-                                    // Match tokens to all rollup techniques
-                                    if _input.contains(&_target_technique.to_lowercase()) {
-                                        println!("Inner Match: {}", _target_technique);
-                                        _matched_techniques.push(_target_technique.clone());
-                                    }
-                                    // We count after de-duplicating
-                                    _matched_techniques.sort();
-                                    _matched_techniques.dedup();
-                                    _matched_techniques.sort();
-                                    println!("Matched Techniques: {:#?}", _matched_techniques);
-                                }
-                                */
                             }
                         }
                     }
