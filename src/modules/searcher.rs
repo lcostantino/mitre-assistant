@@ -153,6 +153,20 @@ impl EnterpriseMatrixSearcher {
     ///
     ///
     ///
+    fn get_percentage(&self, total: usize, actual: usize) -> String {
+        let _high = total as f64;
+        let _low = actual as f64;
+        let _percent = (_low / _high) * 100f64;
+        let mut _percent: String = format!("{}{}", _percent.round().to_string(), "%");
+        if _percent.as_str() == "NaN%" {
+            _percent = "0%".to_string();
+        }
+        _percent
+    }
+    ///
+    ///
+    ///
+    ///
     pub fn search(
         &self,
         search_term: &str,
@@ -2133,7 +2147,7 @@ impl EnterpriseMatrixSearcher {
         _wants_subtechniques: bool,
     ) -> String
     {
-        let mut _results: HashMap<String, Vec<(String, usize, Vec<String>)>> = HashMap::new();
+        let mut _results: HashMap<String, Vec<(String, usize, Vec<String>, String, usize)>> = HashMap::new();
         let _json: EnterpriseMatrixBreakdown = serde_json::from_slice(&self.content[..]).unwrap();
         let _err: &str = "(?) Error: Unable To Deserialize Adversaries Correlation Matrix";
          //*  Setup an input variable and a filtering by matrix type indicator
@@ -2189,36 +2203,44 @@ impl EnterpriseMatrixSearcher {
         let mut _avt: Vec<(String, usize, Vec<String>)> = vec![];
         for _adversary in _json.breakdown_adversaries.iter() {
             let mut _items: Vec<String> = vec![];
-            let mut _count: usize = 0;
-            if _wants_subtechniques {
+            if _wants_matrix_type == 2 {
+                for _t in _adversary.profile.subtechniques.items.iter() {
+                    _items.push(_t.clone());
+                }
+                for _t in _adversary.profile.techniques.items.iter() {
+                    _items.push(_t.clone());
+                }
+            }
+            else if _wants_subtechniques {
                 _items = _adversary.profile.subtechniques.items.clone();
-                _count = _adversary.profile.subtechniques.count;
             } else {
                 _items = _adversary.profile.techniques.items.clone();
-                _count = _adversary.profile.techniques.count;
             }
             _avt.push((
                 _adversary.name.clone(),
-                _count,
+                _items.len(),
                 _items.clone()
             ));
         }
+        // When the user wants matrix_type == 1, load rollup
         let mut _all_techniques: Vec<crate::args::searcher::parser::enterprise::EnterpriseTechniquesByTactic> = vec![];
-        if _wants_subtechniques {
-            _all_techniques = _json.rollup_subtechniques;
-        } else {
-            _all_techniques = _json.rollup_techniques;
+        if _wants_matrix_type == 1 {
+            if _wants_subtechniques {
+                _all_techniques = _json.rollup_subtechniques;
+            } else {
+                _all_techniques = _json.rollup_techniques;
+            }
         }
-        let mut _baseline_adversaries = _json.breakdown_adversaries.clone();
         // Now we have the adversaries, let prep to inspect/correlate
         // based on the original user input types
+        let mut _baseline_adversaries = _json.breakdown_adversaries.clone();
         if _wants_matrix_type == 2 {
             _input.sort();
             _input.dedup();
             _input.sort();
             let mut _user_techniques: Vec<String> = vec![];
-            for _user_input in _input.iter() {
-                _user_techniques.push(_user_input.clone());
+            for _ui in _input.iter() {
+                _user_techniques.push(_ui.clone());
             }
             _user_techniques.sort();
             _user_techniques.dedup();
@@ -2228,10 +2250,17 @@ impl EnterpriseMatrixSearcher {
             let mut _user_adversary: crate::args::searcher::parser::enterprise::EnterpriseAdversary = _baseline_adversaries[0].clone();
             _user_adversary.id = "intrusion-set--99999".to_string();
             _user_adversary.name = "ma-user-adversary".to_string();
+            _user_adversary.aliases = "simulated-adversary".to_string();
             _user_adversary.profile.techniques.count = 0;
             _user_adversary.profile.subtechniques.count = 0;
             _user_adversary.profile.techniques.items.clear();
             _user_adversary.profile.subtechniques.items.clear();
+            _user_adversary.profile.tools.count = 0;
+            _user_adversary.profile.tools.items = vec![];
+            _user_adversary.profile.malware.count = 0;
+            _user_adversary.profile.malware.items = vec![];
+            _user_adversary.profile.tactics.count = 0;
+            _user_adversary.profile.tactics.items = vec![];
             for _ut in _user_techniques.iter() {
                 _user_adversary.profile.techniques.items.push(_ut.clone());
             }
@@ -2251,13 +2280,13 @@ impl EnterpriseMatrixSearcher {
         let _copy_vector = _avt.clone();
         // Now let's start parsing
         for _subject in _avt.iter() {
-            let mut _temp: Vec<(String, usize, Vec<String>)> = vec![];
-            let mut _final: Vec<(String, usize, Vec<String>)> = vec![];
+            let mut _temp: Vec<(String, usize, Vec<String>, String, usize)> = vec![];
+            let mut _final: Vec<(String, usize, Vec<String>, String, usize)> = vec![];
             
             for _adversary in _baseline_adversaries.iter() {
                 let mut _iterable: Vec<String> = vec![];
                 let mut _matched_techniques: Vec<String> = vec![];
-                
+                let mut _att: usize = 0;  // adversary total techniques
                 if _wants_matrix_type == 2 {
                     for _item in _adversary.profile.techniques.items.iter() {
                         _iterable.push(_item.clone());
@@ -2271,12 +2300,13 @@ impl EnterpriseMatrixSearcher {
                 } else {
                     _iterable = _adversary.profile.techniques.items.clone();
                 }
+                _att = _iterable.len();
                 // When the user is not using the modeling mode
                 // We continue matching and iterating against the
                 // baseline (ATT&CK database constructed by #MA)
                 if _subject.0.as_str() == _adversary.name.as_str() {
                     // When the cell is the same for subject we add padding with 99999
-                    _temp.push((_adversary.name.clone(), 99999, _iterable.clone()));
+                    _temp.push((_adversary.name.clone(), 99999, _iterable.clone(), "99.99.99".to_string(), _iterable.len()));
                 } else {
                     for _source_technique in _subject.2.iter() {
                         for _target_technique in _iterable.iter() {
@@ -2284,7 +2314,6 @@ impl EnterpriseMatrixSearcher {
                                 // Now we have the matched techniques
                                 // start applying filtering here with the temp results
                                 if _wants_matrix_type == 0 || _wants_matrix_type == 2 {
-                                    println!("Matched Technique: {}", _target_technique);
                                     _matched_techniques.push(_target_technique.clone());
                                 } else if _wants_matrix_type == 1 {
                                     // Because the user wants tactics we need to iterate through
@@ -2295,7 +2324,6 @@ impl EnterpriseMatrixSearcher {
                                             for _et in _enterprise_technique.tactic.items.iter() {
                                                 if _et.starts_with(_target_technique.as_str()) {
                                                     _matched_techniques.push(_et.clone());
-
                                                 }
                                             }
                                         }
@@ -2304,21 +2332,29 @@ impl EnterpriseMatrixSearcher {
                             }
                         }
                     }
-                    _temp.push((_adversary.name.clone(), _matched_techniques.len(), _matched_techniques));
+                    // Calculate the perccentage of matched techniques against the _adversary
+                    let _actual_matches: usize = _matched_techniques.len();
+                    let _percentage_matched = self.get_percentage(_att, _actual_matches);
+                    _temp.push((_adversary.name.clone(), _matched_techniques.len(), _matched_techniques, _percentage_matched, _subject.1));
                 }
             }
              // Reverse Sort for the correlation_matrix format
             for _copy in _copy_vector.iter() {
                 for _item in _temp.iter() {
                     if _copy.0 == _item.0 {
-                        _final.push((_item.0.clone(), _item.1, _item.2.clone()));
+                        _final.push((_item.0.clone(), _item.1, _item.2.clone(), _item.3.clone(), _item.4));
                     }
                 }
             }
             _results.insert(_subject.0.clone(), _final);
         }
         // Return the results
-        serde_json::to_string(&_results).expect(_err)
+        //println!("{}", serde_json::to_string(&_results).expect(_err));
+        let _final_results: Vec<(
+            HashMap<String, Vec<(String, usize, Vec<String>, String, usize)>>,
+            Vec<(String, usize, Vec<String>)>
+        )> = vec![(_results, _avt)];
+        serde_json::to_string(&_final_results).expect(_err)
     }
     ///
     ///
@@ -4386,49 +4422,97 @@ impl EnterpriseMatrixSearcher {
     ) {
         let _item = &results[0];
         let _err: &str = "(?) Error: Render Table Deserialization Correlation Adversaries";
-        let _json: HashMap<String, Vec<(String, usize, Vec<String>)>> = serde_json::from_str(_item.as_str()).expect(_err);
-        let mut _record: Vec<(String, usize, Vec<String>)> = vec![];
+        let _json: Vec<(
+            HashMap<String, Vec<(String, usize, Vec<String>, String, usize)>>,
+            Vec<(String, usize, Vec<String>)>
+        )> = serde_json::from_str(_item.as_str()).expect(_err);
+
+        let mut _record: Vec<(String, usize, Vec<String>, String, usize)> = vec![];
 
         if _wants_export == "json" {
             let _json = serde_json::to_string_pretty(&_json).expect(_err);
             println!("{}", _json);
             return;
         } else if _wants_export == "csv" {
-            '__check: for _key in _json.keys() {
+            let _json_hashmap = _json[0].0.clone();
+            '__check: for _key in _json_hashmap.keys() {
                 let _k = _key.clone();
-                _record = _json.get(_k.as_str()).unwrap().clone();
+                _record = _json_hashmap.get(_k.as_str()).unwrap().clone();
                 break;
             }
 
-            let mut _table = Table::new();
-            let mut _table_headers: Vec<Cell> = vec![];
-            _table_headers.push(Cell::new("X_AXIS"));
+            let mut _actuals_table = Table::new();
+            let mut _actuals_table_headers: Vec<Cell> = vec![];
+            _actuals_table_headers.push(Cell::new("ADVERSARY_NAME"));
+
+            let mut _percent_table = Table::new();
+            let mut _percent_table_headers: Vec<Cell> = vec![];
+            _percent_table_headers.push(Cell::new("ADVERSARY_NAME"));
+
+            let mut _techniques_total_table = Table::new();
+            let mut _techniques_total_table_headers: Vec<Cell>= vec![];
+            _techniques_total_table_headers.push(Cell::new("ADVERSARY_NAME"));
+            _techniques_total_table_headers.push(Cell::new("ADVERSARY_TECHNIQUES_ITEMS"));
 
             for _item in _record.iter() {
                 let _h = _item.0.clone();
-                _table_headers.push(Cell::new(_h.as_str()));
+                _actuals_table_headers.push(Cell::new(_h.as_str()));
+                _percent_table_headers.push(Cell::new(_h.as_str()));
             }
-            _table.add_row(Row::new(_table_headers));
+            _actuals_table.add_row(Row::new(_actuals_table_headers));
+            _percent_table.add_row(Row::new(_percent_table_headers));
+            _techniques_total_table.add_row(Row::new(_techniques_total_table_headers));
             // Start iterating through HashMap to build table
             for _item in _record.iter() {
                 // Check if the key exists
-                let mut _table_rows: Vec<Cell> = vec![];
-                _table_rows.push(Cell::new(_item.0.as_str()));
-                if _json.contains_key(_item.0.as_str()) {
+                let mut _actuals_table_rows: Vec<Cell> = vec![];
+                let mut _percent_table_rows: Vec<Cell> = vec![];
+                let mut _techniques_total_table_rows: Vec<Cell> = vec![];
+                _actuals_table_rows.push(Cell::new(_item.0.as_str()));
+                _percent_table_rows.push(Cell::new(_item.0.as_str()));
+                //_techniques_total_table_rows.push(Cell::new(_item.0.as_str()));
+                if _json_hashmap.contains_key(_item.0.as_str()) {
                     // Now get the values for the key
-                    let _values = _json.get_key_value(_item.0.as_str()).unwrap();
+                    let _values = _json_hashmap.get_key_value(_item.0.as_str()).unwrap();
                     // Now iterate through the values and build the matrix
                     for _match in _values.1.iter() {
-                        let mut _c = "-".to_string();
+                        let mut _a = "-".to_string();
+                        let mut _p = "-".to_string();
                         if _match.1 != 99999usize {
-                            _c = _match.1.to_string();
+                            _a = _match.1.to_string();
+                            _p = _match.3.clone();
                         }
-                        _table_rows.push(Cell::new(_c.as_str()));
+                        _actuals_table_rows.push(Cell::new(_a.as_str()));
+                        _percent_table_rows.push(Cell::new(_p.as_str()));
                     }
                 }
-                _table.add_row(Row::new(_table_rows.clone()));
+                _actuals_table.add_row(Row::new(_actuals_table_rows.clone()));
+                _percent_table.add_row(Row::new(_percent_table_rows.clone()));
+                //_techniques_total_table.add_row(Row::new(_techniques_total_table_rows.clone()));
             }
-            self.save_csv_export(_wants_outfile, &_table);
+            for _record in _json[0].1.iter() {
+                _techniques_total_table.add_row(Row::new(vec![
+                    Cell::new(_record.0.as_str()),
+                    Cell::new(_record.1.to_string().as_str())
+                ]));
+            }
+
+            let mut _percent_filename: String = "".to_string();
+            let mut _all_filename: String = "".to_string();
+            let mut _actuals_filename: String = "".to_string();
+            if _wants_outfile == "None" {
+                _percent_filename = format!("{}_{}.csv", "mitre-assistant-correlation", "heat-percentage");
+                _all_filename = format!("{}_{}.csv", "mitre-assistant-correlation", "all-techniques-count");
+                _actuals_filename = format!("{}_{}.csv", "mitre-assistant-correlation", "actuals-matched");
+            }
+            if _wants_outfile != "None" {
+                _percent_filename = format!("{}_{}.csv", _wants_outfile, "heat-percentage");
+                _all_filename = format!("{}_{}.csv", _wants_outfile, "all-techniques-count");
+                _actuals_filename = format!("{}_{}.csv", _wants_outfile, "actuals-matched");
+            }
+            self.save_csv_export(_actuals_filename.as_str(), &_actuals_table);
+            self.save_csv_export(_percent_filename.as_str(), &_percent_table);
+            self.save_csv_export(_all_filename.as_str(), &_techniques_total_table);
         }
     }
     fn render_stats(
