@@ -16,7 +16,10 @@ exclude = [
 ]
 
 [profile.release]
+opt-level = 'z'  # Optimize for size.
+lto = true
 codegen-units = 1
+panic = 'abort'
 
 [dependencies]
 ureq = { version = "1.5.4", features = ["json"] }
