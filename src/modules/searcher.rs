@@ -474,12 +474,14 @@ impl EnterpriseMatrixSearcher {
                 else if _pattern == &46usize {
                     _results.push(self.search_correlation_matrix_by_adversaries(_term, _wants_subtechniques));
                 }
+                /*
                 else if _pattern == &47usize {
                     _results.push(self.search_correlation_matrix_by_malware(_wants_subtechniques));
                 }
                 else if _pattern == &48usize {
                     _results.push(self.search_correlation_matrix_by_tools(_wants_subtechniques));
                 }
+                */
             }
             // Render Query Results
             // --------------------
