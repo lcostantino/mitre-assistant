@@ -134,8 +134,19 @@ impl EnterpriseMatrixParser {
         if _target_matrix == "None" {
             return Ok(());
         }
+	
+
+	
         let _bufr = FileHandler::load_resource("matrixes", _target_matrix);
-        let _json: serde_json::Value = serde_json::from_reader(_bufr).unwrap();
+        
+	let _json: serde_json::Value;
+	match serde_json::from_reader(_bufr) {
+	  Ok(v) =>  _json = v,
+	  Err(e) => panic!("Invalid json - check matrix file. Error: ".to_owned() + &e.to_string()),
+	};
+       
+	println!("o ACA");
+	
         let _scanner = PatternManager::load_subtechnique();
         let mut _is_subtechnique = false;
         for _t in _json["objects"].as_array().unwrap().iter() {
